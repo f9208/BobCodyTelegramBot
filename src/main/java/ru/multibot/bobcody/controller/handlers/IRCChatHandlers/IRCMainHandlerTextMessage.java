@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.multibot.bobcody.Service.FuckingGreatAdvice.FuckingGreatAdvice;
 import ru.multibot.bobcody.Service.weather.OpenWeatherForecast;
+import ru.multibot.bobcody.controller.SQL.AddUser;
 import ru.multibot.bobcody.controller.handlers.InputTextMessageHandler;
 
 import java.io.IOException;
@@ -79,6 +80,10 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result= fga();
         }
 
+        if (textMessage.equals("!add")) {
+            AddUser addUser=new AddUser();
+//            addUser.rrr();
+        }
         if (result != null) result.setChatId(message.getChatId());
         return result;
     }
