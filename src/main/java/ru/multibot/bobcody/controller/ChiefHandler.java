@@ -8,7 +8,10 @@ import ru.multibot.bobcody.controller.handlers.InputTextMessageHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+// спринг будет "создавать" все имплеминтации интерфейса InputTextMessageHandler,
+// помеченные аннотацией @Component и закидывать в мапу shiva.
+// в этой мапе мы будем искать подходящую имплементации
+// для каждого чата (в зависимости от chatId)
 @Component
 public class ChiefHandler {
     private Map<Long, InputTextMessageHandler> shiva = new HashMap<>();
@@ -22,9 +25,8 @@ public class ChiefHandler {
     }
 
     public SendMessage processInputMessage(Message message) {
-        SendMessage result;
         Long chatID = message.getChatId();
-        result = shiva.get(chatID).handle(message);
+        SendMessage result = shiva.get(chatID).handle(message);
         return result;
     }
 }

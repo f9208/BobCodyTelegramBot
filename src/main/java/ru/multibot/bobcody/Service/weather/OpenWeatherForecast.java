@@ -160,7 +160,7 @@ public class OpenWeatherForecast {
 
 }
 
-@JsonIgnoreProperties(value = {"sys"})
+@JsonIgnoreProperties(value = {"sys","pop"})
 class FullHouse {
     @Getter
     @Setter
@@ -187,6 +187,13 @@ class FullHouse {
     @Getter
     @Setter
     private Snow snow;
+    @Getter
+    @Setter
+    private int visibility;
+    @Getter
+    @Setter
+    private double pop;
+
 
     private DateTimeFormatter dateTimeStamp = DateTimeFormatter.ofPattern("y-M-d H:m:s");
 

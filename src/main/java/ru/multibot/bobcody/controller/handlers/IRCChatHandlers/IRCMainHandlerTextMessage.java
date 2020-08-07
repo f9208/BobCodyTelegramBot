@@ -9,13 +9,20 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.User;
 import ru.multibot.bobcody.Service.FuckingGreatAdvice.FuckingGreatAdvice;
+import ru.multibot.bobcody.controller.SQL.Entities.Guest;
+import ru.multibot.bobcody.controller.SQL.Entities.QuotationsBook;
+import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
 import ru.multibot.bobcody.Service.weather.OpenWeatherForecast;
-import ru.multibot.bobcody.controller.SQL.AddUser;
+import ru.multibot.bobcody.controller.SQL.Servies.QuotationsBookServiceImp;
 import ru.multibot.bobcody.controller.handlers.InputTextMessageHandler;
+import ru.multibot.bobcody.controller.handlers.QuoteHandler;
 
 import java.io.IOException;
 import java.util.Random;
+
+//import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 
 @Setter
 @Getter
@@ -27,23 +34,32 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     OpenWeatherForecast openWeatherForecast;
     @Autowired
     FuckingGreatAdvice fuckingGreatAdvice;
+    @Autowired
+    GuestServiceImp guestServiceImp;
+    @Autowired
+    QuoteHandler quoteHandler;
+
     Long asf;
     String[] slapAnswer = {"хули надо?",
             "по голове себе посутчи",
-            "мамку свою спроси",
+            "мамке скажи что я зайду",
             "321",
             "Таня нагнулась - в жопе топор. \nМетко кидает индеец Егор."};
     @Value("${print.help}")
     private String help;
 
     @Override
-    public SendMessage handle(Message message) {
+    public SendMessage handle(Message inputMessage) {
         SendMessage result = null;
-        String textMessage = message.getText();
+        String textMessage = inputMessage.getText();
+
+        User user = inputMessage.getFrom();
+        if (user != null && !containUserToMainTable(user)) addToMainDataBase(user);
+
         if (textMessage.contains("BobCodyBot") ||
                 textMessage.contains("bot") ||
                 textMessage.contains("Bob")) {
-            result = slapAnswer(message);
+            result = slapAnswer(inputMessage);
         }
 
         if (textMessage.startsWith("!погода") ||
@@ -55,7 +71,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.startsWith("!П") ||
                 textMessage.startsWith("!g")
                 ) {
-            result = weatherForecastAnswer(message);
+            result = weatherForecastAnswer(inputMessage);
         }
 
         if (textMessage.contains("АМД") ||
@@ -63,7 +79,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.contains("amd") ||
                 textMessage.contains("амд")) {
             System.out.println("amd");
-            result = amdSuck(message);
+            result = amdSuck(inputMessage);
         }
         if (textMessage.equals("!хелп") ||
                 textMessage.equals("!Хелп") ||
@@ -72,20 +88,39 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.equals("!Команды") ||
                 textMessage.equals("!команды")
                 ) {
-            result = helpAnswer(message);
+            result = helpAnswer(inputMessage);
         }
 
-        if (textMessage.equals("!обс")||
+        if (textMessage.equals("!обс") ||
                 textMessage.equals("!ОБС")) {
-            result= fga();
+            result = fga();
         }
 
-        if (textMessage.equals("!add")) {
-            AddUser addUser=new AddUser();
-//            addUser.rrr();
+        if (textMessage.startsWith("!add")) {
+            addToMainDataBase(user);
+
         }
-        if (result != null) result.setChatId(message.getChatId());
+
+        if (textMessage.startsWith("!дц") ||
+                textMessage.startsWith("!lw") ||
+                textMessage.startsWith("!aq")) {
+            result = quoteHandler.addQuote(inputMessage);
+        }
+
+        if (textMessage.startsWith("!уц"))
+            result = quoteHandler.deleteQuote(inputMessage);
+        if (textMessage.startsWith("!ц ") || textMessage.startsWith("!q ")) {
+            quoteHandler.randomQuote(inputMessage);
+        }
+
+        if (result != null) result.setChatId(inputMessage.getChatId());
         return result;
+    }
+
+
+    private Boolean containUserToMainTable(User user) {
+        return guestServiceImp.comprise(Long.valueOf(user.getId()));
+
     }
 
     @Override
@@ -111,6 +146,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         try {
             result.setReplyToMessageId(message.getMessageId()).setText(openWeatherForecast.getForecast(cityName.toString()));
         } catch (IOException e) {
+            e.printStackTrace();
             result.setText(cityName + "? Где это? в Бельгии что-ли?");
         }
         return result;
@@ -136,13 +172,23 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         SendMessage result = new SendMessage();
         return result.setText(help);
     }
-    private SendMessage fga(){
+
+    private SendMessage fga() {
         String textAnswer;
         try {
             textAnswer = fuckingGreatAdvice.getAdvice();
         } catch (IOException e) {
-            textAnswer= "че то сервис не алё. совет от бота - не еби, блять, мозги!";
+            textAnswer = "че то сервис не алё. совет от бота - не еби, блять, мозги!";
         }
         return new SendMessage().setText(textAnswer);
     }
+
+    private void addToMainDataBase(User user) {
+        Guest guest = new Guest(user);
+        if (!containUserToMainTable(user)) guestServiceImp.add(guest);
+        else System.out.println("такой юзер уже содержится в ДБ");
+
+    }
 }
+
+

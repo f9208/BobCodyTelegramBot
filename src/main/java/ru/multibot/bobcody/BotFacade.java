@@ -84,7 +84,7 @@ public class BotFacade {
     private SendMessage choiceChat(Message message) {
         Long chatID = message.getChatId();
         SendMessage replay = null;
-        // сделать так, чтобы не было условного оператора по чат-айди, а сам чиф ъэндлер сортировал.
+        // сделать так, чтобы не было условного оператора по чат-айди, а сам чиф хэндлер сортировал.
         if (chatID.equals(ls)) {
             replay = new SendMessage().setText("ответ на лс сообщение").setChatId(chatID);
         } else if (chatID.equals(asf)) {
