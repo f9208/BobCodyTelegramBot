@@ -70,8 +70,6 @@ public class OpenWeatherForecast {
 //        }
 //    }
 
-
-
     public String getForecast(String cityName) throws IOException {
         setCityName(cityName);
         call5Days(cityName);
@@ -80,7 +78,8 @@ public class OpenWeatherForecast {
         jsonNodeFullLine = openMapper.readTree(fullForecastJson);
 
         StringBuilder result = new StringBuilder();
-        result.append("Прогноз погоды в ").append(cityName).append(", ");
+        //result.append("Прогноз погоды в ").append(cityName).append(", ");
+        result.append("Прогноз погоды в ").append(getCurrentCity().getName()).append(", ");
         result.append(getCurrentCity().getCountry()).append(". ");
         result.append(getSunRiseAndSet()).append("\n").append("\n");
 

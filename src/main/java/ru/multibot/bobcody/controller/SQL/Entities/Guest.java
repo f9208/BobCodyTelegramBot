@@ -2,13 +2,18 @@ package ru.multibot.bobcody.controller.SQL.Entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(schema = "public", name = "list_users")
+@Table(schema = "public", name = "guests")
 public class Guest {
     @Getter
     @Setter
@@ -31,19 +36,23 @@ public class Guest {
     @Setter
     @Column(name = "language_code")
     private String languageCode;
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "author",
+       cascade = CascadeType.ALL)
+    List<Quote> quotes;
 
     public Guest(User user) {
         this.userID = Long.valueOf(user.getId());
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.userName = user.getUserName();
-        this.languageCode=user.getLanguageCode();
+        this.languageCode = user.getLanguageCode();
+
     }
 
     public Guest() {
     }
-
-    ;
 
     @Override
     public String toString() {

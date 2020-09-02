@@ -10,16 +10,10 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import ru.multibot.bobcody.Service.FuckingGreatAdvice.FuckingGreatAdvice;
 import ru.multibot.bobcody.controller.SQL.Entities.Guest;
-import ru.multibot.bobcody.controller.SQL.Entities.QuotationsBook;
 import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
-import ru.multibot.bobcody.Service.weather.OpenWeatherForecast;
-import ru.multibot.bobcody.controller.SQL.Servies.QuotationsBookServiceImp;
-import ru.multibot.bobcody.controller.handlers.InputTextMessageHandler;
-import ru.multibot.bobcody.controller.handlers.QuoteHandler;
+import ru.multibot.bobcody.controller.handlers.*;
 
-import java.io.IOException;
 import java.util.Random;
 
 //import ru.multibot.bobcody.controller.SQL.Entities.Guest;
@@ -31,14 +25,19 @@ import java.util.Random;
 @ConfigurationProperties(prefix = "allowedchatid")
 public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
-    OpenWeatherForecast openWeatherForecast;
+    WeatherForecastHandler weatherForecastHandler;
     @Autowired
-    FuckingGreatAdvice fuckingGreatAdvice;
+    FuckingGreatAdviceHandler fuckingGreatAdviceHandler;
     @Autowired
     GuestServiceImp guestServiceImp;
     @Autowired
     QuoteHandler quoteHandler;
-
+    @Autowired
+    QuoteBookHandler quoteBookHandler;
+    @Autowired
+    BoobsStorageHandler boobsStorageHandler;
+    @Autowired
+    CourseHandler courseHandler;
     Long asf;
     String[] slapAnswer = {"хули надо?",
             "по голове себе посутчи",
@@ -79,7 +78,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.contains("amd") ||
                 textMessage.contains("амд")) {
             System.out.println("amd");
-            result = amdSuck(inputMessage);
+            result = amdSucks(inputMessage);
         }
         if (textMessage.equals("!хелп") ||
                 textMessage.equals("!Хелп") ||
@@ -100,17 +99,23 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             addToMainDataBase(user);
 
         }
+        if (textMessage.startsWith("!дсиськи")) {
+            boobsStorageHandler.addBoobsLink(textMessage.substring(8));
+            result=new SendMessage().setText("Сиськи добавлены");
+        }
 
         if (textMessage.startsWith("!дц") ||
                 textMessage.startsWith("!lw") ||
                 textMessage.startsWith("!aq")) {
             result = quoteHandler.addQuote(inputMessage);
         }
+        if (textMessage.trim().startsWith("!ц") ||
+                textMessage.trim().startsWith("!q")) {
+            result = quoteBookHandler.getQuoteBook(inputMessage);
 
-        if (textMessage.startsWith("!уц"))
-            result = quoteHandler.deleteQuote(inputMessage);
-        if (textMessage.startsWith("!ц ") || textMessage.startsWith("!q ")) {
-            quoteHandler.randomQuote(inputMessage);
+        }
+        if (textMessage.startsWith("!курс")) {
+            result=new SendMessage().setText(courseHandler.getCourse());
         }
 
         if (result != null) result.setChatId(inputMessage.getChatId());
@@ -143,16 +148,11 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         for (int i = 1; i < cityTwoWord.length; i++) {
             cityName.append(cityTwoWord[i]);
         }
-        try {
-            result.setReplyToMessageId(message.getMessageId()).setText(openWeatherForecast.getForecast(cityName.toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            result.setText(cityName + "? Где это? в Бельгии что-ли?");
-        }
+        result.setReplyToMessageId(message.getMessageId()).setText(weatherForecastHandler.getForecast(cityName.toString()));
         return result;
     }
 
-    private SendMessage amdSuck(Message message) {
+    private SendMessage amdSucks(Message message) {
         SendMessage result = new SendMessage();
         String[] textMessageAsArray = message.getText().split(" ");
         String answer = null;
@@ -174,13 +174,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     }
 
     private SendMessage fga() {
-        String textAnswer;
-        try {
-            textAnswer = fuckingGreatAdvice.getAdvice();
-        } catch (IOException e) {
-            textAnswer = "че то сервис не алё. совет от бота - не еби, блять, мозги!";
-        }
-        return new SendMessage().setText(textAnswer);
+        return new SendMessage().setText(fuckingGreatAdviceHandler.getAdvice());
     }
 
     private void addToMainDataBase(User user) {

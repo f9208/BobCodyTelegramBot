@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,8 @@ import java.net.URL;
 @ConfigurationProperties(prefix = "fga")
 public class FuckingGreatAdvice {
     String randomAdviceLink;
-    //надо инициализировать как то иначе, пусть бин создается, чтоли.
-    ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    ObjectMapper objectMapper;
 
 
     private String parser() throws IOException {
