@@ -16,7 +16,6 @@ import ru.multibot.bobcody.controller.SQL.Servies.QuoteServiceImp;
 @Component
 @ConfigurationProperties(prefix = "quotemaster")
 public class QuoteHandler {
-    Integer master;
     @Autowired
     QuoteServiceImp quoteServiceImp;
 

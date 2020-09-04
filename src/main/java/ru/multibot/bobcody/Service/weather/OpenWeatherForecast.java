@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.multibot.bobcody.Service.weather.weatherCondition.*;
@@ -29,6 +30,7 @@ import java.util.List;
 @Component
 @Configuration
 @ConfigurationProperties(prefix = "weather")
+@PropertySource("classpath:weatherProp.properties")
 public class OpenWeatherForecast {
     @Setter
     @Getter

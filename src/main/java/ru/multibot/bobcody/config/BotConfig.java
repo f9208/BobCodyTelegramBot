@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -20,8 +21,8 @@ import javax.sql.DataSource;
 @Setter
 @Configuration // говорит спрингу, типа, тут есть бины. несколько!
 @ConfigurationProperties(prefix = "botloading")
-//@EnableJpaRepositories
 @EnableTransactionManagement
+@EnableConfigurationProperties
 public class BotConfig {
     String botToken;
     String botName;
@@ -58,6 +59,7 @@ public class BotConfig {
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
+
 
 }
 

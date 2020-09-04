@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,21 +14,23 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.multibot.bobcody.controller.ChiefHandler;
 
+import java.util.List;
+
 @Slf4j
 @Setter
 @Getter
 @Component
-@ConfigurationProperties(prefix = "allowedchatid")
+@ConfigurationProperties(prefix = "chatid")
+@PropertySource("classpath:allowedchatid.properties")
 public class BotFacade {
-    Long ls; //ID моего чата переписки с ботом
-    Long asf; // ID тестовой конфы переписки с ботом
+    Long ls; //ID моего чата (ЛС) переписки с ботом
+    List<Long> asf; // список IDшники чатов, для которых есть обработчики.
     @Autowired
     ChiefHandler chiefHandler;
 
 
     public BotApiMethod<?> handleUserUpdate(Update update) {
         BotApiMethod replay = null;
-        Long chatId;
         Message inputMessage = update.getMessage();
         if (inputMessage != null && inputMessage.hasText()) {// chatID 445682905 и -458401902
             log.info("new message from {}, text: \"{}\", chatID: {}, date: {}",
@@ -40,7 +44,6 @@ public class BotFacade {
                     update.getCallbackQuery().getData());
             replay = new SendMessage().setChatId(update.getMessage().getChatId()).setText("в колбэках пока не знаю");
         }
-
         return replay;
     }
 
@@ -87,7 +90,7 @@ public class BotFacade {
         // сделать так, чтобы не было условного оператора по чат-айди, а сам чиф хэндлер сортировал.
         if (chatID.equals(ls)) {
             replay = new SendMessage().setText("ответ на лс сообщение").setChatId(chatID);
-        } else if (chatID.equals(asf)) {
+        } else if (asf.contains(chatID)) {
             replay = chiefHandler.processInputMessage(message);
         } else replay = new SendMessage().setText("ты кто такой? давай до свидания").setChatId(chatID);
 

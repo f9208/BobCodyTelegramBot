@@ -8,7 +8,8 @@ import ru.multibot.bobcody.controller.handlers.InputTextMessageHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-// спринг будет "создавать" все имплеминтации интерфейса InputTextMessageHandler,
+// спринг будет "создавать" все имплеминтации интерфейса InputTextMessageHandler
+// (у нас это IRCMainHandlerTextMessage),
 // помеченные аннотацией @Component и закидывать в мапу shiva.
 // в этой мапе мы будем искать подходящую имплементации
 // для каждого чата (в зависимости от chatId)

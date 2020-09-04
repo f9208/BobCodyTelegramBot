@@ -39,6 +39,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     BoobsStorageHandler boobsStorageHandler;
     @Autowired
     CourseHandler courseHandler;
+    @Autowired
+    OneTwoThree oneTwoThree;
     List<Long> asf;
     String[] slapAnswer = {"хули надо?",
             "по голове себе постучи",
@@ -120,7 +122,9 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         if (textMessage.startsWith("!курс")) {
             result = new SendMessage().setText(courseHandler.getCourse());
         }
-
+        if (textMessage.startsWith("123")&(textMessage.length()==3)) {
+            result=new SendMessage().setText(oneTwoThree.getRandomPhrase());
+        }
         if (result != null) result.setChatId(inputMessage.getChatId());
         return result;
     }
