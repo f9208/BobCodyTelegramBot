@@ -14,15 +14,16 @@ import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
 import ru.multibot.bobcody.controller.handlers.*;
 
+import java.util.List;
 import java.util.Random;
 
-//import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 
 @Setter
 @Getter
 @Component
-@PropertySource(value = "classpath:helpFile.properties", encoding = "UTF-16")
-@ConfigurationProperties(prefix = "allowedchatid")
+@PropertySource(value = {"classpath:allowedchatid.properties"})
+@PropertySource(value = {"classpath:helpFile.properties"}, encoding = "UTF-16")
+@ConfigurationProperties(prefix = "chatid")
 public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
     WeatherForecastHandler weatherForecastHandler;
@@ -38,12 +39,14 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     BoobsStorageHandler boobsStorageHandler;
     @Autowired
     CourseHandler courseHandler;
-    Long asf;
+    List<Long> asf;
     String[] slapAnswer = {"хули надо?",
-            "по голове себе посутчи",
+            "по голове себе постучи",
             "мамке скажи что я зайду",
-            "321",
-            "Таня нагнулась - в жопе топор. \nМетко кидает индеец Егор."};
+            "Таня нагнулась - в жопе топор. \nМетко кидает индеец Егор.",
+            "изыди, онимешнег!",
+            "забанить бы тебя да шотгана-кикалки нет"
+    };
     @Value("${print.help}")
     private String help;
 
@@ -101,7 +104,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
         if (textMessage.startsWith("!дсиськи")) {
             boobsStorageHandler.addBoobsLink(textMessage.substring(8));
-            result=new SendMessage().setText("Сиськи добавлены");
+            result = new SendMessage().setText("Сиськи добавлены");
         }
 
         if (textMessage.startsWith("!дц") ||
@@ -115,7 +118,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
 
         }
         if (textMessage.startsWith("!курс")) {
-            result=new SendMessage().setText(courseHandler.getCourse());
+            result = new SendMessage().setText(courseHandler.getCourse());
         }
 
         if (result != null) result.setChatId(inputMessage.getChatId());
@@ -130,7 +133,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
 
     @Override
     public Long getChatID() {
-        return asf;
+        return asf.get(0); // нулевой - это индекс чата izhMain.
     }
 
     private SendMessage slapAnswer(Message message) {
