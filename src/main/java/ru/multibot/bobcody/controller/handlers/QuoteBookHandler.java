@@ -19,7 +19,7 @@ public class QuoteBookHandler {
     @Autowired
     QuoteBookServiceImp quoteBookServiceImp;
 
-    public SendMessage getQuoteBook(Message message) {
+    public String getQuoteBook(Message message) {
         String cutWord = message.getText().trim();
         if (cutWord.equals("!ц") ||
                 cutWord.equals("!Ц") ||
@@ -32,36 +32,35 @@ public class QuoteBookHandler {
         try {
             return getQuoteFromBookById(Long.valueOf(fullWord.split(" ")[1]));
         } catch (NumberFormatException e) {
-            return new SendMessage().setText("в качестве номера цитаты используйте только цифры (числа)");
+            return "в качестве номера цитаты используйте только цифры (числа)";
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
     }
 
-    public SendMessage randomQuoteFromQuoteBook() {
+    public String randomQuoteFromQuoteBook() {
         Random r = new Random();
         Long temp = Long.valueOf(r.nextInt(quoteBookServiceImp.getSizeDB()));
-        System.out.println(temp);
         return getQuoteFromBookById(temp + 1);
     }
 
-    public SendMessage getQuoteFromBookById(Long id) {
-        SendMessage replay = new SendMessage();
+    public String getQuoteFromBookById(Long id) {
+        String result;
         Long number = id;
-        StringBuilder result = new StringBuilder();
+        StringBuilder master = new StringBuilder();
         try {
             QuoteBook current = quoteBookServiceImp.getById(Long.valueOf(number));
-            result.append("Цитата №")
+            master.append("Цитата №")
                     .append(current.getQuotationId())
                     .append(" (")
                     .append(quoteBookServiceImp.getSizeDB())
                     .append(") \n")
                     .append(current.getText());
-            replay.setText(result.toString());
+            result=master.toString();
         } catch (NoSuchElementException e) {
-            replay.setText("нету такой");
+            result=("нету такой");
         }
-        return replay;
+        return result;
     }
 
 }

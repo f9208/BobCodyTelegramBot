@@ -52,76 +52,64 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
 
     @Override
     public SendMessage handle(Message inputMessage) {
-        SendMessage result = null;
-        String textMessage = inputMessage.getText();
+        SendMessage result = new SendMessage();
+        String textMessage = inputMessage.getText().toLowerCase();
 
         User user = inputMessage.getFrom();
+        //добавляем юзера в базу юзеров. just in case
         if (user != null && !containUserToMainTable(user)) addToMainDataBase(user);
 
-        if (textMessage.contains("BobCodyBot") ||
+        if (textMessage.contains("bobcodybot") ||
                 textMessage.contains("bot") ||
-                textMessage.contains("Bob")) {
-            result = slapAnswer(inputMessage);
+                textMessage.contains("bob") ||
+                textMessage.contains("бот")
+                ) {
+            result.setText(slapAnswer(inputMessage));
         }
 
         if (textMessage.startsWith("!погода") ||
-                textMessage.startsWith("!Погода") ||
                 textMessage.startsWith("!w") ||
-                textMessage.startsWith("!W") ||
                 textMessage.startsWith("!п") ||
-                textMessage.startsWith("!П") ||
-                textMessage.startsWith("!П") ||
                 textMessage.startsWith("!g")
                 ) {
-            result = weatherForecastAnswer(inputMessage);
+            result.setText(weatherForecastAnswer(inputMessage)).setReplyToMessageId(inputMessage.getMessageId());
         }
 
-        if (textMessage.contains("АМД") ||
-                textMessage.contains("AMD") ||
-                textMessage.contains("amd") ||
-                textMessage.contains("амд")) {
-            System.out.println("amd");
-            result = amdSucks(inputMessage);
+        if (textMessage.contains("amd") || textMessage.contains("амд")) {
+            result.setText(amdSucks(inputMessage));
         }
         if (textMessage.equals("!хелп") ||
-                textMessage.equals("!Хелп") ||
-                textMessage.equals("!Help") ||
                 textMessage.equals("!help") ||
-                textMessage.equals("!Команды") ||
+                textMessage.equals("!помощь") ||
                 textMessage.equals("!команды")
                 ) {
-            result = new SendMessage().setText(helpReplayHandler.getHelpAnswer());
+            result.setText(helpReplayHandler.getHelpAnswer());
         }
 
-        if (textMessage.equals("!обс") ||
-                textMessage.equals("!ОБС")) {
-            result = fga();
+        if (textMessage.equals("!обс")) {
+            result.setText(fga());
         }
 
-        if (textMessage.startsWith("!add")) {
-            addToMainDataBase(user);
-
-        }
         if (textMessage.startsWith("!дсиськи")) {
             boobsStorageHandler.addBoobsLink(textMessage.substring(8));
-            result = new SendMessage().setText("Сиськи добавлены");
+            result.setText("Сиськи добавлены");
         }
 
         if (textMessage.startsWith("!дц") ||
                 textMessage.startsWith("!lw") ||
                 textMessage.startsWith("!aq")) {
-            result = quoteHandler.addQuote(inputMessage);
+            result.setText(quoteHandler.addQuote(inputMessage));
         }
         if (textMessage.trim().startsWith("!ц") ||
                 textMessage.trim().startsWith("!q")) {
-            result = quoteBookHandler.getQuoteBook(inputMessage);
+            result.setText(quoteBookHandler.getQuoteBook(inputMessage));
 
         }
         if (textMessage.startsWith("!курс")) {
-            result = new SendMessage().setText(courseHandler.getCourse());
+            result.setText(courseHandler.getCourse());
         }
         if (textMessage.startsWith("123") & (textMessage.length() == 3)) {
-            result = new SendMessage().setText(oneTwoThree.getRandomPhrase());
+            result.setText(oneTwoThree.getRandomPhrase());
         }
         if (result != null) result.setChatId(inputMessage.getChatId());
         return result;
@@ -138,43 +126,38 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         return asf.get(0); // нулевой - это индекс чата izhMain.
     }
 
-    private SendMessage slapAnswer(Message message) {
-        SendMessage replay = new SendMessage();
+    private String slapAnswer(Message message) {
         Random m = new Random(message.getMessageId());
-        replay.setText(slapAnswer[m.nextInt(slapAnswer.length)]);
-        return replay;
+        return slapAnswer[m.nextInt(slapAnswer.length)];
     }
 
-    private SendMessage weatherForecastAnswer(Message message) {
-        SendMessage result = new SendMessage();
+    private String weatherForecastAnswer(Message message) {
+        String result;
         StringBuilder cityName = new StringBuilder();
         String[] cityTwoWord = message.getText().split(" ");
         if (cityTwoWord.length == 1) cityName.append("Ижевск");
         for (int i = 1; i < cityTwoWord.length; i++) {
             cityName.append(cityTwoWord[i]);
         }
-        result.setReplyToMessageId(message.getMessageId()).setText(weatherForecastHandler.getForecast(cityName.toString()));
+        result = weatherForecastHandler.getForecast(cityName.toString());
+//        result.setReplyToMessageId(message.getMessageId()).setText(weatherForecastHandler.getForecast(cityName.toString()));
         return result;
     }
 
-    private SendMessage amdSucks(Message message) {
-        SendMessage result = new SendMessage();
+    private String amdSucks(Message message) {
         String[] textMessageAsArray = message.getText().split(" ");
-        String answer = null;
-        System.out.println(message.getFrom().getUserName());
-
+        String result = null;
         for (String a : textMessageAsArray) {
             if (a.equals("AMD") ||
                     a.equals("amd") ||
                     a.equals("амд") ||
-                    a.equals("АМД")) answer = message.getFrom().getUserName() + ", AMD сосет";
-            result.setText(answer);
+                    a.equals("АМД")) result = message.getFrom().getUserName() + ", AMD сосет";
         }
         return result;
     }
 
-    private SendMessage fga() {
-        return new SendMessage().setText(fuckingGreatAdviceHandler.getAdvice());
+    private String fga() {
+        return fuckingGreatAdviceHandler.getAdvice();
     }
 
     private void addToMainDataBase(User user) {
