@@ -41,14 +41,11 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     OneTwoThree oneTwoThree;
     @Autowired
     HelpReplayHandler helpReplayHandler;
+    @Autowired
+    SlapHandler slapHandler;
+
+
     List<Long> asf;
-    String[] slapAnswer = {"хули надо?",
-            "по голове себе постучи",
-            "мамке скажи что я зайду",
-            "Таня нагнулась - в жопе топор. \nМетко кидает индеец Егор.",
-            "изыди, онимешнег!",
-            "забанить бы тебя да шотгана-кикалки нет"
-    };
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -64,7 +61,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.contains("bob") ||
                 textMessage.contains("бот")
                 ) {
-            result.setText(slapAnswer(inputMessage));
+            result.setText(slapHandler.getRandomAnswer());
         }
 
         if (textMessage.startsWith("!погода") ||
@@ -126,10 +123,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         return asf.get(0); // нулевой - это индекс чата izhMain.
     }
 
-    private String slapAnswer(Message message) {
-        Random m = new Random(message.getMessageId());
-        return slapAnswer[m.nextInt(slapAnswer.length)];
-    }
 
     private String weatherForecastAnswer(Message message) {
         String result;
@@ -140,7 +133,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             cityName.append(cityTwoWord[i]);
         }
         result = weatherForecastHandler.getForecast(cityName.toString());
-//        result.setReplyToMessageId(message.getMessageId()).setText(weatherForecastHandler.getForecast(cityName.toString()));
         return result;
     }
 
