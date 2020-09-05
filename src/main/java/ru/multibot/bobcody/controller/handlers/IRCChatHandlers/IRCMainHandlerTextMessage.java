@@ -17,12 +17,10 @@ import ru.multibot.bobcody.controller.handlers.*;
 import java.util.List;
 import java.util.Random;
 
-
 @Setter
 @Getter
 @Component
 @PropertySource(value = {"classpath:allowedchatid.properties"})
-@PropertySource(value = {"classpath:helpFile.properties"}, encoding = "UTF-16")
 @ConfigurationProperties(prefix = "chatid")
 public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
@@ -41,6 +39,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     CourseHandler courseHandler;
     @Autowired
     OneTwoThree oneTwoThree;
+    @Autowired
+    HelpReplayHandler helpReplayHandler;
     List<Long> asf;
     String[] slapAnswer = {"хули надо?",
             "по голове себе постучи",
@@ -49,8 +49,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             "изыди, онимешнег!",
             "забанить бы тебя да шотгана-кикалки нет"
     };
-    @Value("${print.help}")
-    private String help;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -92,7 +90,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.equals("!Команды") ||
                 textMessage.equals("!команды")
                 ) {
-            result = helpAnswer(inputMessage);
+            result = new SendMessage().setText(helpReplayHandler.getHelpAnswer());
         }
 
         if (textMessage.equals("!обс") ||
@@ -122,8 +120,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         if (textMessage.startsWith("!курс")) {
             result = new SendMessage().setText(courseHandler.getCourse());
         }
-        if (textMessage.startsWith("123")&(textMessage.length()==3)) {
-            result=new SendMessage().setText(oneTwoThree.getRandomPhrase());
+        if (textMessage.startsWith("123") & (textMessage.length() == 3)) {
+            result = new SendMessage().setText(oneTwoThree.getRandomPhrase());
         }
         if (result != null) result.setChatId(inputMessage.getChatId());
         return result;
@@ -173,11 +171,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText(answer);
         }
         return result;
-    }
-
-    private SendMessage helpAnswer(Message message) {
-        SendMessage result = new SendMessage();
-        return result.setText(help);
     }
 
     private SendMessage fga() {

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,6 @@ public class BotFacade {
     List<Long> asf; // список IDшники чатов, для которых есть обработчики.
     @Autowired
     ChiefHandler chiefHandler;
-
 
     public BotApiMethod<?> handleUserUpdate(Update update) {
         BotApiMethod replay = null;
