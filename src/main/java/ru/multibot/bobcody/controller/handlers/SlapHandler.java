@@ -12,7 +12,7 @@ import java.util.Random;
 @Component
 @Getter
 @Setter
-@PropertySource(value = "classpath:slapPhrases.properties", encoding = "UTF-16")
+@PropertySource(value = "classpath:slapPhrases.properties", encoding = "UTF-8")
 @ConfigurationProperties(prefix = "slapanswer")
 public class SlapHandler {
 

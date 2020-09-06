@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
-@PropertySource(value = "classpath:help.properties", encoding = "UTF-16")
+@PropertySource(value = "classpath:help.properties", encoding = "UTF-8")
 public class HelpReplayHandler {
     @Value("${print.help}")
     String helpAnswer;

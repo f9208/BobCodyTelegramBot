@@ -12,7 +12,7 @@ import java.util.Random;
 @Getter
 @Setter
 @Component
-@PropertySource(value = "classpath:onetwothree.properties", encoding = "UTF-16")
+@PropertySource(value = "classpath:onetwothree.properties", encoding = "UTF-8")
 @ConfigurationProperties(prefix = "onetwothree")
 public class OneTwoThree {
 
