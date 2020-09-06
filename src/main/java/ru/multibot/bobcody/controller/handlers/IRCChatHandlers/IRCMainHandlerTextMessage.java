@@ -44,7 +44,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
     SlapHandler slapHandler;
 
-
     List<Long> asf;
 
     @Override
@@ -61,7 +60,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.contains("bob") ||
                 textMessage.contains("бот")
                 ) {
-            result.setText(slapHandler.getRandomAnswer());
+            result.setText("@"+inputMessage.getFrom().getUserName() +", "+ slapHandler.getRandomAnswer());
         }
 
         if (textMessage.startsWith("!погода") ||
@@ -83,8 +82,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText(helpReplayHandler.getHelpAnswer());
         }
 
-        if (textMessage.equals("!обс")) {
-            result.setText(fga());
+        if (textMessage.equals("!обс")||textMessage.equals("!fga")) {
+            result.setText(fuckingGreatAdviceHandler.getAdvice());
         }
 
         if (textMessage.startsWith("!дсиськи")) {
@@ -128,7 +127,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         String result;
         StringBuilder cityName = new StringBuilder();
         String[] cityTwoWord = message.getText().split(" ");
-        if (cityTwoWord.length == 1) cityName.append("Ижевск");
+        if (cityTwoWord.length == 1) cityName.append("default");
         for (int i = 1; i < cityTwoWord.length; i++) {
             cityName.append(cityTwoWord[i]);
         }
@@ -146,10 +145,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                     a.equals("АМД")) result = message.getFrom().getUserName() + ", AMD сосет";
         }
         return result;
-    }
-
-    private String fga() {
-        return fuckingGreatAdviceHandler.getAdvice();
     }
 
     private void addToMainDataBase(User user) {
