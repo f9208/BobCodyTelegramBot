@@ -60,7 +60,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.contains("bob") ||
                 textMessage.contains("бот")
                 ) {
-            result.setText("@"+inputMessage.getFrom().getUserName() +", "+ slapHandler.getRandomAnswer());
+            result.setText("@" + inputMessage.getFrom().getUserName() + ", " + slapHandler.getRandomAnswer());
         }
 
         if (textMessage.startsWith("!погода") ||
@@ -82,7 +82,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText(helpReplayHandler.getHelpAnswer());
         }
 
-        if (textMessage.equals("!обс")||textMessage.equals("!fga")) {
+        if (textMessage.equals("!обс") || textMessage.equals("!fga")) {
             result.setText(fuckingGreatAdviceHandler.getAdvice());
         }
 
@@ -90,7 +90,9 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             boobsStorageHandler.addBoobsLink(textMessage.substring(8));
             result.setText("Сиськи добавлены");
         }
-
+        if (textMessage.startsWith("!сиськи") || textMessage.startsWith("!boobs")) {
+            result.setText(boobsStorageHandler.getAnyBoobs(textMessage));
+        }
         if (textMessage.startsWith("!дц") ||
                 textMessage.startsWith("!lw") ||
                 textMessage.startsWith("!aq")) {

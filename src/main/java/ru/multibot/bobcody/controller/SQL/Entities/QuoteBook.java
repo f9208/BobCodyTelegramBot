@@ -10,12 +10,11 @@ import javax.persistence.*;
 @Entity
 @Table(schema = "public", name = "quotationBook")
 
-
 //хранилище добавленных (аппрувленных) цитат. собственно, сам цитатник
 public class QuoteBook {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-            @Column(columnDefinition = "serial")
+    @Column(columnDefinition = "serial")
     Long quotationId;
     @Column(name = "author")
     String author;
@@ -28,9 +27,9 @@ public class QuoteBook {
     }
 
     public QuoteBook(String author, Integer date, String text) {
-        this.data=date;
-        this.text=text;
-        this.author=author;
+        this.data = date;
+        this.text = text;
+        this.author = author;
     }
 
 }
