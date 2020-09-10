@@ -7,9 +7,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.games.Animation;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.multibot.bobcody.BobCodyBot;
 import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
 import ru.multibot.bobcody.controller.handlers.*;
@@ -23,6 +31,8 @@ import java.util.Random;
 @PropertySource(value = {"classpath:allowedchatid.properties"})
 @ConfigurationProperties(prefix = "chatid")
 public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
+    @Autowired
+    BobCodyBot bobCodyBot;
     @Autowired
     WeatherForecastHandler weatherForecastHandler;
     @Autowired
@@ -50,7 +60,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
         String textMessage = inputMessage.getText().toLowerCase();
-
         User user = inputMessage.getFrom();
         //добавляем юзера в базу юзеров. just in case
         if (user != null && !containUserToMainTable(user)) addToMainDataBase(user);
@@ -109,7 +118,12 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         if (textMessage.startsWith("123") & (textMessage.length() == 3)) {
             result.setText(oneTwoThree.getRandomPhrase());
         }
+        if (textMessage.startsWith("пятница")) {
+            friday(inputMessage);
+        }
+
         if (result != null) result.setChatId(inputMessage.getChatId());
+
         return result;
     }
 
@@ -135,6 +149,15 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
         result = weatherForecastHandler.getForecast(cityName.toString());
         return result;
+    }
+
+    private void friday(Message message) {
+        try {
+            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAIOU19X2Fq4QYnUI15KI4h8MAYj4_WGAAJjCQACE5zBShCPD2aK8whrGwQ")
+                    .setChatId(message.getChatId()));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     private String amdSucks(Message message) {

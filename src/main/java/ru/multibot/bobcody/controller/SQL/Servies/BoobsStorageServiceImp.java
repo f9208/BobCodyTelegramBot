@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.multibot.bobcody.controller.SQL.Entities.BoobsStorage;
 import ru.multibot.bobcody.controller.SQL.repository.BoobsStorageRepository;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -28,6 +29,11 @@ public class BoobsStorageServiceImp implements BoobsStorageService {
     @Transactional
     public Long getSizeDB() {
         return Long.valueOf(boobsStorageRepository.getSizeDB());
+    }
+
+    @Transactional
+    public Iterable<BoobsStorage> getAllAsIterator() {
+        return  boobsStorageRepository.findAll();
     }
 
 }

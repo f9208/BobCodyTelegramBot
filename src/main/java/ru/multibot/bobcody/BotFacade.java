@@ -8,7 +8,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.multibot.bobcody.controller.ChiefHandler;
@@ -28,6 +31,7 @@ public class BotFacade {
     ChiefHandler chiefHandler;
 
     public BotApiMethod<?> handleUserUpdate(Update update) {
+
         BotApiMethod replay = null;
         Message inputMessage = update.getMessage();
         if (inputMessage != null && inputMessage.hasText()) {// chatID 445682905 и -458401902
@@ -42,6 +46,7 @@ public class BotFacade {
                     update.getCallbackQuery().getData());
             replay = new SendMessage().setChatId(update.getMessage().getChatId()).setText("в колбэках пока не знаю");
         }
+
         return replay;
     }
 

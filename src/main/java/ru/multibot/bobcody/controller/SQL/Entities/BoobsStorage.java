@@ -18,4 +18,5 @@ public class BoobsStorage {
     @Column (name="link", columnDefinition = "varchar(5000)")
     String link;
 
+
 }

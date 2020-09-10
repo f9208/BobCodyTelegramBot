@@ -14,3 +14,16 @@
 попробовать создать интерфейс для обработки цитат прямо в окне чата
 
 возможно придется переделать хранилище в quotestorage. добавить sequence в IDшник
+
+с цитатами что то не то.
+
+
+добавить лося
+/Animation{fileId='CgACAgIAAxkBAAIOU19X2Fq4QYnUI15KI4h8MAYj4_WGAAJjCQACE5zBShCPD2aK8whrGwQ',
+        // width=300, height=166, duration=16,
+        // thumb=PhotoSize{fileId='AAMCAgADGQEAAg5TX1fYWrhBidQjXkojiHwwBiPj9YYAAmMJAAITnMFKEI8PZorzCGtsrgySLgADAQAHbQADFlkAAhsE',
+        // width=300, height=166, fileSize=11297, fileUniqueId=AQADbK4Mki4AAxZZAAI},
+        // fileName='friday_yapfiles.ru.gif.mp4', mimetype='video/mp4',
+        // fileSize=1003279,
+        // fileUniqueId=AgADYwkAAhOcwUo}
+        //

@@ -28,6 +28,7 @@ public class ChiefHandler {
     public SendMessage processInputMessage(Message message) {
         Long chatID = message.getChatId();
         SendMessage result = shiva.get(chatID).handle(message);
+
         return result;
     }
 }
