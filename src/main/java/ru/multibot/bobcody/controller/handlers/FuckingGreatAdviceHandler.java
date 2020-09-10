@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.multibot.bobcody.Service.FuckingGreatAdvice.FuckingGreatAdvice;
+import ru.multibot.bobcody.Services.FuckingGreatAdvice.FuckingGreatAdvice;
 
 @Component
 @Getter

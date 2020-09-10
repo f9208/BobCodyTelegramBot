@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.Service.weather;
+package ru.multibot.bobcody.Services.weather;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import ru.multibot.bobcody.Service.weather.weatherCondition.*;
+import ru.multibot.bobcody.Services.weather.weatherCondition.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.Service.FuckingGreatAdvice;
+package ru.multibot.bobcody.Services.FuckingGreatAdvice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

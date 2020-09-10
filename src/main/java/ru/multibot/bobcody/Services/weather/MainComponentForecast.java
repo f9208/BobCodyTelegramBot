@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.Service.weather;
+package ru.multibot.bobcody.Services.weather;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

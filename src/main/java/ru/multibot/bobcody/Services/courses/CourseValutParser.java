@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.Service.courses;
+package ru.multibot.bobcody.Services.courses;
 
 import lombok.Getter;
 import lombok.Setter;

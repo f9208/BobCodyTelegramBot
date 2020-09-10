@@ -8,15 +8,23 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.multibot.bobcody.controller.ChiefHandler;
 
 import java.util.List;
+
+/***
+    фасад.
+    слой, который обрабатывает update'ы. предполагается, что может обрабатывать еще и callBack'и
+    но я не добавлял этот функционал.
+
+    ну и логи еще пишет. но это опционально.
+
+    в листе asf содержатся chatID, для которых есть обработчики.
+    соотвтественно, если chatID не содержится в этом листе - входящее сообщение не обрабатывается
+ */
 
 @Slf4j
 @Setter
@@ -99,11 +107,5 @@ public class BotFacade {
 
         return replay;
     }
-//    public EditMessageText editMessage(Update update) {
-//        EditMessageText result = new EditMessageText();
-//        return result;
-//    }
-
-
 }
 

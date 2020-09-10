@@ -3,19 +3,13 @@ package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.multibot.bobcody.BobCodyBot;
 import ru.multibot.bobcody.controller.SQL.Entities.Guest;
@@ -23,7 +17,15 @@ import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
 import ru.multibot.bobcody.controller.handlers.*;
 
 import java.util.List;
-import java.util.Random;
+
+/**
+ * в метод handle() прилетают вообще _все_ входящие сообщения из чата.
+ * и в зависимости от содержания текстовой составляющей (наличия команд)
+ * срабатывает тот или иной обработчик.
+ * практически для каждой команды сделан свой класс-обрабочик.
+ * дадада, забор из if'ов, но пока хз как сделать красивее
+ */
+
 
 @Setter
 @Getter
@@ -127,28 +129,33 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         return result;
     }
 
+    @Override
+    public Long getChatID() {
+        return asf.get(0); // нулевой - это индекс чата izhMain.
+    }
 
     private Boolean containUserToMainTable(User user) {
         return guestServiceImp.comprise(Long.valueOf(user.getId()));
 
     }
 
-    @Override
-    public Long getChatID() {
-        return asf.get(0); // нулевой - это индекс чата izhMain.
-    }
-
 
     private String weatherForecastAnswer(Message message) {
-        String result;
         StringBuilder cityName = new StringBuilder();
         String[] cityTwoWord = message.getText().split(" ");
-        if (cityTwoWord.length == 1) cityName.append("default");
+        if (cityTwoWord.length == 1
+                && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
+                || cityTwoWord[0].equals("!п")
+                || cityTwoWord[0].equals("!погода"))) {
+            cityName.append("default");
+            return weatherForecastHandler.getForecast(cityName.toString());
+        }
         for (int i = 1; i < cityTwoWord.length; i++) {
             cityName.append(cityTwoWord[i]);
         }
-        result = weatherForecastHandler.getForecast(cityName.toString());
-        return result;
+
+        if (cityName.length() != 0) return weatherForecastHandler.getForecast(cityName.toString());
+        else return null;
     }
 
     private void friday(Message message) {

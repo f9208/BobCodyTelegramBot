@@ -19,7 +19,6 @@ public class WebHookController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public PartialBotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
-
         return bobCodyBot.onWebhookUpdateReceived(update);
     }
 }
