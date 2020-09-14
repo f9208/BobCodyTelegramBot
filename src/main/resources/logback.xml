@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--консольный аппендер берется отсюда: он сам и его "внешний вид"-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!--адрес логов-->
+    <property name="LOG_PATH" value="logs/"/>
+    <property name="LOG_DIR" value="${LOG_PATH}/"/>
+    <timestamp key="timestamp-by-year" datePattern="yyyy"/>
+    <timestamp key="timestamp-by-month" datePattern="MM"/>
+
+
+    <appender name="FILE_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/main_log.log</file>
+        <encoder>
+            <!--файловый аппендер берется отсюда: (внешний вид)-->
+            <pattern>%d{HH:mm:ss.SSS}  %-4relative [%thread] %-5level %logger{56} - %msg%n</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_APPENDER"/>
+    </root>
+</configuration>
