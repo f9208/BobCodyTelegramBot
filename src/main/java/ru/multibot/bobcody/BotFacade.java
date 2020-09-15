@@ -13,17 +13,23 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.multibot.bobcody.controller.ChiefHandler;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 /***
-    фасад.
-    слой, который обрабатывает update'ы. предполагается, что может обрабатывать еще и callBack'и
-    но я не добавлял этот функционал.
+ фасад.
+ слой, который обрабатывает update'ы. предполагается, что может обрабатывать еще и callBack'и
+ но я не добавлял этот функционал.
 
-    ну и логи еще пишет. но это опционально.
+ ну и логи еще пишет. но это опционально.
 
-    в листе asf содержатся chatID, для которых есть обработчики.
-    соотвтественно, если chatID не содержится в этом листе - входящее сообщение не обрабатывается
+ в листе asf содержатся chatID, для которых есть обработчики.
+ соотвтественно, если chatID не содержится в этом листе - входящее сообщение не обрабатывается
  */
 
 @Slf4j
@@ -43,17 +49,32 @@ public class BotFacade {
         BotApiMethod replay = null;
         Message inputMessage = update.getMessage();
         if (inputMessage != null && inputMessage.hasText()) {// chatID 445682905 и -458401902
-            log.info("new message from {}, text: \"{}\", chatID: {}, date: {}",
+            log.info("Input, " +
+                            " chatID: {}," +
+                            " date: {}," +
+                            " userName: {}," +
+                            " textMessage: \"{}\"",
+                    inputMessage.getChatId(),
+                    new SimpleDateFormat("HH:mm:ss.SSS").format(new Date(inputMessage.getDate().longValue() * 1000)),
                     inputMessage.getFrom().getUserName(),
-                    inputMessage.getText(), inputMessage.getChatId(),
-                    inputMessage.getDate());
+                    inputMessage.getText());
+
             replay = handleInputTextMessage(inputMessage);
+            if (((SendMessage) replay).getText() != null) log.info("Output, " +
+                            " chatID: {}," +
+                            " date: {}," +
+                            " userName: BobCody," +
+                            " textMessage: \"{}\"",
+                    ((SendMessage) replay).getChatId(),
+                    LocalTime.now(),
+                    ((SendMessage) replay).getText());
 
         } else if (update.hasCallbackQuery()) {
             log.info("new CallBack: {}",
                     update.getCallbackQuery().getData());
             replay = new SendMessage().setChatId(update.getMessage().getChatId()).setText("в колбэках пока не знаю");
         }
+
 
         return replay;
     }

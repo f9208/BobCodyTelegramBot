@@ -3,25 +3,41 @@
     <!--консольный аппендер берется отсюда: он сам и его "внешний вид"-->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <property name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss.SSS}  %-4relative [%thread] %-5level %logger{56} - %msg%n"/>
 
     <!--адрес логов-->
     <property name="LOG_PATH" value="logs/"/>
     <property name="LOG_DIR" value="${LOG_PATH}/"/>
     <timestamp key="timestamp-by-year" datePattern="yyyy"/>
     <timestamp key="timestamp-by-month" datePattern="MM"/>
+    <timestamp key="timestamp-by-day" datePattern="dd"/>
 
 
-    <appender name="FILE_APPENDER" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/main_log.log</file>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/${timestamp-by-day}_loading_and_events.log</file>
         <encoder>
-            <!--файловый аппендер берется отсюда: (внешний вид)-->
-            <pattern>%d{HH:mm:ss.SSS}  %-4relative [%thread] %-5level %logger{56} - %msg%n</pattern>
-            <outputPatternAsHeader>true</outputPatternAsHeader>
+            <!--файловый аппендер берется отсюда: (внешний вид делаем такоей же как и в консоле)-->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <!--<outputPatternAsHeader>true</outputPatternAsHeader>-->
         </encoder>
     </appender>
 
+    <!--логи в файл входящих\исходящих сообщений-->
+    <appender name="INPUT_AND_OUTPUT_MESSAGE_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/${timestamp-by-day}_IO_Messages.log</file>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ru.multibot.bobcody.BotFacade" level="INFO">
+        <appender-ref ref="INPUT_AND_OUTPUT_MESSAGE_FILE"/>
+    </logger>
+
+
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE_APPENDER"/>
+        <appender-ref ref="FILE"/>
+
     </root>
 </configuration>
