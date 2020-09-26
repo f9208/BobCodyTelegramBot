@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -26,7 +27,6 @@ import java.util.List;
  * дадада, забор из if'ов, но пока хз как сделать красивее
  */
 
-
 @Setter
 @Getter
 @Component
@@ -42,9 +42,9 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
     GuestServiceImp guestServiceImp;
     @Autowired
-    QuoteHandler quoteHandler;
+    QuoteAbyssHandler quoteAbyssHandler;
     @Autowired
-    QuoteBookHandler quoteBookHandler;
+    QuoteStorageHandler quoteStorageHandler;
     @Autowired
     BoobsStorageHandler boobsStorageHandler;
     @Autowired
@@ -107,11 +107,11 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         if (textMessage.startsWith("!дц") ||
                 textMessage.startsWith("!lw") ||
                 textMessage.startsWith("!aq")) {
-            result.setText(quoteHandler.addQuote(inputMessage));
+            result.setText(quoteAbyssHandler.addQuoteToAbyss(inputMessage));
         }
         if (textMessage.trim().startsWith("!ц") ||
                 textMessage.trim().startsWith("!q")) {
-            result.setText(quoteBookHandler.getQuoteBook(inputMessage));
+            result.setText(quoteStorageHandler.getQuoteStorage(inputMessage));
 
         }
         if (textMessage.startsWith("!курс")) {
@@ -121,7 +121,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText(oneTwoThree.getRandomPhrase());
         }
         if (textMessage.startsWith("пятница")) {
-            friday(inputMessage);
+            fridayGif(inputMessage);
         }
 
         if (result != null) result.setChatId(inputMessage.getChatId());
@@ -158,7 +158,17 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         else return null;
     }
 
-    private void friday(Message message) {
+    @Scheduled(cron = "0 0 9 * * FRI ")
+    public void se() {
+        try {
+            bobCodyBot.execute(new SendAnimation()
+                    .setAnimation("CgACAgIAAxkBAAIOU19X2Fq4QYnUI15KI4h8MAYj4_WGAAJjCQACE5zBShCPD2aK8whrGwQ")
+                    .setChatId("-458401902"));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }    }
+
+    private void fridayGif(Message message) {
         try {
             bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAIOU19X2Fq4QYnUI15KI4h8MAYj4_WGAAJjCQACE5zBShCPD2aK8whrGwQ")
                     .setChatId(message.getChatId()));
@@ -185,6 +195,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         else System.out.println("такой юзер уже содержится в ДБ");
 
     }
+
+
 }
 
 

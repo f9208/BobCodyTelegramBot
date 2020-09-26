@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.multibot.bobcody.controller.ChiefHandler;
 
@@ -31,7 +32,6 @@ import java.util.List;
  в листе asf содержатся chatID, для которых есть обработчики.
  соотвтественно, если chatID не содержится в этом листе - входящее сообщение не обрабатывается
  */
-
 @Slf4j
 @Setter
 @Getter
@@ -48,10 +48,27 @@ public class BotFacade {
 
         BotApiMethod replay = null;
         Message inputMessage = update.getMessage();
-        if (inputMessage != null && inputMessage.hasText()) {// chatID 445682905 и -458401902
+        // логирование фоток
+        if (inputMessage.hasPhoto()) {
+            List<PhotoSize> listInputPhoto = inputMessage.getPhoto();
+            for (PhotoSize oneSinglePhoto : listInputPhoto) {
+                log.info("Input Photo " +
+                                " chatID: {}" +
+                                " time: {}" +
+                                " userName: {}," +
+                                " photo: {}", inputMessage.getChatId(),
+                        new SimpleDateFormat("HH:mm:ss.SSS").format(new Date(inputMessage.getDate().longValue() * 1000)),
+                        inputMessage.getFrom().getUserName(),
+                        oneSinglePhoto
+                );
+            }
+        }
+
+
+        if (inputMessage.hasText()) {// chatID 445682905 и -458401902
             log.info("Input, " +
                             " chatID: {}," +
-                            " date: {}," +
+                            " time: {}," +
                             " userName: {}," +
                             " textMessage: \"{}\"",
                     inputMessage.getChatId(),
@@ -62,7 +79,7 @@ public class BotFacade {
             replay = handleInputTextMessage(inputMessage);
             if (((SendMessage) replay).getText() != null) log.info("Output, " +
                             " chatID: {}," +
-                            " date: {}," +
+                            " time: {}," +
                             " userName: BobCody," +
                             " textMessage: \"{}\"",
                     ((SendMessage) replay).getChatId(),
@@ -74,8 +91,6 @@ public class BotFacade {
                     update.getCallbackQuery().getData());
             replay = new SendMessage().setChatId(update.getMessage().getChatId()).setText("в колбэках пока не знаю");
         }
-
-
         return replay;
     }
 

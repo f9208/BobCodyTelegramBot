@@ -12,7 +12,6 @@
     <timestamp key="timestamp-by-month" datePattern="MM"/>
     <timestamp key="timestamp-by-day" datePattern="dd"/>
 
-
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/${timestamp-by-day}_loading_and_events.log</file>
         <encoder>

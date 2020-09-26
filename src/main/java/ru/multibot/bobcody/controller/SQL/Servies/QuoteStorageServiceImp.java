@@ -3,35 +3,35 @@ package ru.multibot.bobcody.controller.SQL.Servies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.multibot.bobcody.controller.SQL.Entities.QuoteBook;
-import ru.multibot.bobcody.controller.SQL.repository.QuoteBookRepository;
+import ru.multibot.bobcody.controller.SQL.Entities.QuoteStorage;
+import ru.multibot.bobcody.controller.SQL.repository.QuoteStorageRepository;
 
 @Service
-public class QuoteBookServiceImp implements QuoteBookService {
+public class QuoteStorageServiceImp implements QuoteStorageService {
     @Autowired
-    QuoteBookRepository quoteBookRepository;
+    QuoteStorageRepository quoteStorageRepository;
 
     @Transactional
     @Override
-    public void add(QuoteBook quoteBook) {
-        quoteBookRepository.save(quoteBook);
+    public void add(QuoteStorage quoteStorage) {
+        quoteStorageRepository.save(quoteStorage);
     }
 
     @Transactional
     @Override
     public void deleteById(Long id) {
-        quoteBookRepository.deleteById(id);
+        quoteStorageRepository.deleteById(id);
     }
 
     @Transactional
     @Override
-    public QuoteBook getById(Long id) {
-        return  quoteBookRepository.findById(id).get();
+    public QuoteStorage getById(Long id) {
+        return  quoteStorageRepository.findById(id).get();
     }
 
     public int getSizeDB() {
 
-        return quoteBookRepository.getSizeDB();
+        return quoteStorageRepository.getSizeDB();
     }
 
     public String getStringById(int id) {
@@ -40,7 +40,7 @@ public class QuoteBookServiceImp implements QuoteBookService {
 //        java.lang.NumberFormatException
 //                + если вернули null.
         try {
-            return quoteBookRepository.iii(id);
+            return quoteStorageRepository.iii(id);
         } catch (Exception e) {
             return null;
         }
