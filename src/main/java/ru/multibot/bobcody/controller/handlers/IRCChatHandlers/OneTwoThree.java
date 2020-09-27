@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.controller.handlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,15 +9,16 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Random;
 
-@Component
 @Getter
 @Setter
-@PropertySource(value = "classpath:slapPhrases.properties", encoding = "UTF-8")
-@ConfigurationProperties(prefix = "slapanswer")
-public class SlapHandler {
+@Component
+@PropertySource(value = "classpath:onetwothree.properties", encoding = "UTF-8")
+@ConfigurationProperties(prefix = "onetwothree")
+public class OneTwoThree {
 
     List<String> phrases;
-    public String getRandomAnswer() {
+
+    public String getRandomPhrase() {
         Random r=new Random();
         return phrases.get(r.nextInt(phrases.size()));
     }

@@ -56,7 +56,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
     SlapHandler slapHandler;
 
-    List<Long> asf;
+    List<Long> achid;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -124,6 +124,9 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             fridayGif(inputMessage);
         }
 
+        if (textMessage.startsWith("есть")) {
+            System.out.println(quoteStorageHandler.exists(Long.valueOf(textMessage.split(" ")[1])));
+        }
         if (result != null) result.setChatId(inputMessage.getChatId());
 
         return result;
@@ -131,7 +134,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
 
     @Override
     public Long getChatID() {
-        return asf.get(0); // нулевой - это индекс чата izhMain.
+        return achid.get(0); // нулевой - это индекс чата izhMain.
     }
 
     private Boolean containUserToMainTable(User user) {
@@ -166,7 +169,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                     .setChatId("-458401902"));
         } catch (TelegramApiException e) {
             e.printStackTrace();
-        }    }
+        }
+    }
 
     private void fridayGif(Message message) {
         try {

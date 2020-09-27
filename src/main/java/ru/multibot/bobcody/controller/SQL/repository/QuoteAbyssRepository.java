@@ -10,4 +10,6 @@ import ru.multibot.bobcody.controller.SQL.Entities.Quote;
 public interface QuoteAbyssRepository extends CrudRepository<Quote, Long> {
 //    @Query(value = "SELECT * From public.quote_for_approval", nativeQuery = true)
 //    boolean add(int data,  String text, long author_id);
+
+
 }

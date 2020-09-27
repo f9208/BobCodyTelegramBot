@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.controller.handlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.controller.handlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -45,8 +46,11 @@ public class QuoteAbyssHandler {
         return replay;
     }
 
+    //шлет сообщение мне в личку в случае добавления цитат в бездну
     public void sendToModerator(Message message) {
-        String textInputMessage = message.getText().substring(3,message.getText().length());
+        String textInputMessage = "пользователь " + message.getFrom().getUserName() +
+                " добавил цитатку:\n"
+                + message.getText().substring(3, message.getText().length());
         try {
             bobCodyBot.execute(new SendMessage().setChatId("445682905").setText(textInputMessage));
         } catch (TelegramApiException e) {

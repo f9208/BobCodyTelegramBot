@@ -26,13 +26,13 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
     @Transactional
     @Override
     public QuoteStorage getById(Long id) {
-        return  quoteStorageRepository.findById(id).get();
+        return quoteStorageRepository.findById(id).get();
     }
 
     public int getSizeDB() {
-
         return quoteStorageRepository.getSizeDB();
     }
+
 
     public String getStringById(int id) {
 //
@@ -40,11 +40,26 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
 //        java.lang.NumberFormatException
 //                + если вернули null.
         try {
-            return quoteStorageRepository.iii(id);
+            return quoteStorageRepository.getTextQuoteById(id);
         } catch (Exception e) {
             return null;
         }
     }
 
+    @Transactional
+    public int adderQuote(int a) {
+        quoteStorageRepository.approveQuote(a);
+        return getMaxID();
+    }
+
+    @Transactional
+    public int getMaxID() {
+        return quoteStorageRepository.getMaxID();
+    }
+
+    @Transactional
+    public boolean existById(long id) {
+        return quoteStorageRepository.existsByQuotationId(id);
+    }
 }
 

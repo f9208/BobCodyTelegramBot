@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.controller.handlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,8 +39,17 @@ public class QuoteStorageHandler {
 
     public String randomQuoteFromQuoteStorage() {
         Random r = new Random();
-        Long temp = Long.valueOf(r.nextInt(quoteStorageServiceImp.getSizeDB()));
-        return getQuoteFromStorageById(temp + 1);
+        Long temp;
+        temp = Long.valueOf(r.nextInt(quoteStorageServiceImp.getMaxID()))+1;
+        /* в случае если какую то из цитат "грохнули" ее id-шник уже не будет показываться
+        * и его уже никто не займет - особенность sql. поэтому предварительно проверяем
+        * закреплена ли какая то цитата за генерируемым рендомным числом
+        * - если нет, то генерируем новое число. инкремент - чтобы крайняя цитата тоже попадала в выборку
+        * */
+        while (!exists(temp)) {
+            temp = Long.valueOf(r.nextInt(quoteStorageServiceImp.getMaxID()))+1;
+        }
+        return getQuoteFromStorageById(temp);
     }
 
     public String getQuoteFromStorageById(Long id) {
@@ -52,14 +61,30 @@ public class QuoteStorageHandler {
             master.append("Цитата №")
                     .append(current.getQuotationId())
                     .append(" (")
-                    .append(quoteStorageServiceImp.getSizeDB())
+                    .append(quoteStorageServiceImp.getMaxID())
                     .append(") \n")
                     .append(current.getText());
-            result=master.toString();
+            result = master.toString();
         } catch (NoSuchElementException e) {
-            result=("нету такой");
+            result = ("нету такой");
         }
         return result;
+    }
+
+
+    public String approvingQuote(int id) {
+        String result = "что то пошло не так";
+        try {
+            int addedId = quoteStorageServiceImp.adderQuote(id);
+            result = "цитата добавлена за номером " + addedId;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean exists(Long id) {
+        return quoteStorageServiceImp.existById(id);
     }
 
 }

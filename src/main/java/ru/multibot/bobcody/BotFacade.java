@@ -14,10 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.multibot.bobcody.controller.ChiefHandler;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +26,7 @@ import java.util.List;
 
  ну и логи еще пишет. но это опционально.
 
- в листе asf содержатся chatID, для которых есть обработчики.
+ в листе achid содержатся chatID, для которых есть обработчики.
  соотвтественно, если chatID не содержится в этом листе - входящее сообщение не обрабатывается
  */
 @Slf4j
@@ -39,8 +36,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "chatid")
 @PropertySource("classpath:allowedchatid.properties")
 public class BotFacade {
-    Long ls; //ID моего чата (ЛС) переписки с ботом
-    List<Long> asf; // список IDшники чатов, для которых есть обработчики.
+    List<Long> achid; // список IDшники чатов, для которых есть обработчики.
     @Autowired
     ChiefHandler chiefHandler;
 
@@ -135,9 +131,10 @@ public class BotFacade {
         Long chatID = message.getChatId();
         SendMessage replay = null;
         // сделать так, чтобы не было условного оператора по чат-айди, а сам чиф хэндлер сортировал.
-        if (chatID.equals(ls)) {
-            replay = new SendMessage().setText("ответ на лс сообщение").setChatId(chatID);
-        } else if (asf.contains(chatID)) {
+//        if (chatID.equals(ls)) {
+//            replay = chiefHandler.processInputMessage(message);
+//        } else
+            if (achid.contains(chatID)) {
             replay = chiefHandler.processInputMessage(message);
         } else replay = new SendMessage().setText("ты кто такой? давай до свидания").setChatId(chatID);
 
