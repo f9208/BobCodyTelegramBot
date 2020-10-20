@@ -26,7 +26,7 @@ import java.util.List;
 
  ну и логи еще пишет. но это опционально.
 
- в листе achid содержатся chatID, для которых есть обработчики.
+ в листе achid(AllovedChatID) содержатся chatID, для которых есть обработчики.
  соотвтественно, если chatID не содержится в этом листе - входящее сообщение не обрабатывается
  */
 @Slf4j
@@ -44,8 +44,9 @@ public class BotFacade {
 
         BotApiMethod replay = null;
         Message inputMessage = update.getMessage();
+
         // логирование фоток
-        if (inputMessage.hasPhoto()) {
+        if (inputMessage!=null&&inputMessage.hasPhoto()) {
             List<PhotoSize> listInputPhoto = inputMessage.getPhoto();
             for (PhotoSize oneSinglePhoto : listInputPhoto) {
                 log.info("Input Photo " +
@@ -60,8 +61,7 @@ public class BotFacade {
             }
         }
 
-
-        if (inputMessage.hasText()) {// chatID 445682905 и -458401902
+        if (inputMessage!=null&&inputMessage.hasText()) {// chatID 445682905 и -458401902
             log.info("Input, " +
                             " chatID: {}," +
                             " time: {}," +
@@ -93,7 +93,7 @@ public class BotFacade {
 //    private BotApiMethod<?> handleCallBackQuery(Update update) {
 //        BotApiMethod result = null;
 //        CallbackQuery callBack = update.getCallbackQuery();
-//        if (callBack.getData().equals("helpCallBack")) {
+//        if (callBack.getDateAdded().equals("helpCallBack")) {
 //
 //            lastMessageId = callBack.getMessage().getMessageId();
 //            System.out.println("инлайн мессдж Ид из хелпа: " + lastMessageId);
@@ -102,7 +102,7 @@ public class BotFacade {
 //            result = bobStateContext.processInputMessage(user.getBobState(), callBack.getMessage());
 //            user.setBobState(BobState.NON_STATE);
 //
-//        } else if (callBack.getData().equals("AskWeatherCallBack")) {
+//        } else if (callBack.getDateAdded().equals("AskWeatherCallBack")) {
 //            user.setBobState(BobState.WEATHER_STATE);
 //            result = new SendMessage();
 //
@@ -111,7 +111,7 @@ public class BotFacade {
 //            ((SendMessage) result).setReplyMarkup(new ReplyKeyboardMain().getKeyboard());
 //        }
 //
-//        if (callBack.getData().equals("alarm")) {
+//        if (callBack.getDateAdded().equals("alarm")) {
 //            result = new EditMessageText()
 //                    .setChatId(callBack.getMessage().getChatId())
 //                    .setMessageId(lastMessageId)
@@ -134,7 +134,7 @@ public class BotFacade {
 //        if (chatID.equals(ls)) {
 //            replay = chiefHandler.processInputMessage(message);
 //        } else
-            if (achid.contains(chatID)) {
+        if (achid.contains(chatID)) {
             replay = chiefHandler.processInputMessage(message);
         } else replay = new SendMessage().setText("ты кто такой? давай до свидания").setChatId(chatID);
 

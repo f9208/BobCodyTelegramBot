@@ -1,10 +1,13 @@
 package ru.multibot.bobcody.controller.SQL.Servies;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.multibot.bobcody.controller.SQL.Entities.QuoteStorage;
+import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
 import ru.multibot.bobcody.controller.SQL.repository.QuoteStorageRepository;
+
+import java.util.Calendar;
 
 @Service
 public class QuoteStorageServiceImp implements QuoteStorageService {
@@ -13,8 +16,8 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
 
     @Transactional
     @Override
-    public void add(QuoteStorage quoteStorage) {
-        quoteStorageRepository.save(quoteStorage);
+    public void add(QuoteInsideStorage quoteInsideStorage) {
+        quoteStorageRepository.save(quoteInsideStorage);
     }
 
     @Transactional
@@ -25,9 +28,10 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
 
     @Transactional
     @Override
-    public QuoteStorage getById(Long id) {
+    public QuoteInsideStorage getById(Long id) {
         return quoteStorageRepository.findById(id).get();
     }
+
 
     public int getSizeDB() {
         return quoteStorageRepository.getSizeDB();
@@ -47,19 +51,30 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
     }
 
     @Transactional
-    public int adderQuote(int a) {
-        quoteStorageRepository.approveQuote(a);
+    public Long adderQuote(Long a) {
+        long currTime = Calendar.getInstance().getTime().getTime() / 1000;
+        quoteStorageRepository.approveQuote(a, currTime);
         return getMaxID();
     }
 
     @Transactional
-    public int getMaxID() {
+    public Long getMaxID() {
         return quoteStorageRepository.getMaxID();
     }
 
     @Transactional
     public boolean existById(long id) {
-        return quoteStorageRepository.existsByQuotationId(id);
+        return quoteStorageRepository.existsByQuoteId(id);
+    }
+
+    @Transactional
+    public boolean existByDate(long date) {
+        return quoteStorageRepository.existsQuoteInsideStorageByDateAdded(date);
+    }
+
+    @Transactional
+    public Long getAuthorByDateAdded(Long dateAdded) {
+        return quoteStorageRepository.getAuthorByDateAdded(dateAdded);
     }
 }
 

@@ -8,28 +8,31 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-@Table(schema = "public", name = "quotationBook")
+@Table(schema = "public", name = "quotation_storage")
 
 //хранилище добавленных (аппрувленных) цитат. собственно, сам цитатник
-public class QuoteStorage {
+public class QuoteInsideStorage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "serial")
-    Long quotationId;
-    @Column(name = "author")
+    Long quoteId;
+    @Column(name = "author_id")
     String author;
-    @Column(name = "data")
-    Integer data;
+    @Column(name = "date_added")
+    Long dateAdded;
+    @Column(name = "date_approved")
+    Long dateApproved;
     @Column(name = "quote_text", columnDefinition = "varchar(5000)")
     String text;
 
-    public QuoteStorage() {
+    public QuoteInsideStorage() {
     }
 
-    public QuoteStorage(String author, Integer date, String text) {
-        this.data = date;
+    public QuoteInsideStorage(String author, Long dateAdded, Long dateApproved, String text) {
+        this.dateAdded = dateAdded;
         this.text = text;
         this.author = author;
+        this.dateApproved = dateApproved;
     }
 
 }

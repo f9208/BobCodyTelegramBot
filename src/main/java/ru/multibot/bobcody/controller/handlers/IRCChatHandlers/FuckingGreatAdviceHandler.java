@@ -18,7 +18,7 @@ public class FuckingGreatAdviceHandler {
         try {
             result = fuckingGreatAdvice.getAdvice();
         } catch (Exception e) {
-            result = "че то сервис не алё. совет от бота - не еби, блять, мозги!";
+            result = "че то сервис не алё. совет от бота - не еби, блять, другим (и себе) мозги!";
         }
         return result;
     }

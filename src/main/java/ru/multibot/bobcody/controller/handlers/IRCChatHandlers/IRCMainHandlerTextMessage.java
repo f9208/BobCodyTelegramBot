@@ -94,7 +94,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
 
         if (textMessage.equals("!обс") || textMessage.equals("!fga")) {
-            result.setText(fuckingGreatAdviceHandler.getAdvice());
+            result.setText("@"+inputMessage.getFrom().getUserName()+", " +fuckingGreatAdviceHandler.getAdvice());
         }
 
         if (textMessage.startsWith("!дсиськи")) {
@@ -125,7 +125,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
 
         if (textMessage.startsWith("есть")) {
-            System.out.println(quoteStorageHandler.exists(Long.valueOf(textMessage.split(" ")[1])));
+            System.out.println(quoteStorageHandler.existsById(Long.valueOf(textMessage.split(" ")[1])));
         }
         if (result != null) result.setChatId(inputMessage.getChatId());
 

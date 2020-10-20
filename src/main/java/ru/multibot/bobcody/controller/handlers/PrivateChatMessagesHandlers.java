@@ -2,6 +2,8 @@ package ru.multibot.bobcody.controller.handlers;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.Hibernate;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
@@ -29,7 +31,7 @@ public class PrivateChatMessagesHandlers implements InputTextMessageHandler {
         if (inputMessage.hasText()) {
             String textMessage = inputMessage.getText().toLowerCase();
             if (textMessage.startsWith("!добавь")) {
-                sm.setText(quoteStorageHandler.approvingQuote(Integer.valueOf(textMessage.split(" ")[1])));
+                sm.setText(quoteStorageHandler.approvingQuote(inputMessage));
             }
         }
         sm.setChatId(inputMessage.getChatId());

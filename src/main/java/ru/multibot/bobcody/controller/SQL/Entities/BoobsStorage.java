@@ -20,13 +20,13 @@ public class BoobsStorage {
 
 
 }
-//-- INSERT into quotation_book (author, data, quote_text)
+//-- INSERT into quotation_book (author, dateAdded, quote_text)
 //        --   Select
 //        --     quote_for_approval.author_id,
-//        --     quote_for_approval."data",
+//        --     quote_for_approval."dateAdded",
 //        --      quote_for_approval."text"
 //        --    from quote_for_approval
-//        --    where (quote_for_approval.id = 4);
+//        --    where (quote_for_approval.quoteId = 4);
 
 
 //
