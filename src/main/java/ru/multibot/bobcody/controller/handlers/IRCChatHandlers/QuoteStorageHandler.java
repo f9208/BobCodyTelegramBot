@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
 import ru.multibot.bobcody.controller.SQL.Servies.QuoteAbyssService;
 import ru.multibot.bobcody.controller.SQL.Servies.QuoteAbyssServiceImp;
+import ru.multibot.bobcody.controller.SQL.Servies.QuoteStorageService;
 import ru.multibot.bobcody.controller.SQL.Servies.QuoteStorageServiceImp;
 
 import java.util.NoSuchElementException;
@@ -17,10 +18,10 @@ import java.util.Random;
 @Setter
 @Getter
 public class QuoteStorageHandler {
-    @Autowired // заменить на интерфейс
-            QuoteStorageServiceImp quoteStorageServiceImp;
-    @Autowired  // заменить на интерфейс
-            QuoteAbyssServiceImp quoteAbyssServiceImp;
+    @Autowired // заменить на интерфейс?
+            QuoteStorageService quoteStorageServiceImp;
+    @Autowired  // заменить на интерфейс?
+            QuoteAbyssService quoteAbyssServiceImp;
 
     public String getQuoteStorage(Message message) {
         String cutWord = message.getText().trim();
@@ -33,7 +34,7 @@ public class QuoteStorageHandler {
 
         String fullWord = message.getText();
         try {
-            return getQuoteFromStorageById(Long.valueOf(fullWord.split(" ")[1]));
+            return getTextQuoteFromStorageById(Long.valueOf(fullWord.split(" ")[1]));
         } catch (NumberFormatException e) {
             return "в качестве номера цитаты используйте только цифры (числа)";
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -53,48 +54,51 @@ public class QuoteStorageHandler {
         while (!existsById(temp)) {
             temp = Long.valueOf(r.nextInt(quoteStorageServiceImp.getMaxID().intValue())) + 1;
         }
-        return getQuoteFromStorageById(temp);
+        return getTextQuoteFromStorageById(temp);
     }
 
-    public String getQuoteFromStorageById(Long id) {
+    public String getTextQuoteFromStorageById(Long id) {
         String result;
         Long number = id;
         StringBuilder master = new StringBuilder();
         try {
-            QuoteInsideStorage current = quoteStorageServiceImp.getById(Long.valueOf(number));
-            master.append("Цитата №")
-                    .append(current.getQuoteId())
-                    .append(" (")
-                    .append(quoteStorageServiceImp.getMaxID())
-                    .append(") \n")
-                    .append(current.getText());
-            result = master.toString();
-        } catch (NoSuchElementException e) {
-            result = ("нету такой");
+            QuoteInsideStorage current = quoteStorageServiceImp.getSingleQuoteFromStorageById(Long.valueOf(number));
+            if (current != null) {
+                master.append("Цитата №")
+                        .append(current.getQuoteId())
+                        .append(" (")
+                        .append(quoteStorageServiceImp.getMaxID())
+                        .append(") \n")
+                        .append(current.getText());
+                result = master.toString();
+            }
+            else result="нету такой.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = ("что-то пошло не так");
         }
         return result;
     }
 
-    //все равно все не так. не надо нам входящее сообщение, оно вообще другое из другого чата.
     public String approvingQuote(Message inputMessage) {
-//        Integer.valueOf(textMessage.split(" ")[1]);
         String result = "что то пошло не так";
         String textMessage = inputMessage.getText().toLowerCase();
 
         if (textMessage.split(" ").length == 1) return "чо добавить то?";
         if (textMessage.split(" ").length == 2) {
-            Long inputID = Long.valueOf(textMessage.split(" ")[1]);
+            Long inputQuoteIdFromAbysse = Long.valueOf(textMessage.split(" ")[1]);
             // есть такой ID в бездне?
-            if (quoteAbyssServiceImp.containtInAbyss(inputID)) {
-                Long dateFromeAbysse = quoteAbyssServiceImp.getDateAddedByQuoteId(inputID);
-                Long authorId = quoteAbyssServiceImp.getAuthorIdByQuoteId(inputID);
+            if (quoteAbyssServiceImp.containtInAbyss(inputQuoteIdFromAbysse)) {
+                Long dateFromeAbysse = quoteAbyssServiceImp.getDateAddedByQuoteId(inputQuoteIdFromAbysse);
+                Long authorId = quoteAbyssServiceImp.getAuthorIdByQuoteId(inputQuoteIdFromAbysse);
 
                 // на случай если (ВДРУГ) одномоментно из двух разных чатов будут добавляться цитаты - проверяем еще и автора цитаты на уникальность. можно конечно попробовать взять всю цитату и унаследовать комперебл...
                 if (quoteStorageServiceImp.existByDate(dateFromeAbysse)
-                        && quoteStorageServiceImp.getAuthorByDateAdded(dateFromeAbysse).longValue() == authorId.longValue()) {
+                        && quoteStorageServiceImp.getAuthorByDateAdded(dateFromeAbysse).longValue()
+                        == authorId.longValue()) {
                     return "ее уже добавляли в хранилище.";
                 } else {
-                    Long resultNumber = quoteStorageServiceImp.adderQuote(inputID);
+                    Long resultNumber = quoteStorageServiceImp.adderQuote(inputQuoteIdFromAbysse);
                     result = "цитата добавленна за номером " + resultNumber.longValue();
                 }
 
@@ -113,4 +117,7 @@ public class QuoteStorageHandler {
         return quoteStorageServiceImp.existByDate(date);
     }
 
+    public QuoteInsideStorage getQuote(Long id) {
+        return quoteStorageServiceImp.getSingleQuoteFromStorageById(id);
+    }
 }

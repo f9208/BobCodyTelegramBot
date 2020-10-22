@@ -23,21 +23,26 @@ public class QuoteAbyssServiceImp implements QuoteAbyssService {
         quoteAbyssRepository.deleteById(id);
     }
 
+    @Override
     @Transactional
     public Long getQuoteIdByDateAdded(Long date) {
         return quoteAbyssRepository.getQuoteIdByDate(date);
     }
 
+    @Override
     @Transactional
     public boolean containtInAbyss(Long id) {
-        return quoteAbyssRepository.existsQuoteInsideAbysse(id);
+//        return quoteAbyssRepository.existsQuoteInsideAbysse(id);
+        return quoteAbyssRepository.existsQuoteByQuoteId(id);
     }
 
+    @Override
     @Transactional
     public Long getDateAddedByQuoteId(Long quoteId) {
         return quoteAbyssRepository.getDateAddedByQuoteId(quoteId);
     }
 
+    @Override
     @Transactional
     public Long getAuthorIdByQuoteId(Long quoteId) {
         return quoteAbyssRepository.getAuthorIdByQuoteId(quoteId);

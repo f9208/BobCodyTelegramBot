@@ -10,6 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.multibot.bobcody.controller.SQL.Entities.Quote;
+import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.QuoteStorageHandler;
 
 import java.util.List;

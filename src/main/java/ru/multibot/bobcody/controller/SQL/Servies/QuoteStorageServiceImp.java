@@ -4,6 +4,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.multibot.bobcody.controller.SQL.Entities.Quote;
 import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
 import ru.multibot.bobcody.controller.SQL.repository.QuoteStorageRepository;
 
@@ -28,28 +29,17 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
 
     @Transactional
     @Override
-    public QuoteInsideStorage getById(Long id) {
-        return quoteStorageRepository.findById(id).get();
+    public QuoteInsideStorage getSingleQuoteFromStorageById(Long id) {
+        return quoteStorageRepository.getQuoteInsideStorageByQuoteId(id);
     }
 
-
+    @Override
+    @Transactional
     public int getSizeDB() {
         return quoteStorageRepository.getSizeDB();
     }
 
-
-    public String getStringById(int id) {
-//
-//        сделать обработчики исключений здесь.
-//        java.lang.NumberFormatException
-//                + если вернули null.
-        try {
-            return quoteStorageRepository.getTextQuoteById(id);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
+    @Override
     @Transactional
     public Long adderQuote(Long a) {
         long currTime = Calendar.getInstance().getTime().getTime() / 1000;
@@ -58,23 +48,29 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
     }
 
     @Transactional
+    @Override
     public Long getMaxID() {
         return quoteStorageRepository.getMaxID();
     }
 
     @Transactional
+    @Override
     public boolean existById(long id) {
         return quoteStorageRepository.existsByQuoteId(id);
     }
 
     @Transactional
+    @Override
     public boolean existByDate(long date) {
         return quoteStorageRepository.existsQuoteInsideStorageByDateAdded(date);
     }
 
     @Transactional
+    @Override
     public Long getAuthorByDateAdded(Long dateAdded) {
         return quoteStorageRepository.getAuthorByDateAdded(dateAdded);
     }
+
+
 }
 

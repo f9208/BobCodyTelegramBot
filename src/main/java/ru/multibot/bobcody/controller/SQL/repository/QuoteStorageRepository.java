@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import ru.multibot.bobcody.controller.SQL.Entities.Quote;
 import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
 
 @Repository
@@ -36,4 +37,6 @@ public interface QuoteStorageRepository extends CrudRepository<QuoteInsideStorag
     @Query(value = "SELECT author_id FROM public.quotation_storage where date_added=:dateAdded",
             nativeQuery = true)
     Long getAuthorByDateAdded(@Param("dateAdded") Long date);
+
+    QuoteInsideStorage getQuoteInsideStorageByQuoteId(long id);
 }

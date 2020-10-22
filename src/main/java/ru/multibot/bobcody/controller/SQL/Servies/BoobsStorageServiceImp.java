@@ -31,6 +31,7 @@ public class BoobsStorageServiceImp implements BoobsStorageService {
         return Long.valueOf(boobsStorageRepository.getSizeDB());
     }
 
+    @Override
     @Transactional
     public Iterable<BoobsStorage> getAllAsIterator() {
         return  boobsStorageRepository.findAll();

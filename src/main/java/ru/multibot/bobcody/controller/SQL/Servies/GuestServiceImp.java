@@ -21,7 +21,7 @@ public class GuestServiceImp implements GuestService {
         guestRepository.save(guest);
     }
 
-
+    @Override
     @Transactional
     public boolean comprise(long id) {
         return guestRepository.existsById((Long) id);

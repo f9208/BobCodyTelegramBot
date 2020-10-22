@@ -161,7 +161,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         else return null;
     }
 
-    @Scheduled(cron = "0 0 9 * * FRI ")
+    @Scheduled(cron = "0 0 22 * * FRI ")
     public void se() {
         try {
             bobCodyBot.execute(new SendAnimation()
