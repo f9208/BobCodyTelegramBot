@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -39,7 +40,7 @@ public class Guest {
     @Getter
     @Setter
     @OneToMany(mappedBy = "author",
-       cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL)
     List<Quote> quotes;
 
     public Guest(User user) {
@@ -56,6 +57,27 @@ public class Guest {
 
     @Override
     public String toString() {
-        return new String(userName + " " + lastName + " " + firstName);
+        return new String(userName + " "
+                + lastName + " "
+                + firstName + " "
+                + userID + " "
+                + languageCode
+        );
+    }
+    //  имя пользоваетял, фамилию ник можно поменять и тогда юзеры станут типа другими.
+    // но айдишник - не поменяешь, поэтому он и будет вводной уникальности
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Guest)) return false;
+        Guest guest = (Guest) o;
+        return Objects.equals(getUserID(), guest.getUserID());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getUserID());
     }
 }

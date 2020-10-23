@@ -66,10 +66,12 @@ public class BotFacade {
                             " chatID: {}," +
                             " time: {}," +
                             " userName: {}," +
+                            " userId: {}," +
                             " textMessage: \"{}\"",
                     inputMessage.getChatId(),
                     new SimpleDateFormat("HH:mm:ss.SSS").format(new Date(inputMessage.getDate().longValue() * 1000)),
                     inputMessage.getFrom().getUserName(),
+                    inputMessage.getFrom().getId(),
                     inputMessage.getText());
 
             replay = handleInputTextMessage(inputMessage);

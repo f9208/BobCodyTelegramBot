@@ -5,21 +5,21 @@ import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
 
 @Component
 public interface QuoteStorageService {
-    public void add(QuoteInsideStorage quoteInsideStorage);
+     void add(QuoteInsideStorage quoteInsideStorage);
 
-    public void deleteById(Long id);
+     void deleteById(Long id);
 
-    public QuoteInsideStorage getSingleQuoteFromStorageById(Long id);
+     QuoteInsideStorage getSingleQuoteFromStorageById(Long id);
 
     Long adderQuote(Long a);
 
-    public Long getMaxID();
+     Long getMaxID();
 
-    public boolean existById(long id);
+     boolean existById(long id);
 
-    public boolean existByDate(long date);
+     boolean existByDate(long date);
 
-    public Long getAuthorByDateAdded(Long dateAdded);
+     Long getAuthorByDateAdded(Long dateAdded);
 
-    public int getSizeDB();
+     int getSizeDB();
 }

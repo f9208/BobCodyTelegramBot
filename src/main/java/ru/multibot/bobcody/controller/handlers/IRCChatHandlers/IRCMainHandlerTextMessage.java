@@ -2,6 +2,7 @@ package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
@@ -17,6 +18,7 @@ import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
 import ru.multibot.bobcody.controller.handlers.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,6 +57,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     HelpReplayHandler helpReplayHandler;
     @Autowired
     SlapHandler slapHandler;
+    @Autowired
+    List<Guest> guestList;
 
     List<Long> achid;
 
@@ -64,7 +68,16 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         String textMessage = inputMessage.getText().toLowerCase();
         User user = inputMessage.getFrom();
         //добавляем юзера в базу юзеров. just in case
-        if (user != null && !containUserToMainTable(user)) addToMainDataBase(user);
+
+        if (guestList.size() == 0) {
+            //обнови set с базы
+            System.out.println("база пустая. обновляем");
+            reloadUsersList();
+        }
+        if (user != null && !containGuestInList(user)) {
+            addToMainDataBase(user);
+            reloadUsersList();
+        }
 
         if (textMessage.contains("bobcodybot") ||
                 textMessage.contains("bot") ||
@@ -94,7 +107,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
 
         if (textMessage.equals("!обс") || textMessage.equals("!fga")) {
-            result.setText("@"+inputMessage.getFrom().getUserName()+", " +fuckingGreatAdviceHandler.getAdvice());
+            result.setText("@" + inputMessage.getFrom().getUserName() + ", " + fuckingGreatAdviceHandler.getAdvice());
         }
 
         if (textMessage.startsWith("!дсиськи")) {
@@ -161,7 +174,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         else return null;
     }
 
-    @Scheduled(cron = "0 0 22 * * FRI ")
+    @Scheduled(cron = "0 0 8 * * FRI ")
     public void se() {
         try {
             bobCodyBot.execute(new SendAnimation()
@@ -195,12 +208,23 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
 
     private void addToMainDataBase(User user) {
         Guest guest = new Guest(user);
-        if (!containUserToMainTable(user)) guestServiceImp.add(guest);
-        else System.out.println("такой юзер уже содержится в ДБ");
-
+        if (!containUserToMainTable(user)) {
+            guestServiceImp.add(guest);
+        } else {
+            System.out.println("такой юзер уже содержится в ДБ");
+            reloadUsersList();
+        }
     }
 
+    private void reloadUsersList() {
+        guestList = guestServiceImp.getAllGuests();
+    }
 
+    private boolean containGuestInList(User user) {
+        Guest guest = new Guest(user);
+
+        return guestList.contains(guest);
+    }
 }
 
 

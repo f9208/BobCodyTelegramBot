@@ -8,7 +8,7 @@ import ru.multibot.bobcody.controller.SQL.Entities.Quote;
 import ru.multibot.bobcody.controller.SQL.repository.GuestRepository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class GuestServiceImp implements GuestService {
@@ -24,7 +24,7 @@ public class GuestServiceImp implements GuestService {
     @Override
     @Transactional
     public boolean comprise(long id) {
-        return guestRepository.existsById((Long) id);
+        return guestRepository.existsById(id);
 
     }
 
@@ -32,5 +32,9 @@ public class GuestServiceImp implements GuestService {
         return guestRepository.findById(user_id).get().getQuotes();
     }
 
+    @Transactional
+    public List<Guest> getAllGuests() {
+        return guestRepository.findAllByOrderByUserID();
+    }
 
 }
