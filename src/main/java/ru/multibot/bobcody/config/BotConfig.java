@@ -17,10 +17,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-//import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.telegram.telegrambots.meta.api.objects.User;
 import ru.multibot.bobcody.BobCodyBot;
-//import ru.multibot.bobcody.controller.SQL.Entities.Guest;
+import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 
 
 import javax.sql.DataSource;
@@ -33,19 +33,19 @@ import java.util.Set;
 @Setter
 @Configuration // говорит спрингу, типа, тут есть бины. несколько!
 @ConfigurationProperties(prefix = "botloading")
-//@EnableTransactionManagement
+@EnableTransactionManagement
 @EnableConfigurationProperties
-//@EnableScheduling
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+@EnableScheduling
+//@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class BotConfig {
     String botToken;
     String botName;
     String webHookPath;
 
-//    @Bean
-//    public List<Guest> guestsList(){
-//        return new ArrayList<>();
-//    }
+    @Bean
+    public List<Guest> guestsList(){
+        return new ArrayList<>();
+    }
 
     @Bean
     public BobCodyBot bobCodyBot() {
