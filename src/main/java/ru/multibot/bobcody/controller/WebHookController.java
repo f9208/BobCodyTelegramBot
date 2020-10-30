@@ -20,4 +20,6 @@ public class WebHookController {
     public PartialBotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
         return bobCodyBot.onWebhookUpdateReceived(update);
     }
+
 }
+
