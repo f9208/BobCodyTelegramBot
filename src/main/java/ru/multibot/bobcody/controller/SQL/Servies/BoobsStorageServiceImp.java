@@ -25,16 +25,21 @@ public class BoobsStorageServiceImp implements BoobsStorageService {
     public String getById(Long id) throws NoSuchElementException {
         return boobsStorageRepository.findById(id).get().getLink();
     }
+
     @Override
     @Transactional
     public Long getSizeDB() {
-        return Long.valueOf(boobsStorageRepository.getSizeDB());
+        return boobsStorageRepository.count();
     }
 
     @Override
     @Transactional
     public Iterable<BoobsStorage> getAllAsIterator() {
-        return  boobsStorageRepository.findAll();
+        return boobsStorageRepository.findAll();
     }
 
+    @Transactional
+    public Long findIdByLink(BoobsStorage boobsStorage) {
+        return boobsStorageRepository.getBoobsStorageByLink(boobsStorage.getLink()).getId();
+    }
 }

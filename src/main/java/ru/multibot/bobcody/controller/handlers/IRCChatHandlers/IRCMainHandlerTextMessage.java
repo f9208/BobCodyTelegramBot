@@ -71,7 +71,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
 
         if (guestList.size() == 0) {
             //обнови set с базы
-            System.out.println("база пустая. обновляем");
+            System.out.println("кэш базы пользователей пуст. обновляем");
             reloadUsersList();
         }
         if (user != null && !containGuestInList(user)) {
@@ -111,8 +111,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
 
         if (textMessage.startsWith("!дсиськи")) {
-            boobsStorageHandler.addBoobsLink(textMessage.substring(8));
-            result.setText("Сиськи добавлены");
+           Long boobsLinkId=boobsStorageHandler.addBoobsLink(textMessage.substring(8));
+            result.setText("Сиськи добавлены ("+ boobsLinkId+")");
         }
         if (textMessage.startsWith("!сиськи") || textMessage.startsWith("!boobs")) {
             result.setText(boobsStorageHandler.getAnyBoobs(textMessage));

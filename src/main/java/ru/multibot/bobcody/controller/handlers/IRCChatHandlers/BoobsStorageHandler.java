@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.multibot.bobcody.controller.SQL.Entities.BoobsStorage;
 import ru.multibot.bobcody.controller.SQL.Servies.BoobsStorageServiceImp;
 
@@ -17,20 +16,16 @@ public class BoobsStorageHandler {
     @Autowired
     BoobsStorageServiceImp boobsStorageServiceImp;
 
-    private String getById(Long id) throws NoSuchElementException {
-        String result = boobsStorageServiceImp.getById(id);
-        return result;
-    }
-
-    public void addBoobsLink(String link) {
+    public Long addBoobsLink(String link) {
         BoobsStorage bs = new BoobsStorage();
         bs.setLink(link);
         boobsStorageServiceImp.add(bs);
+        return boobsStorageServiceImp.findIdByLink(bs);
     }
 
     private String getRandom() {
         Random r = new Random();
-        List<BoobsStorage> boobsList=getDbAsList();
+        List<BoobsStorage> boobsList = getDbAsList();
         int k = r.nextInt(boobsList.size());
 
         return boobsList.get(k).getLink();
@@ -45,11 +40,24 @@ public class BoobsStorageHandler {
         return result;
     }
 
+    private String getLinkById(Long id) {
+        return boobsStorageServiceImp.getById(id);
+    }
+
     public String getAnyBoobs(String inputTextMessage) {
+        Long anyId;
+        try {
+            anyId = Long.valueOf(inputTextMessage.split(" ")[1]);
+            return getLinkById(anyId);
 
+        } catch (NumberFormatException e) {
+            System.out.println("неверный формат бубс-идентификатора");
+            return "организм, вводи только цифры после команды";
+        }
+        catch (NoSuchElementException e) {
+            System.out.println("такие сиськи не найдены");
+            return "нету такой в базе. на случайную "+getRandom();
+        }
 
-
-
-        return getRandom();
     }
 }

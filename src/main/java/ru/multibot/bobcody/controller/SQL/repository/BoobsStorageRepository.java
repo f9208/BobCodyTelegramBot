@@ -11,5 +11,10 @@ import java.util.List;
 public interface BoobsStorageRepository extends CrudRepository<BoobsStorage, Long> {
     @Query(value = "SELECT count(*) from public.boobs_storage", nativeQuery = true)
     int getSizeDB();
+
+    long count();
+
     Iterable<BoobsStorage> findAll();
+
+    BoobsStorage getBoobsStorageByLink(String link);
 }
