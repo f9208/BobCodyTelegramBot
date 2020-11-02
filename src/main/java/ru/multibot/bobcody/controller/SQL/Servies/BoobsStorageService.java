@@ -7,4 +7,5 @@ public interface BoobsStorageService {
     String getById (Long id);
     Long getSizeDB();
     Iterable<BoobsStorage> getAllAsIterator();
+
 }
