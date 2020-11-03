@@ -2,7 +2,6 @@ package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
@@ -32,8 +31,8 @@ import java.util.List;
 @Setter
 @Getter
 @Component
-@PropertySource(value = {"classpath:allowedchatid.properties"})
-@ConfigurationProperties(prefix = "chatid")
+@PropertySource(value = {"classpath:mainHandlerChatId.properties"})
+@ConfigurationProperties(prefix = "mainchatid")
 public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
     BobCodyBot bobCodyBot;
@@ -60,7 +59,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
     List<Guest> guestList;
 
-    List<Long> achid;
+    List<Long> addedid;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -111,8 +110,8 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
 
         if (textMessage.startsWith("!дсиськи")) {
-           Long boobsLinkId=boobsStorageHandler.addBoobsLink(textMessage.substring(8));
-            result.setText("Сиськи добавлены ("+ boobsLinkId+")");
+            Long boobsLinkId = boobsStorageHandler.addBoobsLink(textMessage.substring(8));
+            result.setText("Сиськи добавлены (" + boobsLinkId + ")");
         }
         if (textMessage.startsWith("!сиськи") || textMessage.startsWith("!boobs")) {
             result.setText(boobsStorageHandler.getAnyBoobs(textMessage));
@@ -145,16 +144,15 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         return result;
     }
 
-    @Override
-    public Long getChatID() {
-        return achid.get(0); // нулевой - это индекс чата izhMain.
+    public List<Long> getChatIDs() {
+        List result = new ArrayList();
+        for (Long i : addedid) result.add(i);
+        return result;
     }
 
     private Boolean containUserToMainTable(User user) {
         return guestServiceImp.comprise(Long.valueOf(user.getId()));
-
     }
-
 
     private String weatherForecastAnswer(Message message) {
         StringBuilder cityName = new StringBuilder();

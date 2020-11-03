@@ -71,8 +71,7 @@ public class QuoteStorageHandler {
                         .append(") \n")
                         .append(current.getText());
                 result = master.toString();
-            }
-            else result="нету такой.";
+            } else result = "нету такой.";
         } catch (Exception e) {
             e.printStackTrace();
             result = ("что-то пошло не так");
@@ -83,10 +82,16 @@ public class QuoteStorageHandler {
     public String approvingQuote(Message inputMessage) {
         String result = "что то пошло не так";
         String textMessage = inputMessage.getText().toLowerCase();
+        Long inputQuoteIdFromAbysse;
 
         if (textMessage.split(" ").length == 1) return "чо добавить то?";
         if (textMessage.split(" ").length == 2) {
-            Long inputQuoteIdFromAbysse = Long.valueOf(textMessage.split(" ")[1]);
+            try {
+                inputQuoteIdFromAbysse = Long.valueOf(textMessage.split(" ")[1]);
+            }
+            catch (NumberFormatException e) {
+                return "цифры вводи.";
+            }
             // есть такой ID в бездне?
             if (quoteAbyssServiceImp.containtInAbyss(inputQuoteIdFromAbysse)) {
                 Long dateFromeAbysse = quoteAbyssServiceImp.getDateAddedByQuoteId(inputQuoteIdFromAbysse);
