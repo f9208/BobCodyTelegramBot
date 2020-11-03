@@ -50,18 +50,15 @@ public class BoobsStorageHandler {
             anyId = Long.valueOf(inputTextMessage.split(" ")[1]);
             return getLinkById(anyId);
 
-        }catch (ArrayIndexOutOfBoundsException e) {
-            return "случайные: "+getRandom();
-        }
-        catch (NumberFormatException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return "случайные: " + getRandom();
+        } catch (NumberFormatException e) {
             System.out.println("неверный формат бубс-идентификатора");
             return "организм, вводи только цифры после команды";
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             System.out.println("такие сиськи не найдены");
-            return "нету такой в базе. на случайную "+getRandom();
+            return "нету такой в базе. на случайную " + getRandom();
         }
-
 
     }
 }
