@@ -23,9 +23,8 @@ import java.util.Map;
  для каждого чата в зависимости от chatId
 
  */
+
 @Component
-@Getter
-@Setter
 public class ChiefHandler {
 
     private Map<Long, InputTextMessageHandler> shiva = new HashMap<>();
