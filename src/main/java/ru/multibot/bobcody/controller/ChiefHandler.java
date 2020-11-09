@@ -1,14 +1,9 @@
 package ru.multibot.bobcody.controller;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.IRCMainHandlerTextMessage;
 import ru.multibot.bobcody.controller.handlers.InputTextMessageHandler;
-import ru.multibot.bobcody.controller.handlers.PrivateChatMessagesHandler;
 
 import java.util.HashMap;
 import java.util.List;

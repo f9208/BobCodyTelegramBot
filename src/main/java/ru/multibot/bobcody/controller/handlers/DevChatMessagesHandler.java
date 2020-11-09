@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @PropertySource(value = {"classpath:devHandlerChatId.properties"})
 @ConfigurationProperties(prefix = "devchatid")
-public class PrivateChatMessagesHandler implements InputTextMessageHandler {
+public class DevChatMessagesHandler implements InputTextMessageHandler {
 
     List<Long> addedid;
     @Autowired
