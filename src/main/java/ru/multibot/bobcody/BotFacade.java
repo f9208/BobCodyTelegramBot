@@ -138,7 +138,8 @@ public class BotFacade {
 //        } else
         if (achid.contains(chatID)) {
             replay = chiefHandler.processInputMessage(message);
-        } else replay = new SendMessage().setText("ты кто такой? давай до свидания").setChatId(chatID);
+        }
+//        else replay = new SendMessage().setText("ты кто такой? давай до свидания").setChatId(chatID);
 
         return replay;
     }

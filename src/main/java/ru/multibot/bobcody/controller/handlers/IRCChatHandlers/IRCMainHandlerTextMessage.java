@@ -80,9 +80,10 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
 
         if (textMessage.contains("bobcodybot") ||
-                textMessage.contains("bot") ||
-                textMessage.contains("bob") ||
-                textMessage.contains("бот")
+                textMessage.contains(" bot") ||
+                textMessage.contains(" bob") ||
+                textMessage.contains("бобби") ||
+                textMessage.contains(" бот")
                 ) {
             result.setText("@" + inputMessage.getFrom().getUserName() + ", " + slapHandler.getRandomAnswer());
         }
@@ -200,7 +201,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             if (a.equals("AMD") ||
                     a.equals("amd") ||
                     a.equals("амд") ||
-                    a.equals("АМД")) result = message.getFrom().getUserName() + ", AMD сосет";
+                    a.equals("АМД")) result = "@" + message.getFrom().getUserName() + ", AMD сосет";
         }
         return result;
     }
