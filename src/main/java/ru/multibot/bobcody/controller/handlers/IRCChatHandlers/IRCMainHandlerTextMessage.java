@@ -111,13 +111,13 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText("@" + inputMessage.getFrom().getUserName() + ", " + fuckingGreatAdviceHandler.getAdvice());
         }
 
-        if (textMessage.startsWith("!дсиськи")) {
-            Long boobsLinkId = boobsStorageHandler.addBoobsLink(textMessage.substring(8));
-            result.setText("Сиськи добавлены (" + boobsLinkId + ")");
-        }
-        if (textMessage.startsWith("!сиськи") || textMessage.startsWith("!boobs")) {
-            result.setText(boobsStorageHandler.getAnyBoobs(textMessage));
-        }
+//        if (textMessage.startsWith("!дсиськи")) {
+//            Long boobsLinkId = boobsStorageHandler.addBoobsLink(textMessage.substring(8));
+//            result.setText("Сиськи добавлены (" + boobsLinkId + ")");
+//        }
+//        if (textMessage.startsWith("!сиськи") || textMessage.startsWith("!boobs")) {
+//            result.setText(boobsStorageHandler.getAnyBoobs(textMessage));
+//        }
         if (textMessage.startsWith("!дц") ||
                 textMessage.startsWith("!lw") ||
                 textMessage.startsWith("!aq")) {
