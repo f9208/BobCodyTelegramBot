@@ -107,6 +107,10 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText(helpReplayHandler.getHelpAnswer());
         }
 
+        if (textMessage.startsWith("/start")) {
+            result.setText(helpReplayHandler.getHelpAnswer());
+        }
+
         if (textMessage.equals("!обс") || textMessage.equals("!fga")) {
             result.setText("@" + inputMessage.getFrom().getUserName() + ", " + fuckingGreatAdviceHandler.getAdvice());
         }

@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.multibot.bobcody.controller.ChiefHandler;
+import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.IRCMainHandlerTextMessage;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -39,6 +40,8 @@ public class BotFacade {
     List<Long> achid; // список IDшники чатов, для которых есть обработчики.
     @Autowired
     ChiefHandler chiefHandler;
+    @Autowired
+    IRCMainHandlerTextMessage ircMainHandlerTextMessage;
 
     public BotApiMethod<?> handleUserUpdate(Update update) {
 
@@ -46,7 +49,7 @@ public class BotFacade {
         Message inputMessage = update.getMessage();
 
         // логирование фоток
-        if (inputMessage!=null&&inputMessage.hasPhoto()) {
+        if (inputMessage != null && inputMessage.hasPhoto()) {
             List<PhotoSize> listInputPhoto = inputMessage.getPhoto();
             for (PhotoSize oneSinglePhoto : listInputPhoto) {
                 log.info("Input Photo " +
@@ -61,7 +64,7 @@ public class BotFacade {
             }
         }
 
-        if (inputMessage!=null&&inputMessage.hasText()) {// chatID 445682905 и -458401902
+        if (inputMessage != null && inputMessage.hasText()) {// chatID 445682905 и -458401902
             log.info("Input, " +
                             " chatID: {}," +
                             " time: {}," +
@@ -132,14 +135,14 @@ public class BotFacade {
     private SendMessage choiceChat(Message message) {
         Long chatID = message.getChatId();
         SendMessage replay = null;
-        // сделать так, чтобы не было условного оператора по чат-айди, а сам чиф хэндлер сортировал.
-//        if (chatID.equals(ls)) {
-//            replay = chiefHandler.processInputMessage(message);
-//        } else
+
         if (achid.contains(chatID)) {
             replay = chiefHandler.processInputMessage(message);
         }
-        else replay = new SendMessage().setChatId(chatID);
+
+        //велосипед на костылях
+        else {replay = ircMainHandlerTextMessage.handle(message);
+            System.out.println("дефолтный обработчик");}
 
         return replay;
     }
