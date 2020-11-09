@@ -139,7 +139,7 @@ public class BotFacade {
         if (achid.contains(chatID)) {
             replay = chiefHandler.processInputMessage(message);
         }
-//        else replay = new SendMessage().setText("ты кто такой? давай до свидания").setChatId(chatID);
+        else replay = new SendMessage().setChatId(chatID);
 
         return replay;
     }
