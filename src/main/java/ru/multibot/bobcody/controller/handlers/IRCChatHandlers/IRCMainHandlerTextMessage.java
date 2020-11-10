@@ -78,11 +78,13 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             reloadUsersList();
         }
 
-        if (textMessage.contains("bobcodybot") ||
-                textMessage.contains(" bot") ||
-                textMessage.contains(" bob") ||
-                textMessage.contains("бобби") ||
-                textMessage.contains(" бот")
+        if (textMessage.contains("@bobcodybot") ||
+                textMessage.startsWith("bot") ||
+                textMessage.startsWith("bob") ||
+                textMessage.startsWith("бобби") ||
+                textMessage.startsWith("бот") ||
+                textMessage.startsWith("боб")
+
                 ) {
             result.setText("@" + inputMessage.getFrom().getUserName() + ", " + slapHandler.getRandomAnswer());
         }
@@ -137,13 +139,11 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         if (textMessage.startsWith("123") & (textMessage.length() == 3)) {
             result.setText(oneTwoThree.getRandomPhrase());
         }
-        if (textMessage.startsWith("пятница")) {
+        if (textMessage.startsWith("пятница") ||
+                textMessage.startsWith("!пятница")) {
             fridayGif(inputMessage);
         }
 
-        if (textMessage.startsWith("есть")) {
-            System.out.println(quoteStorageHandler.existsById(Long.valueOf(textMessage.split(" ")[1])));
-        }
         if (result != null) result.setChatId(inputMessage.getChatId());
 
         return result;
@@ -178,10 +178,10 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     }
 
     @Scheduled(cron = "0 0 8 * * FRI ")
-    public void se() {
+    public void sendFridayGif() {
         try {
             bobCodyBot.execute(new SendAnimation()
-                    .setAnimation("CgACAgIAAxkBAAIOU19X2Fq4QYnUI15KI4h8MAYj4_WGAAJjCQACE5zBShCPD2aK8whrGwQ")
+                    .setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
                     .setChatId("-458401902"));
         } catch (TelegramApiException e) {
             e.printStackTrace();
@@ -190,8 +190,9 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
 
     private void fridayGif(Message message) {
         try {
-            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAIOU19X2Fq4QYnUI15KI4h8MAYj4_WGAAJjCQACE5zBShCPD2aK8whrGwQ")
-                    .setChatId(message.getChatId()));
+            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
+                    .setChatId("445682905"));
+//                    .setChatId(message.getChatId()));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

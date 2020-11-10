@@ -48,6 +48,17 @@ public class BotFacade {
         BotApiMethod replay = null;
         Message inputMessage = update.getMessage();
 
+        if (inputMessage.hasAnimation()) {
+            System.out.println("анимация");
+        }
+
+        if (inputMessage.hasPhoto()) {
+            System.out.println("фото");
+        }
+        if (inputMessage.hasDocument()) {
+            System.out.println(inputMessage.getDocument().getFileId());
+        }
+
         // логирование фоток
         if (inputMessage != null && inputMessage.hasPhoto()) {
             List<PhotoSize> listInputPhoto = inputMessage.getPhoto();
@@ -64,7 +75,7 @@ public class BotFacade {
             }
         }
 
-        if (inputMessage != null && inputMessage.hasText()) {// chatID 445682905 и -458401902
+        if (inputMessage != null && inputMessage.hasText()) {
             log.info("Input, " +
                             " chatID: {}," +
                             " time: {}," +
@@ -134,16 +145,21 @@ public class BotFacade {
 
     private SendMessage choiceChat(Message message) {
         Long chatID = message.getChatId();
-        SendMessage replay = null;
+        SendMessage replay = new SendMessage();
+        try {
+            if (achid.contains(chatID)) {
+                replay = chiefHandler.processInputMessage(message);
+            }
 
-        if (achid.contains(chatID)) {
-            replay = chiefHandler.processInputMessage(message);
+            //велосипед на костылях
+            else {
+                replay = ircMainHandlerTextMessage.handle(message);
+                System.out.println("дефолтный обработчик");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            replay.setText("чота пошло не так ").setChatId("445682905");
         }
-
-        //велосипед на костылях
-        else {replay = ircMainHandlerTextMessage.handle(message);
-            System.out.println("дефолтный обработчик");}
-
         return replay;
     }
 }
