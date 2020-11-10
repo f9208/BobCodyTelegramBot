@@ -142,9 +142,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             fridayGif(inputMessage);
         }
 
-        if (textMessage.startsWith("есть")) {
-            System.out.println(quoteStorageHandler.existsById(Long.valueOf(textMessage.split(" ")[1])));
-        }
         if (result != null) result.setChatId(inputMessage.getChatId());
 
         return result;

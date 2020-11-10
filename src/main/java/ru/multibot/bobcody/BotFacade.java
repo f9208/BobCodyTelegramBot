@@ -135,15 +135,20 @@ public class BotFacade {
     private SendMessage choiceChat(Message message) {
         Long chatID = message.getChatId();
         SendMessage replay = null;
+        try {
+            if (achid.contains(chatID)) {
+                replay = chiefHandler.processInputMessage(message);
+            }
 
-        if (achid.contains(chatID)) {
-            replay = chiefHandler.processInputMessage(message);
+            //велосипед на костылях
+            else {
+                replay = ircMainHandlerTextMessage.handle(message);
+                System.out.println("дефолтный обработчик");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            replay.setChatId("445682905").setText("что то пошло не так");
         }
-
-        //велосипед на костылях
-        else {replay = ircMainHandlerTextMessage.handle(message);
-            System.out.println("дефолтный обработчик");}
-
         return replay;
     }
 }
