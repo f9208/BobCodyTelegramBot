@@ -87,13 +87,37 @@ public class OpenWeatherForecast {
 
         List<FullHouse> forecast = forecastAsList();
 
-        for (int i=0;i<8;i++) {
+        for (int i = 0; i < 8; i++) {
             forecast.get(i);
             result.append(forecast.get(i)).append("\n");
         }
 
         return result.toString();
     }
+
+    public String getShortForecast(String cityName) throws IOException {
+        setCityName(cityName);
+        call5Days(cityName);
+        // инициализация данных
+        fullForecastJson = parserURL();
+        jsonNodeFullLine = openMapper.readTree(fullForecastJson);
+
+        StringBuilder result = new StringBuilder();
+        //result.append("Прогноз погоды в ").append(cityName).append(", ");
+        result.append("Прогноз погоды в ").append(getCurrentCity().getName()).append(", ");
+        result.append(getCurrentCity().getCountry()).append(". ");
+        result.append(getSunRiseAndSet()).append("\n").append("\n");
+
+        List<FullHouse> forecast = forecastAsList();
+
+        for (int i = 0; i < 8; i=i+2) {
+            forecast.get(i);
+            result.append(forecast.get(i)).append("\n");
+        }
+
+        return result.toString();
+    }
+
 
     private City getCurrentCity() throws IOException {
         currentCity = openMapper.readValue(getCityAsJson().toString(), City.class);
@@ -161,7 +185,7 @@ public class OpenWeatherForecast {
 
 }
 
-@JsonIgnoreProperties(value = {"sys","pop"})
+@JsonIgnoreProperties(value = {"sys", "pop"})
 class FullHouse {
     @Getter
     @Setter

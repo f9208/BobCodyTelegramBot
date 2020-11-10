@@ -162,19 +162,31 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     private String weatherForecastAnswer(Message message) {
         StringBuilder cityName = new StringBuilder();
         String[] cityTwoWord = message.getText().split(" ");
+
         if (cityTwoWord.length == 1
                 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
-                || cityTwoWord[0].equals("!п")
-                || cityTwoWord[0].equals("!погода"))) {
+                || cityTwoWord[0].equals("!п"))) {
+            cityName.append("default");
+            return weatherForecastHandler.getShortForecast(cityName.toString());
+        }
+
+        if (cityTwoWord.length == 1 && cityTwoWord[0].equals("!погода")) {
             cityName.append("default");
             return weatherForecastHandler.getForecast(cityName.toString());
         }
+
         for (int i = 1; i < cityTwoWord.length; i++) {
             cityName.append(cityTwoWord[i]);
         }
 
-        if (cityName.length() != 0) return weatherForecastHandler.getForecast(cityName.toString());
-        else return null;
+        if (cityName.length() != 0 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
+                || cityTwoWord[0].equals("!п"))) {
+
+            return weatherForecastHandler.getShortForecast(cityName.toString());
+        } else if (cityName.length() != 0 && cityTwoWord[0].equals("!погода")) {
+            return weatherForecastHandler.getForecast(cityName.toString());
+
+        } else return null;
     }
 
     @Scheduled(cron = "0 0 8 * * FRI ")

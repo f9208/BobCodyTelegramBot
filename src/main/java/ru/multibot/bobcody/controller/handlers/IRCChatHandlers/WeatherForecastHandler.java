@@ -35,4 +35,18 @@ public class WeatherForecastHandler {
         return result;
     }
 
+    public String getShortForecast(String cityName) {
+        String result = "123 а не погода.";
+        try {
+            if (cityName.equals("default")) {
+                result = openWeatherForecast.getShortForecast(defaultCityName);
+            } else {
+                result = openWeatherForecast.getShortForecast(cityName);
+            }
+        } catch (IOException e) {
+            result = cityName + "? Где это? в Бельгии что-ли?";
+        }
+        return result;
+    }
+
 }
