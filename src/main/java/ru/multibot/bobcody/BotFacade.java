@@ -134,7 +134,7 @@ public class BotFacade {
 
     private SendMessage choiceChat(Message message) {
         Long chatID = message.getChatId();
-        SendMessage replay = null;
+        SendMessage replay = new SendMessage();
         try {
             if (achid.contains(chatID)) {
                 replay = chiefHandler.processInputMessage(message);
