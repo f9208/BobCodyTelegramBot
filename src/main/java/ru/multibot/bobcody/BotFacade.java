@@ -64,7 +64,7 @@ public class BotFacade {
             }
         }
 
-        if (inputMessage != null && inputMessage.hasText()) {// chatID 445682905 и -458401902
+        if (inputMessage != null && inputMessage.hasText()) {
             log.info("Input, " +
                             " chatID: {}," +
                             " time: {}," +

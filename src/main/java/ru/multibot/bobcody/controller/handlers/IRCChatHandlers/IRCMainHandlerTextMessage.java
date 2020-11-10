@@ -162,10 +162,15 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     private String weatherForecastAnswer(Message message) {
         StringBuilder cityName = new StringBuilder();
         String[] cityTwoWord = message.getText().split(" ");
+
         if (cityTwoWord.length == 1
                 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
-                || cityTwoWord[0].equals("!п")
-                || cityTwoWord[0].equals("!погода"))) {
+                || cityTwoWord[0].equals("!п"))) {
+            cityName.append("default");
+            return weatherForecastHandler.getShortForecast(cityName.toString());
+        }
+
+        if (cityTwoWord.length == 1 && cityTwoWord[0].equals("!погода")) {
             cityName.append("default");
             return weatherForecastHandler.getForecast(cityName.toString());
         }
@@ -173,8 +178,14 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             cityName.append(cityTwoWord[i]);
         }
 
-        if (cityName.length() != 0) return weatherForecastHandler.getForecast(cityName.toString());
-        else return null;
+        if (cityName.length() != 0 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
+                || cityTwoWord[0].equals("!п"))) {
+
+            return weatherForecastHandler.getShortForecast(cityName.toString());
+        } else if (cityName.length() != 0 && cityTwoWord[0].equals("!погода")) {
+            return weatherForecastHandler.getForecast(cityName.toString());
+
+        } else return null;
     }
 
     @Scheduled(cron = "0 0 8 * * FRI ")
@@ -191,7 +202,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     private void fridayGif(Message message) {
         try {
             bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
-                     .setChatId(message.getChatId()));
+                    .setChatId("445682905"));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
