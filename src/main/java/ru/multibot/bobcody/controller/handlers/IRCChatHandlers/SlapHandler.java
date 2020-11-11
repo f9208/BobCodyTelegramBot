@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
 import java.util.Random;
@@ -17,8 +19,17 @@ import java.util.Random;
 public class SlapHandler {
 
     List<String> phrases;
-    public String getRandomAnswer() {
-        Random r=new Random();
+
+    private String getRandomAnswer() {
+        Random r = new Random();
         return phrases.get(r.nextInt(phrases.size()));
+    }
+
+    public String answerForSlap(Message inputMessage) {
+        if (inputMessage.getFrom().getUserName() == null && inputMessage.getFrom().getUserName().equals("null")) {
+            System.out.println("юзер без ника. проверим условие: " + inputMessage.getFrom().getUserName() == null);
+            return "@" + inputMessage.getFrom().getFirstName() + ", " + getRandomAnswer();
+        } else return "@" + inputMessage.getFrom().getUserName() + ", " + getRandomAnswer();
+
     }
 }
