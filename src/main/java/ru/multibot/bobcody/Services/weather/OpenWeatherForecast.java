@@ -110,7 +110,7 @@ public class OpenWeatherForecast {
 
         List<FullHouse> forecast = forecastAsList();
 
-        for (int i = 0; i < 8; i=i+2) {
+        for (int i = 0; i < 8; i = i + 2) {
             forecast.get(i);
             result.append(forecast.get(i)).append("\n");
         }
@@ -138,14 +138,37 @@ public class OpenWeatherForecast {
         Instant sunsetTime = Instant.ofEpochSecond(currentCity.getSunset());
         LocalDateTime sunrisePretty = LocalDateTime.ofInstant(sunriseTime, UTCZone);
         LocalDateTime sunsetPretty = LocalDateTime.ofInstant(sunsetTime, UTCZone);
-        result.append("Рассвет: ")
-                .append(sunrisePretty.getHour()).append(":")
-                .append(sunrisePretty.getMinute());
-        result.append(", закат: ")
-                .append(sunsetPretty.getHour()).append(":")
-                .append(sunsetPretty.getMinute());
+        if (sunrisePretty.getHour() <= 9) {
+            result.append("Рассвет: 0");
+        } else {
+            result.append("Рассвет: ");
+        }
+
+        result.append(sunrisePretty.getHour()).append(":");
+
+        if (sunrisePretty.getMinute() <= 9) {
+            result.append("0");
+            result.append(sunrisePretty.getMinute());
+        } else {
+            result.append(sunrisePretty.getMinute());
+        }
+
+        if (sunsetPretty.getHour() <= 9) {
+            result.append(", закат: 0");
+            result.append(sunsetPretty.getHour()).append(":");
+        } else {
+            result.append(", закат: ");
+            result.append(sunsetPretty.getHour()).append(":");
+        }
+        if (sunsetPretty.getMinute() <= 9) {
+            result.append("0");
+            result.append(sunsetPretty.getMinute());
+        } else {
+            result.append(sunsetPretty.getMinute());
+        }
         return result.toString();
     }
+
 
     private JsonNode getCityAsJson() {
         return jsonNodeFullLine.get("city");

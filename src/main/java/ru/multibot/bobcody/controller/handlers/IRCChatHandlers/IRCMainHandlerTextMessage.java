@@ -78,15 +78,9 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             reloadUsersList();
         }
 
-        if (textMessage.contains("@bobcodybot") ||
-                textMessage.startsWith("bot") ||
-                textMessage.startsWith("bob") ||
-                textMessage.startsWith("бобби") ||
-                textMessage.startsWith("бот") ||
-                textMessage.startsWith("боб")
-
-                ) {
-            result.setText("@" + inputMessage.getFrom().getUserName() + ", " + slapHandler.getRandomAnswer());
+        if (touchBotName(inputMessage.getText())) {
+//            result.setText("@" + inputMessage.getFrom().getUserName() + ", " + slapHandler.getRandomAnswer());
+            result.setText(slapHandler.answerForSlap(inputMessage));
         }
 
         if (textMessage.startsWith("!погода") ||
@@ -97,7 +91,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText(weatherForecastAnswer(inputMessage)).setReplyToMessageId(inputMessage.getMessageId());
         }
 
-        if (textMessage.contains("amd") || textMessage.contains("амд")) {
+        if (textMessage.contains("amd ") || textMessage.contains("амд ")) {
             result.setText(amdSucks(inputMessage));
         }
         if (textMessage.equals("!хелп") ||
@@ -143,6 +137,12 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.startsWith("!пятница")) {
             fridayGif(inputMessage);
         }
+        if (textMessage.equals("!ссылки") ||
+                textMessage.equals(" !ссылки") ||
+                (textMessage.equals("!ссылки "))) {
+            result.setText("ссылки бабая: https://t.me/izhmain/107384");
+        }
+
 
         if (result != null) result.setChatId(inputMessage.getChatId());
 
@@ -194,7 +194,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         try {
             bobCodyBot.execute(new SendAnimation()
                     .setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
-                    .setChatId("-458401902"));
+                    .setChatId("-1001207502467"));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -203,15 +203,32 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     private void fridayGif(Message message) {
         try {
             bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
-                    .setChatId("445682905"));
-//                    .setChatId(message.getChatId()));
+                    .setChatId(message.getChatId()));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
 
+    private boolean touchBotName(String text) {
+        boolean result = false;
+        String[] singleWordArray = text.split("[{^?*+ .,$:;#%/|()]");
+        for (String oneWOrd : singleWordArray) {
+            if (oneWOrd.equals("бот") ||
+                    oneWOrd.equals("bob") ||
+                    oneWOrd.equals("bot") ||
+                    oneWOrd.equals("b0t") ||
+                    oneWOrd.equals("@bobcodybot") ||
+                    oneWOrd.equals("боб") ||
+                    oneWOrd.equals("бобу") ||
+                    oneWOrd.equals("бобби") ||
+                    oneWOrd.equals("b0b")
+                    ) result = true;
+        }
+        return result;
+    }
+
     private String amdSucks(Message message) {
-        String[] textMessageAsArray = message.getText().split(" ");
+        String[] textMessageAsArray = message.getText().split("[{^?*+ .,$:;#%/|()]");
         String result = null;
         for (String a : textMessageAsArray) {
             if (a.equals("AMD") ||
