@@ -30,8 +30,10 @@ public class FridayHandler {
             result = "сегодня "
                     + LocalDateTime.now().getDayOfWeek().getDisplayName(TextStyle.FULL,
                     new Locale("ru", "RU")) + ". работай давай!";
+
         if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.THURSDAY)
             result = "Сегодня - четверг. А четверг - маленькая пятница! а большая - завтра.";
+
         if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.SUNDAY ||
                 LocalDateTime.now().getDayOfWeek() == DayOfWeek.SATURDAY)
             result = "че за вопросы? сегодня же " +
