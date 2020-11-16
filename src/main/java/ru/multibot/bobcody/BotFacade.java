@@ -48,6 +48,23 @@ public class BotFacade {
         BotApiMethod replay = null;
         Message inputMessage = update.getMessage();
 
+        if (inputMessage.hasAnimation()) {
+            System.out.println("анимация");
+        }
+
+        if (inputMessage.hasPhoto()) {
+            System.out.println("фото");
+        }
+        if (inputMessage.hasDocument()) {
+            System.out.println(inputMessage.getDocument().getFileId());
+        }
+
+        if(inputMessage.hasAudio()) {
+            System.out.println(inputMessage.getAudio().getFileUniqueId());
+            System.out.println(inputMessage.getAudio().getFileId());
+            //CQACAgIAAxkBAAIBkl-yqRkYEjlaJFVmfgH4_7r2o8e_AALHCAACGa2ZSV6nhZdauVOsHgQ
+        }
+
         // логирование фоток
         if (inputMessage != null && inputMessage.hasPhoto()) {
             List<PhotoSize> listInputPhoto = inputMessage.getPhoto();
@@ -147,7 +164,7 @@ public class BotFacade {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            replay.setChatId("445682905").setText("что то пошло не так");
+            replay.setText("чота пошло не так ").setChatId("445682905");
         }
         return replay;
     }
