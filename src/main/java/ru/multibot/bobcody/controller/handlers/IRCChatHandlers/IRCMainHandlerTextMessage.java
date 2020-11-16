@@ -92,9 +92,9 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
 
         if (textMessage.startsWith("!погода") ||
-                textMessage.startsWith("!w") ||
-                textMessage.startsWith("!п") ||
-                textMessage.startsWith("!g")
+                textMessage.startsWith("!w ") ||
+                textMessage.startsWith("!п ") ||
+                textMessage.startsWith("!g ")
                 ) {
             result.setText(weatherForecastAnswer(inputMessage)).setReplyToMessageId(inputMessage.getMessageId());
         }
@@ -151,10 +151,10 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 e.printStackTrace();
             }
         }
-        if (textMessage.startsWith("пятница") ||
-                textMessage.startsWith("!пятница") ||
-                textMessage.startsWith("!friday") ||
-                textMessage.startsWith("friday") ||
+        if (textMessage.equals("пятница") ||
+                textMessage.equals("!пятница") ||
+                textMessage.equals("!friday") ||
+                textMessage.equals("friday") ||
                 textMessage.equals("!дн") ||
                 textMessage.equals("!dow")) {
             if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.FRIDAY) {
