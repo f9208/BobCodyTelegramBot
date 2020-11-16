@@ -157,7 +157,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 textMessage.startsWith("friday") ||
                 textMessage.equals("!дн") ||
                 textMessage.equals("!dow")) {
-            if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.MONDAY) {
+            if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.FRIDAY) {
                 fridayHandler.fridayAnswerGif(inputMessage);
             } else {
                 result.setText(fridayHandler.notFridayAnswer());
