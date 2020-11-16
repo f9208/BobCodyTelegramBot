@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -17,6 +18,8 @@ import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
 import ru.multibot.bobcody.controller.handlers.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,9 +60,15 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     @Autowired
     SlapHandler slapHandler;
     @Autowired
+    FridayHandler fridayHandler;
+    @Autowired
     List<Guest> guestList;
 
     List<Long> addedid;
+
+    boolean allow123 = true;
+    int calls123 = 0;
+
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -79,7 +88,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
 
         if (touchBotName(inputMessage.getText())) {
-//            result.setText("@" + inputMessage.getFrom().getUserName() + ", " + slapHandler.getRandomAnswer());
             result.setText(slapHandler.answerForSlap(inputMessage));
         }
 
@@ -130,19 +138,37 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         if (textMessage.startsWith("!курс")) {
             result.setText(courseHandler.getCourse());
         }
+
         if (textMessage.startsWith("123") & (textMessage.length() == 3)) {
             result.setText(oneTwoThree.getRandomPhrase());
         }
-        if (textMessage.startsWith("пятница") ||
-                textMessage.startsWith("!пятница")) {
-            fridayGif(inputMessage);
+
+        if (textMessage.startsWith("321") & (textMessage.length() == 3)) {
+            try {
+                bobCodyBot.execute(new SendAudio().setAudio("CQACAgIAAxkBAAIBkl-yqRkYEjlaJFVmfgH4_7r2o8e_AALHCAACGa2ZSV6nhZdauVOsHgQ")
+                        .setChatId(inputMessage.getChatId()));
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         }
+        if (textMessage.startsWith("пятница") ||
+                textMessage.startsWith("!пятница") ||
+                textMessage.startsWith("!friday") ||
+                textMessage.startsWith("friday") ||
+                textMessage.equals("!дн") ||
+                textMessage.equals("!dow")) {
+            if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.MONDAY) {
+                fridayHandler.fridayAnswerGif(inputMessage);
+            } else {
+                result.setText(fridayHandler.notFridayAnswer());
+            }
+        }
+
         if (textMessage.equals("!ссылки") ||
                 textMessage.equals(" !ссылки") ||
                 (textMessage.equals("!ссылки "))) {
             result.setText("ссылки бабая: https://t.me/izhmain/107384");
         }
-
 
         if (result != null) result.setChatId(inputMessage.getChatId());
 
@@ -189,25 +215,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         } else return null;
     }
 
-    @Scheduled(cron = "0 0 8 * * FRI ")
-    public void sendFridayGif() {
-        try {
-            bobCodyBot.execute(new SendAnimation()
-                    .setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
-                    .setChatId("-1001207502467"));
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void fridayGif(Message message) {
-        try {
-            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
-                    .setChatId(message.getChatId()));
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
 
     private boolean touchBotName(String text) {
         boolean result = false;
@@ -218,6 +225,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                     oneWOrd.equals("bot") ||
                     oneWOrd.equals("b0t") ||
                     oneWOrd.equals("@bobcodybot") ||
+                    oneWOrd.equals("@BobCodyBot") ||
                     oneWOrd.equals("боб") ||
                     oneWOrd.equals("бобу") ||
                     oneWOrd.equals("бобби") ||

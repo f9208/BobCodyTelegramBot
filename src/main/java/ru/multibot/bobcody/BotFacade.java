@@ -59,6 +59,12 @@ public class BotFacade {
             System.out.println(inputMessage.getDocument().getFileId());
         }
 
+        if(inputMessage.hasAudio()) {
+            System.out.println(inputMessage.getAudio().getFileUniqueId());
+            System.out.println(inputMessage.getAudio().getFileId());
+            //CQACAgIAAxkBAAIBkl-yqRkYEjlaJFVmfgH4_7r2o8e_AALHCAACGa2ZSV6nhZdauVOsHgQ
+        }
+
         // логирование фоток
         if (inputMessage != null && inputMessage.hasPhoto()) {
             List<PhotoSize> listInputPhoto = inputMessage.getPhoto();
@@ -147,6 +153,7 @@ public class BotFacade {
         Long chatID = message.getChatId();
         SendMessage replay = new SendMessage();
         try {
+
             if (achid.contains(chatID)) {
                 replay = chiefHandler.processInputMessage(message);
             }
