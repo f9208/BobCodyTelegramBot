@@ -25,6 +25,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Component
@@ -248,7 +249,7 @@ class FullHouse {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("[").append(dateTime.format(DateTimeFormatter.ofPattern("EE, H:mm"))).append("]:  ");
+        result.append("[").append(dateTime.format(DateTimeFormatter.ofPattern("EE, H:mm", new Locale("ru", "RU")))).append("]:  ");
         result.append("t ").append(Math.round(mainComponentForecast.getTemp())).append("\u2103, ");
 
         result.append(weather[0].getDescription()).append(", ");

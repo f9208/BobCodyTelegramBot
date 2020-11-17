@@ -5,9 +5,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -16,7 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.multibot.bobcody.BobCodyBot;
 import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
-import ru.multibot.bobcody.controller.handlers.*;
+import ru.multibot.bobcody.controller.handlers.InputTextMessageHandler;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -91,10 +89,10 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText(slapHandler.answerForSlap(inputMessage));
         }
 
-        if (textMessage.startsWith("!погода") ||
-                textMessage.startsWith("!w ") ||
-                textMessage.startsWith("!п ") ||
-                textMessage.startsWith("!g ")
+        if ((textMessage.startsWith("!погода") ||
+                textMessage.startsWith("!w") ||
+                textMessage.startsWith("!п") ||
+                textMessage.startsWith("!g"))&&!textMessage.equals("!пятница")
                 ) {
             result.setText(weatherForecastAnswer(inputMessage)).setReplyToMessageId(inputMessage.getMessageId());
         }

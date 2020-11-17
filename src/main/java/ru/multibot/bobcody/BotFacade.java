@@ -47,19 +47,20 @@ public class BotFacade {
 
         BotApiMethod replay = null;
         Message inputMessage = update.getMessage();
+        System.out.println("входящее сообщение:"+inputMessage);
 
-        if (inputMessage.hasAnimation()) {
+        if (inputMessage!=null&&inputMessage.hasAnimation()) {
             System.out.println("анимация");
         }
 
-        if (inputMessage.hasPhoto()) {
+        if (inputMessage!=null&&inputMessage.hasPhoto()) {
             System.out.println("фото");
         }
-        if (inputMessage.hasDocument()) {
+        if (inputMessage!=null&&inputMessage.hasDocument()) {
             System.out.println(inputMessage.getDocument().getFileId());
         }
 
-        if(inputMessage.hasAudio()) {
+        if(inputMessage!=null&&inputMessage.hasAudio()) {
             System.out.println(inputMessage.getAudio().getFileUniqueId());
             System.out.println(inputMessage.getAudio().getFileId());
             //CQACAgIAAxkBAAIBkl-yqRkYEjlaJFVmfgH4_7r2o8e_AALHCAACGa2ZSV6nhZdauVOsHgQ
@@ -104,7 +105,7 @@ public class BotFacade {
                     LocalTime.now(),
                     ((SendMessage) replay).getText());
 
-        } else if (update.hasCallbackQuery()) {
+        } else if (update!=null&&update.hasCallbackQuery()) {
             log.info("new CallBack: {}",
                     update.getCallbackQuery().getData());
             replay = new SendMessage().setChatId(update.getMessage().getChatId()).setText("в колбэках пока не знаю");
