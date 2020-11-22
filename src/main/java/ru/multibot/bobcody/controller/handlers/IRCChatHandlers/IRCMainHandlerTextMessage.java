@@ -6,19 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.multibot.bobcody.BobCodyBot;
 import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
-import ru.multibot.bobcody.controller.handlers.InputTextMessageHandler;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +30,7 @@ import java.util.List;
 @Component
 @PropertySource(value = {"classpath:mainHandlerChatId.properties"})
 @ConfigurationProperties(prefix = "mainchatid")
-public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
+public class IRCMainHandlerTextMessage {
     @Autowired
     BobCodyBot bobCodyBot;
     @Autowired
@@ -68,7 +64,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
     int calls123 = 0;
 
 
-    @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
         String textMessage = inputMessage.getText().toLowerCase();
@@ -92,7 +87,7 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         if ((textMessage.startsWith("!погода") ||
                 textMessage.startsWith("!w") ||
                 textMessage.startsWith("!п") ||
-                textMessage.startsWith("!g"))&&!textMessage.equals("!пятница")
+                textMessage.startsWith("!g")) && !textMessage.equals("!пятница")
                 ) {
             result.setText(weatherForecastAnswer(inputMessage)).setReplyToMessageId(inputMessage.getMessageId());
         }
@@ -141,14 +136,6 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
             result.setText(oneTwoThree.getRandomPhrase());
         }
 
-        if (textMessage.startsWith("321") & (textMessage.length() == 3)) {
-            try {
-                bobCodyBot.execute(new SendAudio().setAudio("CQACAgIAAxkBAAIBkl-yqRkYEjlaJFVmfgH4_7r2o8e_AALHCAACGa2ZSV6nhZdauVOsHgQ")
-                        .setChatId(inputMessage.getChatId()));
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
         if (textMessage.equals("пятница") ||
                 textMessage.equals("!пятница") ||
                 textMessage.equals("!friday") ||
@@ -167,15 +154,13 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
                 (textMessage.equals("!ссылки "))) {
             result.setText("ссылки бабая: https://t.me/izhmain/107384");
         }
+        if (textMessage.startsWith("!добавь")
+                && inputMessage.getChatId() == 445682905) {
+            result.setText(quoteStorageHandler.approvingQuote(inputMessage));
+        }
 
         if (result != null) result.setChatId(inputMessage.getChatId());
 
-        return result;
-    }
-
-    public List<Long> getChatIDs() {
-        List result = new ArrayList();
-        for (Long i : addedid) result.add(i);
         return result;
     }
 
@@ -200,18 +185,19 @@ public class IRCMainHandlerTextMessage implements InputTextMessageHandler {
         }
         for (int i = 1; i < cityTwoWord.length; i++) {
             cityName.append(cityTwoWord[i]);
+// вконце пробел не нужен
+            if (i < cityTwoWord.length - 1) cityName.append("%20");
         }
-
+        System.out.println(cityName);
+// если !п, !w, !g - то выводим "короткую" погоду. если !погода- то длинную версию
         if (cityName.length() != 0 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
                 || cityTwoWord[0].equals("!п"))) {
-
             return weatherForecastHandler.getShortForecast(cityName.toString());
         } else if (cityName.length() != 0 && cityTwoWord[0].equals("!погода")) {
             return weatherForecastHandler.getForecast(cityName.toString());
 
         } else return null;
     }
-
 
     private boolean touchBotName(String text) {
         boolean result = false;

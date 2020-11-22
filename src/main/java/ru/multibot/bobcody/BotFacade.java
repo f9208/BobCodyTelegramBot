@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.multibot.bobcody.controller.ChiefHandler;
+//import ru.multibot.bobcody.controller.ChiefHandler;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.IRCMainHandlerTextMessage;
 
 import java.text.SimpleDateFormat;
@@ -38,8 +38,8 @@ import java.util.List;
 @PropertySource("classpath:allowedchatid.properties")
 public class BotFacade {
     List<Long> achid; // список IDшники чатов, для которых есть обработчики.
-    @Autowired
-    ChiefHandler chiefHandler;
+    //    @Autowired
+//    ChiefHandler chiefHandler;
     @Autowired
     IRCMainHandlerTextMessage ircMainHandlerTextMessage;
 
@@ -63,7 +63,6 @@ public class BotFacade {
         if(inputMessage!=null&&inputMessage.hasAudio()) {
             System.out.println(inputMessage.getAudio().getFileUniqueId());
             System.out.println(inputMessage.getAudio().getFileId());
-            //CQACAgIAAxkBAAIBkl-yqRkYEjlaJFVmfgH4_7r2o8e_AALHCAACGa2ZSV6nhZdauVOsHgQ
         }
 
         // логирование фоток
@@ -144,25 +143,10 @@ public class BotFacade {
 //        return result;
 //    }
 
-
-    //сделал еще одну прослойку обработчика на всякий случай.
     private SendMessage handleInputTextMessage(Message message) {
-        return choiceChat(message);
-    }
-
-    private SendMessage choiceChat(Message message) {
-        Long chatID = message.getChatId();
         SendMessage replay = new SendMessage();
         try {
-            if (achid.contains(chatID)) {
-                replay = chiefHandler.processInputMessage(message);
-            }
-
-            //велосипед на костылях
-            else {
-                replay = ircMainHandlerTextMessage.handle(message);
-                System.out.println("дефолтный обработчик");
-            }
+            replay = ircMainHandlerTextMessage.handle(message);
         } catch (Exception e) {
             e.printStackTrace();
             replay.setText("чота пошло не так ").setChatId("445682905");

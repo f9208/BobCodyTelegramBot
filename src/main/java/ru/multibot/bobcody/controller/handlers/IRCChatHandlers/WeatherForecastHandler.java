@@ -30,7 +30,7 @@ public class WeatherForecastHandler {
                 result = openWeatherForecast.getForecast(cityName);
             }
         } catch (IOException e) {
-            result = cityName + "? Где это? в Бельгии что-ли?";
+            result = cityName.replace("%20", " ") + "? Где это? в Бельгии что-ли?";
         }
         return result;
     }
@@ -44,7 +44,7 @@ public class WeatherForecastHandler {
                 result = openWeatherForecast.getShortForecast(cityName);
             }
         } catch (IOException e) {
-            result = cityName + "? Где это? в Бельгии что-ли?";
+            result = cityName.replace("%20", " ") + "? Где это? в Бельгии что-ли?";
         }
         return result;
     }
