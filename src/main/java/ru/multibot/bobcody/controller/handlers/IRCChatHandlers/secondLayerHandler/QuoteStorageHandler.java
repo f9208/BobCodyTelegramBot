@@ -1,40 +1,44 @@
-package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
 import ru.multibot.bobcody.controller.SQL.Servies.QuoteAbyssService;
 import ru.multibot.bobcody.controller.SQL.Servies.QuoteAbyssServiceImp;
 import ru.multibot.bobcody.controller.SQL.Servies.QuoteStorageService;
 import ru.multibot.bobcody.controller.SQL.Servies.QuoteStorageServiceImp;
+import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Component
 @Setter
 @Getter
-public class QuoteStorageHandler {
+public class QuoteStorageHandler implements SimpleHandlerInterface {
     @Autowired // заменить на интерфейс?
             QuoteStorageService quoteStorageServiceImp;
     @Autowired  // заменить на интерфейс?
             QuoteAbyssService quoteAbyssServiceImp;
 
-    public String getQuoteStorage(Message message) {
-        String cutWord = message.getText().trim();
-        if (cutWord.equals("!ц") ||
-                cutWord.equals("!Ц") ||
-                cutWord.equals("!Q") ||
-                cutWord.equals("!q")) {
+    private String getQuoteStorage(Message message) {
+        String shortCommand = message.getText().trim();
+        if (shortCommand.equals("!ц") ||
+                shortCommand.equals("!цитата") ||
+                shortCommand.equals("!quote") ||
+                shortCommand.equals("!q")) {
             return randomQuoteFromQuoteStorage();
         }
 
-        String fullWord = message.getText();
+        String fullCommand = message.getText();
         try {
-            return getTextQuoteFromStorageById(Long.valueOf(fullWord.split(" ")[1]));
+            return getTextQuoteFromStorageById(Long.valueOf(fullCommand.split(" ")[1]));
         } catch (NumberFormatException e) {
             return "в качестве номера цитаты используйте только цифры (числа)";
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -42,7 +46,7 @@ public class QuoteStorageHandler {
         }
     }
 
-    public String randomQuoteFromQuoteStorage() {
+    private String randomQuoteFromQuoteStorage() {
         Random r = new Random();
         Long temp;
         temp = Long.valueOf(r.nextInt(quoteStorageServiceImp.getMaxID().intValue())) + 1;
@@ -57,7 +61,7 @@ public class QuoteStorageHandler {
         return getTextQuoteFromStorageById(temp);
     }
 
-    public String getTextQuoteFromStorageById(Long id) {
+    private String getTextQuoteFromStorageById(Long id) {
         String result;
         Long number = id;
         StringBuilder master = new StringBuilder();
@@ -79,7 +83,7 @@ public class QuoteStorageHandler {
         return result;
     }
 
-    public String approvingQuote(Message inputMessage) {
+    private String approvingQuote(Message inputMessage) {
         String result = "что то пошло не так";
         String textMessage = inputMessage.getText().toLowerCase();
         Long inputQuoteIdFromAbysse;
@@ -88,8 +92,7 @@ public class QuoteStorageHandler {
         if (textMessage.split(" ").length == 2) {
             try {
                 inputQuoteIdFromAbysse = Long.valueOf(textMessage.split(" ")[1]);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 return "цифры вводи.";
             }
             // есть такой ID в бездне?
@@ -114,15 +117,36 @@ public class QuoteStorageHandler {
         return result;
     }
 
-    public boolean existsById(Long id) {
+    private boolean existsById(Long id) {
         return quoteStorageServiceImp.existById(id);
     }
 
-    public boolean existByDateAdded(Long date) {
+    private boolean existByDateAdded(Long date) {
         return quoteStorageServiceImp.existByDate(date);
     }
 
-    public QuoteInsideStorage getQuote(Long id) {
+    private QuoteInsideStorage getQuote(Long id) {
         return quoteStorageServiceImp.getSingleQuoteFromStorageById(id);
+    }
+
+    @Override
+    public SendMessage handle(Message inputMessage) {
+        SendMessage result = new SendMessage();
+        if (inputMessage.getText().startsWith("!добавь") && inputMessage.getChatId() == 445682905) {
+            return result.setText(approvingQuote(inputMessage));
+        }
+        result.setText(getQuoteStorage(inputMessage));
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        List<String> commands = new ArrayList<>();
+        commands.add("!ц");
+        commands.add("!quote");
+        commands.add("!q");
+        commands.add("!цитата");
+        commands.add("!добавь");
+        return commands;
     }
 }

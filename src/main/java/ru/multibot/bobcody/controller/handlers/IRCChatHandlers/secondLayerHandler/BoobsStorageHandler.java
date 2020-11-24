@@ -1,18 +1,21 @@
-package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.multibot.bobcody.controller.SQL.Entities.BoobsStorage;
 import ru.multibot.bobcody.controller.SQL.Servies.BoobsStorageServiceImp;
+import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
 import java.util.*;
 
 @Component
 @Setter
 @Getter
-public class BoobsStorageHandler {
+public class BoobsStorageHandler implements SimpleHandlerInterface {
     @Autowired
     BoobsStorageServiceImp boobsStorageServiceImp;
 
@@ -60,5 +63,30 @@ public class BoobsStorageHandler {
             return "нету такой в базе. на случайную " + getRandom();
         }
 
+    }
+
+    @Override
+    public SendMessage handle(Message inputMessage) {
+        SendMessage result = new SendMessage();
+        String inputText = inputMessage.getText();
+        Long boobsLinkId;
+        if (inputText.startsWith("!дсиськи") && inputText.length() > 9) {
+            boobsLinkId = addBoobsLink(inputText.substring(8));
+            result.setText("Сиськи добавлены (" + boobsLinkId + ")");
+        }
+        if (inputText.startsWith("!сиськи") || inputText.startsWith("!boobs")) {
+            result.setText(getAnyBoobs(inputText));
+            result.setChatId(inputMessage.getFrom().getId().toString());
+            return result;
+        }
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        List<String> commands = new ArrayList<>();
+        commands.add("!дсиськи");
+        commands.add("!сиськи");
+        return commands;
     }
 }

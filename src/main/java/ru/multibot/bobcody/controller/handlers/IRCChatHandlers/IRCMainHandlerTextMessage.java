@@ -5,32 +5,19 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
-import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.multibot.bobcody.BobCodyBot;
 import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
-import ru.multibot.bobcody.controller.handlers.*;
+import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler.SlapHandler;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-/**
- * в метод handle() прилетают вообще _все_ входящие сообщения из чата.
- * и в зависимости от содержания текстовой составляющей (наличия команд)
- * срабатывает тот или иной обработчик.
- * практически для каждой команды сделан свой класс-обрабочик.
- * дадада, забор из if'ов, но пока хз как сделать красивее
- */
 
 @Setter
 @Getter
@@ -41,35 +28,23 @@ public class IRCMainHandlerTextMessage {
     @Autowired
     BobCodyBot bobCodyBot;
     @Autowired
-    WeatherForecastHandler weatherForecastHandler;
-    @Autowired
-    FuckingGreatAdviceHandler fuckingGreatAdviceHandler;
-    @Autowired
     GuestServiceImp guestServiceImp;
-    @Autowired
-    QuoteAbyssHandler quoteAbyssHandler;
-    @Autowired
-    QuoteStorageHandler quoteStorageHandler;
-    @Autowired
-    BoobsStorageHandler boobsStorageHandler;
-    @Autowired
-    CourseHandler courseHandler;
-    @Autowired
-    OneTwoThree oneTwoThree;
-    @Autowired
-    HelpReplayHandler helpReplayHandler;
     @Autowired
     SlapHandler slapHandler;
     @Autowired
-    FridayHandler fridayHandler;
-    @Autowired
     List<Guest> guestList;
+
+    private Map<String, SimpleHandlerInterface> multihandler = new HashMap<>();
 
     List<Long> addedid;
 
-    boolean allow123 = true;
-    int calls123 = 0;
-
+    public IRCMainHandlerTextMessage(List<SimpleHandlerInterface> handlers) {
+        for (SimpleHandlerInterface iterHandler : handlers) {
+            for (String insideListOrder : iterHandler.getOrderList()) {
+                multihandler.put(insideListOrder, iterHandler);
+            }
+        }
+    }
 
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
@@ -87,73 +62,22 @@ public class IRCMainHandlerTextMessage {
             reloadUsersList();
         }
 
-        if (touchBotName(inputMessage.getText())) {
-            result.setText(slapHandler.answerForSlap(inputMessage));
+        if (multihandler.containsKey(textMessage.split(" ")[0])) {
+            result = multihandler.get(textMessage.split(" ")[0]).handle(inputMessage);
+            if (result != null && result.getChatId() == null)
+                //если нашли какую то команду и обработчик к ней то на остальные условия можно положить
+                return result.setChatId(inputMessage.getChatId());
         }
 
-        if ((textMessage.startsWith("!погода") ||
-                textMessage.startsWith("!w") ||
-                textMessage.startsWith("!п") ||
-                textMessage.startsWith("!g")) && !textMessage.equals("!пятница")
-                ) {
-            result.setText(weatherForecastAnswer(inputMessage)).setReplyToMessageId(inputMessage.getMessageId());
+        if (touchBotName(textMessage)) {
+            result = multihandler.get("бот").handle(inputMessage);
         }
 
-        if (textMessage.contains("amd ") || textMessage.contains("амд ")) {
-            result.setText(amdSucks(inputMessage));
-        }
-        if (textMessage.equals("!хелп") ||
-                textMessage.equals("!help") ||
-                textMessage.equals("!помощь") ||
-                textMessage.equals("!команды")
-                ) {
-            result.setText(helpReplayHandler.getHelpAnswer());
-        }
-
-        if (textMessage.startsWith("/start")) {
-            result.setText(helpReplayHandler.getHelpAnswer());
-        }
-
-        if (textMessage.equals("!обс") || textMessage.equals("!fga")) {
-            result.setText("@" + inputMessage.getFrom().getUserName() + ", " + fuckingGreatAdviceHandler.getAdvice());
-        }
-
-//        if (textMessage.startsWith("!дсиськи")) {
-//            Long boobsLinkId = boobsStorageHandler.addBoobsLink(textMessage.substring(8));
-//            result.setText("Сиськи добавлены (" + boobsLinkId + ")");
-//        }
-//        if (textMessage.startsWith("!сиськи") || textMessage.startsWith("!boobs")) {
-//            result.setText(boobsStorageHandler.getAnyBoobs(textMessage));
-//        }
-        if (textMessage.startsWith("!дц") ||
-                textMessage.startsWith("!lw") ||
-                textMessage.startsWith("!aq")) {
-            result.setText(quoteAbyssHandler.addQuoteToAbyss(inputMessage));
-        }
-        if (textMessage.trim().startsWith("!ц") ||
-                textMessage.trim().startsWith("!q")) {
-            result.setText(quoteStorageHandler.getQuoteStorage(inputMessage));
-
-        }
-        if (textMessage.startsWith("!курс")) {
-            result.setText(courseHandler.getCourse());
-        }
-
-        if (textMessage.startsWith("123") & (textMessage.length() == 3)) {
-            result.setText(oneTwoThree.getRandomPhrase());
-        }
-
-        if (textMessage.equals("пятница") ||
-                textMessage.equals("!пятница") ||
-                textMessage.equals("!friday") ||
-                textMessage.equals("friday") ||
-                textMessage.equals("!дн") ||
-                textMessage.equals("!dow")) {
-            if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.FRIDAY) {
-                fridayHandler.fridayAnswerGif(inputMessage);
-            } else {
-                result.setText(fridayHandler.notFridayAnswer());
-            }
+        if (textMessage.contains("amd ")
+                || textMessage.contains("амд ")
+                || textMessage.endsWith(" амд")
+                || textMessage.endsWith(" amd")) {
+            result = multihandler.get("amd").handle(inputMessage);
         }
 
         if (textMessage.equals("!ссылки") ||
@@ -161,50 +85,14 @@ public class IRCMainHandlerTextMessage {
                 (textMessage.equals("!ссылки "))) {
             result.setText("ссылки бабая: https://t.me/izhmain/107384");
         }
-        if (textMessage.startsWith("!добавь")
-                && inputMessage.getChatId() == 445682905) {
-            result.setText(quoteStorageHandler.approvingQuote(inputMessage));
-        }
 
-        if (result != null) result.setChatId(inputMessage.getChatId());
+        if (result != null && result.getChatId() == null) result.setChatId(inputMessage.getChatId());
 
         return result;
     }
 
     private Boolean containUserToMainTable(User user) {
         return guestServiceImp.comprise(Long.valueOf(user.getId()));
-    }
-
-    private String weatherForecastAnswer(Message message) {
-        StringBuilder cityName = new StringBuilder();
-        String[] cityTwoWord = message.getText().split(" ");
-
-        if (cityTwoWord.length == 1
-                && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
-                || cityTwoWord[0].equals("!п"))) {
-            cityName.append("default");
-            return weatherForecastHandler.getShortForecast(cityName.toString());
-        }
-        System.out.println("название города: " + Arrays.toString(cityTwoWord));
-        if (cityTwoWord.length == 1 && cityTwoWord[0].equals("!погода")) {
-            cityName.append("default");
-            return weatherForecastHandler.getForecast(cityName.toString());
-        }
-
-        for (int i = 1; i < cityTwoWord.length; i++) {
-            cityName.append(cityTwoWord[i]);
-// вконце пробел не нужен
-            if (i < cityTwoWord.length - 1) cityName.append("%20");
-        }
-        System.out.println(cityName);
-// если !п, !w, !g - то выводим "короткую" погоду. если !погода- то длинную версию
-        if (cityName.length() != 0 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
-                || cityTwoWord[0].equals("!п"))) {
-            return weatherForecastHandler.getShortForecast(cityName.toString());
-        } else if (cityName.length() != 0 && cityTwoWord[0].equals("!погода")) {
-            return weatherForecastHandler.getForecast(cityName.toString());
-
-        } else return null;
     }
 
     private boolean touchBotName(String text) {
@@ -216,7 +104,6 @@ public class IRCMainHandlerTextMessage {
                     oneWOrd.equals("bot") ||
                     oneWOrd.equals("b0t") ||
                     oneWOrd.equals("@bobcodybot") ||
-                    oneWOrd.equals("@BobCodyBot") ||
                     oneWOrd.equals("боб") ||
                     oneWOrd.equals("бобу") ||
                     oneWOrd.equals("бобби") ||
@@ -226,17 +113,17 @@ public class IRCMainHandlerTextMessage {
         return result;
     }
 
-    private String amdSucks(Message message) {
-        String[] textMessageAsArray = message.getText().split("[{^?*+ .,$:;#%/|()]");
-        String result = null;
-        for (String a : textMessageAsArray) {
-            if (a.equals("AMD") ||
-                    a.equals("amd") ||
-                    a.equals("амд") ||
-                    a.equals("АМД")) result = "@" + message.getFrom().getUserName() + ", AMD сосет";
-        }
-        return result;
-    }
+//    private String amdSucks(Message inputMessage) {
+//        String[] textMessageAsArray = inputMessage.getText().split("[{^?*+ .,$:;#%/|()]");
+//        String result = null;
+//        for (String a : textMessageAsArray) {
+//            if (a.equals("AMD") ||
+//                    a.equals("amd") ||
+//                    a.equals("амд") ||
+//                    a.equals("АМД")) result = "@" + inputMessage.getFrom().getUserName() + ", AMD сосет";
+//        }
+//        return result;
+//    }
 
     private void addToMainDataBase(User user) {
         Guest guest = new Guest(user);
