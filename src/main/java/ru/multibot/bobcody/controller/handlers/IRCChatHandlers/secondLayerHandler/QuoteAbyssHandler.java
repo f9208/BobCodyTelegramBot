@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,21 +15,24 @@ import ru.multibot.bobcody.BobCodyBot;
 import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 import ru.multibot.bobcody.controller.SQL.Entities.Quote;
 import ru.multibot.bobcody.controller.SQL.Servies.QuoteAbyssServiceImp;
+import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Setter
 @Getter
 @Component
 @ConfigurationProperties(prefix = "quotemaster")
-public class QuoteAbyssHandler {
+public class QuoteAbyssHandler implements SimpleHandlerInterface {
     @Autowired
     QuoteAbyssServiceImp quoteAbyssServiceImp;
     @Autowired
     BobCodyBot bobCodyBot;
 
 
-    public String addQuoteToAbyss(Message message) {
+    private String addQuoteToAbyss(Message message) {
         String replay;
         String textQuote;
         textQuote = message.getText().substring(3);
@@ -51,8 +54,8 @@ public class QuoteAbyssHandler {
     }
 
     //шлет сообщение мне в личку в случае добавления цитат в бездну
-    public void sendToModerator(Message message) {
-        String myPrivatChatID="445682905";
+    private void sendToModerator(Message message) {
+        String myPrivatChatID = "445682905";
         String textInputMessage = "пользователь " + message.getFrom().getUserName() +
                 " добавил цитатку. \n" +
                 "Quote ID в бездне: " + quoteAbyssServiceImp.getQuoteIdByDateAdded(message.getDate().longValue()) +
@@ -64,4 +67,21 @@ public class QuoteAbyssHandler {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public SendMessage handle(Message inputMessage) {
+        SendMessage result = new SendMessage();
+        result.setText(addQuoteToAbyss(inputMessage));
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        List<String> commands = new ArrayList<>();
+        commands.add("!lw");
+        commands.add("!дц");
+        commands.add("!aq");
+        return commands;
+    }
 }
+

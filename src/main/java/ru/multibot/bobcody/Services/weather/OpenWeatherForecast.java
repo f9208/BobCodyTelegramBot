@@ -59,21 +59,7 @@ public class OpenWeatherForecast {
 
     private City currentCity; // возможно сделать суперкласс "локация" и унаследовать в конечном итоге класс City от него. но это не точно
 
-    OpenWeatherForecast() {
-
-    }
-//
-//    public OpenWeatherForecast(String cityName) {
-//        this.cityName = cityName;
-//        try {
-//            callFullForecastURL = new URL(link + "q=" + cityName
-//                    + "&appid=" + keyweatherapi + units + "&lang=ru");
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    public String getForecast(String cityName) throws IOException {
+    public String getFullForecast(String cityName) throws IOException {
         setCityName(cityName);
         call5Days(cityName);
         // инициализация данных

@@ -1,19 +1,25 @@
-package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.multibot.bobcody.Services.courses.CourseValutParser;
+import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Getter
 @Setter
-public class CourseHandler {
+public class CourseHandler implements SimpleHandlerInterface {
     @Autowired
     CourseValutParser courseValutParser;
 
-    public String getCourse() {
+    private String getCourse() {
         StringBuilder result = new StringBuilder("текущий курс валют по курсу ЦБ РФ на ");
         Double grivna = Double.valueOf(courseValutParser.getValuteByCharCode("UAH").getValue());
         grivna = grivna / 10;
@@ -34,4 +40,20 @@ public class CourseHandler {
 
     }
 
+    @Override
+    public SendMessage handle(Message inputMessage) {
+
+        SendMessage result = new SendMessage();
+        //отправляем только на  команду !курс
+        if (inputMessage.getText().length() == 5)
+            result.setText(getCourse());
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        List<String> commands = new ArrayList<>();
+        commands.add("!курс");
+        return commands;
+    }
 }

@@ -8,7 +8,7 @@
 //import org.springframework.stereotype.Component;
 //import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 //import org.telegram.telegrambots.meta.api.objects.Message;
-//import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.QuoteStorageHandler;
+//import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler.QuoteStorageHandler;
 //
 //import java.util.ArrayList;
 //import java.util.List;

@@ -1,4 +1,4 @@
-package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
+package ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,23 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.multibot.bobcody.BobCodyBot;
+import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @Component
 @Getter
 @Setter
-public class FridayHandler {
+public class FridayHandler implements SimpleHandlerInterface {
     @Autowired
     BobCodyBot bobCodyBot;
 
-    public String notFridayAnswer() {
+    private String notFridayAnswer() {
         String result = "";
         if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.MONDAY ||
                 LocalDateTime.now().getDayOfWeek() == DayOfWeek.TUESDAY ||
@@ -43,7 +47,7 @@ public class FridayHandler {
 
     }
 
-    public void fridayAnswerGif(Message message) {
+    private void fridayAnswerGif(Message message) {
         try {
             bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
                     .setChatId(message.getChatId()));
@@ -53,7 +57,7 @@ public class FridayHandler {
     }
 
     @Scheduled(cron = "0 0 11 * * FRI ")
-    public void sendFridayGif() {
+    private void sendFridayGif() {
         try {
             bobCodyBot.execute(new SendAnimation()
                     .setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
@@ -63,4 +67,28 @@ public class FridayHandler {
         }
     }
 
+    @Override
+    public SendMessage handle(Message inputMessage) {
+        SendMessage result = new SendMessage();
+        if (inputMessage.getText().split(" ").length == 1) {
+            if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.FRIDAY) {
+                fridayAnswerGif(inputMessage);
+            } else {
+                result.setText(notFridayAnswer());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        List<String> commands = new ArrayList<>();
+        commands.add("пятница");
+        commands.add("!пятница");
+        commands.add("!friday");
+        commands.add("friday");
+        commands.add("!дн");
+        commands.add("!dow");
+        return commands;
+    }
 }
