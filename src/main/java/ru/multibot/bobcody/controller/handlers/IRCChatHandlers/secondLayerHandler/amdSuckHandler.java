@@ -9,6 +9,7 @@ import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInte
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Component
 @Getter
@@ -17,7 +18,11 @@ public class amdSuckHandler implements SimpleHandlerInterface {
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
-        result.setText("@" + inputMessage.getFrom().getUserName() + ", AMD сосет");
+        int temp = new Random().nextInt(4);
+        if (temp >> 1 == 1)
+            result.setText("@" + inputMessage.getFrom().getUserName() + ", AMD сосет");
+        else result.setText("AMD форева!");
+
         return result;
     }
 
@@ -29,3 +34,5 @@ public class amdSuckHandler implements SimpleHandlerInterface {
         return commands;
     }
 }
+
+
