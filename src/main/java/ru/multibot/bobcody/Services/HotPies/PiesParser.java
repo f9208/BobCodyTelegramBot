@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+import org.hibernate.query.criteria.internal.expression.function.CurrentTimeFunction;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,18 +15,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Getter
 @Setter
+@Getter
 public class PiesParser {
-    ObjectMapper objectMapper = new ObjectMapper();
-    JsonNode jsonNodeFullLine;
+    private ObjectMapper objectMapper = new ObjectMapper();
+    private JsonNode jsonNodeFullLine;
+//
+//    public static void main(String[] args) {
+//        try {
+//            Random r = new Random();
+//            int numberOfPage = r.nextInt(3100);
+//            new PiesParser().gelListPies(numberOfPage);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    private List<String> getAllPiesAsListJson() throws IOException {
+    private List<String> allPiesAsListJsonParser(int numberOfPage) throws IOException {
         List<String> result = new ArrayList<>();
-        Random r = new Random();
-        int numberOfPage = r.nextInt(3200);
         if (numberOfPage == 0) numberOfPage = 1; // на нулевую страницу не кинет
-        System.out.println(numberOfPage);
         String urlLink = "https://poetory.ru/all/" + numberOfPage;
         Document doc = Jsoup.connect(urlLink).get();
         Elements allHeadersPies = doc.getElementsByAttribute("data-react-props");
@@ -37,35 +44,26 @@ public class PiesParser {
         return result;
     }
 
-    public List<SinglePie> handleList() throws IOException {
+    public List<SinglePie> gelListPies(int numberOfPage) throws IOException {
         JsonNode head;
         JsonNode mainContent;
         List<SinglePie> allPiesFromOneSite = new ArrayList<>();
-        SinglePie currentPie = new SinglePie();
-        for (String temp : getAllPiesAsListJson()) {
+        SinglePie currentPie;
+
+        for (String temp : allPiesAsListJsonParser(numberOfPage)) {
+            currentPie = new SinglePie();
             head = objectMapper.readTree(temp);
             mainContent = head.get("content");
             currentPie.setTextPieItself(mainContent.get("clean_content").asText().replace("\n", "\n"));
             currentPie.setLinkToPie(head.get("shareURL").asText());
             allPiesFromOneSite.add(currentPie);
         }
+
         return allPiesFromOneSite;
+
     }
 }
 
-@Getter
-@Setter
-class SinglePie {
-    String textPieItself;
-    String linkToPie;
-
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(textPieItself).append("\n").append(linkToPie);
-        return result.toString();
-    }
-}
 
 //package controller;
 //

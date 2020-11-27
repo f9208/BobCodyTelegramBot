@@ -12,13 +12,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.multibot.bobcody.BobCodyBot;
+import ru.multibot.bobcody.Services.HotPies.PiesParser;
+import ru.multibot.bobcody.Services.HotPies.SinglePie;
 import ru.multibot.bobcody.controller.SQL.Entities.Guest;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Getter
 @Setter
@@ -35,7 +40,7 @@ public class BotConfig {
 
 
     @Bean
-    public List<Guest> guestsList(){
+    public List<Guest> guestsList() {
         return new ArrayList<>();
     }
 
@@ -70,6 +75,21 @@ public class BotConfig {
         return new ObjectMapper();
     }
 
+    @Bean
+    public List<SinglePie> piesList() {
+        Random r = new Random();
+        int numberOfPage = r.nextInt(3100);
+        List<SinglePie> result = new ArrayList<>();
+        SinglePie failed = new SinglePie();
+        failed.setTextPieItself("сегодня пирожков нет");
+        try {
+            result = new PiesParser().gelListPies(numberOfPage);
+            result.addAll(new PiesParser().gelListPies(numberOfPage + 1));
+        } catch (Exception e) {
+            result.add(failed);
+        }
+        return result;
+    }
 
 
 }
