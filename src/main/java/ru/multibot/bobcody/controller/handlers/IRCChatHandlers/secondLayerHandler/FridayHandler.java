@@ -49,7 +49,7 @@ public class FridayHandler implements SimpleHandlerInterface {
 
     private void fridayAnswerGif(Message message) {
         try { //CgACAgIAAxkBAAIFj1_TQWPRaWYxwQh4_S3p63qKzol8AAIeCgACve6YSjYz86Noj4Q1HgQ
-            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
+            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAIa1F_TRUH19dHU-klXmsuCHNqd34ayAAJXCQAC0WmZShLqr4eVxiuYHgQ")
                     .setChatId(message.getChatId()));
         } catch (TelegramApiException e) {
             e.printStackTrace();
@@ -59,8 +59,9 @@ public class FridayHandler implements SimpleHandlerInterface {
     @Scheduled(cron = "0 00 13 * * FRI ")
     private void sendFridayGif() {
         try {// CgACAgIAAxkBAAIFj1_TQWPRaWYxwQh4_S3p63qKzol8AAIeCgACve6YSjYz86Noj4Q1HgQ
+            // из привата с бобом: CgACAgIAAxkBAAIa1F_TRUH19dHU-klXmsuCHNqd34ayAAJXCQAC0WmZShLqr4eVxiuYHgQ
             bobCodyBot.execute(new SendAnimation()
-                    .setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
+                    .setAnimation("CgACAgIAAxkBAAIa1F_TRUH19dHU-klXmsuCHNqd34ayAAJXCQAC0WmZShLqr4eVxiuYHgQ")
                     .setChatId("-1001207502467"));
         } catch (TelegramApiException e) {
             e.printStackTrace();
