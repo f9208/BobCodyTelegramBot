@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.multibot.bobcody.BobCodyBot;
+import ru.multibot.bobcody.controller.BobCodyBot;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
 import java.time.DayOfWeek;
@@ -48,7 +48,7 @@ public class FridayHandler implements SimpleHandlerInterface {
     }
 
     private void fridayAnswerGif(Message message) {
-        try { //CgACAgIAAxkBAAIFj1_TQWPRaWYxwQh4_S3p63qKzol8AAIeCgACve6YSjYz86Noj4Q1HgQ
+        try {
             bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
                     .setChatId(message.getChatId()));
         } catch (TelegramApiException e) {
@@ -56,9 +56,9 @@ public class FridayHandler implements SimpleHandlerInterface {
         }
     }
 
-    @Scheduled(cron = "0 00 13 * * FRI ")
+    @Scheduled(cron = "0 00 8 * * FRI ")
     private void sendFridayGif() {
-        try {// CgACAgIAAxkBAAIFj1_TQWPRaWYxwQh4_S3p63qKzol8AAIeCgACve6YSjYz86Noj4Q1HgQ
+        try {
             bobCodyBot.execute(new SendAnimation()
                     .setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
                     .setChatId("-1001207502467"));

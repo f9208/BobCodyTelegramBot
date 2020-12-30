@@ -3,28 +3,22 @@ package ru.multibot.bobcody.controller.handlers.IRCChatHandlers;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import ru.multibot.bobcody.BobCodyBot;
-import ru.multibot.bobcody.Services.HotPies.SinglePie;
-import ru.multibot.bobcody.controller.SQL.Entities.Guest;
-import ru.multibot.bobcody.controller.SQL.Servies.GuestServiceImp;
+import ru.multibot.bobcody.controller.BobCodyBot;
+import ru.multibot.bobcody.SQL.Entities.Guest;
+import ru.multibot.bobcody.SQL.Servies.GuestServiceImp;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler.SlapHandler;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Setter
 @Getter
 @Component
-@PropertySource(value = {"classpath:mainHandlerChatId.properties"})
-@ConfigurationProperties(prefix = "mainchatid")
 public class IRCMainHandlerTextMessage {
     @Autowired
     BobCodyBot bobCodyBot;
@@ -36,8 +30,6 @@ public class IRCMainHandlerTextMessage {
     List<Guest> guestList;
 
     private Map<String, SimpleHandlerInterface> multihandler = new HashMap<>();
-
-    List<Long> addedid;
 
     public IRCMainHandlerTextMessage(List<SimpleHandlerInterface> handlers) {
         for (SimpleHandlerInterface iterHandler : handlers) {
@@ -54,8 +46,6 @@ public class IRCMainHandlerTextMessage {
         //добавляем юзера в базу юзеров. just in case
 
         if (guestList.size() == 0) {
-            //обнови set с базы
-            System.out.println("кэш базы пользователей пуст. обновляем");
             reloadUsersList();
         }
         if (user != null && !containGuestInList(user)) {
@@ -66,7 +56,7 @@ public class IRCMainHandlerTextMessage {
         if (multihandler.containsKey(textMessage.split(" ")[0])) {
             result = multihandler.get(textMessage.split(" ")[0]).handle(inputMessage);
             if (result != null && result.getChatId() == null)
-                //если нашли какую то команду и обработчик к ней то на остальные условия можно положить
+                //если нашли какую то команду и обработчик к ней то на остальные условия становятся не важны
                 return result.setChatId(inputMessage.getChatId());
         }
 
@@ -74,7 +64,7 @@ public class IRCMainHandlerTextMessage {
             result = multihandler.get("бот").handle(inputMessage);
         }
 
-        if (textMessage.contains("amd ")
+        if (textMessage.contains("amd ") //переделать на регулярное выражение.
                 || textMessage.contains("амд ")
                 || textMessage.endsWith(" амд")
                 || textMessage.endsWith(" amd")) {
@@ -113,18 +103,6 @@ public class IRCMainHandlerTextMessage {
         }
         return result;
     }
-
-//    private String amdSucks(Message inputMessage) {
-//        String[] textMessageAsArray = inputMessage.getText().split("[{^?*+ .,$:;#%/|()]");
-//        String result = null;
-//        for (String a : textMessageAsArray) {
-//            if (a.equals("AMD") ||
-//                    a.equals("amd") ||
-//                    a.equals("амд") ||
-//                    a.equals("АМД")) result = "@" + inputMessage.getFrom().getUserName() + ", AMD сосет";
-//        }
-//        return result;
-//    }
 
     private void addToMainDataBase(User user) {
         Guest guest = new Guest(user);
