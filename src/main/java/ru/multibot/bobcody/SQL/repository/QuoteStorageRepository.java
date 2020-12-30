@@ -1,12 +1,11 @@
-package ru.multibot.bobcody.controller.SQL.repository;
+package ru.multibot.bobcody.SQL.repository;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.multibot.bobcody.controller.SQL.Entities.Quote;
-import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
+import ru.multibot.bobcody.SQL.Entities.QuoteInsideStorage;
 
 @Repository
 public interface QuoteStorageRepository extends CrudRepository<QuoteInsideStorage, Long> {
@@ -39,4 +38,12 @@ public interface QuoteStorageRepository extends CrudRepository<QuoteInsideStorag
     Long getAuthorByDateAdded(@Param("dateAdded") Long date);
 
     QuoteInsideStorage getQuoteInsideStorageByQuoteId(long id);
+
+
+// ручное добавленеи цитат
+    @Modifying
+    @Query(value = "INSERT INTO public.quotation_storage(author_id, date_added, date_approved, quote_text)" +
+            "SELECT 445682905," +
+            ":currentTime, :currentTime, :textQuote", nativeQuery = true)
+    void handAdd(@Param("textQuote") String inputText, @Param("currentTime") Long unixTime);
 }
