@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.multibot.bobcody.Services.FuckingGreatAdvice.FuckingGreatAdvice;
+import ru.multibot.bobcody.ThirdPartyAPI.FuckingGreatAdvice.FuckingGreatAdvice;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
 import java.util.ArrayList;

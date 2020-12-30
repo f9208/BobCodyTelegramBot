@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.multibot.bobcody.Services.weather.OpenWeatherForecast;
+import ru.multibot.bobcody.ThirdPartyAPI.weather.OpenWeatherForecast;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
 import java.io.IOException;

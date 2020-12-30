@@ -2,23 +2,19 @@ package ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandl
 
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.multibot.bobcody.BobCodyBot;
-import ru.multibot.bobcody.controller.SQL.Entities.Guest;
-import ru.multibot.bobcody.controller.SQL.Entities.Quote;
-import ru.multibot.bobcody.controller.SQL.Servies.QuoteAbyssServiceImp;
+import ru.multibot.bobcody.controller.BobCodyBot;
+import ru.multibot.bobcody.SQL.Entities.Guest;
+import ru.multibot.bobcody.SQL.Entities.Quote;
+import ru.multibot.bobcody.SQL.Servies.QuoteAbyssServiceImp;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 @Setter

@@ -6,17 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.multibot.bobcody.controller.SQL.Entities.QuoteInsideStorage;
-import ru.multibot.bobcody.controller.SQL.Servies.QuoteAbyssService;
-import ru.multibot.bobcody.controller.SQL.Servies.QuoteAbyssServiceImp;
-import ru.multibot.bobcody.controller.SQL.Servies.QuoteStorageService;
-import ru.multibot.bobcody.controller.SQL.Servies.QuoteStorageServiceImp;
+import ru.multibot.bobcody.SQL.Entities.QuoteInsideStorage;
+import ru.multibot.bobcody.SQL.Servies.QuoteAbyssService;
+import ru.multibot.bobcody.SQL.Servies.QuoteStorageService;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInterface;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @Setter
@@ -65,6 +69,7 @@ public class QuoteStorageHandler implements SimpleHandlerInterface {
         String result;
         Long number = id;
         StringBuilder master = new StringBuilder();
+        DateTimeFormatter formatDateToPrint = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         try {
             QuoteInsideStorage current = quoteStorageServiceImp.getSingleQuoteFromStorageById(Long.valueOf(number));
             if (current != null) {
@@ -72,7 +77,9 @@ public class QuoteStorageHandler implements SimpleHandlerInterface {
                         .append(current.getQuoteId())
                         .append(" (")
                         .append(quoteStorageServiceImp.getMaxID())
-                        .append(") \n")
+                        .append(") added: ")
+                        .append(LocalDateTime.ofInstant(Instant.ofEpochSecond(current.getDateAdded()), ZoneId.of("GMT")).format(formatDateToPrint))
+                        .append("\n")
                         .append(current.getText());
                 result = master.toString();
             } else result = "нету такой.";
@@ -129,6 +136,11 @@ public class QuoteStorageHandler implements SimpleHandlerInterface {
         return quoteStorageServiceImp.getSingleQuoteFromStorageById(id);
     }
 
+    /**
+     * предполагается, что команда !добавь будет обрабатываться только модератором
+     * с chatID=445682905
+     * другие команды соответствующим методом
+     */
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
