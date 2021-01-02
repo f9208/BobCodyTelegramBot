@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(schema = "public", name = "quotation_abyss")
 
 //помойка из предложенных цитат, бездна, короче.
-public class Quote {
+public class QuoteEntityAbyss {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long quoteId;
@@ -23,10 +23,10 @@ public class Quote {
     @Column(name = "author_id")
     Long author;
 
-    public Quote() {
+    public QuoteEntityAbyss() {
     }
 
-    public Quote(Long author, Long date, String text) {
+    public QuoteEntityAbyss(Long author, Long date, String text) {
         this.text = text;
         this.date = date;
         this.author = author;

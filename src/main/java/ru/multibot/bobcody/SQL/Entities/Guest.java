@@ -36,7 +36,7 @@ public class Guest {
     @Setter
     @OneToMany(mappedBy = "author",
             cascade = CascadeType.ALL)
-    List<Quote> quotes;
+    List<QuoteEntityAbyss> quoteEntityAbysses;
 
     public Guest(User user) {
         this.userID = Long.valueOf(user.getId());
