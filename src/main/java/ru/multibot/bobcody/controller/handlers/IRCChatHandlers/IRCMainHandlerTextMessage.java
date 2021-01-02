@@ -7,14 +7,11 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import ru.multibot.bobcody.controller.BobCodyBot;
 import ru.multibot.bobcody.SQL.Entities.Guest;
 import ru.multibot.bobcody.SQL.Servies.GuestServiceImp;
 import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler.SlapHandler;
 
 import java.util.HashMap;
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +19,6 @@ import java.util.Map;
 @Getter
 @Component
 public class IRCMainHandlerTextMessage {
-    @Autowired
-    BobCodyBot bobCodyBot;
     @Autowired
     GuestServiceImp guestServiceImp;
     @Autowired
