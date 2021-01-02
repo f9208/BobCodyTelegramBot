@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.multibot.bobcody.SQL.Entities.Guest;
-import ru.multibot.bobcody.SQL.Entities.Quote;
+import ru.multibot.bobcody.SQL.Entities.QuoteEntityAbyss;
 import ru.multibot.bobcody.SQL.repository.GuestRepository;
 
 import java.util.List;
@@ -25,10 +25,6 @@ public class GuestServiceImp implements GuestService {
     public boolean comprise(long id) {
         return guestRepository.existsById(id);
 
-    }
-
-    public List<Quote> findQuotes(long user_id){
-        return guestRepository.findById(user_id).get().getQuotes();
     }
 
     @Transactional

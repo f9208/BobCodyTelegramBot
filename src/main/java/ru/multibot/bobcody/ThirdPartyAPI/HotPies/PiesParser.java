@@ -25,9 +25,9 @@ public class PiesParser {
         if (numberOfPage == 0) numberOfPage = 1; // на нулевую страницу не кинет
         String urlLink = "https://poetory.ru/all/" + numberOfPage;
         Document doc = Jsoup.connect(urlLink).get();
-        Elements allHeadersPies = doc.getElementsByAttribute("data-react-props");
+        Elements allHeadersPies = doc.getElementsByAttribute("date-react-props");
         for (Element ae : allHeadersPies) {
-            String forAdd = ae.attr("data-react-props");
+            String forAdd = ae.attr("date-react-props");
             if (forAdd.length() != 2) result.add(forAdd);
         }
         return result;

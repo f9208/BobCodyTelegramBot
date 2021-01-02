@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(schema = "public", name = "quotation_storage")
 
 //хранилище добавленных (аппрувленных) цитат. собственно, сам цитатник
-public class QuoteInsideStorage {
+public class QuoteEntityStorage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "serial")
@@ -25,14 +25,14 @@ public class QuoteInsideStorage {
     @Column(name = "quote_text", columnDefinition = "varchar(5000)")
     String text;
 
-    public QuoteInsideStorage() {
+    public QuoteEntityStorage() {
     }
 
-    public QuoteInsideStorage(String author, Long dateAdded, Long dateApproved, String text) {
+    public QuoteEntityStorage(String author, Long dateAdded, Long dataApproved, String text) {
         this.dateAdded = dateAdded;
         this.text = text;
         this.author = author;
-        this.dateApproved = dateApproved;
+        this.dateApproved = dataApproved;
     }
 
 }

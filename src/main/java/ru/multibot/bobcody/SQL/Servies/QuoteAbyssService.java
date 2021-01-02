@@ -1,20 +1,16 @@
 package ru.multibot.bobcody.SQL.Servies;
 
-import org.springframework.stereotype.Component;
-import ru.multibot.bobcody.SQL.Entities.Quote;
+import ru.multibot.bobcody.SQL.Entities.QuoteEntityAbyss;
 
-@Component
 public interface QuoteAbyssService {
 
-    public void add(Quote quote);
+    void add(QuoteEntityAbyss quoteEntityAbyss);
 
-    public void delete(Long id);
+    Long getQuoteIdByDateAdded(Long date);
 
-    public Long getQuoteIdByDateAdded(Long date);
+    boolean containInAbyss(Long id);
 
-    public boolean containtInAbyss(Long id);
+    Long approveQuote(Long id);
 
-    public Long getDateAddedByQuoteId(Long quoteId);
-
-    public Long getAuthorIdByQuoteId(Long quoteId);
+    Long approveCaps(Long id);
 }

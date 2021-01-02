@@ -3,24 +3,27 @@ package ru.multibot.bobcody.SQL.Servies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.multibot.bobcody.SQL.Entities.Quote;
+import ru.multibot.bobcody.SQL.Entities.QuoteEntityAbyss;
+import ru.multibot.bobcody.SQL.repository.CapsQuoteStorageRepository;
 import ru.multibot.bobcody.SQL.repository.QuoteAbyssRepository;
+import ru.multibot.bobcody.SQL.repository.QuoteStorageRepository;
+
+import java.util.Calendar;
 
 @Service
 public class QuoteAbyssServiceImp implements QuoteAbyssService {
     @Autowired
     QuoteAbyssRepository quoteAbyssRepository;
+    @Autowired
+    QuoteStorageRepository quoteStorageRepository;
+    @Autowired
+    CapsQuoteStorageRepository capsQuoteStorageRepository;
+
 
     @Override
     @Transactional
-    public void add(Quote quote) {
-        quoteAbyssRepository.save(quote);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        quoteAbyssRepository.deleteById(id);
+    public void add(QuoteEntityAbyss quoteEntityAbyss) {
+        quoteAbyssRepository.save(quoteEntityAbyss);
     }
 
     @Override
@@ -31,20 +34,24 @@ public class QuoteAbyssServiceImp implements QuoteAbyssService {
 
     @Override
     @Transactional
-    public boolean containtInAbyss(Long id) {
+    public boolean containInAbyss(Long id) {
         return quoteAbyssRepository.existsQuoteByQuoteId(id);
     }
 
-    @Override
+
     @Transactional
-    public Long getDateAddedByQuoteId(Long quoteId) {
-        return quoteAbyssRepository.getDateAddedByQuoteId(quoteId);
+    @Override
+    public Long approveQuote(Long id) {
+        quoteAbyssRepository.approveQuote(id, Calendar.getInstance().getTime().getTime() / 1000);
+        return quoteStorageRepository.getMaxID();
     }
 
-    @Override
     @Transactional
-    public Long getAuthorIdByQuoteId(Long quoteId) {
-        return quoteAbyssRepository.getAuthorIdByQuoteId(quoteId);
-
+    @Override
+    public Long approveCaps(Long id) {
+        quoteAbyssRepository.approveCaps(id, Calendar.getInstance().getTime().getTime() / 1000);
+        return capsQuoteStorageRepository.getMaxID();
     }
+
 }
+

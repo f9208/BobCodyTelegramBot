@@ -1,30 +1,22 @@
 package ru.multibot.bobcody.SQL.Servies;
 
-import org.springframework.stereotype.Component;
-import ru.multibot.bobcody.SQL.Entities.QuoteInsideStorage;
+import ru.multibot.bobcody.SQL.Entities.QuoteEntityStorage;
 
-@Component
 public interface QuoteStorageService {
-     void add(QuoteInsideStorage quoteInsideStorage);
+    void add(QuoteEntityStorage quoteEntityStorage);
 
-     void deleteById(Long id);
-
-     QuoteInsideStorage getSingleQuoteFromStorageById(Long id);
+    QuoteEntityStorage getSingleQuoteFromStorageById(Long id);
 
     Long adderQuote(Long a);
 
-     Long getMaxID();
+    Long getMaxID();
 
-     boolean existById(long id);
+    boolean existById(long id);
 
-     boolean existByDate(long date);
+    boolean containInQuoteStorage(Long added);
 
-     Long getAuthorByDateAdded(Long dateAdded);
-
-     int getSizeDB();
-
-     // ручное добавление цитаток
-     void handleAdd(Long key, String value);
+    // ручное добавление цитаток
+    void handleAdd(Long key, String value);
 
 
 }

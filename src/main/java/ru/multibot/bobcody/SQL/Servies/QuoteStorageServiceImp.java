@@ -3,7 +3,8 @@ package ru.multibot.bobcody.SQL.Servies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.multibot.bobcody.SQL.Entities.QuoteInsideStorage;
+import ru.multibot.bobcody.SQL.Entities.QuoteEntityStorage;
+import ru.multibot.bobcody.SQL.repository.QuoteAbyssRepository;
 import ru.multibot.bobcody.SQL.repository.QuoteStorageRepository;
 
 import java.util.Calendar;
@@ -12,36 +13,26 @@ import java.util.Calendar;
 public class QuoteStorageServiceImp implements QuoteStorageService {
     @Autowired
     QuoteStorageRepository quoteStorageRepository;
+    @Autowired
+    QuoteAbyssRepository quoteAbyssRepository;
 
     @Transactional
     @Override
-    public void add(QuoteInsideStorage quoteInsideStorage) {
-        quoteStorageRepository.save(quoteInsideStorage);
+    public void add(QuoteEntityStorage quoteEntityStorage) {
+        quoteStorageRepository.save(quoteEntityStorage);
     }
 
     @Transactional
     @Override
-    public void deleteById(Long id) {
-        quoteStorageRepository.deleteById(id);
-    }
-
-    @Transactional
-    @Override
-    public QuoteInsideStorage getSingleQuoteFromStorageById(Long id) {
-        return quoteStorageRepository.getQuoteInsideStorageByQuoteId(id);
-    }
-
-    @Override
-    @Transactional
-    public int getSizeDB() {
-        return quoteStorageRepository.getSizeDB();
+    public QuoteEntityStorage getSingleQuoteFromStorageById(Long id) {
+        return quoteStorageRepository.getQuoteEntityStorageByQuoteId(id);
     }
 
     @Override
     @Transactional
     public Long adderQuote(Long a) {
         long currTime = Calendar.getInstance().getTime().getTime() / 1000;
-        quoteStorageRepository.approveQuote(a, currTime);
+        quoteAbyssRepository.approveQuote(a, currTime);
         return getMaxID();
     }
 
@@ -53,20 +44,15 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
 
     @Transactional
     @Override
+    public boolean containInQuoteStorage(Long abyssQuoteId) {
+        Long dateAdded = quoteAbyssRepository.getDateAddedByQuoteId(abyssQuoteId);
+        return quoteStorageRepository.existsQuoteEntityStorageByDateAdded(dateAdded);
+    }
+
+    @Transactional
+    @Override
     public boolean existById(long id) {
         return quoteStorageRepository.existsByQuoteId(id);
-    }
-
-    @Transactional
-    @Override
-    public boolean existByDate(long date) {
-        return quoteStorageRepository.existsQuoteInsideStorageByDateAdded(date);
-    }
-
-    @Transactional
-    @Override
-    public Long getAuthorByDateAdded(Long dateAdded) {
-        return quoteStorageRepository.getAuthorByDateAdded(dateAdded);
     }
 
     @Transactional
@@ -76,4 +62,3 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
 
     }
 }
-
