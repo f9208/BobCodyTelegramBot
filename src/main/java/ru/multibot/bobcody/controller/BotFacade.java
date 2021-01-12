@@ -16,6 +16,7 @@ import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.IRCMainHandlerTex
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,8 @@ import java.util.List;
 public class BotFacade {
     @Autowired
     IRCMainHandlerTextMessage ircMainHandlerTextMessage;
+    @Autowired
+    FloodControll floodControll;
 
     public BotApiMethod<?> handleUserUpdate(Update update) {
 
@@ -107,7 +110,8 @@ public class BotFacade {
     private SendMessage handleInputTextMessage(Message message) {
         SendMessage replay = new SendMessage();
         try {
-            replay = ircMainHandlerTextMessage.handle(message);
+                replay = ircMainHandlerTextMessage.handle(message);
+            if (replay.getText() != null) floodControll.filter(message);
         } catch (Exception e) {
             e.printStackTrace();
             replay.setText("что-то пошло не так ").setChatId("445682905");

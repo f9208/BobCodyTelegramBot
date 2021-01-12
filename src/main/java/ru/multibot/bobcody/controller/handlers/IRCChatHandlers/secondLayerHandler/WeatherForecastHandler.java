@@ -42,7 +42,6 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
 
     private String getShortForecast(String cityName) {
         String result = "123 а не погода.";
-        System.out.println("пашет, ущуке!");
         try {
             if (cityName.equals("default")) {
                 result = openWeatherForecast.getShortForecast(defaultCityName);
@@ -72,7 +71,7 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
         }
         System.out.println("название города: " + Arrays.toString(cityTwoWord));
         if (cityTwoWord.length == 1
-                && (cityTwoWord[0].equals("!погода")||cityTwoWord[0].equals("!weather"))) {
+                && (cityTwoWord[0].equals("!погода") || cityTwoWord[0].equals("!weather"))) {
             cityName.append("default");
             return getForecast(cityName.toString());
         }
@@ -87,7 +86,7 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
         if (cityName.length() != 0 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
                 || cityTwoWord[0].equals("!п"))) {
             return getShortForecast(cityName.toString());
-        } else if (cityName.length() != 0 && (cityTwoWord[0].equals("!погода")||cityTwoWord[0].equals("!weather"))) {
+        } else if (cityName.length() != 0 && (cityTwoWord[0].equals("!погода") || cityTwoWord[0].equals("!weather"))) {
             return getForecast(cityName.toString());
 
         } else return null;
