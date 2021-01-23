@@ -8,7 +8,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,9 +24,9 @@ public class PiesParser {
         if (numberOfPage == 0) numberOfPage = 1; // на нулевую страницу не кинет
         String urlLink = "https://poetory.ru/all/" + numberOfPage;
         Document doc = Jsoup.connect(urlLink).get();
-        Elements allHeadersPies = doc.getElementsByAttribute("date-react-props");
+        Elements allHeadersPies = doc.getElementsByAttributeValue("data-react-class", "Content");
         for (Element ae : allHeadersPies) {
-            String forAdd = ae.attr("date-react-props");
+            String forAdd = ae.attr("data-react-props");
             if (forAdd.length() != 2) result.add(forAdd);
         }
         return result;
@@ -47,7 +46,6 @@ public class PiesParser {
             currentPie.setLinkToPie(head.get("shareURL").asText());
             allPiesFromOneSite.add(currentPie);
         }
-
         return allPiesFromOneSite;
 
     }
