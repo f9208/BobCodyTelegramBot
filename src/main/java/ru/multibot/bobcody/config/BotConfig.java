@@ -3,6 +3,7 @@ package ru.multibot.bobcody.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -17,7 +18,14 @@ import ru.multibot.bobcody.controller.BobCodyBot;
 import ru.multibot.bobcody.ThirdPartyAPI.HotPies.SinglePie;
 import ru.multibot.bobcody.SQL.Entities.Guest;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +107,30 @@ public class BotConfig {
     @Bean
     public List<SinglePie> piesList() {
         return new SinglePie().getPiesList();
+    }
+
+    @SneakyThrows
+    @PostConstruct
+    public void setWebHook() {
+        URL link = null;
+        HttpURLConnection connection=null;
+        try {
+            link = new URL("https://api.telegram.org/bot"+botToken+"/setWebhook?url=" + webHookPath);
+            connection = (HttpURLConnection) link.openConnection();
+            connection.setRequestMethod("GET");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer resp = new StringBuffer();
+        while ((inputLine = br.readLine()) != null) {
+            resp.append(inputLine);
+        }
+        System.out.println("webHook"+ webHookPath+"->> "+resp);
+
     }
 }
 
