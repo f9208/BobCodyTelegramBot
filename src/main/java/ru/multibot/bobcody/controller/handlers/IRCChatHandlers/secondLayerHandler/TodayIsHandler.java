@@ -32,16 +32,16 @@ public class TodayIsHandler implements SimpleHandlerInterface {
                         .withLocale(new Locale("ru", "RU"))))
                 .append("\n")
                 .append("время в Ижевске: ")
-                .append(LocalDateTime.now(ZoneId.of("GMT+4")).format(DateTimeFormatter.ofPattern("kk:mm")))
+                .append(LocalDateTime.now(ZoneId.of("GMT+4")).format(DateTimeFormatter.ofPattern("HH:mm")))
                 .append("\n")
                 .append("в Дефолт-сити: ")
-                .append(LocalDateTime.now(ZoneId.of("GMT+3")).format(DateTimeFormatter.ofPattern("kk:mm")))
+                .append(LocalDateTime.now(ZoneId.of("GMT+3")).format(DateTimeFormatter.ofPattern("HH:mm")))
                 .append("\n")
                 .append("у кориафчика в Словакии: ")
-                .append(LocalDateTime.now(ZoneId.of("GMT+1")).format(DateTimeFormatter.ofPattern("kk:mm")))
+                .append(LocalDateTime.now(ZoneId.of("GMT+1")).format(DateTimeFormatter.ofPattern("HH:mm")))
                 .append("\n")
                 .append("в солнечной Калифорнии: ")
-                .append(LocalDateTime.now(ZoneId.of("GMT-8")).format(DateTimeFormatter.ofPattern("kk:mm")))
+                .append(LocalDateTime.now(ZoneId.of("GMT-8")).format(DateTimeFormatter.ofPattern("HH:mm")))
                 .append(" (")
                 .append(LocalDateTime.now(ZoneId.of("GMT-8")).format(DateTimeFormatter.ofPattern("dd MMMM")
                         .withLocale(new Locale("ru", "RU"))))
@@ -60,7 +60,7 @@ public class TodayIsHandler implements SimpleHandlerInterface {
         commands.add("!time");
         commands.add("!ща");
         commands.add("!now");
-        commands.add("time");
+        commands.add("!time");
         return commands;
     }
 }

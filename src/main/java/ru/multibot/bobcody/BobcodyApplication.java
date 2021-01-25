@@ -12,8 +12,4 @@ public class BobcodyApplication {
 
         SpringApplication.run(BobcodyApplication.class, args);
     }
-
-
-
-
 }
