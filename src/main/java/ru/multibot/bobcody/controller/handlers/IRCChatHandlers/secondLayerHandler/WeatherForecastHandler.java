@@ -13,7 +13,6 @@ import ru.multibot.bobcody.controller.handlers.IRCChatHandlers.SimpleHandlerInte
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -70,9 +69,8 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
             cityName.append("default");
             return getShortForecast(cityName.toString());
         }
-        System.out.println("название города: " + Arrays.toString(cityTwoWord));
         if (cityTwoWord.length == 1
-                && (cityTwoWord[0].equals("!погода")||cityTwoWord[0].equals("!weather"))) {
+                && (cityTwoWord[0].equals("!погода") || cityTwoWord[0].equals("!weather"))) {
             cityName.append("default");
             return getForecast(cityName.toString());
         }
@@ -83,11 +81,11 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
             if (i < cityTwoWord.length - 1) cityName.append("%20");
         }
         System.out.println(cityName);
-// если !п, !w, !g - то выводим "короткую" погоду. если !погода- то длинную версию
+// если !п, !w, !g - то выводим "короткую" погоду. если !погода - то длинную версию
         if (cityName.length() != 0 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
                 || cityTwoWord[0].equals("!п"))) {
             return getShortForecast(cityName.toString());
-        } else if (cityName.length() != 0 && (cityTwoWord[0].equals("!погода")||cityTwoWord[0].equals("!weather"))) {
+        } else if (cityName.length() != 0 && (cityTwoWord[0].equals("!погода") || cityTwoWord[0].equals("!weather"))) {
             return getForecast(cityName.toString());
 
         } else return null;

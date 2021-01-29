@@ -52,11 +52,11 @@ class MainComponentForecast {
         this.tempMax = (int) Math.round(tempMax);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("t ").append(temp).append("\u2103, ");
-
-        return result.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder result = new StringBuilder();
+//        result.append("t ").append(temp).append("\u2103, ");
+//
+//        return result.toString();
+//    }
 }
