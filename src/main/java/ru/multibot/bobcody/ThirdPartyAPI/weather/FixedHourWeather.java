@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @JsonIgnoreProperties(value = {"pop", "sys"})
 public class FixedHourWeather {
@@ -44,7 +45,7 @@ public class FixedHourWeather {
     private int visibility;
 
     private static DateTimeFormatter inputDateTimeStamp = DateTimeFormatter.ofPattern("y-M-d H:m:s");
-    private static DateTimeFormatter outputTimeStamp = DateTimeFormatter.ofPattern("EE, HH:mm");
+    private static DateTimeFormatter outputTimeStamp = DateTimeFormatter.ofPattern("EE, HH:mm", Locale.forLanguageTag("RU"));
 
     public void setDateTime(String dateTime) {
         this.dateTime = LocalDateTime.parse(dateTime, inputDateTimeStamp);
