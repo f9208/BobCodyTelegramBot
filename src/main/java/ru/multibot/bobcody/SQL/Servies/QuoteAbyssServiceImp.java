@@ -11,6 +11,7 @@ import ru.multibot.bobcody.SQL.repository.QuoteStorageRepository;
 import java.util.Calendar;
 
 @Service
+@Transactional(readOnly = true)
 public class QuoteAbyssServiceImp implements QuoteAbyssService {
     @Autowired
     QuoteAbyssRepository quoteAbyssRepository;
@@ -19,7 +20,6 @@ public class QuoteAbyssServiceImp implements QuoteAbyssService {
     @Autowired
     CapsQuoteStorageRepository capsQuoteStorageRepository;
 
-
     @Override
     @Transactional
     public void add(QuoteEntityAbyss quoteEntityAbyss) {
@@ -27,17 +27,14 @@ public class QuoteAbyssServiceImp implements QuoteAbyssService {
     }
 
     @Override
-    @Transactional
     public Long getQuoteIdByDateAdded(Long date) {
         return quoteAbyssRepository.getQuoteIdByDate(date);
     }
 
     @Override
-    @Transactional
     public boolean containInAbyss(Long id) {
         return quoteAbyssRepository.existsQuoteByQuoteId(id);
     }
-
 
     @Transactional
     @Override
@@ -52,6 +49,5 @@ public class QuoteAbyssServiceImp implements QuoteAbyssService {
         quoteAbyssRepository.approveCaps(id, Calendar.getInstance().getTime().getTime() / 1000);
         return capsQuoteStorageRepository.getMaxID();
     }
-
 }
 

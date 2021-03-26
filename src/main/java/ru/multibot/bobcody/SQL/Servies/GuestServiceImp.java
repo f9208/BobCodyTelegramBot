@@ -10,6 +10,7 @@ import ru.multibot.bobcody.SQL.repository.GuestRepository;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class GuestServiceImp implements GuestService {
     @Autowired
     GuestRepository guestRepository;
@@ -21,15 +22,11 @@ public class GuestServiceImp implements GuestService {
     }
 
     @Override
-    @Transactional
     public boolean comprise(long id) {
         return guestRepository.existsById(id);
-
     }
 
-    @Transactional
     public List<Guest> getAllGuests() {
         return guestRepository.findAllByOrderByUserID();
     }
-
 }
