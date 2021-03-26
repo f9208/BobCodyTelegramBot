@@ -21,8 +21,8 @@ public class CourseHandler implements SimpleHandlerInterface {
 
     private String getCourse() {
         StringBuilder result = new StringBuilder("текущий курс валют по курсу ЦБ РФ на ");
-        Double grivna = Double.valueOf(courseValutParser.getValuteByCharCode("UAH").getValue());
-        grivna = grivna / 10;
+        Double grivna = Double.valueOf(courseValutParser.getValuteByCharCode("UAH").getValue()) / 10;
+        Double lira = Double.valueOf(courseValutParser.getValuteByCharCode("TRY").getValue()) / 10;
         result.append(courseValutParser.getDate() + ":\n")
                 .append("бакс СШП: ")
                 .append(courseValutParser.getValuteByCharCode("USD").getValue().substring(0, 5))
@@ -32,6 +32,9 @@ public class CourseHandler implements SimpleHandlerInterface {
                 .append("\n")
                 .append("грывна: ")
                 .append(String.valueOf(Math.ceil(grivna * 100) / 100))
+                .append("\n")
+                .append("индейка лир: ")
+                .append(String.valueOf(Math.ceil(lira * 100) / 100))
                 .append("\n")
                 .append("юань: ").append(courseValutParser.getValuteByCharCode("CNY").getValue().substring(0, 5))
                 .append("\nнефть не нужна, собирай шишки.");
