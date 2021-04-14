@@ -54,5 +54,4 @@ public class CourseValutParser {
     public Valute getValuteByCharCode(String charCode) {
         return getMapByKeyAsValuteCode().get(charCode);
     }
-
 }

@@ -9,6 +9,7 @@ import ru.multibot.bobcody.SQL.repository.BoobsStorageRepository;
 import java.util.NoSuchElementException;
 
 @Service
+@Transactional(readOnly = true)
 public class BoobsStorageServiceImp implements BoobsStorageService {
     @Autowired
     BoobsStorageRepository boobsStorageRepository;
@@ -20,24 +21,20 @@ public class BoobsStorageServiceImp implements BoobsStorageService {
     }
 
     @Override
-    @Transactional
     public String getById(Long id) throws NoSuchElementException {
         return boobsStorageRepository.findById(id).get().getLink();
     }
 
     @Override
-    @Transactional
     public Long getSizeDB() {
         return boobsStorageRepository.count();
     }
 
     @Override
-    @Transactional
     public Iterable<BoobsStorage> getAllAsIterator() {
         return boobsStorageRepository.findAll();
     }
 
-    @Transactional
     public Long findIdByLink(BoobsStorage boobsStorage) {
         return boobsStorageRepository.getBoobsStorageByLink(boobsStorage.getLink()).getId();
     }

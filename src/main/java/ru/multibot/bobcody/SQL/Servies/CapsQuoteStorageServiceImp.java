@@ -8,32 +8,29 @@ import ru.multibot.bobcody.SQL.repository.CapsQuoteStorageRepository;
 import ru.multibot.bobcody.SQL.repository.QuoteAbyssRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class CapsQuoteStorageServiceImp implements CapsQuoteStorageService {
     @Autowired
     CapsQuoteStorageRepository capsQuoteStorageRepository;
     @Autowired
     QuoteAbyssRepository quoteAbyssRepository;
 
-    @Transactional
     @Override
     public boolean existById(Long id) {
         return capsQuoteStorageRepository.existsCapsQuoteEntityStorageByCapsQuoteID(id);
     }
 
-    @Transactional
     @Override
     public CapsQuoteEntityStorage getById(Long id) {
         return capsQuoteStorageRepository.getCapsQuoteEntityStorageByCapsQuoteID(id);
     }
 
-    @Transactional
     @Override
     public boolean containInCapsQuoteStorage(Long abyssQuoteId) {
         Long dateAdded = quoteAbyssRepository.getDateAddedByQuoteId(abyssQuoteId);
         return capsQuoteStorageRepository.existsCapsQuoteEntityStorageByDateAdded(dateAdded);
     }
 
-    @Transactional
     @Override
     public Long getMaxID() {
         return capsQuoteStorageRepository.getMaxID();

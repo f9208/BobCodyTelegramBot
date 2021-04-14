@@ -1,5 +1,8 @@
 package ru.multibot.bobcody.ThirdPartyAPI.weather.weatherCondition;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = {"gust"})
 public class Wind {
     private int speed;
     private String degDirection;

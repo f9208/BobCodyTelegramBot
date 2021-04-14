@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Setter
 @Getter
 @XmlAccessorType(XmlAccessType.NONE)
@@ -36,7 +35,4 @@ public class ValCurs {
     public String getName() {
         return name;
     }
-
-
-
 }

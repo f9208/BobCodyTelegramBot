@@ -10,6 +10,7 @@ import ru.multibot.bobcody.SQL.repository.QuoteStorageRepository;
 import java.util.Calendar;
 
 @Service
+@Transactional(readOnly = true)
 public class QuoteStorageServiceImp implements QuoteStorageService {
     @Autowired
     QuoteStorageRepository quoteStorageRepository;
@@ -22,7 +23,6 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
         quoteStorageRepository.save(quoteEntityStorage);
     }
 
-    @Transactional
     @Override
     public QuoteEntityStorage getSingleQuoteFromStorageById(Long id) {
         return quoteStorageRepository.getQuoteEntityStorageByQuoteId(id);
@@ -36,20 +36,17 @@ public class QuoteStorageServiceImp implements QuoteStorageService {
         return getMaxID();
     }
 
-    @Transactional
     @Override
     public Long getMaxID() {
         return quoteStorageRepository.getMaxID();
     }
 
-    @Transactional
     @Override
     public boolean containInQuoteStorage(Long abyssQuoteId) {
         Long dateAdded = quoteAbyssRepository.getDateAddedByQuoteId(abyssQuoteId);
         return quoteStorageRepository.existsQuoteEntityStorageByDateAdded(dateAdded);
     }
 
-    @Transactional
     @Override
     public boolean existById(long id) {
         return quoteStorageRepository.existsByQuoteId(id);
