@@ -34,14 +34,14 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
                 result = openWeatherForecast.getFullForecast(cityName);
             }
         } catch (IOException e) {
+            e.printStackTrace();
             result = cityName.replace("%20", " ") + "? Где это? в Бельгии что-ли?";
         }
         return result;
     }
 
     private String getShortForecast(String cityName) {
-        String result = "123 а не погода.";
-        System.out.println("пашет, ущуке!");
+        String result = "";
         try {
             if (cityName.equals("default")) {
                 result = openWeatherForecast.getShortForecast(defaultCityName);
@@ -49,6 +49,7 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
                 result = openWeatherForecast.getShortForecast(cityName);
             }
         } catch (IOException e) {
+            e.printStackTrace();
             result = cityName.replace("%20", " ") + "? Где это? в Бельгии что-ли?";
         }
         return result;
@@ -72,6 +73,7 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
         if (cityTwoWord.length == 1
                 && (cityTwoWord[0].equals("!погода") || cityTwoWord[0].equals("!weather"))) {
             cityName.append("default");
+            System.out.println("ситинейм: "+cityName);
             return getForecast(cityName.toString());
         }
 
