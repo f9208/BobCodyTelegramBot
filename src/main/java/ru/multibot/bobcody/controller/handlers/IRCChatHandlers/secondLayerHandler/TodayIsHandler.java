@@ -14,6 +14,7 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 @Component
 @Getter
@@ -22,6 +23,9 @@ public class TodayIsHandler implements SimpleHandlerInterface {
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
+
+        TimeZone calliforniaTimeZone=TimeZone.getTimeZone("America/Los_Angeles");
+        TimeZone bratislava = TimeZone.getTimeZone("Europe/Bratislava");
 
         StringBuilder currentDate = new StringBuilder();
         currentDate.append("Сегодня ")
@@ -38,12 +42,12 @@ public class TodayIsHandler implements SimpleHandlerInterface {
                 .append(LocalDateTime.now(ZoneId.of("GMT+3")).format(DateTimeFormatter.ofPattern("HH:mm")))
                 .append("\n")
                 .append("у кориафчика в Словакии: ")
-                .append(LocalDateTime.now(ZoneId.of("GMT+1")).format(DateTimeFormatter.ofPattern("HH:mm")))
+                .append(LocalDateTime.now(bratislava.toZoneId()).format(DateTimeFormatter.ofPattern("HH:mm")))
                 .append("\n")
                 .append("в солнечной Калифорнии: ")
-                .append(LocalDateTime.now(ZoneId.of("GMT-8")).format(DateTimeFormatter.ofPattern("HH:mm")))
+                .append(LocalDateTime.now(calliforniaTimeZone.toZoneId()).format(DateTimeFormatter.ofPattern("HH:mm")))
                 .append(" (")
-                .append(LocalDateTime.now(ZoneId.of("GMT-8")).format(DateTimeFormatter.ofPattern("dd MMMM")
+                .append(LocalDateTime.now(calliforniaTimeZone.toZoneId()).format(DateTimeFormatter.ofPattern("dd MMMM")
                         .withLocale(new Locale("ru", "RU"))))
                 .append(")\n");
         result.setText(currentDate.toString());
