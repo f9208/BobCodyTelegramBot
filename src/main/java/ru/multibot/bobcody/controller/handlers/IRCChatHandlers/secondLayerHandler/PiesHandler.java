@@ -26,9 +26,9 @@ public class PiesHandler implements SimpleHandlerInterface {
         String textMessageAnswer;
         Random r = new Random();
         int sizePiesOnPage = piesList.size();
-        System.out.println("количество пирожков в листе:"+sizePiesOnPage);
+        System.out.println("количество пирожков в листе:" + sizePiesOnPage);
         int rand = r.nextInt(sizePiesOnPage);
-        System.out.println("рендомный индекс:"+rand);
+        System.out.println("рендомный индекс:" + rand);
         textMessageAnswer = piesList.get(rand).toString();
         result.setText(textMessageAnswer);
         return result;

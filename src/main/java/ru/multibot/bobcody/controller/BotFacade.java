@@ -96,7 +96,7 @@ public class BotFacade {
                     LocalTime.now(),
                     ((SendMessage) replay).getText());
 
-        } else if (update!=null&&update.hasCallbackQuery()) {
+        } else if (update != null && update.hasCallbackQuery()) {
             log.info("new CallBack: {}",
                     update.getCallbackQuery().getData());
             replay = new SendMessage().setChatId(update.getMessage().getChatId()).setText("в колбэках пока не знаю");

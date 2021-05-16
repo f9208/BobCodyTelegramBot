@@ -73,7 +73,7 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
         if (cityTwoWord.length == 1
                 && (cityTwoWord[0].equals("!погода") || cityTwoWord[0].equals("!weather"))) {
             cityName.append("default");
-            System.out.println("ситинейм: "+cityName);
+            System.out.println("ситинейм: " + cityName);
             return getForecast(cityName.toString());
         }
 

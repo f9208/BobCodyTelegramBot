@@ -15,7 +15,7 @@ public class BoobsStorage {
     @Column(columnDefinition = "serial")
     Long id;
 
-    @Column (name="link", columnDefinition = "varchar(5000)")
+    @Column(name = "link", columnDefinition = "varchar(5000)")
     String link;
 
 

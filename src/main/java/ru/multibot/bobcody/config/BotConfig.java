@@ -113,9 +113,9 @@ public class BotConfig {
     @PostConstruct
     public void setWebHook() {
         URL link = null;
-        HttpURLConnection connection=null;
+        HttpURLConnection connection = null;
         try {
-            link = new URL("https://api.telegram.org/bot"+botToken+"/setWebhook?url=" + webHookPath);
+            link = new URL("https://api.telegram.org/bot" + botToken + "/setWebhook?url=" + webHookPath);
             connection = (HttpURLConnection) link.openConnection();
             connection.setRequestMethod("GET");
         } catch (MalformedURLException e) {
@@ -129,7 +129,7 @@ public class BotConfig {
         while ((inputLine = br.readLine()) != null) {
             resp.append(inputLine);
         }
-        System.out.println("webHook"+ webHookPath+"->> "+resp);
+        System.out.println("webHook" + webHookPath + "->> " + resp);
 
     }
 }

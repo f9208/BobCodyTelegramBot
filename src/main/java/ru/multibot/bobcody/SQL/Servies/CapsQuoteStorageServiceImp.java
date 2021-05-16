@@ -38,7 +38,7 @@ public class CapsQuoteStorageServiceImp implements CapsQuoteStorageService {
 
     @Transactional
     @Override
-    public void handleAdd(Long key, String value){
+    public void handleAdd(Long key, String value) {
         capsQuoteStorageRepository.handAdd(key, value);
     }
 }

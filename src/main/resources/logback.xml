@@ -18,6 +18,9 @@
             <!--файловый аппендер берется отсюда: (внешний вид делаем такоей же как и в консоле)-->
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <!--<outputPatternAsHeader>true</outputPatternAsHeader>-->
+
+            <totalSizeCap>10MB</totalSizeCap>
+
         </encoder>
     </appender>
 

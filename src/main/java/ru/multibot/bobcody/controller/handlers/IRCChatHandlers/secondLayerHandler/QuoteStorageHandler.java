@@ -23,7 +23,7 @@ import java.util.Random;
 @Getter
 public class QuoteStorageHandler implements SimpleHandlerInterface {
     @Autowired // заменить на интерфейс?
-            QuoteStorageService quoteStorageServiceImp;
+    QuoteStorageService quoteStorageServiceImp;
 
     private String getTextQuoteStorage(Message message) {
         String shortCommand = message.getText().trim();

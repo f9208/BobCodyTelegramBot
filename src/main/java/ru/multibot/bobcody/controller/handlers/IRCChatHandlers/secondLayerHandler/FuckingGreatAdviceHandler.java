@@ -35,7 +35,7 @@ public class FuckingGreatAdviceHandler implements SimpleHandlerInterface {
         if (inputMessage.getText().equals("!обс") || inputMessage.getText().equals("!fga")) {
             if (inputMessage.getFrom().getUserName() == null)
                 result.setText(inputMessage.getFrom().getFirstName() + ", " + getAdvice());
-               else result.setText("@" + inputMessage.getFrom().getUserName() + ", " + getAdvice());
+            else result.setText("@" + inputMessage.getFrom().getUserName() + ", " + getAdvice());
         }
         return result;
     }

@@ -33,7 +33,7 @@ public class CourseValutParser {
             //не нравится, переделать как то на кэширование.
             result = (ValCurs) um.unmarshal(new InputStreamReader(cbrCource.openStream()));
             cbrCource = null;
-            date=result.getDate();
+            date = result.getDate();
         } catch (JAXBException e) {
             e.printStackTrace();
         } catch (IOException e) {

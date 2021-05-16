@@ -7,7 +7,7 @@ import ru.multibot.bobcody.SQL.Entities.Guest;
 import java.util.List;
 
 @Repository
-public interface GuestRepository extends CrudRepository<Guest, Long>{
+public interface GuestRepository extends CrudRepository<Guest, Long> {
 
     List<Guest> findAllByOrderByUserID();
 }

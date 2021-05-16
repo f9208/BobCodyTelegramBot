@@ -25,9 +25,9 @@ public class BobCodyBot extends TelegramWebhookBot {
     }
 
     public BobCodyBot(String botName, String botToken, String webHookPath) {
-        this.botName=botName;
-        this.botToken=botToken;
-        this.webHookPath=webHookPath;
+        this.botName = botName;
+        this.botToken = botToken;
+        this.webHookPath = webHookPath;
     }
 
     /**
