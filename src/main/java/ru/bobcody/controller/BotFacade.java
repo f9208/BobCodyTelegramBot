@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.bobcody.controller.handlers.IRCChatHandlers.IRCMainHandlerTextMessage;
+import ru.bobcody.controller.handlers.IRCChatHandlers.MainHandlerTextMessage;
 
 import static ru.bobcody.utilits.MessageWriteLog.*;
 
@@ -29,10 +29,9 @@ import static ru.bobcody.utilits.MessageWriteLog.*;
 @Component
 public class BotFacade {
     @Autowired
-    IRCMainHandlerTextMessage ircMainHandlerTextMessage;
+    MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
     FloodControll floodControll;
-
 
     public BotApiMethod<?> handleUserUpdate(Update update) {
 
@@ -58,7 +57,7 @@ public class BotFacade {
     private SendMessage messageResolver(Message message) {
         SendMessage replay = new SendMessage();
         try {
-            replay = ircMainHandlerTextMessage.handle(message);
+            replay = mainHandlerTextMessage.handle(message);
         } catch (Exception e) {
             e.printStackTrace();
             replay.setText("что-то пошло не так: " + e.toString()).setChatId("445682905");

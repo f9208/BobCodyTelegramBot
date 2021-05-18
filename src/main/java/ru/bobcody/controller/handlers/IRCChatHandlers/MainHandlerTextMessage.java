@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import ru.bobcody.controller.BobCodyBot;
 import ru.bobcody.Entities.Guest;
-import ru.bobcody.Servies.GuestServiceImp;
+import ru.bobcody.Servies.GuestService;
 import ru.bobcody.controller.handlers.IRCChatHandlers.secondLayerHandler.SlapHandler;
 
 import java.util.HashMap;
@@ -19,22 +19,22 @@ import java.util.Map;
 @Setter
 @Getter
 @Component
-public class IRCMainHandlerTextMessage {
+public class MainHandlerTextMessage {
     @Autowired
     BobCodyBot bobCodyBot;
     @Autowired
-    GuestServiceImp guestServiceImp;
+    GuestService guestService;
     @Autowired
     SlapHandler slapHandler;
     @Autowired
     List<Guest> guestList;
 
-    private Map<String, SimpleHandlerInterface> multihandler = new HashMap<>();
+    private Map<String, SimpleHandlerInterface> multiHandler = new HashMap<>();
 
-    public IRCMainHandlerTextMessage(List<SimpleHandlerInterface> handlers) {
+    public MainHandlerTextMessage(List<SimpleHandlerInterface> handlers) {
         for (SimpleHandlerInterface iterHandler : handlers) {
             for (String insideListOrder : iterHandler.getOrderList()) {
-                multihandler.put(insideListOrder, iterHandler);
+                multiHandler.put(insideListOrder, iterHandler);
             }
         }
     }
@@ -43,7 +43,6 @@ public class IRCMainHandlerTextMessage {
         SendMessage result = new SendMessage();
         String textMessage = inputMessage.getText().toLowerCase();
         User user = inputMessage.getFrom();
-        //добавляем юзера в базу юзеров. just in case
 
         if (guestList.size() == 0) {
             reloadUsersList();
@@ -53,22 +52,22 @@ public class IRCMainHandlerTextMessage {
             reloadUsersList();
         }
 
-        if (multihandler.containsKey(textMessage.split(" ")[0])) {
-            result = multihandler.get(textMessage.split(" ")[0]).handle(inputMessage);
+        if (multiHandler.containsKey(textMessage.split(" ")[0])) {
+            result = multiHandler.get(textMessage.split(" ")[0]).handle(inputMessage);
             if (result != null && result.getChatId() == null)
                 //если нашли какую то команду и обработчик к ней то на остальные условия становятся не важны
                 return result.setChatId(inputMessage.getChatId());
         }
 
         if (touchBotName(textMessage)) {
-            result = multihandler.get("бот").handle(inputMessage);
+            result = multiHandler.get("бот").handle(inputMessage);
         }
 
         if (textMessage.contains("amd ") //переделать на регулярное выражение.
                 || textMessage.contains("амд ")
                 || textMessage.endsWith(" амд")
                 || textMessage.endsWith(" amd")) {
-            result = multihandler.get("amd").handle(inputMessage);
+            result = multiHandler.get("amd").handle(inputMessage);
         }
 
         if (textMessage.equals("!ссылки") ||
@@ -83,7 +82,7 @@ public class IRCMainHandlerTextMessage {
     }
 
     private Boolean containUserToMainTable(User user) {
-        return guestServiceImp.comprise(Long.valueOf(user.getId()));
+        return guestService.comprise(Long.valueOf(user.getId()));
     }
 
     private boolean touchBotName(String text) {
@@ -99,7 +98,7 @@ public class IRCMainHandlerTextMessage {
                     oneWOrd.equals("бобу") ||
                     oneWOrd.equals("бобби") ||
                     oneWOrd.equals("b0b")
-                    ) result = true;
+            ) result = true;
         }
         return result;
     }
@@ -107,7 +106,7 @@ public class IRCMainHandlerTextMessage {
     private void addToMainDataBase(User user) {
         Guest guest = new Guest(user);
         if (!containUserToMainTable(user)) {
-            guestServiceImp.add(guest);
+            guestService.add(guest);
         } else {
             System.out.println("такой юзер уже содержится в ДБ");
             reloadUsersList();
@@ -115,7 +114,7 @@ public class IRCMainHandlerTextMessage {
     }
 
     private void reloadUsersList() {
-        guestList = guestServiceImp.getAllGuests();
+        guestList = guestService.getAllGuests();
     }
 
     private boolean containGuestInList(User user) {

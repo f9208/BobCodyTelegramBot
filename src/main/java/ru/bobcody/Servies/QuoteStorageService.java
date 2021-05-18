@@ -1,22 +1,58 @@
 package ru.bobcody.Servies;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.Entities.QuoteEntityStorage;
+import ru.bobcody.repository.QuoteAbyssRepository;
+import ru.bobcody.repository.QuoteStorageRepository;
 
-public interface QuoteStorageService {
-    void add(QuoteEntityStorage quoteEntityStorage);
+import java.util.Calendar;
 
-    QuoteEntityStorage getSingleQuoteFromStorageById(Long id);
+@Service
+public class QuoteStorageService {
+    @Autowired
+    QuoteStorageRepository quoteStorageRepository;
+    @Autowired
+    QuoteAbyssRepository quoteAbyssRepository;
 
-    Long adderQuote(Long a);
+    @Transactional
+    public void add(QuoteEntityStorage quoteEntityStorage) {
+        quoteStorageRepository.save(quoteEntityStorage);
+    }
 
-    Long getMaxID();
+    @Transactional
+    public QuoteEntityStorage getSingleQuoteFromStorageById(Long id) {
+        return quoteStorageRepository.getQuoteEntityStorageByQuoteId(id);
+    }
 
-    boolean existById(long id);
+    @Transactional
+    public Long adderQuote(Long a) {
+        long currTime = Calendar.getInstance().getTime().getTime() / 1000;
+        quoteAbyssRepository.approveQuote(a, currTime);
+        return getMaxID();
+    }
 
-    boolean containInQuoteStorage(Long added);
+    @Transactional
+    public Long getMaxID() {
+        return quoteStorageRepository.getMaxID();
+    }
 
-    // ручное добавление цитаток
-    void handleAdd(Long key, String value);
+    @Transactional
+    public boolean containInQuoteStorage(Long abyssQuoteId) {
+        Long dateAdded = quoteAbyssRepository.getDateAddedByQuoteId(abyssQuoteId);
+        return quoteStorageRepository.existsQuoteEntityStorageByDateAdded(dateAdded);
+    }
 
+    @Transactional
+    public boolean existById(long id) {
+        return quoteStorageRepository.existsByQuoteId(id);
+    }
 
+    @Transactional
+   //ручное добавление цитат из файла.
+    public void handleAdd(Long key, String value) {
+        quoteStorageRepository.handAdd(value, key);
+
+    }
 }

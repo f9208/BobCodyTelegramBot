@@ -1,17 +1,42 @@
 package ru.bobcody.Servies;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.Entities.CapsQuoteEntityStorage;
+import ru.bobcody.repository.CapsQuoteStorageRepository;
+import ru.bobcody.repository.QuoteAbyssRepository;
 
+@Service
+public class CapsQuoteStorageService {
+    @Autowired
+    CapsQuoteStorageRepository capsQuoteStorageRepository;
+    @Autowired
+    QuoteAbyssRepository quoteAbyssRepository;
 
-public interface CapsQuoteStorageService {
+    @Transactional
+    public boolean existById(Long id) {
+        return capsQuoteStorageRepository.existsCapsQuoteEntityStorageByCapsQuoteID(id);
+    }
 
-    boolean existById(Long id);
+    @Transactional
+    public CapsQuoteEntityStorage getById(Long id) {
+        return capsQuoteStorageRepository.getCapsQuoteEntityStorageByCapsQuoteID(id);
+    }
 
-    CapsQuoteEntityStorage getById(Long id);
+    @Transactional
+    public boolean containInCapsQuoteStorage(Long abyssQuoteId) {
+        Long dateAdded = quoteAbyssRepository.getDateAddedByQuoteId(abyssQuoteId);
+        return capsQuoteStorageRepository.existsCapsQuoteEntityStorageByDateAdded(dateAdded);
+    }
 
-    boolean containInCapsQuoteStorage(Long id);
+    @Transactional
+    public Long getMaxID() {
+        return capsQuoteStorageRepository.getMaxID();
+    }
 
-    Long getMaxID();
-
-    void handleAdd(Long key, String value);
+    @Transactional
+    public void handleAdd(Long key, String value){
+        capsQuoteStorageRepository.handAdd(key, value);
+    }
 }

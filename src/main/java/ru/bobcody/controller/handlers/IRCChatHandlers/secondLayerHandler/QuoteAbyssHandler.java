@@ -23,11 +23,11 @@ import java.util.List;
 @ConfigurationProperties(prefix = "quotemaster")
 public class QuoteAbyssHandler implements SimpleHandlerInterface {
     @Autowired
-    QuoteAbyssService quoteAbyssServiceImp;
+    QuoteAbyssService quoteAbyssService;
     @Autowired
-    CapsQuoteStorageService capsQuoteStorageServiceImp;
+    CapsQuoteStorageService capsQuoteStorageService;
     @Autowired
-    QuoteStorageService quoteStorageServiceImp;
+    QuoteStorageService quoteStorageService;
 
     @Autowired
     BobCodyBot bobCodyBot;
@@ -44,7 +44,7 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
             QuoteEntityAbyss quoteEntityAbyss = new QuoteEntityAbyss(new Guest(message.getFrom()).getUserID(),
                     Long.valueOf(message.getDate()),
                     textQuote);
-            quoteAbyssServiceImp.add(quoteEntityAbyss);
+            quoteAbyssService.add(quoteEntityAbyss);
             replay = "Записал в бездну. Цитата будет добавлена в хранилище после проверки модератором.";
             sendToModerator(message);
         } else {
@@ -59,7 +59,7 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
         String myPrivateChatID = "445682905";
         String textInputMessage = "пользователь " + message.getFrom().getUserName() +
                 " добавил цитатку. \n" +
-                "ID цитаты в бездне: " + quoteAbyssServiceImp.getQuoteIdByDateAdded(message.getDate().longValue()) +
+                "ID цитаты в бездне: " + quoteAbyssService.getQuoteIdByDateAdded(message.getDate().longValue()) +
                 "\nText:\n" +
                 message.getText().substring(3);
         try {
@@ -118,16 +118,16 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
                 return "ой не влажу в массив";
             }
 
-            if (!quoteAbyssServiceImp.containInAbyss(inputCapsQuoteIdFromAbyss))
+            if (!quoteAbyssService.containInAbyss(inputCapsQuoteIdFromAbyss))
                 return "нет такого номера в бездне";
 
-            if (capsQuoteStorageServiceImp.containInCapsQuoteStorage(inputCapsQuoteIdFromAbyss)) {
+            if (capsQuoteStorageService.containInCapsQuoteStorage(inputCapsQuoteIdFromAbyss)) {
                 return "ее уже добавляли в хранилище Капсов.";
             }
-            if (quoteStorageServiceImp.containInQuoteStorage(inputCapsQuoteIdFromAbyss)) {
+            if (quoteStorageService.containInQuoteStorage(inputCapsQuoteIdFromAbyss)) {
                 return "ее уже добавляли в хранилище Цитат.";
             } else {
-                Long resultNumber = quoteAbyssServiceImp.approveCaps(inputCapsQuoteIdFromAbyss);
+                Long resultNumber = quoteAbyssService.approveCaps(inputCapsQuoteIdFromAbyss);
                 return "Капсик добавлен за номером " + resultNumber.longValue();
             }
         }
@@ -150,17 +150,17 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
                 return "ой не влажу в массив";
             }
 
-            if (!quoteAbyssServiceImp.containInAbyss(inputQuoteIdFromAbyss))
+            if (!quoteAbyssService.containInAbyss(inputQuoteIdFromAbyss))
                 return "нет такого номера в бездне";
 
-            if (capsQuoteStorageServiceImp.containInCapsQuoteStorage(inputQuoteIdFromAbyss)) {
+            if (capsQuoteStorageService.containInCapsQuoteStorage(inputQuoteIdFromAbyss)) {
                 return "ее уже добавляли в хранилище Капсов.";
             }
-            if (quoteStorageServiceImp.containInQuoteStorage(inputQuoteIdFromAbyss)) {
+            if (quoteStorageService.containInQuoteStorage(inputQuoteIdFromAbyss)) {
                 return "ее уже добавляли в хранилище Цитат.";
 
             } else {
-                Long resultNumber = quoteAbyssServiceImp.approveQuote(inputQuoteIdFromAbyss);
+                Long resultNumber = quoteAbyssService.approveQuote(inputQuoteIdFromAbyss);
                 return "цитата добавленна за номером " + resultNumber.longValue();
             }
         }

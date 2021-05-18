@@ -19,7 +19,7 @@ import java.util.Random;
 @Component
 public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
     @Autowired
-    CapsQuoteStorageService capsQuoteStorageServiceImp;
+    CapsQuoteStorageService capsQuoteStorageService;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -62,12 +62,12 @@ public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
         StringBuilder master = new StringBuilder();
         DateTimeFormatter formatDateToPrint = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         try {
-            CapsQuoteEntityStorage current = capsQuoteStorageServiceImp.getById(Long.valueOf(id));
+            CapsQuoteEntityStorage current = capsQuoteStorageService.getById(Long.valueOf(id));
             if (current != null) {
                 master.append("Капс №")
                         .append(current.getCapsQuoteID())
                         .append(" (")
-                        .append(capsQuoteStorageServiceImp.getMaxID())
+                        .append(capsQuoteStorageService.getMaxID())
                         .append(") added: ")
                         .append(LocalDateTime.ofInstant(Instant.ofEpochSecond(current.getDateAdded()),
                                 ZoneId.of("GMT")).format(formatDateToPrint))
@@ -85,9 +85,9 @@ public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
     private String randomQuoteFromQuoteStorage() {
         Random r = new Random();
         Long temp;
-        temp = Long.valueOf(r.nextInt(capsQuoteStorageServiceImp.getMaxID().intValue())) + 1;
-        while (!capsQuoteStorageServiceImp.existById(temp)) {
-            temp = Long.valueOf(r.nextInt(capsQuoteStorageServiceImp.getMaxID().intValue())) + 1;
+        temp = Long.valueOf(r.nextInt(capsQuoteStorageService.getMaxID().intValue())) + 1;
+        while (!capsQuoteStorageService.existById(temp)) {
+            temp = Long.valueOf(r.nextInt(capsQuoteStorageService.getMaxID().intValue())) + 1;
         }
         return capsQuotePrettyTextById(temp);
     }
