@@ -29,7 +29,7 @@
         </encoder>
     </appender>
 
-    <logger name="ru.multibot.bobcody.controller.BotFacade" level="INFO">
+    <logger name="ru.bobcody.controller.BotFacade" level="INFO">
         <appender-ref ref="INPUT_AND_OUTPUT_MESSAGE_FILE"/>
     </logger>
 
