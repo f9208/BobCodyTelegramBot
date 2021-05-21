@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface GuestRepository extends CrudRepository<Guest, Long>{
 
-    List<Guest> findAllByOrderByUserID();
+    List<Guest> findAllByOrderById();
 }

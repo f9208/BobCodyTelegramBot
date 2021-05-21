@@ -23,7 +23,7 @@ public class QuoteStorageService {
 
     @Transactional
     public QuoteEntityStorage getSingleQuoteFromStorageById(Long id) {
-        return quoteStorageRepository.getQuoteEntityStorageByQuoteId(id);
+        return quoteStorageRepository.getQuoteEntityStorageById(id);
     }
 
     @Transactional
@@ -40,13 +40,13 @@ public class QuoteStorageService {
 
     @Transactional
     public boolean containInQuoteStorage(Long abyssQuoteId) {
-        Long dateAdded = quoteAbyssRepository.getDateAddedByQuoteId(abyssQuoteId);
+        Long dateAdded = quoteAbyssRepository.getDateAddedById(abyssQuoteId);
         return quoteStorageRepository.existsQuoteEntityStorageByDateAdded(dateAdded);
     }
 
     @Transactional
     public boolean existById(long id) {
-        return quoteStorageRepository.existsByQuoteId(id);
+        return quoteStorageRepository.existsById(id);
     }
 
     @Transactional

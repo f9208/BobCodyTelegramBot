@@ -40,7 +40,7 @@ public class MessageWriteLog {
 
     private static void inputMessageTextLog(Message message) {
         log.info("Input, " + LOG_COMMON_MESSAGE + "textMessage: {}",
-                commonArguments(message));
+                compileArgs(commonArguments(message), message.getText()));
     }
 
     private static void inputMessagePhotoLog(Message message) {

@@ -26,7 +26,7 @@ public class GuestService {
 
     @Transactional
     public List<Guest> getAllGuests() {
-        return guestRepository.findAllByOrderByUserID();
+        return guestRepository.findAllByOrderById();
     }
 
 }

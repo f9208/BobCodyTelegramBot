@@ -14,8 +14,7 @@ public class Guest {
     @Getter
     @Setter
     @Id
-    @Column(name = "user_id")
-    private Long userID;
+    private Long id;
     @Setter
     @Getter
     @Column(name = "first_name")
@@ -34,12 +33,19 @@ public class Guest {
     private String languageCode;
     @Getter
     @Setter
-    @OneToMany(mappedBy = "author",
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     List<QuoteEntityAbyss> quoteEntityAbysses;
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL)
+    List<InputMessage> inputMessages;
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    List<QuoteEntityStorage> quoteEntityStorages;
 
     public Guest(User user) {
-        this.userID = Long.valueOf(user.getId());
+        this.id = Long.valueOf(user.getId());
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.userName = user.getUserName();
@@ -52,12 +58,11 @@ public class Guest {
 
     @Override
     public String toString() {
-        return new String(userName + " "
+        return userName + " "
                 + lastName + " "
                 + firstName + " "
-                + userID + " "
-                + languageCode
-        );
+                + id + " "
+                + languageCode;
     }
 
     @Override
@@ -65,12 +70,12 @@ public class Guest {
         if (this == o) return true;
         if (!(o instanceof Guest)) return false;
         Guest guest = (Guest) o;
-        return Objects.equals(getUserID(), guest.getUserID());
+        return Objects.equals(getId(), guest.getId());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getUserID());
+        return Objects.hash(getId());
     }
 }

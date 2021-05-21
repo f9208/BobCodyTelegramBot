@@ -26,7 +26,7 @@ public class CapsQuoteStorageService {
 
     @Transactional
     public boolean containInCapsQuoteStorage(Long abyssQuoteId) {
-        Long dateAdded = quoteAbyssRepository.getDateAddedByQuoteId(abyssQuoteId);
+        Long dateAdded = quoteAbyssRepository.getDateAddedById(abyssQuoteId);
         return capsQuoteStorageRepository.existsCapsQuoteEntityStorageByDateAdded(dateAdded);
     }
 

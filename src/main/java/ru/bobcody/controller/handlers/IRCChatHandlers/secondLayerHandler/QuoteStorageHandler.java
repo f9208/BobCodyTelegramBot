@@ -68,7 +68,7 @@ public class QuoteStorageHandler implements SimpleHandlerInterface {
             QuoteEntityStorage current = quoteStorageServiceImp.getSingleQuoteFromStorageById(Long.valueOf(number));
             if (current != null) {
                 master.append("Цитата №")
-                        .append(current.getQuoteId())
+                        .append(current.getId())
                         .append(" (")
                         .append(quoteStorageServiceImp.getMaxID())
                         .append(") added: ")

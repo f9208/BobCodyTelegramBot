@@ -32,7 +32,7 @@ public class QuoteAbyssService {
 
     @Transactional
     public boolean containInAbyss(Long id) {
-        return quoteAbyssRepository.existsQuoteByQuoteId(id);
+        return quoteAbyssRepository.existsQuoteById(id);
     }
 
 

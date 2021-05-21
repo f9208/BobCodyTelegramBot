@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
+import ru.bobcody.Entities.InputMessage;
+import ru.bobcody.Servies.InputMessageService;
 import ru.bobcody.controller.BobCodyBot;
 import ru.bobcody.Entities.Guest;
 import ru.bobcody.Servies.GuestService;
@@ -25,9 +27,9 @@ public class MainHandlerTextMessage {
     @Autowired
     GuestService guestService;
     @Autowired
-    SlapHandler slapHandler;
+    InputMessageService inputMessageService;
     @Autowired
-    List<Guest> guestList;
+    SlapHandler slapHandler;
 
     private Map<String, SimpleHandlerInterface> multiHandler = new HashMap<>();
 
@@ -44,13 +46,11 @@ public class MainHandlerTextMessage {
         String textMessage = inputMessage.getText().toLowerCase();
         User user = inputMessage.getFrom();
 
-        if (guestList.size() == 0) {
-            reloadUsersList();
+        if (user != null) {
+            saveGuest(user);
         }
-        if (user != null && !containGuestInList(user)) {
-            addToMainDataBase(user);
-            reloadUsersList();
-        }
+
+        saveInputMessage(inputMessage);
 
         if (multiHandler.containsKey(textMessage.split(" ")[0])) {
             result = multiHandler.get(textMessage.split(" ")[0]).handle(inputMessage);
@@ -81,10 +81,6 @@ public class MainHandlerTextMessage {
         return result;
     }
 
-    private Boolean containUserToMainTable(User user) {
-        return guestService.comprise(Long.valueOf(user.getId()));
-    }
-
     private boolean touchBotName(String text) {
         boolean result = false;
         String[] singleWordArray = text.split("[{^?*+ .,$:;#%/|()]");
@@ -103,24 +99,13 @@ public class MainHandlerTextMessage {
         return result;
     }
 
-    private void addToMainDataBase(User user) {
+    private void saveGuest(User user) {
         Guest guest = new Guest(user);
-        if (!containUserToMainTable(user)) {
-            guestService.add(guest);
-        } else {
-            System.out.println("такой юзер уже содержится в ДБ");
-            reloadUsersList();
-        }
+        guestService.add(guest);
     }
 
-    private void reloadUsersList() {
-        guestList = guestService.getAllGuests();
-    }
-
-    private boolean containGuestInList(User user) {
-        Guest guest = new Guest(user);
-
-        return guestList.contains(guest);
+    private void saveInputMessage(Message message) {
+        inputMessageService.save(new InputMessage(message));
     }
 }
 

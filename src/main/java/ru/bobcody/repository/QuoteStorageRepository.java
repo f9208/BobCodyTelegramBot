@@ -11,11 +11,11 @@ import ru.bobcody.Entities.QuoteEntityStorage;
 public interface QuoteStorageRepository extends CrudRepository<QuoteEntityStorage, Long> {
 
 
-    @Query(value = "SELECT MAX (quote_id) from public.quotation_storage",
+    @Query(value = "SELECT MAX (id) from public.quotation_storage",
             nativeQuery = true)
     Long getMaxID();
 
-    boolean existsByQuoteId(long id);
+    boolean existsById(long id);
 
     boolean existsQuoteEntityStorageByDateAdded(long date);
 
@@ -23,7 +23,7 @@ public interface QuoteStorageRepository extends CrudRepository<QuoteEntityStorag
             nativeQuery = true)
     Long getAuthorByDateAdded(@Param("dateAdded") Long date);
 
-    QuoteEntityStorage getQuoteEntityStorageByQuoteId(long id);
+    QuoteEntityStorage getQuoteEntityStorageById(long id);
 
 
     // ручное добавленеи цитат

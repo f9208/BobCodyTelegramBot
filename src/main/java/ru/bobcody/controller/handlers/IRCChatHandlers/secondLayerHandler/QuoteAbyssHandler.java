@@ -32,7 +32,6 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
     @Autowired
     BobCodyBot bobCodyBot;
 
-
     private String addQuoteToAbyss(Message message) {
         String replay;
         String textQuote;
@@ -41,7 +40,7 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
             replay = message.getFrom().getUserName() + ", ты цитату то введи";
 
         } else if (textQuote.length() < 5000) {
-            QuoteEntityAbyss quoteEntityAbyss = new QuoteEntityAbyss(new Guest(message.getFrom()).getUserID(),
+            QuoteEntityAbyss quoteEntityAbyss = new QuoteEntityAbyss(new Guest(message.getFrom()),
                     Long.valueOf(message.getDate()),
                     textQuote);
             quoteAbyssService.add(quoteEntityAbyss);

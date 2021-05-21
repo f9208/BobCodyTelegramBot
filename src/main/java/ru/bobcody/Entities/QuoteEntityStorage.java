@@ -15,20 +15,21 @@ public class QuoteEntityStorage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "serial")
-    Long quoteId;
-    @Column(name = "author_id")
-    String author;
+    Long id;
     @Column(name = "date_added")
     Long dateAdded;
     @Column(name = "date_approved")
     Long dateApproved;
     @Column(name = "quote_text", columnDefinition = "varchar(5000)")
     String text;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id", nullable = false)
+    Guest author;
 
     public QuoteEntityStorage() {
     }
 
-    public QuoteEntityStorage(String author, Long dateAdded, Long dataApproved, String text) {
+    public QuoteEntityStorage(Guest author, Long dateAdded, Long dataApproved, String text) {
         this.dateAdded = dateAdded;
         this.text = text;
         this.author = author;
