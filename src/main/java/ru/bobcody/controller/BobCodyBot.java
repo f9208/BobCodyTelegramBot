@@ -30,13 +30,6 @@ public class BobCodyBot extends TelegramWebhookBot {
         this.webHookPath=webHookPath;
     }
 
-    /**
-     * Основной метод, в который прилетают updatы из Request-POST части.
-     * Возвращать, соответственно, можно только наследников BotApiMethod'a (SendMessage, например)
-     * Чтобы бот отправлял файл, картинку, музыку и прочие не JSON объекты
-     * необходимо executнуть инстенс bobCodyBot с этим файлом (картинкой, музыкой, etс)
-     * в качестве параметра
-     */
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         BotApiMethod result = botFacade.handleUserUpdate(update);

@@ -3,21 +3,31 @@ package ru.bobcody.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.bobcody.controller.BobCodyBot;
-import ru.bobcody.ThirdPartyAPI.HotPies.SinglePie;
-import ru.bobcody.Entities.Guest;
+import ru.bobcody.thirdPartyAPI.HotPies.SinglePie;
+import ru.bobcody.entities.Guest;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +45,7 @@ import java.util.List;
 @EnableTransactionManagement
 @EnableConfigurationProperties
 @EnableScheduling
-
+@EnableCaching
 public class BotConfig {
     String botToken;
     String botName;
@@ -99,6 +109,30 @@ public class BotConfig {
     @Bean
     public List<SinglePie> piesList() {
         return new SinglePie().getPiesList();
+    }
+
+    @SneakyThrows
+    @PostConstruct
+    //todo переделать на профиль только dev
+    public void setWebHook() {
+        URL link;
+        HttpURLConnection connection = null;
+        try {
+            link = new URL("https://api.telegram.org/bot" + botToken + "/setWebhook?url=" + webHookPath);
+            connection = (HttpURLConnection) link.openConnection();
+            connection.setRequestMethod("GET");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer resp = new StringBuffer();
+        while ((inputLine = br.readLine()) != null) {
+            resp.append(inputLine);
+        }
+        System.out.println("webHook" + webHookPath + "->> " + resp);
     }
 }
 

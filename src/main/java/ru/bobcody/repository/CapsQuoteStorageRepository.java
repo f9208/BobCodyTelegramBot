@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.bobcody.Entities.CapsQuoteEntityStorage;
+import ru.bobcody.entities.CapsQuoteEntityStorage;
 
 @Repository
 public interface CapsQuoteStorageRepository extends CrudRepository<CapsQuoteEntityStorage, Long> {
@@ -30,6 +30,6 @@ public interface CapsQuoteStorageRepository extends CrudRepository<CapsQuoteEnti
     @Query(value = "INSERT INTO public.caps_quotation_storage(author, date_added, date_approved, caps_text)" +
             "SELECT 445682905," +
             ":currentTime, :currentTime, :textQuote", nativeQuery = true)
-    void handAdd(@Param("currentTime") Long unixTime, @Param("textQuote") String inputText);
+    void manualAdd(@Param("currentTime") Long unixTime, @Param("textQuote") String inputText);
 
 }

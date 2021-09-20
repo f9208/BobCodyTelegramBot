@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.bobcody.controller.handlers.IRCChatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 
 import static ru.bobcody.utilits.MessageWriteLog.*;
 
@@ -32,49 +32,36 @@ public class BotFacade {
     MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
     FloodControll floodControll;
+    @Autowired
+    Resolver resolver;
 
+    // BotApiMethods - A methods of Telegram Bots Api that is fully supported in json format
     public BotApiMethod<?> handleUserUpdate(Update update) {
 
-        BotApiMethod replay = null;
-
+        SendMessage replay = null;
+        Message message = null;
+        if (hasEditedMessage(update)) {
+            message = update.getEditedMessage();
+            writeLog(message);
+        }
         if (hasMessage(update)) {
-            Message inputMessage = update.getMessage();
-            writeLog(inputMessage);
-
-            if (inputMessage.hasText()) {
-                replay = messageResolver(inputMessage);
-                if (((SendMessage) replay).getText() != null) {
-                    outputTestMessageLog((SendMessage) replay);
-                }
-            }
-            if (hasCallback(update)) {
-                return callBackResolver(update);
+            message = update.getMessage();
+            writeLog(message);
+        }
+        if (message != null && message.hasText()) {
+            replay = resolver.textMessageResolver(message, hasEditedMessage(update));
+            if (replay.getText() != null) {
+                outputTextMessageLog(replay, message);
             }
         }
         return replay;
-    }
-
-    private SendMessage messageResolver(Message message) {
-        SendMessage replay = new SendMessage();
-        try {
-            replay = mainHandlerTextMessage.handle(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            replay.setText("что-то пошло не так: " + e.toString()).setChatId("445682905");
-        }
-        return replay;
-    }
-
-    private SendMessage callBackResolver(Update update) {
-        log.info("new CallBack: {}", update.getCallbackQuery().getData());
-        return new SendMessage();
     }
 
     private static boolean hasMessage(Update update) {
         return update.hasMessage();
     }
 
-    private static boolean hasCallback(Update update) {
-        return update.hasCallbackQuery();
+    private static boolean hasEditedMessage(Update update) {
+        return update.hasEditedMessage();
     }
 }

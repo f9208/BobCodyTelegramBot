@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.bobcody.Entities.QuoteEntityAbyss;
+import ru.bobcody.entities.QuoteEntityAbyss;
 
 @Repository
 public interface QuoteAbyssRepository extends CrudRepository<QuoteEntityAbyss, Long> {

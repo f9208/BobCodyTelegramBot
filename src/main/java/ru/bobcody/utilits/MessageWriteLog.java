@@ -39,8 +39,8 @@ public class MessageWriteLog {
     }
 
     private static void inputMessageTextLog(Message message) {
-        log.info("Input, " + LOG_COMMON_MESSAGE + "textMessage: {}",
-                compileArgs(commonArguments(message), message.getText()));
+        log.info("Input text message, " + LOG_COMMON_MESSAGE + "textMessage: {}, " + "messageId: {}",
+                compileArgs(commonArguments(message), message.getText(), message.getMessageId()));
     }
 
     private static void inputMessagePhotoLog(Message message) {
@@ -66,11 +66,12 @@ public class MessageWriteLog {
                 compileArgs(commonArguments(message), audioArguments(message)));
     }
 
-    public static void outputTestMessageLog(SendMessage sendMessage) {
-        log.info("Output, chatID: {}, time: {}, userName: BobCody, textMessage: {}",
+    public static void outputTextMessageLog(SendMessage sendMessage, Message message) {
+        log.info("Output text message, chatID: {}, time: {}, userName: BobCody, textMessage: {}, " + "messageId: {}",
                 sendMessage.getChatId(),
                 LocalTime.now(),
-                sendMessage.getText());
+                sendMessage.getText(),
+                message.getMessageId() + 1);
     }
 
     private static Object[] commonArguments(Message message) {
