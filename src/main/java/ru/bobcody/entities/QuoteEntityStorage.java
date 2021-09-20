@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class QuoteEntityStorage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "serial")
+    @Column(columnDefinition = "serial", name="quote_id")
     Long id;
     @Column(name = "date_added")
     Long dateAdded;
