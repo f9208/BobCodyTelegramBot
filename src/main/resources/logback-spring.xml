@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <springProfile name="dev, prod">
     <!--консольный аппендер берется отсюда: он сам и его "внешний вид"-->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
@@ -19,7 +20,7 @@
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <!--<outputPatternAsHeader>true</outputPatternAsHeader>-->
 
-            <totalSizeCap>10MB</totalSizeCap>
+<!--            <totalSizeCap>10MB</totalSizeCap>-->
 
         </encoder>
     </appender>
@@ -44,4 +45,5 @@
         <appender-ref ref="FILE"/>
 
     </root>
+    </springProfile>
 </configuration>
