@@ -12,14 +12,13 @@ import javax.persistence.*;
 public class QuoteAbyss {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "quote_id")
     Long id;
     @Column(columnDefinition = "varchar(5000)", name = "quote_text")
     String text;
     @Column(name = "date_added")
     Long date;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "guest_id", nullable = false)
+    @JoinColumn(name = "author_id", nullable = false)
     Guest author;
 
     public QuoteAbyss() {
