@@ -16,7 +16,7 @@ public interface QuoteAbyssRepository extends CrudRepository<QuoteEntityAbyss, L
             " quotation_abyss.date_added, " +
             ":currentTime, " +
             " quotation_abyss.quote_text FROM public.quotation_abyss" +
-            " where quotation_abyss.id=:quote_id", nativeQuery = true)
+            " where quotation_abyss.quote_id=:quote_id", nativeQuery = true)
     void approveQuote(@Param("quote_id") long id, @Param("currentTime") long unixTime);
 
     @Modifying
@@ -25,18 +25,18 @@ public interface QuoteAbyssRepository extends CrudRepository<QuoteEntityAbyss, L
             " quotation_abyss.date_added, " +
             ":currentTime, " +
             " quotation_abyss.quote_text FROM public.quotation_abyss" +
-            " where quotation_abyss.id=:quote_id", nativeQuery = true)
+            " where quotation_abyss.quote_id=:quote_id", nativeQuery = true)
     void approveCaps(@Param("quote_id") long id, @Param("currentTime") long unixTime);
 
 
-    @Query(value = "SELECT id FROM public.quotation_abyss WHERE quotation_abyss.date_added=:date", nativeQuery = true)
+    @Query(value = "SELECT quote_id FROM public.quotation_abyss WHERE quotation_abyss.date_added=:date", nativeQuery = true)
     Long getQuoteIdByDate(@Param("date") long date);
 
-    @Query(value = "SELECT date_added FROM public.quotation_abyss WHERE id=:byId",
+    @Query(value = "SELECT date_added FROM public.quotation_abyss WHERE quote_id=:byId",
             nativeQuery = true)
     Long getDateAddedById(@Param("byId") Long timeAdded);
 
-    @Query(value = "SELECT id FROM public.quotation_abyss WHERE id=:byId",
+    @Query(value = "SELECT quote_id FROM public.quotation_abyss WHERE quote_id=:byId",
             nativeQuery = true)
     Long getAuthorIdByQuoteId(@Param("byId") Long timeAdded);
 
