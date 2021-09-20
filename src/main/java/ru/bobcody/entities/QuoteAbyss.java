@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(schema = "public", name = "quotation_abyss")
-public class QuoteEntityAbyss {
+public class QuoteAbyss {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "quote_id")
@@ -22,10 +22,10 @@ public class QuoteEntityAbyss {
     @JoinColumn(name = "guest_id", nullable = false)
     Guest author;
 
-    public QuoteEntityAbyss() {
+    public QuoteAbyss() {
     }
 
-    public QuoteEntityAbyss(Guest author, Long date, String text) {
+    public QuoteAbyss(Guest author, Long date, String text) {
         this.author = author;
         this.date = date;
         this.text = text;

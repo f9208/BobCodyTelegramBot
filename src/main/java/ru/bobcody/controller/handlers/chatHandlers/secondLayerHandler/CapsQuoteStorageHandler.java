@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.entities.CapsQuoteEntityStorage;
+import ru.bobcody.entities.CapsQuoteStorage;
 import ru.bobcody.services.CapsQuoteStorageService;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -63,7 +62,7 @@ public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
         StringBuilder master = new StringBuilder();
         DateTimeFormatter formatDateToPrint = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         try {
-            CapsQuoteEntityStorage current = capsQuoteStorageService.getById(Long.valueOf(id));
+            CapsQuoteStorage current = capsQuoteStorageService.getById(Long.valueOf(id));
             if (current != null) {
                 master.append("Капс №")
                         .append(current.getCapsQuoteID())

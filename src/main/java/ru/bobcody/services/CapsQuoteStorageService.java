@@ -3,7 +3,7 @@ package ru.bobcody.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bobcody.entities.CapsQuoteEntityStorage;
+import ru.bobcody.entities.CapsQuoteStorage;
 import ru.bobcody.repository.CapsQuoteStorageRepository;
 import ru.bobcody.repository.QuoteAbyssRepository;
 
@@ -20,7 +20,7 @@ public class CapsQuoteStorageService {
     }
 
     @Transactional
-    public CapsQuoteEntityStorage getById(Long id) {
+    public CapsQuoteStorage getById(Long id) {
         return capsQuoteStorageRepository.getCapsQuoteEntityStorageByCapsQuoteID(id);
     }
 

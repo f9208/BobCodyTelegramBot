@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.entities.QuoteEntityStorage;
+import ru.bobcody.entities.QuoteStorage;
 import ru.bobcody.services.QuoteStorageService;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
@@ -65,7 +65,7 @@ public class QuoteStorageHandler implements SimpleHandlerInterface {
         StringBuilder master = new StringBuilder();
         DateTimeFormatter formatDateToPrint = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         try {
-            QuoteEntityStorage current = quoteStorageServiceImp.getSingleQuoteFromStorageById(Long.valueOf(number));
+            QuoteStorage current = quoteStorageServiceImp.getSingleQuoteFromStorageById(Long.valueOf(number));
             if (current != null) {
                 master.append("Цитата №")
                         .append(current.getId())

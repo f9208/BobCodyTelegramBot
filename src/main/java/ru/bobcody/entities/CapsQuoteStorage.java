@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(schema = "public", name = "capsQuotationStorage")
 @Getter
 @Setter
-public class CapsQuoteEntityStorage {
+public class CapsQuoteStorage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "serial")
     @Id
@@ -23,10 +23,10 @@ public class CapsQuoteEntityStorage {
     @Column(name = "date_approved")
     Long dateApproved;
 
-    public CapsQuoteEntityStorage() {
+    public CapsQuoteStorage() {
     }
 
-    public CapsQuoteEntityStorage(String capsQuoteText, String author, Long dateAdded, Long dateApproved) {
+    public CapsQuoteStorage(String capsQuoteText, String author, Long dateAdded, Long dateApproved) {
         this.capsQuoteText = capsQuoteText;
         this.author = author;
         this.dateAdded = dateAdded;

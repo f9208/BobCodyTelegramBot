@@ -3,7 +3,7 @@ package ru.bobcody.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bobcody.entities.QuoteEntityAbyss;
+import ru.bobcody.entities.QuoteAbyss;
 import ru.bobcody.repository.CapsQuoteStorageRepository;
 import ru.bobcody.repository.QuoteAbyssRepository;
 import ru.bobcody.repository.QuoteStorageRepository;
@@ -20,8 +20,8 @@ public class QuoteAbyssService {
     CapsQuoteStorageRepository capsQuoteStorageRepository;
 
     @Transactional
-    public void add(QuoteEntityAbyss quoteEntityAbyss) {
-        quoteAbyssRepository.save(quoteEntityAbyss);
+    public void add(QuoteAbyss quoteAbyss) {
+        quoteAbyssRepository.save(quoteAbyss);
     }
 
     @Transactional

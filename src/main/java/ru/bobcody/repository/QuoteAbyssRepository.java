@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.bobcody.entities.QuoteEntityAbyss;
+import ru.bobcody.entities.QuoteAbyss;
 
 @Repository
-public interface QuoteAbyssRepository extends CrudRepository<QuoteEntityAbyss, Long> {
+public interface QuoteAbyssRepository extends CrudRepository<QuoteAbyss, Long> {
 
     @Modifying
     @Query(value = "INSERT INTO public.quotation_storage(author_id, date_added, date_approved, quote_text) " +
@@ -42,6 +42,6 @@ public interface QuoteAbyssRepository extends CrudRepository<QuoteEntityAbyss, L
 
     boolean existsQuoteById(Long id);
 
-    QuoteEntityAbyss getQuoteById(Long id);
+    QuoteAbyss getQuoteById(Long id);
 
 }

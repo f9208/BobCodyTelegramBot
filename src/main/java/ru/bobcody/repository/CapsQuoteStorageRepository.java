@@ -5,15 +5,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.bobcody.entities.CapsQuoteEntityStorage;
+import ru.bobcody.entities.CapsQuoteStorage;
 
 @Repository
-public interface CapsQuoteStorageRepository extends CrudRepository<CapsQuoteEntityStorage, Long> {
+public interface CapsQuoteStorageRepository extends CrudRepository<CapsQuoteStorage, Long> {
 
     @Query(value = "SELECT count(*) FROM public.capsquote_abyss", nativeQuery = true)
     int getSizeDB();
 
-    CapsQuoteEntityStorage getCapsQuoteEntityStorageByCapsQuoteID(Long id);
+    CapsQuoteStorage getCapsQuoteEntityStorageByCapsQuoteID(Long id);
 
     @Query(value = "SELECT MAX (caps_quoteid) from public.caps_quotation_storage",
             nativeQuery = true)
@@ -22,7 +22,7 @@ public interface CapsQuoteStorageRepository extends CrudRepository<CapsQuoteEnti
     boolean existsCapsQuoteEntityStorageByCapsQuoteID(Long id);
 
     @Override
-    CapsQuoteEntityStorage save(CapsQuoteEntityStorage entity);
+    CapsQuoteStorage save(CapsQuoteStorage entity);
 
     boolean existsCapsQuoteEntityStorageByDateAdded(Long id);
 

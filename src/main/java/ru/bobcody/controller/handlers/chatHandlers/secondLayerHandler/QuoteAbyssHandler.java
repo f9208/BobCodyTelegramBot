@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.bobcody.entities.QuoteAbyss;
 import ru.bobcody.services.*;
 import ru.bobcody.controller.BobCodyBot;
 import ru.bobcody.entities.Guest;
-import ru.bobcody.entities.QuoteEntityAbyss;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
 import java.util.ArrayList;
@@ -42,10 +42,10 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
             replay = message.getFrom().getUserName() + ", ты цитату то введи";
         } else if (textQuote.length() < 5000) {
             Guest guest = guestService.findById(Long.valueOf(message.getFrom().getId()));
-            QuoteEntityAbyss quoteEntityAbyss = new QuoteEntityAbyss(guest,
+            QuoteAbyss quoteAbyss = new QuoteAbyss(guest,
                     Long.valueOf(message.getDate()),
                     textQuote);
-            quoteAbyssService.add(quoteEntityAbyss);
+            quoteAbyssService.add(quoteAbyss);
             replay = "Записал в бездну. Цитата будет добавлена в хранилище после проверки модератором.";
             sendToModerator(message);
         } else {
