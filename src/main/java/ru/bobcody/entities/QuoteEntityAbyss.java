@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class QuoteEntityAbyss {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "quote_id")
     Long id;
     @Column(columnDefinition = "varchar(5000)", name = "quote_text")
     String text;
