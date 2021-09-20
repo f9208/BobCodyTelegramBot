@@ -65,7 +65,7 @@ public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
             CapsQuoteStorage current = capsQuoteStorageService.getById(Long.valueOf(id));
             if (current != null) {
                 master.append("Капс №")
-                        .append(current.getCapsQuoteID())
+                        .append(current.getId())
                         .append(" (")
                         .append(capsQuoteStorageService.getMaxID())
                         .append(") added: ")

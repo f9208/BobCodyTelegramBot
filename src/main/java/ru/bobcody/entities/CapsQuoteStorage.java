@@ -11,13 +11,14 @@ import javax.persistence.*;
 @Setter
 public class CapsQuoteStorage {
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "serial")
+    @Column(columnDefinition = "serial", name="id")
     @Id
-    Long capsQuoteID;
+    Long id;
     @Column(name = "caps_text", columnDefinition = "varchar(5000)")
     String capsQuoteText;
-    @Column(name = "author")
-    String author;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id", nullable = false)
+    Guest author;
     @Column(name = "date_added")
     Long dateAdded;
     @Column(name = "date_approved")
@@ -26,7 +27,7 @@ public class CapsQuoteStorage {
     public CapsQuoteStorage() {
     }
 
-    public CapsQuoteStorage(String capsQuoteText, String author, Long dateAdded, Long dateApproved) {
+    public CapsQuoteStorage(String capsQuoteText, Guest author, Long dateAdded, Long dateApproved) {
         this.capsQuoteText = capsQuoteText;
         this.author = author;
         this.dateAdded = dateAdded;

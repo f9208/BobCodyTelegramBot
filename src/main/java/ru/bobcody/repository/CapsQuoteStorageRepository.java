@@ -13,13 +13,13 @@ public interface CapsQuoteStorageRepository extends CrudRepository<CapsQuoteStor
     @Query(value = "SELECT count(*) FROM public.capsquote_abyss", nativeQuery = true)
     int getSizeDB();
 
-    CapsQuoteStorage getCapsQuoteEntityStorageByCapsQuoteID(Long id);
+    CapsQuoteStorage getCapsQuoteEntityStorageById(Long id);
 
-    @Query(value = "SELECT MAX (caps_quoteid) from public.caps_quotation_storage",
+    @Query(value = "SELECT MAX (id) from public.caps_quotation_storage",
             nativeQuery = true)
     Long getMaxID();
 
-    boolean existsCapsQuoteEntityStorageByCapsQuoteID(Long id);
+    boolean existsCapsQuoteEntityStorageById(Long id);
 
     @Override
     CapsQuoteStorage save(CapsQuoteStorage entity);
@@ -27,7 +27,7 @@ public interface CapsQuoteStorageRepository extends CrudRepository<CapsQuoteStor
     boolean existsCapsQuoteEntityStorageByDateAdded(Long id);
 
     @Modifying
-    @Query(value = "INSERT INTO public.caps_quotation_storage(author, date_added, date_approved, caps_text)" +
+    @Query(value = "INSERT INTO public.caps_quotation_storage(author_id, date_added, date_approved, caps_text)" +
             "SELECT 445682905," +
             ":currentTime, :currentTime, :textQuote", nativeQuery = true)
     void manualAdd(@Param("currentTime") Long unixTime, @Param("textQuote") String inputText);

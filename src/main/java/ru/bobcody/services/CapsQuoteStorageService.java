@@ -16,12 +16,12 @@ public class CapsQuoteStorageService {
 
     @Transactional
     public boolean existById(Long id) {
-        return capsQuoteStorageRepository.existsCapsQuoteEntityStorageByCapsQuoteID(id);
+        return capsQuoteStorageRepository.existsCapsQuoteEntityStorageById(id);
     }
 
     @Transactional
     public CapsQuoteStorage getById(Long id) {
-        return capsQuoteStorageRepository.getCapsQuoteEntityStorageByCapsQuoteID(id);
+        return capsQuoteStorageRepository.getCapsQuoteEntityStorageById(id);
     }
 
     @Transactional
