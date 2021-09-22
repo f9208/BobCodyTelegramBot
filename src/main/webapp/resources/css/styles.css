@@ -1,0 +1,111 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.headForm{
+    display: inline-block;
+}
+
+.header {
+    /*height: 100%;*/
+    display: block;
+    /*!*background-image: url("../../resources/pic/theater.png");*!*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+    /*background-size: cover;*/
+    margin-bottom: 10px;
+}
+
+.headerbutton {
+    alignment: right;
+}
+
+.headerimg {
+    object-fit: cover;
+    width: 100%;
+    height: 100px;
+}
+
+.restaurant_img {
+    max-width: 300px;
+}
+
+body {
+    margin: 10px;
+    margin-bottom: 60px !important; /* Margin bottom by footer height */
+}
+
+.restaurants_list {
+    display: flex;
+    /*flex-direction: row;*/
+    /*flex-wrap: wrap;*/
+    /*justify-content: center;*/
+    /*align-items: stretch;*/
+    /*align-content: stretch;*/
+    /*min-height: 304.2px;*/
+    margin-left: 45px;
+    /*margin-right: -5px;*/
+}
+
+.restaurant_item {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 373px;
+    min-height: 239px;
+    /*display: flex;*/
+
+}
+
+section {
+    flex-direction: column;
+
+}
+
+h1 {
+    color: blue;
+    font-family: verdana;
+    border-width: 3px;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-color: red;
+}
+
+h1.ridge {
+    border-style: ridge;
+}
+
+h1.double {
+    border-style: double;
+}
+
+p {
+    color: red;
+    padding: 12px;
+}
+
+.footer {
+    position: absolute;
+    color: blueviolet;
+    font-family: "Bell MT";
+    font-size: 30px;
+    background-color: #cfcfcf;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the fixed height of the footer here */
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.footerText {
+    color: rgba(122, 33, 22, 0.25);
+    position: absolute;
+    font-size: 20px;
+    font-family: Candara;
+    right: 130px;
+}
+

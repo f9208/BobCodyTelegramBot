@@ -19,10 +19,5 @@ public class WebHookController {
     public PartialBotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
         return bobCodyBot.onWebhookUpdateReceived(update);
     }
-
-    @GetMapping(value = "/")
-    public String get() {
-        return "здесь возможно когда нибудь появится index-страница с приветствующей надписью";
-    }
 }
 

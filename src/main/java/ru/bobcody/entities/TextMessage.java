@@ -26,7 +26,7 @@ public class TextMessage {
     private LocalDateTime dateTime;
     @Column(name = "chatId")
     private Long chatId;
-    @Column(name = "textMessage", columnDefinition = "varchar(10000)")
+    @Column(name = "textMessage", columnDefinition = "varchar(50000)")
     String textMessage;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "guest_id", nullable = false, referencedColumnName = "id")

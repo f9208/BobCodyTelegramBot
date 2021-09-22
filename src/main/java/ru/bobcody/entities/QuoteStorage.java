@@ -34,5 +34,4 @@ public class QuoteStorage {
         this.author = author;
         this.dateApproved = dataApproved;
     }
-
 }
