@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.entities.Chat;
 import ru.bobcody.entities.Guest;
 import ru.bobcody.entities.TextMessage;
 import ru.bobcody.services.GuestService;
@@ -36,7 +37,7 @@ public class Resolver {
             replay.setText("что-то пошло не так: " + e.toString()).setChatId("445682905");
         } finally {
             if (replay.getText() != null) {
-                saveSendMessage(replay, message.getMessageId());
+                saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));
             }
         }
         return replay;
@@ -60,8 +61,8 @@ public class Resolver {
         textMessageService.saveInputMessage(new TextMessage(message));
     }
 
-    private void saveSendMessage(SendMessage sendMessage, int messageId) {
+    private void saveSendMessage(SendMessage sendMessage, int messageId, Chat chat) {
         Guest bot = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
-        textMessageService.saveOutputMessage(new TextMessage(sendMessage, bot, messageId));
+        textMessageService.saveOutputMessage(new TextMessage(sendMessage, bot, messageId, chat));
     }
 }

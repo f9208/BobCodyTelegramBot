@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import ru.bobcody.services.TextMessageService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,25 +15,20 @@ public class IndexPageController {
     @Autowired
     TextMessageService textMessageService;
 
+//    private static final long CURRENT_CHAT_ID = -458401902;
+    private static final long DEFAULT_CHAT_ID = 445682905;
+
     @GetMapping(value = "/")
     public String get(Model model) {
-        List<LocalDate> dates = textMessageService.getListDates();
+        List<LocalDate> dates = textMessageService.getListDatesForChat(DEFAULT_CHAT_ID);
         model.addAttribute("dates", dates);
         return "index";
-    }
-
-    @GetMapping(value = "/today")
-    public String getToday(Model model) {
-        model.addAttribute("message",
-                textMessageService.getForDateBetween(LocalDate.now(), LocalDate.now()));
-        return "today";
     }
 
     @GetMapping(value = "/{dateAsString}")
     public String getForDate(@PathVariable String dateAsString, Model model) {
         LocalDate date = LocalDate.parse(dateAsString); //todo переделать этот костыль
-        model.addAttribute("message",
-                textMessageService.getForDateBetween(date, date));
+        model.addAttribute("messages", textMessageService.getOnDateBetweenForChat(date, date, DEFAULT_CHAT_ID));
         return "today";
     }
 }

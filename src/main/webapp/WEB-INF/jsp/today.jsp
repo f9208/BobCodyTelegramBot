@@ -12,23 +12,26 @@
 <body>
 <header>
 </header>
+<c:set var="currentChatId" value="${currentChat}"/>
 
-логи за сегодня
+логи за ${messages.get(0).dateTime.toLocalDate()}
+
 <table border="1" cellspacing="0" cellpadding="2">
     <tr>
-        <td>Дата-время</td>
+        <td>Время</td>
+        <td>чат</td>
         <td>автор</td>
         <td>текст</td>
     </tr>
-    <c:forEach var="m" items="${message}">
-        <tr>
-            <td><c:out value="${m.dateTime}"/></td>
-            <td><c:out value="${m.guest.firstName}"/></td>
-            <td><c:out value="${m.textMessage}"/></td>
-        </tr>
+    <c:forEach var="m" items="${messages}">
+            <tr>
+                <td><c:out value="${m.dateTime.toLocalTime()}"/></td>
+                <td> ${m.chat.id} </td>
+                <td><c:out value="${m.guest.firstName}"/></td>
+                <td><c:out value="${m.textMessage}"/></td>
+            </tr>
 
     </c:forEach>
-
 </table>
 <footer>
 </footer>

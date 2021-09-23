@@ -39,7 +39,7 @@ public class MessageWriteLog {
     }
 
     private static void inputMessageTextLog(Message message) {
-        log.info("Input text message, " + LOG_COMMON_MESSAGE + "textMessage: {}, " + "messageId: {}",
+        log.info("Input text messages, " + LOG_COMMON_MESSAGE + "textMessage: {}, " + "messageId: {}",
                 compileArgs(commonArguments(message), message.getText(), message.getMessageId()));
     }
 
@@ -67,7 +67,7 @@ public class MessageWriteLog {
     }
 
     public static void outputTextMessageLog(SendMessage sendMessage, Message message) {
-        log.info("Output text message, chatID: {}, time: {}, userName: BobCody, textMessage: {}, " + "messageId: {}",
+        log.info("Output text messages, chatID: {}, time: {}, userName: BobCody, textMessage: {}, " + "messageId: {}",
                 sendMessage.getChatId(),
                 LocalTime.now(),
                 sendMessage.getText(),

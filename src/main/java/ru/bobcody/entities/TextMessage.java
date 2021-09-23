@@ -24,13 +24,14 @@ public class TextMessage {
     @CreationTimestamp
     @NotNull
     private LocalDateTime dateTime;
-    @Column(name = "chatId")
-    private Long chatId;
     @Column(name = "textMessage", columnDefinition = "varchar(50000)")
     String textMessage;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     @JoinColumn(name = "guest_id", nullable = false, referencedColumnName = "id")
     Guest guest;
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+    @JoinColumn(name = "chat", nullable = false, referencedColumnName = "id")
+    Chat chat;
 
     public TextMessage() {
     }
@@ -39,17 +40,17 @@ public class TextMessage {
         this.id = 0L;
         this.telegram = Long.valueOf(message.getMessageId());
         this.dateTime = LocalDateTime.parse(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(message.getDate().longValue() * 1000)));
-        this.chatId = message.getChatId();
         this.textMessage = message.getText();
         this.guest = new Guest(message.getFrom());
+        this.chat = new Chat(message.getChat());
     }
 
-    public TextMessage(SendMessage sendMessage, Guest guest, int messageId) {
+    public TextMessage(SendMessage sendMessage, Guest guest, int messageId, Chat chat) {
         this.id = 0L;
         this.telegram = Long.valueOf(messageId + 1);
         this.dateTime = LocalDateTime.now();
-        this.chatId = Long.valueOf(sendMessage.getChatId());
         this.textMessage = sendMessage.getText();
         this.guest = guest;
+        this.chat = chat;
     }
 }

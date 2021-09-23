@@ -16,7 +16,7 @@
 <br>
 <br>
 <ul>
-    <li><a href="/today"> логи за сегодня </a></li>
+<%--    <li><a href="/today"> логи за сегодня </a></li>--%>
     <c:forEach items="${dates}" var="date">
         <a href="<c:out value="${date.toString()}"/>">
             <li><c:out value="${date.toString()}"/></li>
