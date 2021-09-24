@@ -3,6 +3,7 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
@@ -24,6 +25,7 @@ import java.util.Locale;
 @Setter
 public class FridayHandler implements SimpleHandlerInterface {
     @Autowired
+    @Lazy
     BobCodyBot bobCodyBot;
 
     private String notFridayAnswer() {
