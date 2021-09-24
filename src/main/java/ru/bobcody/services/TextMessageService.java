@@ -39,7 +39,7 @@ public class TextMessageService {
 
     public List<TextMessage> getOnDateBetweenForChat(LocalDate start, LocalDate end, long chatId) {
         log.info("try to get list of messages for dates between {} and {} and chatId {}", start, end, chatId);
-        return textMessageRepository.findAllByDateTimeBetweenAndChatId(LocalDateTime.of(start, LocalTime.MIN), LocalDateTime.of(end, LocalTime.MAX), chatId);
+        return textMessageRepository.findAllByDateTimeBetweenAndChatIdOrderByDateTime(LocalDateTime.of(start, LocalTime.MIN), LocalDateTime.of(end, LocalTime.MAX), chatId);
     }
 
     public List<LocalDate> getListDatesForChat(long chatId) {

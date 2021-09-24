@@ -6,20 +6,22 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="resources/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/styles.css">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
 <body>
 <header>
 </header>
-
+<a href="/">на главную</a>
+<br>
+<br>
+<br>
 <c:set var="currentChatId" value="${currentChatId}"/>
-<c:set var="mainChatId" value="${mainChatId}"/>
 
-<c:if test="${currentChatId == mainChatId}">
-    логи для IzhMain за ${messages.get(0).dateTime.toLocalDate()}
+<c:if test="${label}">
+    логи мейна за ${messages.get(0).dateTime.toLocalDate()}
 </c:if>
-<c:if test="${currentChatId!= mainChatId}">
+<c:if test="${!label}">
     логи для чата ${currentChatId} за ${messages.get(0).dateTime.toLocalDate()}
 </c:if>
 <table border="1" cellspacing="0" cellpadding="2">
