@@ -12,10 +12,16 @@
 <body>
 <header>
 </header>
-<c:set var="currentChatId" value="${currentChat}"/>
 
-логи за ${messages.get(0).dateTime.toLocalDate()}
+<c:set var="currentChatId" value="${currentChatId}"/>
+<c:set var="mainChatId" value="${mainChatId}"/>
 
+<c:if test="${currentChatId == mainChatId}">
+    логи для IzhMain за ${messages.get(0).dateTime.toLocalDate()}
+</c:if>
+<c:if test="${currentChatId!= mainChatId}">
+    логи для чата ${currentChatId} за ${messages.get(0).dateTime.toLocalDate()}
+</c:if>
 <table border="1" cellspacing="0" cellpadding="2">
     <tr>
         <td>Время</td>
@@ -24,13 +30,12 @@
         <td>текст</td>
     </tr>
     <c:forEach var="m" items="${messages}">
-            <tr>
-                <td><c:out value="${m.dateTime.toLocalTime()}"/></td>
-                <td> ${m.chat.id} </td>
-                <td><c:out value="${m.guest.firstName}"/></td>
-                <td><c:out value="${m.textMessage}"/></td>
-            </tr>
-
+        <tr>
+            <td><c:out value="${m.dateTime.toLocalTime()}"/></td>
+            <td> ${m.chat.id} </td>
+            <td><c:out value="${m.guest.firstName}"/></td>
+            <td><c:out value="${m.textMessage}"/></td>
+        </tr>
     </c:forEach>
 </table>
 <footer>

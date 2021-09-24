@@ -23,14 +23,16 @@ public class PiesHandler implements SimpleHandlerInterface {
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
-        String textMessageAnswer;
-        Random r = new Random();
-        int sizePiesOnPage = piesList.size();
-        System.out.println("количество пирожков в листе:" + sizePiesOnPage);
-        int rand = r.nextInt(sizePiesOnPage);
-        System.out.println("рендомный индекс:" + rand);
-        textMessageAnswer = piesList.get(rand).toString();
-        result.setText(textMessageAnswer);
+//
+//        Random r = new Random();
+//        int sizePiesOnPage = piesList.size();
+//        System.out.println("количество пирожков в листе:" + sizePiesOnPage);
+//        int rand = r.nextInt(sizePiesOnPage);
+//        System.out.println("рендомный индекс:" + rand);
+//        String textMessageAnswer;
+//        textMessageAnswer = piesList.get(rand).toString();
+//                result.setText(textMessageAnswer);
+        result.setText("кушай шаурму. пирожки сломались");
         return result;
     }
 

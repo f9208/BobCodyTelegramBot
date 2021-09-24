@@ -9,30 +9,25 @@
     <link rel="stylesheet" type="text/css" href="resources/css/styles.css">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
+<head>
+    <title>Title</title>
+</head>
 <body>
-<header>
-</header>
 <br>
 <br>
 <br>
-посмотреть логи со мной
-<br>
-<form action="/"> <input type="number">
-<input type="submit" value="показать" name="chatId">
-</form>
 <br>
 <br>
 <br>
-Логи IzhMain
+Логи c ${chatId}
 <ul>
     <c:forEach items="${dates}" var="date">
-        <a href="/${mainChatId}/<c:out value="${date.toString()}"/>">
+        <a href="/${chatId}/<c:out value="${date.toString()}"/>">
             <li><c:out value="${date.toString()}"/></li>
         </a>
     </c:forEach>
 </ul>
+<footer></footer>
 </table>
-<footer>
-</footer>
 </body>
 </html>
