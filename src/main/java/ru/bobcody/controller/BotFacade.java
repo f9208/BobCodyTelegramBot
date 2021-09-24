@@ -55,6 +55,9 @@ public class BotFacade {
                 outputTextMessageLog(replay, message);
             }
         }
+        if (message.hasAnimation()) {
+            writeLog(message);
+        }
         return replay;
     }
 

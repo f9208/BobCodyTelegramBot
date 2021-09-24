@@ -16,7 +16,7 @@ import java.util.List;
 public class MessageWriteLog {
 
     private static final String LOG_COMMON_MESSAGE = "chatID: {}, time: {}, userName: {}, userId: {}, ";
-    private static final String UNIQUE_ID_FILE_NAME = "uniqueId: {}, fileName: {}";
+    private static final String UNIQUE_ID_FILE_NAME = "fileId: {}, fileName: {}";
 
     public static void writeLog(Message message) {
         if (message.hasPhoto()) {
@@ -89,7 +89,7 @@ public class MessageWriteLog {
     }
 
     private static Object[] animationArguments(Message message) {
-        return new Object[]{message.getAnimation().getFileUniqueId(), message.getAnimation().getFileName()};
+        return new Object[]{message.getAnimation().getFileId(), message.getAnimation().getFileName()};
     }
 
     private static Object[] audioArguments(Message message) {
