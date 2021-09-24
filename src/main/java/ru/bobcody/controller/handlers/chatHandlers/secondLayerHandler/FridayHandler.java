@@ -51,7 +51,7 @@ public class FridayHandler implements SimpleHandlerInterface {
 
     private void fridayAnswerGif(Message message) {
         try {
-            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAIdB2BeHOW0d9ytCOJnS40dvT1ONb9YAAMMAAKg8PFKx9OxH8Izvy4eBA")
+            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAIMsWFNnJLpW7_GnlzFlDX4Q12Xe9UnAAK9EgACB59wSi_gz1weGShzIQQ")
                     .setChatId(message.getChatId()));
         } catch (TelegramApiException e) {
             e.printStackTrace();
@@ -62,7 +62,7 @@ public class FridayHandler implements SimpleHandlerInterface {
     private void sendFridayGif() {
         try {
             bobCodyBot.execute(new SendAnimation()
-                    .setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
+                    .setAnimation("CgACAgIAAxkBAAIMsWFNnJLpW7_GnlzFlDX4Q12Xe9UnAAK9EgACB59wSi_gz1weGShzIQQ")
                     .setChatId("-1001207502467"));
         } catch (TelegramApiException e) {
             e.printStackTrace();
