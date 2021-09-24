@@ -11,6 +11,7 @@ import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 import ru.bobcody.entities.Chat;
 import ru.bobcody.entities.Guest;
 import ru.bobcody.entities.TextMessage;
+import ru.bobcody.repository.ChatRepository;
 import ru.bobcody.services.GuestService;
 import ru.bobcody.services.TextMessageService;
 
@@ -24,6 +25,8 @@ public class Resolver {
     GuestService guestService;
     @Autowired
     TextMessageService textMessageService;
+    @Autowired
+    ChatRepository chatRepository;
 
     public SendMessage textMessageResolver(Message message, boolean edited) {
         SendMessage replay = new SendMessage();
@@ -47,6 +50,7 @@ public class Resolver {
         if (message.getFrom() != null) {
             saveGuest(message.getFrom());
         }
+        chatRepository.save(new Chat(message.getChat()));
         saveInputMessage(message);
     }
 
