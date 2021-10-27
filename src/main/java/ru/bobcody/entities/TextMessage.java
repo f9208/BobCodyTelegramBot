@@ -21,7 +21,6 @@ public class TextMessage {
     @Column(name = "telegramId")
     Long telegram;
     @Column(name = "dateTime")
-    @CreationTimestamp
     @NotNull
     private LocalDateTime dateTime;
     @Column(name = "textMessage", columnDefinition = "varchar(50000)")
