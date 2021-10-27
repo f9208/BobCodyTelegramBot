@@ -40,6 +40,7 @@ public class QuAnswerHandler implements SimpleHandlerInterface {
         List<String> commands = new ArrayList<>();
         commands.add("ку");
         commands.add("!ку");
+        commands.add("ку!");
         commands.add("qu");
         commands.add("!qu");
         return commands;

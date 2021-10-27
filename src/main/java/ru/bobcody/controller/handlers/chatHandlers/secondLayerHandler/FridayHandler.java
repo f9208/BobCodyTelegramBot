@@ -90,6 +90,7 @@ public class FridayHandler implements SimpleHandlerInterface {
         commands.add("!friday");
         commands.add("friday");
         commands.add("!дн");
+        commands.add("!today");
         commands.add("!dow");
         return commands;
     }

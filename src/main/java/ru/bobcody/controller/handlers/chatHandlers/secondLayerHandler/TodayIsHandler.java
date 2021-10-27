@@ -59,7 +59,6 @@ public class TodayIsHandler implements SimpleHandlerInterface {
         List<String> commands = new ArrayList<>();
         commands.add("!сегодня");
         commands.add("!дата");
-        commands.add("!today");
         commands.add("!время");
         commands.add("!time");
         commands.add("!ща");
