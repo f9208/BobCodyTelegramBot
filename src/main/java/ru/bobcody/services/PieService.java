@@ -9,24 +9,23 @@ import ru.bobcody.thirdPartyAPI.HotPies.SinglePie;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class PieService {
     @Autowired
     PiesProvider piesProvider;
     private static List<SinglePie> listPies = new ArrayList<>();
-    private static final int counter = 10;
+    private static final int COUNTER = 5;
     private static int accumulate;
 
     static {
         refreshAccumulate();
     }
 
-    @Scheduled(fixedDelayString = "PT20M")
+    @Scheduled(fixedDelayString = "PT10M")
     private void initList() throws IOException {
         if (!listPies.isEmpty()) listPies.clear();
-        listPies.addAll(populate(counter));
+        listPies.addAll(populate(COUNTER));
         refreshAccumulate();
     }
 
@@ -44,16 +43,14 @@ public class PieService {
         accumulate--;
         if (accumulate < 0) {
             initList();
-            refreshAccumulate();
         }
-        int r = new Random().nextInt(listPies.size());
         if (listPies.isEmpty()) {
             initList();
         }
-        return listPies.get(r);
+        return listPies.get(accumulate);
     }
 
     private static void refreshAccumulate() {
-        accumulate = counter / 2;
+        accumulate = COUNTER-1;
     }
 }
