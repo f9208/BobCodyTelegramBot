@@ -14,6 +14,14 @@ public class SinglePie {
     String shareURL;
     String shareText;
 
+    public SinglePie() {
+    }
+
+    public SinglePie(String shareURL, String shareText) {
+        this.shareURL = shareURL;
+        this.shareText = shareText;
+    }
+
     @Override
     public String toString() {
         return shareText + "\n" + shareURL;
