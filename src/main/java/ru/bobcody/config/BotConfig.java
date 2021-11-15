@@ -12,12 +12,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.bobcody.controller.BobCodyBot;
-import ru.bobcody.thirdPartyAPI.HotPies.SinglePie;
 import ru.bobcody.entities.Guest;
 
 import javax.annotation.PostConstruct;
@@ -106,10 +104,6 @@ public class BotConfig {
      * площадку, он не будет постоянно "включаться-выключаться", т.е. обновляться этот
      * список не будет. Позже это надо как то обходить, как - я пока не придумал.
      */
-    @Bean
-    public List<SinglePie> piesList() {
-        return new SinglePie().getPiesList();
-    }
 
     @SneakyThrows
     @PostConstruct

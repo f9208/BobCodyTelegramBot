@@ -2,37 +2,28 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.thirdPartyAPI.HotPies.SinglePie;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.thirdPartyAPI.HotPies.PiesProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Component
 @Getter
 @Setter
 public class PiesHandler implements SimpleHandlerInterface {
-    @Autowired
-    List<SinglePie> piesList;
-
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
-//
-//        Random r = new Random();
-//        int sizePiesOnPage = piesList.size();
-//        System.out.println("количество пирожков в листе:" + sizePiesOnPage);
-//        int rand = r.nextInt(sizePiesOnPage);
-//        System.out.println("рендомный индекс:" + rand);
-//        String textMessageAnswer;
-//        textMessageAnswer = piesList.get(rand).toString();
-//                result.setText(textMessageAnswer);
-        result.setText("кушай шаурму. пирожки сломались");
+        PiesProvider piesProvider = new PiesProvider();
+        try {
+            result.setText(piesProvider.getOneRandom().toString());
+        } catch (Exception e) {
+            result.setText("че то с сервисом не то");
+        }
         return result;
     }
 
@@ -41,6 +32,7 @@ public class PiesHandler implements SimpleHandlerInterface {
         List<String> commands = new ArrayList<>();
         commands.add("!пирожок");
         commands.add("!pie");
+        commands.add("pie");
         return commands;
     }
 }
