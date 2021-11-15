@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 
 @Component
 @Getter
@@ -23,17 +22,15 @@ public class FuckingGreatAdvice {
     @Autowired
     ObjectMapper objectMapper;
 
-
-    private String parser() throws IOException {
+    private String parser() throws IOException, SocketTimeoutException, MalformedURLException {
         StringBuilder result = new StringBuilder();
+        URL randomAdviceUrl = new URL(randomAdviceLink);
+        HttpURLConnection connection = (HttpURLConnection) randomAdviceUrl.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setConnectTimeout(2000);
+        connection.connect();
         String temp;
-        URL randomAdvice = null;
-        try {
-            randomAdvice = new URL(randomAdviceLink);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        BufferedReader br = new BufferedReader(new InputStreamReader(randomAdvice.openStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         while ((temp = br.readLine()) != null) {
             result.append(temp);
         }
@@ -45,7 +42,6 @@ public class FuckingGreatAdvice {
         String init = parser();
         JsonNode jsonNode = objectMapper.readTree(init);
         JsonNode text = jsonNode.get("text");
-
         return text.asText();
     }
 

@@ -30,7 +30,7 @@ public class CourseValutParser {
             cbrCource = new URL(link);
             context = JAXBContext.newInstance(ValCurs.class);
             um = context.createUnmarshaller();
-            //не нравится, переделать как то на кэширование.
+            //todo не нравится, переделать как то на кэширование.
             result = (ValCurs) um.unmarshal(new InputStreamReader(cbrCource.openStream()));
             cbrCource = null;
             date = result.getDate();
