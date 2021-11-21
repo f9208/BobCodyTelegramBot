@@ -1,6 +1,8 @@
 package ru.bobcody.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.bobcody.thirdPartyAPI.HotPies.PiesProvider;
@@ -11,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@ConfigurationProperties(prefix = "pie")
 public class PieService {
     @Autowired
     PiesProvider piesProvider;
     private static List<SinglePie> listPies = new ArrayList<>();
-    private static final int COUNTER = 5;
+    private static int SIZE;
     private static int accumulate;
 
     static {
@@ -25,7 +28,7 @@ public class PieService {
     @Scheduled(fixedDelayString = "PT10M")
     private void initList() throws IOException {
         if (!listPies.isEmpty()) listPies.clear();
-        listPies.addAll(populate(COUNTER));
+        listPies.addAll(populate(SIZE));
         refreshAccumulate();
     }
 
@@ -51,6 +54,11 @@ public class PieService {
     }
 
     private static void refreshAccumulate() {
-        accumulate = COUNTER-1;
+        accumulate = SIZE - 1;
+    }
+
+    @Value("${pie.size}") //Spring doesn't support injection in static fields
+    public void setSize(int size) {
+        PieService.SIZE = size;
     }
 }

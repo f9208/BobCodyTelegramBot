@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 
-import static ru.bobcody.utilits.MessageWriteLog.*;
+import static ru.bobcody.utilits.MessageWriteLog.outputTextMessageLog;
+import static ru.bobcody.utilits.MessageWriteLog.writeLog;
 
 
 /**
@@ -55,8 +55,12 @@ public class BotFacade {
                 outputTextMessageLog(replay, message);
             }
         }
-        if (message.hasAnimation()) {
+        if (message != null && message.hasAnimation()) {
             writeLog(message);
+        }
+        if (message != null && message.hasPhoto()) {
+            writeLog(message);
+            replay = resolver.photoMessageResolver(message);
         }
         return replay;
     }

@@ -12,7 +12,12 @@ public class ChatService {
     @Autowired
     ChatRepository chatRepository;
 
+    @Transactional
     public long save(Chat chat) {
         return chatRepository.save(chat).getId();
+    }
+
+    public Chat getChatById(Long id) {
+        return chatRepository.findById(id).orElse(new Chat());
     }
 }
