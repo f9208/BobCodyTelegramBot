@@ -3,27 +3,26 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
 @Getter
 @Setter
 @PropertySource(value = "classpath:answers/touchBot.properties", encoding = "UTF-8")
-@ConfigurationProperties(prefix = "slap")
 public class SlapHandler implements SimpleHandlerInterface {
+    @Value("#{${slap.phrases}}")
     List<String> phrases;
+    @Value("${slap.command}")
+    private List<String> commands;
 
     private String getRandomAnswer() {
         Random r = new Random();
@@ -46,6 +45,6 @@ public class SlapHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("bot", "bobcodybot", "бот", "бобби", "@bobcodybot").collect(Collectors.toList());
+        return commands;
     }
 }

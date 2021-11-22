@@ -4,16 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.thirdPartyAPI.fuckingGreatAdvice.FuckingGreatAdvice;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.thirdPartyAPI.fuckingGreatAdvice.FuckingGreatAdvice;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -22,6 +20,8 @@ import java.util.stream.Stream;
 public class FuckingGreatAdviceHandler implements SimpleHandlerInterface {
     @Autowired
     FuckingGreatAdvice fuckingGreatAdvice;
+    @Value("${fga.command}")
+    private List<String> commands;
 
     public String getAdvice() {
         log.info("make advice");
@@ -49,6 +49,6 @@ public class FuckingGreatAdviceHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("!fga", "!обс").collect(Collectors.toList());
+        return commands;
     }
 }

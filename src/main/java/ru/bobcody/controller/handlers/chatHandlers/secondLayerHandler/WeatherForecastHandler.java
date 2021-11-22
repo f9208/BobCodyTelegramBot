@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,21 +13,20 @@ import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import ru.bobcody.thirdPartyAPI.weather.OpenWeatherForecast;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
 @Getter
 @Setter
 @PropertySource(value = "classpath:weatherProp.properties", encoding = "UTF-8")
-@ConfigurationProperties(prefix = "weather")
 public class WeatherForecastHandler implements SimpleHandlerInterface {
     @Autowired
     OpenWeatherForecast openWeatherForecast;
+    @Value("${weather.defaultCityName}")
     String defaultCityName;
+    @Value("${weather.command}")
+    private List<String> commands;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -39,7 +38,7 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("!п", "!погода", "!w", "!g", "!weather").collect(Collectors.toList());
+        return commands;
     }
 
     private String getForecast(String cityName) {

@@ -2,6 +2,7 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -15,14 +16,14 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
 public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
     @Autowired
     CapsQuoteStorageService capsQuoteStorageService;
+    @Value("${capsquote.command}")
+    private List<String> commands;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -33,7 +34,7 @@ public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("!капс", "!к", "!caps").collect(Collectors.toList());
+        return commands;
     }
 
     /**

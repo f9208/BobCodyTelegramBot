@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,8 +21,6 @@ import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -31,6 +30,8 @@ public class FridayHandler implements SimpleHandlerInterface {
     @Autowired
     @Lazy
     BobCodyBot bobCodyBot;
+    @Value("${friday.command}")
+    private List<String> commands;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -47,13 +48,7 @@ public class FridayHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("пятница",
-                "!пятница",
-                "friday",
-                "!friday",
-                "!today",
-                "!дн",
-                "dow").collect(Collectors.toList());
+        return commands;
     }
 
     private String notFridayAnswer() {

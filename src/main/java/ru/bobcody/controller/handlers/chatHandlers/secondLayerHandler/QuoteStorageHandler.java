@@ -4,22 +4,20 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import ru.bobcody.entities.QuoteStorage;
 import ru.bobcody.services.QuoteStorageService;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -28,6 +26,8 @@ import java.util.stream.Stream;
 public class QuoteStorageHandler implements SimpleHandlerInterface {
     @Autowired
     QuoteStorageService quoteStorageServiceImp;
+    @Value("${quote.get.command}")
+    private List<String> commands;
 
     private String getTextQuoteStorage(Message message) {
         String shortCommand = message.getText().trim();
@@ -105,6 +105,6 @@ public class QuoteStorageHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("!ц", "!quote", "!q", "!цитата").collect(Collectors.toList());
+        return commands;
     }
 }

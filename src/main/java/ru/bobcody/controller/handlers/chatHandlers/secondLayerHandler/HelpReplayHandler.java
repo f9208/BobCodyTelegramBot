@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -19,6 +18,8 @@ import java.util.List;
 public class HelpReplayHandler implements SimpleHandlerInterface {
     @Value("${print.help}")
     String helpAnswer;
+    @Value("${help.command}")
+    private List<String> commands;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -29,12 +30,6 @@ public class HelpReplayHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        List<String> commands = new ArrayList<>();
-        commands.add("!help");
-        commands.add("!хелп");
-        commands.add("!помощь");
-        commands.add("!команды");
-        commands.add("/start");
         return commands;
     }
 }

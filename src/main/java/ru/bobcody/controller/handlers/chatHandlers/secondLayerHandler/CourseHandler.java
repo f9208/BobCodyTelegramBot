@@ -3,16 +3,14 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import ru.bobcody.thirdPartyAPI.courses.CourseValutParser;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @Getter
@@ -20,6 +18,8 @@ import java.util.stream.Stream;
 public class CourseHandler implements SimpleHandlerInterface {
     @Autowired
     CourseValutParser courseValutParser;
+    @Value("${course.command}")
+    private List<String> commands;
 
     private String getCourse() {
         StringBuilder result = new StringBuilder("текущий курс валют по курсу ЦБ РФ на ");
@@ -53,6 +53,6 @@ public class CourseHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("!курс").collect(Collectors.toList());
+        return commands;
     }
 }

@@ -4,16 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import ru.bobcody.services.PieService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -22,6 +20,8 @@ import java.util.stream.Stream;
 public class PiesHandler implements SimpleHandlerInterface {
     @Autowired
     PieService pieService;
+    //оставил через статическое для примера
+    private static List<String> COMMANDS;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -38,6 +38,11 @@ public class PiesHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("!pie", "pie", "!пирожок").collect(Collectors.toList());
+        return COMMANDS;
+    }
+
+    @Autowired
+    public void setOrders(@Value("${pies.command}") List<String> commands) {
+        PiesHandler.COMMANDS = commands;
     }
 }

@@ -61,10 +61,10 @@ public class PiesProvider {
         conn.setConnectTimeout(5000);
         int counter = 1;
         while (conn.getResponseCode() != 200) {
-            System.out.println("ResponseCode: " + conn.getResponseCode() + ", pieID=" + pieId+counter);
+            System.out.println("ResponseCode: " + conn.getResponseCode() + ", pieID=" + pieId);
             conn = getConnect(pieId+counter);
             conn.connect();
-            counter++;
+            counter=counter+100;
             if (counter >= 100) {
                 break;
             }

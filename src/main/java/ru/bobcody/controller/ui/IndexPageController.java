@@ -27,18 +27,19 @@ import java.util.List;
 @Controller
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "chat")
 public class IndexPageController {
     @Autowired
     TextMessageService textMessageService;
     @Autowired
     LinkService linkService;
+    // айди чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники
     private final long defaultChatId;
 
     public IndexPageController(@Value("${chat.defaultChatId}") long defaultChatId) {
         this.defaultChatId = defaultChatId;
     }
 
+    //todo прикрутить логи сюда
     @GetMapping(value = "/")
     public String get(Model model, HttpServletRequest httpServletRequest) {
         long currentChatId = defaultChatId;

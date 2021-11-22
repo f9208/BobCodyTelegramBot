@@ -2,6 +2,7 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -14,13 +15,13 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @Getter
 @Setter
 public class TodayIsHandler implements SimpleHandlerInterface {
+    @Value("${today.is.command}")
+    private List<String> commands;
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
@@ -57,6 +58,6 @@ public class TodayIsHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("!сегодня", "!дата", "!время", "!time", "!ща", "!now", "!time").collect(Collectors.toList());
+        return commands;
     }
 }

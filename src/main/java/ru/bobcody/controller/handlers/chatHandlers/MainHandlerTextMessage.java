@@ -27,7 +27,6 @@ public class MainHandlerTextMessage {
     }
 
     public SendMessage handle(Message message) {
-        log.info("handle command: {}", message.getText());
         SendMessage result = new SendMessage();
         if (result.getChatId() == null) result.setChatId(message.getChatId().toString());
 
@@ -61,15 +60,13 @@ public class MainHandlerTextMessage {
         boolean result = false;
         String[] singleWordArray = text.split("[{^?*+ .,$:;#%/|()]");
         for (String oneWOrd : singleWordArray) {
-            if (oneWOrd.equals("бот") ||
-                    oneWOrd.equals("bob") ||
-                    oneWOrd.equals("bot") ||
-                    oneWOrd.equals("b0t") ||
-                    oneWOrd.equals("@bobcodybot") ||
-                    oneWOrd.equals("боб") ||
-                    oneWOrd.equals("бобу") ||
-                    oneWOrd.equals("бобби") ||
-                    oneWOrd.equals("b0b")
+            if ("бот".equals(oneWOrd) ||
+                    "bob".equals(oneWOrd) ||
+                    "bot".equals(oneWOrd) ||
+                    "@bobcodybot".equals(oneWOrd) ||
+                    "боб".equals(oneWOrd) ||
+                    "бобу".equals(oneWOrd) ||
+                    "бобби".equals(oneWOrd)
             ) result = true;
         }
         return result;

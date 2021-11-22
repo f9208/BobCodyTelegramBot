@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -19,16 +18,12 @@ import ru.bobcody.services.GuestService;
 import ru.bobcody.services.QuoteAbyssService;
 import ru.bobcody.services.QuoteStorageService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Setter
 @Getter
 @Component
-@ConfigurationProperties(prefix = "quotemaster")
 public class QuoteAbyssHandler implements SimpleHandlerInterface {
     @Autowired
     QuoteAbyssService quoteAbyssService;
@@ -42,6 +37,8 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
     String moderatorChatId;
     @Autowired
     BobCodyBot bobCodyBot;
+    @Value("${quote.add.command}")
+    private List<String> commands;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -65,7 +62,7 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return Stream.of("!lw", "!дц", "aq", "!добавьц", "!добавьк").collect(Collectors.toList());
+        return commands;
     }
 
     private String addQuoteToAbyss(Message message) {
@@ -140,7 +137,7 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
     private String approveQuote(Message inputMessage) {
         String result = "что то пошло не так";
         String textMessage = inputMessage.getText().toLowerCase();
-        long inputQuoteIdFromAbyss=0;
+        long inputQuoteIdFromAbyss = 0;
 
         if (textMessage.split(" ").length == 1) return "чо добавить то?";
         if (textMessage.split(" ").length == 2) {
