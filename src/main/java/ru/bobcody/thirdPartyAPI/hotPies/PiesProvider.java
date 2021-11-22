@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.HotPies;
+package ru.bobcody.thirdPartyAPI.hotPies;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

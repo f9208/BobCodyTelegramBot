@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
  * данный класс - просто артефакт ручного добавления (восстановления) цитат из файла баз Вербы.
  * оставил его на память и на всякий случай
  */
+@Deprecated
 public class HandAddingHandler {
     @Autowired
     CapsQuoteStorageService capsQuoteStorageServiceImp;

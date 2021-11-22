@@ -22,7 +22,9 @@ public class HelpReplayHandler implements SimpleHandlerInterface {
 
     @Override
     public SendMessage handle(Message inputMessage) {
-        return new SendMessage().setText(getHelpAnswer());
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(getHelpAnswer());
+        return sendMessage;
     }
 
     @Override

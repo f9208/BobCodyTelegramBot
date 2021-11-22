@@ -12,6 +12,8 @@ import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -19,7 +21,6 @@ import java.util.Random;
 @PropertySource(value = "classpath:answers/onetwothree.properties", encoding = "UTF-8")
 @ConfigurationProperties(prefix = "onetwothree")
 public class OneTwoThree implements SimpleHandlerInterface {
-
     List<String> phrases;
 
     private String getRandomPhrase() {
@@ -36,10 +37,6 @@ public class OneTwoThree implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        List<String> commands = new ArrayList<>();
-        commands.add("123");
-        commands.add("!123");
-        commands.add("!одиндватри");
-        return commands;
+        return Stream.of("123", "!123", "!одиндватри").collect(Collectors.toList());
     }
 }

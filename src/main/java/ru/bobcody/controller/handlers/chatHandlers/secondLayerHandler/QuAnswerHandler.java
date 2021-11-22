@@ -12,6 +12,8 @@ import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @Getter
@@ -37,12 +39,6 @@ public class QuAnswerHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        List<String> commands = new ArrayList<>();
-        commands.add("ку");
-        commands.add("!ку");
-        commands.add("ку!");
-        commands.add("qu");
-        commands.add("!qu");
-        return commands;
+        return Stream.of("ку", "!ку", "ку!", "qu", "!qu").collect(Collectors.toList());
     }
 }

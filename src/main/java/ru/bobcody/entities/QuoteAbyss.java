@@ -1,10 +1,12 @@
 package ru.bobcody.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Entity
 @Getter
 @Setter
@@ -20,9 +22,6 @@ public class QuoteAbyss {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", nullable = false)
     Guest author;
-
-    public QuoteAbyss() {
-    }
 
     public QuoteAbyss(Guest author, Long date, String text) {
         this.author = author;

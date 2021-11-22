@@ -15,8 +15,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.bobcody.controller.BobCodyBot;
-import ru.bobcody.entities.Guest;
+import ru.bobcody.BobCodyBot;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -26,8 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * конфиг Spring boot'a
@@ -49,17 +46,6 @@ public class BotConfig {
     String botName;
     String webHookPath;
 
-    /**
-     * guestsList - список, в который записываются гости конфы
-     * под гостями подразумеваются те, от кого бот фиксировал какие либо входящие сообщения
-     * почему List - незнаю, по идее, можно переделать на какой-нибудь HashSet
-     * но тогда надо реализовывать equals() and hash() но пока нет необходимости
-     */
-    @Bean
-    public List<Guest> guestsList() {
-        return new ArrayList<>();
-    }
-
     @Bean
     public BobCodyBot bobCodyBot() {
         return new BobCodyBot(botName, botToken, webHookPath);
@@ -67,7 +53,6 @@ public class BotConfig {
 
     @Bean
     public MessageSource messageSource() {
-
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("someNameMessageSource");
         return messageSource;

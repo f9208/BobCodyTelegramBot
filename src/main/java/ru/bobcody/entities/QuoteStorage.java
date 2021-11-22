@@ -1,10 +1,12 @@
 package ru.bobcody.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -24,9 +26,6 @@ public class QuoteStorage {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", nullable = false)
     Guest author;
-
-    public QuoteStorage() {
-    }
 
     public QuoteStorage(Guest author, Long dateAdded, Long dataApproved, String text) {
         this.dateAdded = dateAdded;

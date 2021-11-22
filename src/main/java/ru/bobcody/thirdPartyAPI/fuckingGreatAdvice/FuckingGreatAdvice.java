@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.FuckingGreatAdvice;
+package ru.bobcody.thirdPartyAPI.fuckingGreatAdvice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -20,5 +20,8 @@ import java.util.List;
 public interface SimpleHandlerInterface {
     SendMessage handle(Message inputMessage);
 
+    /**
+     * определяем список команд по которым бот будет отзываться для этой реализации
+     */
     List<String> getOrderList();
 }

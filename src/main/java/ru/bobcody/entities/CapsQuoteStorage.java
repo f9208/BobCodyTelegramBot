@@ -1,10 +1,11 @@
 package ru.bobcody.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+@NoArgsConstructor
 @Entity
 @Table(schema = "public", name = "capsQuotationStorage")
 @Getter
@@ -23,9 +24,6 @@ public class CapsQuoteStorage {
     Long dateAdded;
     @Column(name = "date_approved")
     Long dateApproved;
-
-    public CapsQuoteStorage() {
-    }
 
     public CapsQuoteStorage(String capsQuoteText, Guest author, Long dateAdded, Long dateApproved) {
         this.capsQuoteText = capsQuoteText;

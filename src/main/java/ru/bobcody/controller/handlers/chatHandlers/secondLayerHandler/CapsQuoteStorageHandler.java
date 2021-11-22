@@ -1,21 +1,24 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import ru.bobcody.entities.CapsQuoteStorage;
 import ru.bobcody.services.CapsQuoteStorageService;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+@Slf4j
 @Component
 public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
     @Autowired
@@ -30,39 +33,39 @@ public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        List<String> commands = new ArrayList<>();
-        commands.add("!капс");
-        commands.add("!к");
-        commands.add("!caps");
-        return commands;
+        return Stream.of("!капс", "!к", "!caps").collect(Collectors.toList());
     }
 
+    /**
+     * withoutNumberCommand - команда без указания номера цитаты: !caps
+     * withNumberCommand - команда с указанием номера цитаты: !caps 34
+     */
     private String getCapsQuote(Message inputMessage) {
-        String shortCommand = inputMessage.getText().trim();
-        if (shortCommand.equals("!к") ||
-                shortCommand.equals("!капс") ||
-                shortCommand.equals("!caps")) {
-
+        String withoutNumberCommand = inputMessage.getText().trim();
+        if ("!к".equals(withoutNumberCommand) ||
+                "!капс".equals(withoutNumberCommand) ||
+                "!caps".equals(withoutNumberCommand)) {
             return randomQuoteFromQuoteStorage();
         }
-        String fullCommand = inputMessage.getText();
-        Long id = Long.valueOf(fullCommand.split(" ")[1]);
+        String withNumberCommand = inputMessage.getText();
+        Long id = Long.valueOf(withNumberCommand.split(" ")[1]);
         try {
-            System.out.println("запрашиваемый айдишник: " + id);
+            log.info("request capsQuote id: {}", id);
             return capsQuotePrettyTextById(id);
         } catch (NumberFormatException e) {
-            return "в качестве номера цитаты используйте только цифры (числа)";
+            return "в качестве номера цитаты используйте только числа";
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
     }
 
     private String capsQuotePrettyTextById(Long id) {
+        log.info("try to sent capsQuote with id {}", id);
         String result;
         StringBuilder master = new StringBuilder();
         DateTimeFormatter formatDateToPrint = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         try {
-            CapsQuoteStorage current = capsQuoteStorageService.getById(Long.valueOf(id));
+            CapsQuoteStorage current = capsQuoteStorageService.getById(id);
             if (current != null) {
                 master.append("Капс №")
                         .append(current.getId())
@@ -77,16 +80,18 @@ public class CapsQuoteStorageHandler implements SimpleHandlerInterface {
             } else result = "нету такой.";
         } catch (Exception e) {
             e.printStackTrace();
-            result = ("что-то пошло не так");
+            log.error("capsQuote service is failure");
+            result = ("что-то с капсами не так. и в горле першит");
         }
         return result;
     }
 
     private String randomQuoteFromQuoteStorage() {
+        log.info("get random capsQuote");
         Random r = new Random();
-        Long temp=Long.valueOf(r.nextInt(capsQuoteStorageService.getMaxID().intValue())) + 1;
+        Long temp = (long) r.nextInt(capsQuoteStorageService.getMaxID().intValue()) + 1;
         while (!capsQuoteStorageService.existById(temp)) {
-            temp = Long.valueOf(r.nextInt(capsQuoteStorageService.getMaxID().intValue())) + 1;
+            temp = (long) r.nextInt(capsQuoteStorageService.getMaxID().intValue()) + 1;
         }
         return capsQuotePrettyTextById(temp);
     }

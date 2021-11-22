@@ -33,7 +33,7 @@
         </encoder>
     </appender>
 
-    <logger name="ru.bobcody.controller.BotFacade" level="INFO">
+    <logger name="ru.bobcody.BotFacade" level="INFO">
         <appender-ref ref="INPUT_AND_OUTPUT_MESSAGE_FILE"/>
     </logger>
     <logger name="org.hibernate.SQL">

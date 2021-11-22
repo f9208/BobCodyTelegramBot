@@ -21,6 +21,7 @@
         <!--Cache-->
         <ehcache.version>3.9.2</ehcache.version>
         <tomcat.version>9.0.43</tomcat.version>
+        <telegram.version>5.2.0</telegram.version>
     </properties>
 
     <dependencies>
@@ -75,7 +76,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>4.7</version>
+            <version>${telegram.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>

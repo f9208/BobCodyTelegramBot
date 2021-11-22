@@ -1,13 +1,14 @@
 package ru.bobcody.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-
+@NoArgsConstructor
 @Entity
 @Table(schema = "public", name = "guests")
 public class Guest {
@@ -45,14 +46,11 @@ public class Guest {
     List<QuoteStorage> quoteStorages;
 
     public Guest(User user) {
-        this.id = Long.valueOf(user.getId());
+        this.id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.userName = user.getUserName();
         this.languageCode = user.getLanguageCode();
-    }
-
-    public Guest() {
     }
 
     public Guest(Long id, String firstName, String lastName, String userName, String languageCode) {

@@ -1,4 +1,4 @@
-package ru.bobcody.controller;
+package ru.bobcody;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +9,8 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.bobcody.controller.FloodControll;
+import ru.bobcody.controller.Resolver;
 import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 
 import static ru.bobcody.utilits.MessageWriteLog.outputTextMessageLog;
@@ -61,6 +63,12 @@ public class BotFacade {
         if (message != null && message.hasPhoto()) {
             writeLog(message);
             replay = resolver.photoMessageResolver(message);
+        }
+        if (message != null && message.hasDocument()) {
+            writeLog(message);
+            if ("image/jpeg".equals(message.getDocument().getMimeType())) {
+                replay = resolver.photoDocumentMessageResolver(message);
+            }
         }
         return replay;
     }

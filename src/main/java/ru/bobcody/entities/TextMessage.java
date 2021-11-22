@@ -1,6 +1,7 @@
 package ru.bobcody.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -11,9 +12,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+@NoArgsConstructor
 @Entity
 @Data
-@Table(schema = "public", name = "textMessage")
+@Table(schema = "public", name = "textMessage",
+        indexes = {@Index(name = "date_chat_id", columnList = "dateTime, chat")})
 public class TextMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +34,6 @@ public class TextMessage {
     @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     @JoinColumn(name = "chat", nullable = false, referencedColumnName = "id")
     Chat chat;
-
-    public TextMessage() {
-    }
 
     public TextMessage(Message message) {
         this.id = 0L;

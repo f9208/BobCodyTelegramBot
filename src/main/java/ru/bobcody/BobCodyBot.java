@@ -1,4 +1,4 @@
-package ru.bobcody.controller;
+package ru.bobcody;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Lazy;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Setter
@@ -32,8 +33,12 @@ public class BobCodyBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        BotApiMethod result = botFacade.handleUserUpdate(update);
-        return result;
+        try {
+            BotApiMethod result = botFacade.handleUserUpdate(update);
+            return result;
+        } catch (Exception e) {
+            return new SendMessage(update.getMessage().getChatId().toString(), "что то пошло не так. я сломался");
+        }
     }
 
     @Override

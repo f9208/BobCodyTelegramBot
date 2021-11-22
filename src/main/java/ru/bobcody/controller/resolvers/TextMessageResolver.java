@@ -2,7 +2,9 @@ package ru.bobcody.controller.resolvers;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -18,7 +20,7 @@ import ru.bobcody.services.TextMessageService;
 @Getter
 @Setter
 @Component
-public class TextMessageResolver {
+public class TextMessageResolver extends AbstractMessageResolver {
     @Autowired
     MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
@@ -27,23 +29,30 @@ public class TextMessageResolver {
     TextMessageService textMessageService;
     @Autowired
     ChatRepository chatRepository;
+    @Value("${chatid.admin}")
+    String chatAdminId;
 
     public SendMessage process(Message message, boolean edited) {
         SendMessage replay = new SendMessage();
         try {
-            saveMessage(message);
+            saveMessage(message); // бот не отвечает на edited сообщения, но сохраняет их изменения
             if (!edited) {
-                replay = mainHandlerTextMessage.handle(message);
+                replay = process(message);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            replay.setText("что-то пошло не так: " + e.toString()).setChatId("445682905");
+            replay.setText("что-то пошло не так: " + e.toString());
+            replay.setChatId(chatAdminId);
         } finally {
             if (replay.getText() != null) {
                 saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));
             }
         }
         return replay;
+    }
+
+    public SendMessage process(Message message) {
+        return mainHandlerTextMessage.handle(message);
     }
 
     private void saveMessage(Message message) {

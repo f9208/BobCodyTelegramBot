@@ -2,6 +2,7 @@ package ru.bobcody.controller.resolvers;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.bobcody.controller.BobCodyBot;
+import ru.bobcody.BobCodyBot;
 import ru.bobcody.entities.Link;
 import ru.bobcody.services.ChatService;
 import ru.bobcody.services.GuestService;
@@ -27,10 +28,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Getter
 @Setter
 @Component
-public class PhotoMessageResolver {
+public class PhotoMessageResolver extends AbstractMessageResolver {
     @Autowired
     BobCodyBot bobCodyBot;
     @Value("${imageSave.path}")
@@ -41,94 +43,109 @@ public class PhotoMessageResolver {
     ChatService chatService;
     @Autowired
     GuestService guestService;
-    //todo логгер не забыть
     @Value("${botloading.web-hook-path}")
     String rootUrl;
-    String secondPartUrl = "/savedImages/";
+    String prefixFolder = "/savedImages/";
 
+    @Override
     public SendMessage process(Message message) {
-        SendMessage result = new SendMessage().setChatId(message.getChatId());
+        log.info("start processing image for message {}", message.getMessageId());
+        SendMessage result = new SendMessage(message.getChatId().toString(), "я попробовал сохранить твою картинку");
         PhotoSize photo = getBiggestPhoto(message);
-        String telegramFilePath = getFilePath(photo);
+
+        Objects.requireNonNull(photo);
+        String telegramFilePath;
+        if (photo.getFilePath() != null) {
+            telegramFilePath = photo.getFilePath();
+        } else {
+            telegramFilePath = getFilePath(photo.getFileId());
+        }
         try {
             File file = translatePhotoAsFile(telegramFilePath);
             if (!checkFileIsImageType(file)) {
-                return result.setText("твой файл не похож на картинку. не буду сохранять");
+                log.error("file doesn't look like image-file. break");
+                result.setText("твой файл не похож на картинку. не буду сохранять");
+                return result;
             }
-            Path savedFilePath = saveFileOnDisk(file);
-            Link savedLink = saveToDb(savedFilePath, file, message);
+            Path savedFilePath = saveFileOnDisk(file, ".jpg");
+            Link savedLink = saveLinkToDb(savedFilePath, file, message);
             String httpUrl = prepareHttpPath(savedLink.getName());
-            return result.setText(httpUrl);
+            log.info("{}: result URL {}", message.getMessageId(), httpUrl);
+            result.setText(httpUrl);
+            return result;
         } catch (TelegramApiException | IOException e) {
             e.printStackTrace();
+            result.setText("не удалось сохранить изображение");
         }
-        return result.setText("куда то там сохранили твою картинку. get off");
+        return result;
     }
 
+    /**
+     * Если в объекте message и есть фотки то там их сразу list
+     * с файлами разного размера. Для сохранения выбираем больший из них
+     **/
     private PhotoSize getBiggestPhoto(final Message message) {
+        log.info("start processing images, try to find the biggest one");
         List<PhotoSize> photos = message.getPhoto();
-        PhotoSize biggestOne = photos.stream()
+        return photos.stream()
                 .max(Comparator.comparing(PhotoSize::getFileSize)).orElse(null);
-        return biggestOne;
     }
 
-    private String getFilePath(final PhotoSize photo) {
-        Objects.requireNonNull(photo);
-        if (photo.hasFilePath()) {
-            return photo.getFilePath();
-        } else {
-            GetFile getFileMethod = new GetFile();
-            getFileMethod.setFileId(photo.getFileId());
-            try {
-                org.telegram.telegrambots.meta.api.objects.File telegramFile
-                        = bobCodyBot.execute(getFileMethod);
-                return telegramFile.getFilePath();
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+    /**
+     * Метод возвращает строку-Path по которой ее можно дернуть из телеграмма.
+     * Это НЕ java.nio.file.Path;
+     * File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
+     *
+     * @param fileId - внутренний телеграмм-Id файла. длинная такая строка
+     */
+    public String getFilePath(String fileId) {
+        GetFile getFileMethod = new GetFile();
+        getFileMethod.setFileId(fileId);
+        try {
+            org.telegram.telegrambots.meta.api.objects.File telegramFile
+                    = bobCodyBot.execute(getFileMethod);
+            return telegramFile.getFilePath();
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    private File translatePhotoAsFile(final String filePath) throws TelegramApiException {
-        File plainFile = bobCodyBot.downloadFile(filePath);
-        return plainFile;
+    protected java.io.File translatePhotoAsFile(final String filePath) throws TelegramApiException {
+        return bobCodyBot.downloadFile(filePath);
     }
 
-    private Path saveFileOnDisk(final File inputFile) throws IOException {
+    protected Path saveFileOnDisk(final File inputFile, String extension) throws IOException {
         Path folder = Paths.get(rootPath);
         if (!Files.exists(folder)) {
             Files.createDirectory(folder);
         }
-
         String destFileName = FilenameUtils.getBaseName(String.valueOf(inputFile));
-        Path destPath = Paths.get(folder.toString(), destFileName + ".jpg");
-
-        Path result = copyFile(inputFile.toPath(), destPath);
-        return result;
+        Path destPath = Paths.get(folder.toString(), destFileName + extension);
+        log.info("file has been saved: {} ", destPath.toString());
+        return copyFile(inputFile.toPath(), destPath);
     }
 
     private Path copyFile(Path sourcePath, Path destPath) throws IOException {
-        return Files.copy(sourcePath, destPath); //есть минимум 4 способа копировать файлы. этот самый короткий
+        log.info("copy temporary file {} on disk {}", sourcePath, destPath);
+        return Files.copy(sourcePath, destPath); //todo есть минимум 4 способа копировать файлы. этот самый короткий
     }
 
-    private boolean checkFileIsImageType(final File file) {
+    protected boolean checkFileIsImageType(final File file) {
         //todo как то надо проверять файл на консистентность чтобы не сохранять не жпг
         return true;
     }
 
-    private Link saveToDb(Path path, File file, Message message) {
-        Link forSave = new Link();
-        forSave.setPath(path.toString());
+    protected Link saveLinkToDb(Path path, File file, Message message) {
+        Link forSave = new Link(path.toString(), path.getFileName().toString());
         forSave.setDateCreated(LocalDateTime.now());
-        forSave.setSize(file.getTotalSpace()); //todo тотал спейс это не размер файла
-        forSave.setName(path.getFileName().toString());
-        forSave.setGuest(guestService.findById(Long.valueOf(message.getFrom().getId())));
+        forSave.setSize(file.length());
+        forSave.setGuest(guestService.findById(message.getFrom().getId()));
         forSave.setChat(chatService.getChatById(message.getChat().getId()));
         return linkService.saveLink(forSave);
     }
 
-    private String prepareHttpPath(String name) {
-        return rootUrl + secondPartUrl + name;
+    protected String prepareHttpPath(String name) {
+        return rootUrl + prefixFolder + name;
     }
 }

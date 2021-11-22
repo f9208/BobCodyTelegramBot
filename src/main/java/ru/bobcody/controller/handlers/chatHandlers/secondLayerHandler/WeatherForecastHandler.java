@@ -2,20 +2,23 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.thirdPartyAPI.weather.OpenWeatherForecast;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.thirdPartyAPI.weather.OpenWeatherForecast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+@Slf4j
 @Component
 @Getter
 @Setter
@@ -26,14 +29,26 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
     OpenWeatherForecast openWeatherForecast;
     String defaultCityName;
 
+    @Override
+    public SendMessage handle(Message inputMessage) {
+        SendMessage result = new SendMessage();
+        result.setText(weatherForecastAnswer(inputMessage));
+        result.setReplyToMessageId(inputMessage.getMessageId());
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        return Stream.of("!п", "!погода", "!w", "!g", "!weather").collect(Collectors.toList());
+    }
+
     private String getForecast(String cityName) {
-        String result = "123 а не погода.";
+        log.info("try to get full weather forecast for city: {}", cityName);
+        String result = "непогода";
         try {
-            if (cityName.equals("default")) {
-                result = openWeatherForecast.getFullForecast(defaultCityName);
-            } else {
-                result = openWeatherForecast.getFullForecast(cityName);
-            }
+            result = "default".equals(cityName)
+                    ? openWeatherForecast.getFullForecast(defaultCityName)
+                    : openWeatherForecast.getFullForecast(cityName);
         } catch (IOException e) {
             result = cityName.replace("%20", " ") + "? Где это? в Бельгии что-ли?";
         }
@@ -41,35 +56,33 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
     }
 
     private String getShortForecast(String cityName) {
-        String result = "123 а не погода.";
+        log.info("try to get short weather forecast for city: {}", cityName);
+        String result = "непогода.";
         try {
-            if (cityName.equals("default")) {
-                result = openWeatherForecast.getShortForecast(defaultCityName);
-            } else {
-                result = openWeatherForecast.getShortForecast(cityName);
-            }
+            result = "default".equals(cityName)
+                    ? openWeatherForecast.getShortForecast(defaultCityName)
+                    : openWeatherForecast.getShortForecast(cityName);
         } catch (IOException e) {
             result = cityName.replace("%20", " ") + "? Где это? в Бельгии что-ли?";
         }
         return result;
     }
 
-    @Override
-    public SendMessage handle(Message inputMessage) {
-        return new SendMessage().setText(weatherForecastAnswer(inputMessage)).setReplyToMessageId(inputMessage.getMessageId());
-    }
-
+    /**
+     * в названии города может быть больше одного слова.
+     * для решения этой проблемы переводим название города в массив из строк
+     */
     private String weatherForecastAnswer(Message message) {
         StringBuilder cityName = new StringBuilder();
         String[] cityTwoWord = message.getText().split(" ");
-
         if (cityTwoWord.length == 1
+                // если !п, !w, !g - то выводим "короткую" погоду.
                 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
                 || cityTwoWord[0].equals("!п"))) {
             cityName.append("default");
             return getShortForecast(cityName.toString());
         }
-        System.out.println("название города: " + Arrays.toString(cityTwoWord));
+        //если !погода- то длинную версию
         if (cityTwoWord.length == 1
                 && (cityTwoWord[0].equals("!погода") || cityTwoWord[0].equals("!weather"))) {
             cityName.append("default");
@@ -81,25 +94,12 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
 // вконце пробел не нужен
             if (i < cityTwoWord.length - 1) cityName.append("%20");
         }
-        System.out.println(cityName);
-// если !п, !w, !g - то выводим "короткую" погоду. если !погода- то длинную версию
+        log.info("city with multi word name: {}", cityName);
         if (cityName.length() != 0 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")
                 || cityTwoWord[0].equals("!п"))) {
             return getShortForecast(cityName.toString());
         } else if (cityName.length() != 0 && (cityTwoWord[0].equals("!погода") || cityTwoWord[0].equals("!weather"))) {
             return getForecast(cityName.toString());
-
         } else return null;
-    }
-
-    @Override
-    public List<String> getOrderList() {
-        List<String> result = new ArrayList<>();
-        result.add("!п");
-        result.add("!w");
-        result.add("!погода");
-        result.add("!g");
-        result.add("!weather");
-        return result;
     }
 }

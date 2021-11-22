@@ -11,10 +11,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @Getter
@@ -24,7 +25,7 @@ public class TodayIsHandler implements SimpleHandlerInterface {
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
 
-        TimeZone calliforniaTimeZone=TimeZone.getTimeZone("America/Los_Angeles");
+        TimeZone calliforniaTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
         TimeZone bratislava = TimeZone.getTimeZone("Europe/Bratislava");
 
         StringBuilder currentDate = new StringBuilder();
@@ -56,14 +57,6 @@ public class TodayIsHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        List<String> commands = new ArrayList<>();
-        commands.add("!сегодня");
-        commands.add("!дата");
-        commands.add("!время");
-        commands.add("!time");
-        commands.add("!ща");
-        commands.add("!now");
-        commands.add("!time");
-        return commands;
+        return Stream.of("!сегодня", "!дата", "!время", "!time", "!ща", "!now", "!time").collect(Collectors.toList());
     }
 }
