@@ -19,10 +19,10 @@ public class GuestService {
     GuestRepository guestRepository;
 
     @Transactional
-    @CacheEvict(value = "guests", allEntries = true)
+    @CacheEvict(value = {"guests","guestById"}, allEntries = true)
     public Guest add(Guest guest) {
         log.info("save new guest {}", guest);
-       return guestRepository.save(guest);
+        return guestRepository.save(guest);
     }
 
     @Cacheable("guests")
@@ -35,5 +35,9 @@ public class GuestService {
         log.info("try to find guest by id {}", id);
         return guestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Guest not found by id " + id));
+    }
+    @Cacheable(value = "guestById", key = "#id")
+    public boolean containGuest(Long id) {
+        return guestRepository.findById(id).isPresent();
     }
 }

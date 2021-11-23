@@ -14,4 +14,6 @@
     </cache-template>
 
     <cache alias="guests" uses-template="listUsers"/>
+    <cache alias="guestById" uses-template="listUsers"/>
+    <cache alias="chatById" uses-template="listUsers"/>
 </config>

@@ -14,8 +14,11 @@ import ru.bobcody.entities.Chat;
 import ru.bobcody.entities.Guest;
 import ru.bobcody.entities.TextMessage;
 import ru.bobcody.repository.ChatRepository;
+import ru.bobcody.services.ChatService;
 import ru.bobcody.services.GuestService;
 import ru.bobcody.services.TextMessageService;
+
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -28,7 +31,7 @@ public class TextMessageResolver extends AbstractMessageResolver {
     @Autowired
     TextMessageService textMessageService;
     @Autowired
-    ChatRepository chatRepository;
+    ChatService chatService;
     @Value("${chatid.admin}")
     String chatAdminId;
 
@@ -59,15 +62,21 @@ public class TextMessageResolver extends AbstractMessageResolver {
         if (message.getFrom() != null) {
             saveGuest(message.getFrom());
         }
-        chatRepository.save(new Chat(message.getChat())); //todo не пересохранять чат если такой уже есть
+        saveChat(message);
         saveInputMessage(message);
     }
 
     private Guest saveGuest(User user) {
         Guest guest = new Guest(user);
-        return !guestService.getAll().contains(guest)
-                ? guestService.add(guest)
-                : guest;
+        return guestService.containGuest(guest.getId())
+                ? guest
+                : guestService.add(guest);
+    }
+
+    private Chat saveChat(Message message) {
+        Objects.requireNonNull(message.getChat());
+        Chat chat = new Chat(message.getChat());
+        return chatService.containChat(chat.getId()) ? chat : chatService.save(chat);
     }
 
     private void saveInputMessage(Message message) {
