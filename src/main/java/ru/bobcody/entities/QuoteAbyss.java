@@ -1,19 +1,20 @@
 package ru.bobcody.entities;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity
-@Getter
-@Setter
+@Data
 @Table(schema = "public", name = "quotation_abyss")
+@SequenceGenerator(name = "id_seq",
+        sequenceName = "quotation_abyss_id_seq",
+        allocationSize = 1)
 public class QuoteAbyss {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
     Long id;
     @Column(columnDefinition = "varchar(5000)", name = "quote_text")
     String text;

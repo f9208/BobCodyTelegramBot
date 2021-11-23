@@ -11,11 +11,13 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(schema = "public", name = "quotation_storage")
+@SequenceGenerator(name = "id_seq",
+        sequenceName = "quotation_storage_id_seq",
+        allocationSize = 1)
 //хранилище добавленных (аппрувленных) цитат. собственно, сам цитатник
 public class QuoteStorage {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
     Long id;
     @Column(name = "date_added")
     Long dateAdded;

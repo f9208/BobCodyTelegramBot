@@ -2,7 +2,6 @@ package ru.bobcody.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -17,9 +16,12 @@ import java.util.Date;
 @Data
 @Table(schema = "public", name = "textMessage",
         indexes = {@Index(name = "date_chat_id", columnList = "dateTime, chat")})
+@SequenceGenerator(name = "id_seq",
+        sequenceName = "text_message_id_seq",
+        allocationSize = 1)
 public class TextMessage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
     Long id;
     @Column(name = "telegramId")
     Long telegram;

@@ -12,9 +12,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(schema = "public", name = "links",
         indexes = {@Index(name = "date_guest_idx", columnList = "date, guest_id")})
+@SequenceGenerator(name = "id_seq",
+        sequenceName = "link_id_seq", initialValue = 100, allocationSize = 1)
 public class Link {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
     Long id;
     @NotNull
     String path;
