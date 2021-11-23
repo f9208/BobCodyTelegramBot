@@ -48,15 +48,15 @@ public class MainHandlerTextMessage {
             result = multiHandler.get("amd").handle(message);
         }
 
-        if (textMessage.equals("!ссылки") ||
-                textMessage.equals(" !ссылки") ||
-                (textMessage.equals("!ссылки "))) {
+        if ("!ссылки".equals(textMessage) ||
+                " !ссылки".equals(textMessage) ||
+                "!ссылки ".equals(textMessage)) {
             result.setText("ссылки бабая: https://t.me/izhmain/107384");
         }
         return result;
     }
 
-    private boolean touchBotName(String text) { //todo может как то менее топорно переделать команды
+    private boolean touchBotName(String text) {
         boolean result = false;
         String[] singleWordArray = text.split("[{^?*+ .,$:;#%/|()]");
         for (String oneWOrd : singleWordArray) {

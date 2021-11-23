@@ -2,12 +2,15 @@ package ru.bobcody.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
+
 @NoArgsConstructor
 @Entity
 @Table(schema = "public", name = "guests")
@@ -19,6 +22,7 @@ public class Guest {
     @Setter
     @Getter
     @Column(name = "first_name")
+    @NotNull
     private String firstName;
     @Setter
     @Getter
@@ -34,15 +38,15 @@ public class Guest {
     private String languageCode;
     @Getter
     @Setter
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<QuoteAbyss> quoteAbysses;
     @Getter
     @Setter
-    @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<TextMessage> textMessages;
     @Getter
     @Setter
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<QuoteStorage> quoteStorages;
 
     public Guest(User user) {

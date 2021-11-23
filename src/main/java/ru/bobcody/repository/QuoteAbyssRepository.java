@@ -20,7 +20,7 @@ public interface QuoteAbyssRepository extends CrudRepository<QuoteAbyss, Long> {
     void approveQuote(@Param("id") long id, @Param("currentTime") long unixTime);
 
     @Modifying
-    @Query(value = "INSERT INTO public.caps_quotation_storage(author_id, date_added, date_approved, caps_text) " +
+    @Query(value = "INSERT INTO public.caps_quotation_storage (author_id, date_added, date_approved, caps_text) " +
             "SELECT quotation_abyss.author_id," +
             " quotation_abyss.date_added, " +
             ":currentTime, " +

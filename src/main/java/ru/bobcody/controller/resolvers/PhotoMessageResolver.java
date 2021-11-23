@@ -13,9 +13,9 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.bobcody.BobCodyBot;
+import ru.bobcody.entities.Chat;
+import ru.bobcody.entities.Guest;
 import ru.bobcody.entities.Link;
-import ru.bobcody.services.ChatService;
-import ru.bobcody.services.GuestService;
 import ru.bobcody.services.LinkService;
 
 import java.io.File;
@@ -39,20 +39,15 @@ public class PhotoMessageResolver extends AbstractMessageResolver {
     private String rootPath;
     @Autowired
     LinkService linkService;
-    @Autowired
-    ChatService chatService;
-    @Autowired
-    GuestService guestService;
     @Value("${botloading.web-hook-path}")
     String rootUrl;
     String prefixFolder = "/savedImages/";
 
     @Override
     public SendMessage process(Message message) {
-        log.info("start processing image for message {}", message.getMessageId());
+        log.info("start extraction image for message {}", message.getMessageId());
         SendMessage result = new SendMessage(message.getChatId().toString(), "я попробовал сохранить твою картинку");
         PhotoSize photo = getBiggestPhoto(message);
-
         Objects.requireNonNull(photo);
         String telegramFilePath;
         if (photo.getFilePath() != null) {
@@ -68,8 +63,8 @@ public class PhotoMessageResolver extends AbstractMessageResolver {
                 return result;
             }
             Path savedFilePath = saveFileOnDisk(file, ".jpg");
-            Link savedLink = saveLinkToDb(savedFilePath, file, message);
-            String httpUrl = prepareHttpPath(savedLink.getName());
+            saveLinkToDb(savedFilePath, file, message);
+            String httpUrl = prepareHttpPath(savedFilePath.getFileName().toString());
             log.info("{}: result URL {}", message.getMessageId(), httpUrl);
             result.setText(httpUrl);
             return result;
@@ -85,7 +80,7 @@ public class PhotoMessageResolver extends AbstractMessageResolver {
      * с файлами разного размера. Для сохранения выбираем больший из них
      **/
     private PhotoSize getBiggestPhoto(final Message message) {
-        log.info("start processing images, try to find the biggest one");
+        log.info("looking for the biggest image");
         List<PhotoSize> photos = message.getPhoto();
         return photos.stream()
                 .max(Comparator.comparing(PhotoSize::getFileSize)).orElse(null);
@@ -136,13 +131,13 @@ public class PhotoMessageResolver extends AbstractMessageResolver {
         return true;
     }
 
-    protected Link saveLinkToDb(Path path, File file, Message message) {
+    protected void saveLinkToDb(Path path, File file, Message message) {
         Link forSave = new Link(path.toString(), path.getFileName().toString());
         forSave.setDateCreated(LocalDateTime.now());
         forSave.setSize(file.length());
-        forSave.setGuest(guestService.findById(message.getFrom().getId()));
-        forSave.setChat(chatService.getChatById(message.getChat().getId()));
-        return linkService.saveLink(forSave);
+        forSave.setGuest(new Guest(message.getFrom()));
+        forSave.setChat(new Chat(message.getChat()));
+        linkService.saveLink(forSave);
     }
 
     protected String prepareHttpPath(String name) {

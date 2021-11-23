@@ -23,7 +23,7 @@ public class QuoteStorage {
     Long dateApproved;
     @Column(name = "quote_text", columnDefinition = "varchar(5000)")
     String text;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     Guest author;
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.bobcody.entities.Guest;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GuestRepository extends CrudRepository<Guest, Long> {
@@ -13,5 +14,5 @@ public interface GuestRepository extends CrudRepository<Guest, Long> {
 
     List<Guest> findAllBy();
 
-    Guest findGuestById(Long id);
+    Optional<Guest> findById(Long id);
 }

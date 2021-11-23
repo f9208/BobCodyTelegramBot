@@ -16,7 +16,7 @@ public class MyChatIdHandler implements SimpleHandlerInterface {
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
-        result.setText("айдишник этого чата:" + inputMessage.getChat().getId());
+        result.setText("айдишник этого чата:  " + inputMessage.getChat().getId());
         return result;
     }
 

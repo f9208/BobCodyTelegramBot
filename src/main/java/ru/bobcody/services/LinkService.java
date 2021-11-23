@@ -3,6 +3,7 @@ package ru.bobcody.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Link;
 import ru.bobcody.repository.LinkRepository;
 
@@ -16,14 +17,27 @@ public class LinkService {
     @Autowired
     LinkRepository linkRepository;
 
-    public Link saveLink(Link link) {
+    @Transactional
+    public int saveLink(Link link) {
         Objects.requireNonNull(link);
         log.info("save link to db, path: {}, guest_id: {}", link.getPath(), link.getGuest().getId());
-        return linkRepository.save(link);
+        return prepareAndSave(link);
     }
 
     public Path getPathByFilName(String fileName) {
         Link link = linkRepository.findLinkByName(fileName);
         return Paths.get(link.getPath());
+    }
+
+    public int prepareAndSave(Link link) {
+        log.info("prepare and save URL");
+        return linkRepository.saveOne(
+                link.getDateCreated(),
+                link.isEnabled(),
+                link.getPath(),
+                link.getSize(),
+                link.getChat().getId(),
+                link.getGuest().getId(),
+                link.getName());
     }
 }

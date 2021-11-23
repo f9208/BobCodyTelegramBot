@@ -28,15 +28,14 @@ public class TextMessage {
     private LocalDateTime dateTime;
     @Column(name = "textMessage", columnDefinition = "varchar(50000)")
     String textMessage;
-    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id", nullable = false, referencedColumnName = "id")
     Guest guest;
-    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "chat", nullable = false, referencedColumnName = "id")
     Chat chat;
 
     public TextMessage(Message message) {
-        this.id = 0L;
         this.telegram = Long.valueOf(message.getMessageId());
         this.dateTime = LocalDateTime.parse(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(message.getDate().longValue() * 1000)));
         this.textMessage = message.getText();
@@ -45,8 +44,7 @@ public class TextMessage {
     }
 
     public TextMessage(SendMessage sendMessage, Guest guest, int messageId, Chat chat) {
-        this.id = 0L;
-        this.telegram = Long.valueOf(messageId + 1);
+        this.telegram = (long) (messageId + 1);
         this.dateTime = LocalDateTime.now();
         this.textMessage = sendMessage.getText();
         this.guest = guest;

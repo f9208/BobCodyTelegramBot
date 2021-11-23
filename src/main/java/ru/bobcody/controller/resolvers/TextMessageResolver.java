@@ -59,15 +59,15 @@ public class TextMessageResolver extends AbstractMessageResolver {
         if (message.getFrom() != null) {
             saveGuest(message.getFrom());
         }
-        chatRepository.save(new Chat(message.getChat()));
+        chatRepository.save(new Chat(message.getChat())); //todo не пересохранять чат если такой уже есть
         saveInputMessage(message);
     }
 
-    private void saveGuest(User user) {
+    private Guest saveGuest(User user) {
         Guest guest = new Guest(user);
-        if (!guestService.getAll().contains(guest)) {
-            guestService.add(guest);
-        }
+        return !guestService.getAll().contains(guest)
+                ? guestService.add(guest)
+                : guest;
     }
 
     private void saveInputMessage(Message message) {

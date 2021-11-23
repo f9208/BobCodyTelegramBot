@@ -19,7 +19,7 @@ public class QuoteAbyss {
     String text;
     @Column(name = "date_added")
     Long date;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     Guest author;
 

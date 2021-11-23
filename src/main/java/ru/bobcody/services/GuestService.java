@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Guest;
 import ru.bobcody.repository.GuestRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Slf4j
@@ -19,9 +20,9 @@ public class GuestService {
 
     @Transactional
     @CacheEvict(value = "guests", allEntries = true)
-    public void add(Guest guest) {
+    public Guest add(Guest guest) {
         log.info("save new guest {}", guest);
-        guestRepository.save(guest);
+       return guestRepository.save(guest);
     }
 
     @Cacheable("guests")
@@ -30,13 +31,9 @@ public class GuestService {
         return guestRepository.findAllBy();
     }
 
-    //todo попробовать переделать на дергание из кэша
     public Guest findById(Long id) {
         log.info("try to find guest by id {}", id);
-        return guestRepository.findGuestById(id);
-    }
-
-    public boolean comprise(long id) {
-        return guestRepository.existsById(id);
+        return guestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Guest not found by id " + id));
     }
 }

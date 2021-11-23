@@ -72,12 +72,11 @@ public class QuoteAbyssHandler implements SimpleHandlerInterface {
         if (textQuote.length() == 0) {
             replay = message.getFrom().getUserName() + ", ты цитату то введи";
         } else if (textQuote.length() < 5000) {
-            Guest guest = guestService.findById(message.getFrom().getId());
-            QuoteAbyss quoteAbyss = new QuoteAbyss(guest,
+            QuoteAbyss quoteAbyss = new QuoteAbyss(new Guest(message.getFrom()),
                     Long.valueOf(message.getDate()),
                     textQuote);
             quoteAbyssService.add(quoteAbyss);
-            log.info("user {} add quote {}", guest.getFirstName(), quoteAbyss.getText());
+            log.info("user {} add quote {}", message.getFrom().getFirstName(), quoteAbyss.getText());
             replay = "Записал в бездну. Цитата будет добавлена в хранилище после проверки модератором.";
             sendToModerator(message);
         } else {

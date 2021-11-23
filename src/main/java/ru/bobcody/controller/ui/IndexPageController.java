@@ -2,10 +2,10 @@ package ru.bobcody.controller.ui;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Controller
 @Getter
 @Setter
@@ -32,16 +33,16 @@ public class IndexPageController {
     TextMessageService textMessageService;
     @Autowired
     LinkService linkService;
-    // айди чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники
+    // Id чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники
     private final long defaultChatId;
 
     public IndexPageController(@Value("${chat.defaultChatId}") long defaultChatId) {
         this.defaultChatId = defaultChatId;
     }
 
-    //todo прикрутить логи сюда
     @GetMapping(value = "/")
     public String get(Model model, HttpServletRequest httpServletRequest) {
+        log.info("get index page");
         long currentChatId = defaultChatId;
         String id = httpServletRequest.getParameter("chatId");
         if (id != null) {
@@ -57,6 +58,7 @@ public class IndexPageController {
 
     @GetMapping(value = "/{chatId}/{dateAsString}")
     public String getForDate(@PathVariable String dateAsString, @PathVariable long chatId, Model model) {
+        log.info("get page with logs, link:  /{}/{}", chatId, dateAsString);
         LocalDate date = LocalDate.parse(dateAsString); //todo переделать этот костыль
         model.addAttribute("messages", textMessageService.getOnDateBetweenForChat(date, date, chatId));
         model.addAttribute("currentChatId", chatId);
@@ -68,6 +70,7 @@ public class IndexPageController {
     @GetMapping(value = "/savedImages/{filename:\\w+}.jpg", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public byte[] getImageAsByteArray(@PathVariable("filename") String fileName) throws IOException {
+        log.info("get image for fileName {}.jpg", fileName);
         Path pathByFileName = getPathInOSFromDB(fileName + ".jpg");
         File file = new File(pathByFileName.toUri());
         InputStream in = new FileInputStream(file);

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
@@ -26,12 +27,17 @@ import java.util.Locale;
 @Component
 @Getter
 @Setter
+@PropertySource(value = "classpath:additional.properties", encoding = "UTF-8")
 public class FridayHandler implements SimpleHandlerInterface {
     @Autowired
     @Lazy
     BobCodyBot bobCodyBot;
     @Value("${friday.command}")
     private List<String> commands;
+    @Value("${elk.path}")
+    private String elkPath;
+    @Value("${izhmain.chat.id}")
+    private String mainChatId;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -75,7 +81,7 @@ public class FridayHandler implements SimpleHandlerInterface {
     private void fridayAnswerGif(Message message) {
         try {
             log.info("try to send elk-gif");
-            InputFile inputFile = new InputFile("CgACAgIAAxkBAAIO92Gan-FOvBRC9qh2TTETIOD-dmXMAAKuEgAC2ofYSG5oS6daKXwxIgQ");
+            InputFile inputFile = new InputFile(elkPath);
             SendAnimation elkFriday = new SendAnimation();
             elkFriday.setAnimation(inputFile);
             elkFriday.setChatId(message.getChatId().toString());
@@ -90,10 +96,10 @@ public class FridayHandler implements SimpleHandlerInterface {
     private void sendFridayGif() {
         try {
             log.info("try to send elk-gif");
-            InputFile inputFile = new InputFile("CgACAgIAAxkBAAIO92Gan-FOvBRC9qh2TTETIOD-dmXMAAKuEgAC2ofYSG5oS6daKXwxIgQ");
+            InputFile inputFile = new InputFile(elkPath);
             SendAnimation elkFriday = new SendAnimation();
             elkFriday.setAnimation(inputFile);
-            elkFriday.setChatId("-1001207502467");
+            elkFriday.setChatId(mainChatId);
             bobCodyBot.execute(elkFriday);
         } catch (TelegramApiException e) {
             e.printStackTrace();

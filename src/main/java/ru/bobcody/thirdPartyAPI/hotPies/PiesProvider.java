@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -16,6 +17,7 @@ import java.util.Random;
 @Setter
 @Getter
 @Component
+@Slf4j
 public class PiesProvider {
     private final static ObjectMapper objectMapper = new ObjectMapper();
     private final static String rootUrl = "https://poetory.ru/";
@@ -61,10 +63,10 @@ public class PiesProvider {
         conn.setConnectTimeout(5000);
         int counter = 1;
         while (conn.getResponseCode() != 200) {
-            System.out.println("ResponseCode: " + conn.getResponseCode() + ", pieID=" + pieId);
-            conn = getConnect(pieId+counter);
+            log.info("ResponseCode: {}, pieID = {}", conn.getResponseCode(), pieId);
+            conn = getConnect(pieId + counter);
             conn.connect();
-            counter=counter+100;
+            counter = counter + 100;
             if (counter >= 100) {
                 break;
             }

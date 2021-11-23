@@ -13,6 +13,5 @@
         <heap>40</heap>
     </cache-template>
 
-    <cache alias="guests" uses-template="listUsers">
-    </cache>
+    <cache alias="guests" uses-template="listUsers"/>
 </config>

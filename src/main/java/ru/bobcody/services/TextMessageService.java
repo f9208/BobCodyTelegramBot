@@ -21,15 +21,15 @@ public class TextMessageService {
     TextMessageRepository textMessageRepository;
 
     @Transactional
-    public TextMessage saveInputMessage(TextMessage textMessage) {
+    public int saveInputMessage(TextMessage textMessage) {
         log.info("save input messages: {}", textMessage.getTextMessage());
-        return textMessageRepository.save(textMessage);
+        return prepareAndSave(textMessage);
     }
 
     @Transactional
-    public TextMessage saveOutputMessage(TextMessage outputMessage) {
+    public int saveOutputMessage(TextMessage outputMessage) {
         log.info("save output messages: {}", outputMessage.getTextMessage());
-        return textMessageRepository.save(outputMessage);
+        return prepareAndSave(outputMessage);
     }
 
     public TextMessage getById(long id) {
@@ -47,5 +47,14 @@ public class TextMessageService {
                 .stream()
                 .map(Date::toLocalDate)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    int prepareAndSave(TextMessage message) {
+        return textMessageRepository.saveOne(message.getDateTime(),
+                message.getTelegram(),
+                message.getTextMessage(),
+                message.getChat().getId(),
+                message.getGuest().getId());
     }
 }

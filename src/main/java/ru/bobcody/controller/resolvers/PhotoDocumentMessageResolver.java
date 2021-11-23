@@ -22,9 +22,6 @@ import java.util.Objects;
 @Setter
 @Component
 public class PhotoDocumentMessageResolver extends PhotoMessageResolver {
-    @Autowired
-    private BobCodyBot bobCodyBot;
-
     @Override
     public SendMessage process(Message message) {
         log.info("start processing a document with image {}", message.getDocument().getFileName());
@@ -40,8 +37,8 @@ public class PhotoDocumentMessageResolver extends PhotoMessageResolver {
                 return result;
             }
             Path savedFilePath = saveFileOnDisk(file, ".jpg");
-            Link savedLink = saveLinkToDb(savedFilePath, file, message);
-            String httpUrl = prepareHttpPath(savedLink.getName());
+            saveLinkToDb(savedFilePath, file, message);
+            String httpUrl = prepareHttpPath(savedFilePath.getFileName().toString());
             log.info("messageId{}: result URL {}", message.getMessageId(), httpUrl);
             result.setText(httpUrl);
             return result;
