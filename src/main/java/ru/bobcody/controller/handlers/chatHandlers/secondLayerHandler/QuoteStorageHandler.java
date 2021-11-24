@@ -29,26 +29,34 @@ public class QuoteStorageHandler implements SimpleHandlerInterface {
     @Value("${quote.get.command}")
     private List<String> commands;
 
+    @Override
+    public SendMessage handle(Message inputMessage) {
+        SendMessage result = new SendMessage();
+        result.setText(getTextQuoteStorage(inputMessage));
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        return commands;
+    }
+
     private String getTextQuoteStorage(Message message) {
-        String shortCommand = message.getText().trim();
-        if ("!ц".equals(shortCommand) ||
-                "!цитата".equals(shortCommand) ||
-                "!quote".equals(shortCommand) ||
-                "!q".equals(shortCommand)) {
+        String[] command = message.getText().toLowerCase().split(" ");
+        if (command.length == 1) {
             log.info("get random quote");
             return randomQuoteFromQuoteStorage();
         }
-
-        String fullCommand = message.getText();
-        try {
-            long quoteId = Long.parseLong(fullCommand.split(" ")[1]);
-            log.info("get quote with id {}", quoteId);
-            return textQuotePrettyById(quoteId);
-        } catch (NumberFormatException e) {
-            return "в качестве номера цитаты используйте только цифры (числа)";
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
+        if (command.length == 2) {
+            try {
+                long quoteId = Long.parseLong(command[1]);
+                log.info("get quote with id {}", quoteId);
+                return textQuotePrettyById(quoteId);
+            } catch (NumberFormatException e) {
+                return "в качестве номера цитаты используйте только цифры (числа)";
+            }
         }
+        return "для поиска цитат используйте синтаксис: !q + номер_цитаты_цифрами";
     }
 
     private String randomQuoteFromQuoteStorage() {
@@ -94,17 +102,5 @@ public class QuoteStorageHandler implements SimpleHandlerInterface {
 
     private boolean existsById(Long id) {
         return quoteStorageServiceImp.existById(id);
-    }
-
-    @Override
-    public SendMessage handle(Message inputMessage) {
-        SendMessage result = new SendMessage();
-        result.setText(getTextQuoteStorage(inputMessage));
-        return result;
-    }
-
-    @Override
-    public List<String> getOrderList() {
-        return commands;
     }
 }

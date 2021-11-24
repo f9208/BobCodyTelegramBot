@@ -36,16 +36,10 @@ public class MainHandlerTextMessage {
             if (result.getChatId() == null) result.setChatId(message.getChatId().toString());
             return result;
         }
-
-        if (touchBotName(textMessage)) {
-            result = multiHandler.get("бот").handle(message);
-        }
-
-        if (textMessage.contains("amd ") //todo переделать на регулярное выражение.
-                || textMessage.contains("амд ")
-                || textMessage.endsWith(" амд")
-                || textMessage.endsWith(" amd")) {
-            result = multiHandler.get("amd").handle(message);
+        String slapAnswer;
+        if (!(slapAnswer = findCommandInside(message)).isEmpty()) {
+            result.setText(slapAnswer);
+            return result;
         }
 
         if ("!ссылки".equals(textMessage) ||
@@ -56,9 +50,13 @@ public class MainHandlerTextMessage {
         return result;
     }
 
-    private boolean touchBotName(String text) {
-        boolean result = false;
-        String[] singleWordArray = text.split("[{^?*+ .,$:;#%/|()]");
+    /**
+     * Поиск команд обычно идет в мапе multiHandler, ключом к которой есть первое слово сообщения
+     * но чтобы включить слапы бота и реакции на "амд" - надо пробежаться по всем словам сообщения,
+     * и отреагировать в случае нахождения слов-команд
+     */
+    private String findCommandInside(Message message) {
+        String[] singleWordArray = message.getText().split("[{^?*+ .,$:;#%/|()]");
         for (String oneWOrd : singleWordArray) {
             if ("бот".equals(oneWOrd) ||
                     "bob".equals(oneWOrd) ||
@@ -67,8 +65,11 @@ public class MainHandlerTextMessage {
                     "боб".equals(oneWOrd) ||
                     "бобу".equals(oneWOrd) ||
                     "бобби".equals(oneWOrd)
-            ) result = true;
+            ) return multiHandler.get("бот").handle(message).getText();
+            if ("amd".equals(oneWOrd) || "амд".equals(oneWOrd)) {
+                return multiHandler.get("amd").handle(message).getText();
+            }
         }
-        return result;
+        return "";
     }
 }

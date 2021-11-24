@@ -73,7 +73,7 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
      */
     private String weatherForecastAnswer(Message message) {
         StringBuilder cityName = new StringBuilder();
-        String[] cityTwoWord = message.getText().split(" ");
+        String[] cityTwoWord = message.getText().toLowerCase().split(" ");
         if (cityTwoWord.length == 1
                 // если !п, !w, !g - то выводим "короткую" погоду.
                 && (cityTwoWord[0].equals("!g") || cityTwoWord[0].equals("!w")

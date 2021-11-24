@@ -23,7 +23,7 @@ public class AmdSucksHandler implements SimpleHandlerInterface {
         int temp = Double.valueOf(Math.random() * 4).intValue();
         if (temp >> 1 == 1)
             result.setText("@" + inputMessage.getFrom().getUserName() + ", AMD сосет");
-        else result.setText("AMD форева!");
+        else result.setText("@" + inputMessage.getFrom().getUserName() + ", AMD форева!");
         return result;
     }
 

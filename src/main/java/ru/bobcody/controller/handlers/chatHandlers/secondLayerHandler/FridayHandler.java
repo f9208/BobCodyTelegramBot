@@ -75,7 +75,6 @@ public class FridayHandler implements SimpleHandlerInterface {
                     LocalDateTime.now().getDayOfWeek().getDisplayName(TextStyle.FULL,
                             new Locale("ru", "RU")) + "! гуляй, рванина!";
         return result;
-
     }
 
     private void fridayAnswerGif(Message message) {

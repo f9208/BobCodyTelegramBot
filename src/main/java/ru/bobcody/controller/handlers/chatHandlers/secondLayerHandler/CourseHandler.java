@@ -21,16 +21,16 @@ public class CourseHandler implements SimpleHandlerInterface {
     @Value("${course.command}")
     private List<String> commands;
 
-    private String getCourse() {
+    String getCourse() {
         StringBuilder result = new StringBuilder("текущий курс валют по курсу ЦБ РФ на ");
-        double hryvnia = Double.parseDouble(courseValutParser.getValuteByCharCode("UAH").getValue()) / 10;
-        double lira = Double.parseDouble(courseValutParser.getValuteByCharCode("TRY").getValue()) / 10;
+        double hryvnia = Double.parseDouble(courseValutParser.getValutaByCharCode("UAH").getValue()) / 10;
+        double lira = Double.parseDouble(courseValutParser.getValutaByCharCode("TRY").getValue()) / 10;
         result.append(courseValutParser.getDate() + ":\n")
                 .append("бакс СШП: ")
-                .append(courseValutParser.getValuteByCharCode("USD").getValue().substring(0, 5))
+                .append(courseValutParser.getValutaByCharCode("USD").getValue().substring(0, 5))
                 .append("\n")
                 .append("евро: ")
-                .append(courseValutParser.getValuteByCharCode("EUR").getValue().substring(0, 5))
+                .append(courseValutParser.getValutaByCharCode("EUR").getValue().substring(0, 5))
                 .append("\n")
                 .append("грывна: ")
                 .append(Math.ceil(hryvnia * 100) / 100)
@@ -38,7 +38,7 @@ public class CourseHandler implements SimpleHandlerInterface {
                 .append("индейка лир: ")
                 .append(Math.ceil(lira * 100) / 100)
                 .append("\n")
-                .append("юань: ").append(courseValutParser.getValuteByCharCode("CNY").getValue().substring(0, 5))
+                .append("юань: ").append(courseValutParser.getValutaByCharCode("CNY").getValue().substring(0, 5))
                 .append("\nнефть не нужна, собирай шишки.");
         return result.toString();
     }

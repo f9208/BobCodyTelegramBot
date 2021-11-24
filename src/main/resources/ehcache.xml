@@ -12,8 +12,14 @@
         </expiry>
         <heap>40</heap>
     </cache-template>
+    <cache-template name="valuta_refresh">
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <heap>20</heap>
+    </cache-template>
 
-    <cache alias="guests" uses-template="listUsers"/>
     <cache alias="guestById" uses-template="listUsers"/>
     <cache alias="chatById" uses-template="listUsers"/>
+    <cache alias="valuta" uses-template="valuta_refresh"/>
 </config>

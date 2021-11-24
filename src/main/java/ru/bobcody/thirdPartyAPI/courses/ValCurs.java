@@ -16,7 +16,7 @@ public class ValCurs {
     String name;
 
     @XmlElement(name = "Valute")
-    List<Valute> valutes = new ArrayList<>();
+    List<Valuta> valutas = new ArrayList<>();
 
     @XmlAttribute(name = "Date")
     public void setDate(String date) {
