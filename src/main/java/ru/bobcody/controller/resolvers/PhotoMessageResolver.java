@@ -18,6 +18,8 @@ import ru.bobcody.entities.Guest;
 import ru.bobcody.entities.Link;
 import ru.bobcody.services.LinkService;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -123,12 +125,22 @@ public class PhotoMessageResolver extends AbstractMessageResolver {
 
     private Path copyFile(Path sourcePath, Path destPath) throws IOException {
         log.info("copy temporary file {} on disk {}", sourcePath, destPath);
-        return Files.copy(sourcePath, destPath); //todo есть минимум 4 способа копировать файлы. этот самый короткий
+        return Files.copy(sourcePath, destPath);
     }
 
     protected boolean checkFileIsImageType(final File file) {
-        //todo как то надо проверять файл на консистентность чтобы не сохранять не жпг
-        return true;
+        boolean valid = true;
+        try {
+            Image image = ImageIO.read(file);
+            if (image == null) {
+                valid = false;
+                log.error("The file {} could not be opened, it is not an image. Break", file.getName());
+            }
+        } catch (IOException ex) {
+            valid = false;
+            log.error("The file {} could not be opened, an error occurred. Break", file.getName());
+        }
+        return valid;
     }
 
     protected void saveLinkToDb(Path path, File file, Message message) {

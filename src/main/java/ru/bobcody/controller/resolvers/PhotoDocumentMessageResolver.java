@@ -32,7 +32,6 @@ public class PhotoDocumentMessageResolver extends PhotoMessageResolver {
         try {
             File file = translatePhotoAsFile(telegramFilePath);
             if (!checkFileIsImageType(file)) {
-                log.error("file doesn't look like image-file. break");
                 result.setText("твой файл не похож на картинку. не буду сохранять");
                 return result;
             }
