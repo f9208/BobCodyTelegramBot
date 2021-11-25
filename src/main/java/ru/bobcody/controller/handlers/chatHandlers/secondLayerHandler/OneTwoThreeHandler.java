@@ -16,7 +16,7 @@ import java.util.Random;
 @Setter
 @Component
 @PropertySource(value = "classpath:answers/onetwothree.properties", encoding = "UTF-8")
-public class OneTwoThree implements SimpleHandlerInterface {
+public class OneTwoThreeHandler implements SimpleHandlerInterface {
     @Value("#{${onetwothree.phrases}}")
     private List<String> phrases;
     @Value("${onetwothree.command}")

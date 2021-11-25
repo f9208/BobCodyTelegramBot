@@ -1,5 +1,6 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 
+@Data
 @Slf4j
 @Component
 public class CapsQuoteStorageHandler implements SimpleHandlerInterface {

@@ -1,5 +1,6 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,6 +9,7 @@ import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
 import java.util.List;
 
+@Data
 @Component
 public class MyChatIdHandler implements SimpleHandlerInterface {
     @Value("${id.command}")
