@@ -30,10 +30,10 @@ public class TextMessage {
     private LocalDateTime dateTime;
     @Column(name = "textMessage", columnDefinition = "varchar(50000)")
     String textMessage;
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "guest_id", nullable = false, referencedColumnName = "id")
     Guest guest;
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "chat", nullable = false, referencedColumnName = "id")
     Chat chat;
 
@@ -51,5 +51,15 @@ public class TextMessage {
         this.textMessage = sendMessage.getText();
         this.guest = guest;
         this.chat = chat;
+    }
+
+    @Override
+    public String toString() {
+        return "TextMessage{" +
+                "id=" + id +
+                ", telegram=" + telegram +
+                ", dateTime=" + dateTime +
+                ", textMessage='" + textMessage +
+                '}';
     }
 }

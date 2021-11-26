@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Entity
@@ -17,23 +18,23 @@ public class Chat {
     private Long id;
     @Column(name = "type", nullable = false)
     private String type;
-    @Column(name = "firstname")
+    @Column(name = "firstName")
     private String firstName;
-    @Column(name = "lastname")
+    @Column(name = "lastName")
     private String lastName;
-    @Column(name = "username")
+    @Column(name = "userName")
     private String userName;
     @Getter
     @Setter
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<TextMessage> textMessages;
 
-    public Chat(Long id, String type, String firstName, String lastName, String userNam) {
+    public Chat(Long id, String type, String firstName, String lastName, String userName) {
         this.id = id;
         this.type = type;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userNam;
+        this.userName = userName;
     }
 
     public Chat(org.telegram.telegrambots.meta.api.objects.Chat inputChat) {
@@ -42,5 +43,18 @@ public class Chat {
         firstName = inputChat.getFirstName();
         lastName = inputChat.getLastName();
         userName = inputChat.getUserName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Chat chat = (Chat) o;
+        return id.equals(chat.id) && Objects.equals(type, chat.type) && firstName.equals(chat.firstName) && Objects.equals(lastName, chat.lastName) && Objects.equals(userName, chat.userName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, firstName, lastName, userName);
     }
 }

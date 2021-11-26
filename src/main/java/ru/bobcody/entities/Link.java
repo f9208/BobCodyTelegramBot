@@ -19,6 +19,7 @@ public class Link {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
     Long id;
     @NotNull
+    @Column(name = "path", columnDefinition = "varchar(1000)")
     String path;
     @NotNull
     String name;
