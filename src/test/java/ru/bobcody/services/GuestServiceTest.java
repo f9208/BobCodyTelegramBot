@@ -1,21 +1,16 @@
 package ru.bobcody.services;
 
 import org.assertj.core.api.Assertions;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
 import ru.bobcody.entities.Guest;
 
 import javax.persistence.EntityNotFoundException;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 import static ru.bobcody.services.data.GuestsData.*;
 
 class GuestServiceTest extends AbstractSpringBootStarterTest {

@@ -26,6 +26,7 @@ public interface CapsQuoteStorageRepository extends CrudRepository<CapsQuoteStor
 
     boolean existsCapsQuoteEntityStorageByDateAdded(Long id);
 
+    @Deprecated
     @Modifying
     @Query(value = "INSERT INTO public.caps_quotation_storage(author_id, date_added, date_approved, caps_text)" +
             "SELECT 445682905," +

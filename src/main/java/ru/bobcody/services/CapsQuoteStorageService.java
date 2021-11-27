@@ -35,8 +35,9 @@ public class CapsQuoteStorageService {
         return capsQuoteStorageRepository.getMaxID();
     }
 
+    @Deprecated
     @Transactional
-    public void manualAdd(Long key, String value){
+    public void manualAdd(Long key, String value) {
         capsQuoteStorageRepository.manualAdd(key, value);
     }
 }
