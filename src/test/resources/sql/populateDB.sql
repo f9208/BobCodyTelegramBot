@@ -17,3 +17,18 @@ VALUES (51111, 123123, 41242135, 'В ЧЕМ СИЛА? В НЬЮТОНАХ!', 222
        (51112, 1231233, 412442135, 'ЫЫЫ', 22223),
        (51113, 1232123, 41432135, 'WWW', 22222);
 
+INSERT INTO public.quotes(id, text, added, type, author_id)
+VALUES (1, 'цитата 1 в бездну', '2021-11-27 15:01:47', 'ABYSS', 22222),
+       (2, 'обычная цитата 2', '2021-11-27 15:01:43', 'ABYSS', 22222);
+
+INSERT INTO public.quotes(id, text, added, approved, type, author_id, endorsed, caps_id, regul_id)
+VALUES (3, 'утвержденная обычная цитата', '2021-11-27 15:01:17', '2020-11-27 15:01:37', 'REGULAR', 22222, TRUE, 0, 1),
+       (4, 'утвержденный капс', '2021-11-17 03:01:47', '2022-11-27 15:01:47', 'CAPS', 22222, TRUE, 1, 0);
+
+call next value for caps_id_seq;
+call next value for regul_id_seq;
+-- ручками добавляем 4 цитаты - скипнем счетчки на 4
+call next value for quote_id_seq;
+call next value for quote_id_seq;
+call next value for quote_id_seq;
+call next value for quote_id_seq;

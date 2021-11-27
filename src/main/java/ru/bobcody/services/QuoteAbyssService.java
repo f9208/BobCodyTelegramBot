@@ -34,7 +34,6 @@ public class QuoteAbyssService {
         return quoteAbyssRepository.existsQuoteById(id);
     }
 
-
     @Transactional
     public Long approveQuote(Long id) {
         quoteAbyssRepository.approveQuote(id, Calendar.getInstance().getTime().getTime() / 1000);
