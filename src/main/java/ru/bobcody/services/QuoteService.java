@@ -64,8 +64,4 @@ public class QuoteService {
         return quoteRepository.lastCapsId();
     }
 
-    public boolean existsByRegularId(long id) {
-        return getByRegularId(id) == null;
-    }
-
 }

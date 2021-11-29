@@ -10,8 +10,6 @@ import java.util.Optional;
 @Repository
 public interface GuestRepository extends CrudRepository<Guest, Long> {
 
-    List<Guest> findAllByOrderById();
-
     List<Guest> findAllBy();
 
     Optional<Guest> findById(Long id);
