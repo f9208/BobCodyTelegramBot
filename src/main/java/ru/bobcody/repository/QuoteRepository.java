@@ -23,21 +23,44 @@ public interface QuoteRepository extends CrudRepository<Quote, Long> {
     @Query(value = "update quotes " +
             " set approved=:date, endorsed=true, type='CAPS', caps_id=next value for PUBLIC.caps_id_seq " +
             " where id=:id", nativeQuery = true)
-    int approveCaps(@Param("id") long id, @Param("date") LocalDateTime approveTime);
+    int approveCapsHSQL(@Param("id") long id, @Param("date") LocalDateTime approveTime);
 
     @Transactional
     @Modifying
     @Query(value = "update quotes " +
             " set approved=:date, endorsed=true, type='REGULAR', regul_id=next value for PUBLIC.regul_id_seq " +
             " where id=:id", nativeQuery = true)
-    int approveRegular(@Param("id") long id, @Param("date") LocalDateTime approveTime);
+    int approveRegularHSQL(@Param("id") long id, @Param("date") LocalDateTime approveTime);
 
     @Transactional
     @Modifying
     @Query(value = "update Quote q set q.type=:type where q.id=:id")
     int switchType(@Param("id") long id, @Param("type") Type type);
 
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update quotes " +
+            " set approved=:date, endorsed=true, type='CAPS', caps_id=nextval('PUBLIC.caps_id_seq') " +
+            " where id=:id", nativeQuery = true)
+    int approveCapsPostgresSQL(@Param("id") long id, @Param("date") LocalDateTime approveTime);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update quotes " +
+            " set approved=:date, endorsed=true, type='REGULAR', regul_id=nextval('PUBLIC.regul_id_seq') " +
+            " where id=:id", nativeQuery = true)
+    int approveRegularPostgreSql(@Param("id") long id, @Param("date") LocalDateTime approveTime);
+
+
     Quote findByCapsId(long id);
 
     Quote findByRegularId(long id);
+
+    @Query(value = "SELECT MAX (regul_id) from public.quotes",
+            nativeQuery = true)
+    Long lastRegularId();
+
+    @Query(value = "SELECT MAX (caps_id) from public.quotes",
+            nativeQuery = true)
+    Long lastCapsId();
 }

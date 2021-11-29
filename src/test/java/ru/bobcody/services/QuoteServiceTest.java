@@ -60,4 +60,12 @@ class QuoteServiceTest extends AbstractSpringBootStarterTest {
     void getCapsById() {
         assertMatchIgnoreFilds(quoteService.getByCapsId(1), QUOTE_4_APPROVED);
     }
+
+    @Test
+    void getRegularId() {
+    }
+
+    @Test
+    void getCapsId() {
+    }
 }

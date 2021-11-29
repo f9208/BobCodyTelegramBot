@@ -50,16 +50,20 @@ public class Quote {
     }
 
     public Quote(@NotNull String text, @NotNull LocalDateTime added, @NotNull Type type, @NotNull Guest author) {
-        this.text = text;
+        this(text, type, author);
         this.added = added;
-        this.type = type;
-        this.author = author;
-        this.endorsed = false;
     }
 
     public Quote(Long id, @NotNull String text, @NotNull LocalDateTime added, @NotNull Type type, @NotNull Guest author) {
         this(text, added, type, author);
         this.id = id;
+    }
+
+    public Quote(@NotNull String text, @NotNull Type type, @NotNull Guest author) {
+        this.text = text;
+        this.type = type;
+        this.author = author;
+        this.added = LocalDateTime.now();
     }
 
     public Quote(Quote createCopy) {

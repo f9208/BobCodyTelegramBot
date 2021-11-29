@@ -24,16 +24,17 @@ public class QuoteService {
     }
 
     @Transactional
-    boolean approveCaps(long quoteId) {
-        return quoteRepository.approveCaps(quoteId, LocalDateTime.now()) == 1;
+    public boolean approveCaps(long quoteId) {
+        return quoteRepository.approveCapsPostgresSQL(quoteId, LocalDateTime.now()) == 1;
     }
 
     @Transactional
-    boolean approveRegular(long quoteId) {
-        return quoteRepository.approveRegular(quoteId, LocalDateTime.now()) == 1;
+    public boolean approveRegular(long quoteId) {
+        return quoteRepository.approveRegularPostgreSql(quoteId, LocalDateTime.now()) == 1;
     }
 
-    @Transactional //хз зачем этот метод?
+    @Transactional
+        //хз зачем этот метод?
     boolean switchType(long quoteId, Type type) {
         return quoteRepository.switchType(quoteId, type) == 1;
     }
@@ -46,4 +47,25 @@ public class QuoteService {
     public Quote getByRegularId(long id) {
         return quoteRepository.findByRegularId(id);
     }
+
+    public long getRegularId(long id) {
+        return getById(id).getRegularId();
+    }
+
+    public long getCapsId(long id) {
+        return getById(id).getCapsId();
+    }
+
+    public long getLastRegularId() {
+        return quoteRepository.lastRegularId();
+    }
+
+    public long getLastCapsId() {
+        return quoteRepository.lastCapsId();
+    }
+
+    public boolean existsByRegularId(long id) {
+        return getByRegularId(id) == null;
+    }
+
 }
