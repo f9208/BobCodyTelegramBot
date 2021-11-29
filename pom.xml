@@ -23,6 +23,7 @@
         <ehcache.version>3.9.2</ehcache.version>
         <tomcat.version>9.0.43</tomcat.version>
         <telegram.version>5.2.0</telegram.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencies>
