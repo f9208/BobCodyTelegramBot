@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
 import ru.bobcody.entities.Chat;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static ru.bobcody.services.data.ChatData.*;
 
@@ -19,7 +19,7 @@ class ChatServiceTest extends AbstractSpringBootStarterTest {
     }
 
     @Transactional //эта аннотация в _тестах_ откатывает БД в предыдущее состояние после выполнения теста
-    @Test       //assertMatchIgnoreField не использую т.к транзакция открыта и LAZY поля могут загрузиться
+    @Test        //assertMatchIgnoreField не использую т.к транзакция открыта и LAZY поля могут загрузиться
     void save() {
         long unsavedId = UNSAVED_CHAT.getId();
         Chat saved = chatService.save(UNSAVED_CHAT);
@@ -29,6 +29,6 @@ class ChatServiceTest extends AbstractSpringBootStarterTest {
 
     @Test
     void containChat() {
-        assertTrue(chatService.containChat(GROUP_CHAT.getId()));
+        assertThat(chatService.containChat(GROUP_CHAT.getId())).isTrue();
     }
 }

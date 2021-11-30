@@ -25,20 +25,15 @@ public class QuoteService {
 
     @Transactional
     public boolean approveCaps(long quoteId) {
-        return quoteRepository.approveCapsPostgresSQL(quoteId, LocalDateTime.now()) == 1;
+        return quoteRepository.approveCapsHSQL(quoteId, LocalDateTime.now()) == 1;
+//        return quoteRepository.approveCapsPostgresSQL(quoteId, LocalDateTime.now()) == 1;
     }
 
     @Transactional
     public boolean approveRegular(long quoteId) {
-        return quoteRepository.approveRegularPostgreSql(quoteId, LocalDateTime.now()) == 1;
+        return quoteRepository.approveRegularHSQL(quoteId, LocalDateTime.now()) == 1;
+//        return quoteRepository.approveRegularPostgreSql(quoteId, LocalDateTime.now()) == 1;
     }
-
-    @Transactional
-        //хз зачем этот метод?
-    boolean switchType(long quoteId, Type type) {
-        return quoteRepository.switchType(quoteId, type) == 1;
-    }
-
 
     public Quote getByCapsId(long id) {
         return quoteRepository.findByCapsId(id);

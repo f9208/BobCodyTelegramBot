@@ -62,13 +62,13 @@ public class BotFacade {
         }
         if (message != null && message.hasPhoto()) {
             writeLog(message);
-            replay = resolver.photoMessageResolver(message);
+//            replay = resolver.photoMessageResolver(message);
         }
         if (message != null && message.hasDocument()) {
             writeLog(message);
-            if ("image/jpeg".equals(message.getDocument().getMimeType())) {
-                replay = resolver.photoDocumentMessageResolver(message);
-            }
+//            if ("image/jpeg".equals(message.getDocument().getMimeType())) {
+//                replay = resolver.photoDocumentMessageResolver(message);
+//            }
 //            if ("video/mp4".equals(message.getDocument().getMimeType())) {
 //                replay = resolver.animationMessageResolver(message);
 //            }

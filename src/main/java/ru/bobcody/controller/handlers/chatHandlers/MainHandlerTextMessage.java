@@ -55,15 +55,17 @@ public class MainHandlerTextMessage {
      * но чтобы включить слапы бота и реакции на "амд" - надо пробежаться по всем словам сообщения,
      * и отреагировать в случае нахождения слов-команд
      */
-    private String findCommandInside(Message message) {
-        String[] singleWordArray = message.getText().split("[{^?*+ .,$:;#%/|()]");
+    private String findCommandInside(Message message) { //todo слабое место эти иквалы
+        String[] singleWordArray = message.getText().split("[{^?!*+ .,$:;#%/|()]");
         for (String oneWOrd : singleWordArray) {
             if ("бот".equals(oneWOrd) ||
                     "bob".equals(oneWOrd) ||
                     "bot".equals(oneWOrd) ||
                     "@bobcodybot".equals(oneWOrd) ||
+                    "bobcodybot".equals(oneWOrd) ||
                     "боб".equals(oneWOrd) ||
                     "бобу".equals(oneWOrd) ||
+                    "боту".equals(oneWOrd) ||
                     "бобби".equals(oneWOrd)
             ) return multiHandler.get("бот").handle(message).getText();
             if ("amd".equals(oneWOrd) || "амд".equals(oneWOrd)) {

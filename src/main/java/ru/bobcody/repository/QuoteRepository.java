@@ -33,11 +33,6 @@ public interface QuoteRepository extends CrudRepository<Quote, Long> {
     int approveRegularHSQL(@Param("id") long id, @Param("date") LocalDateTime approveTime);
 
     @Transactional
-    @Modifying
-    @Query(value = "update Quote q set q.type=:type where q.id=:id")
-    int switchType(@Param("id") long id, @Param("type") Type type);
-
-    @Transactional
     @Modifying(clearAutomatically = true)
     @Query(value = "update quotes " +
             " set approved=:date, endorsed=true, type='CAPS', caps_id=nextval('PUBLIC.caps_id_seq') " +

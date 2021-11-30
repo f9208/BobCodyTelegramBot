@@ -22,7 +22,7 @@ public class FuckingGreatAdvice {
     @Autowired
     ObjectMapper objectMapper;
 
-    private String parser() throws IOException, SocketTimeoutException, MalformedURLException {
+    private String parser() throws IOException{
         StringBuilder result = new StringBuilder();
         URL randomAdviceUrl = new URL(randomAdviceLink);
         HttpURLConnection connection = (HttpURLConnection) randomAdviceUrl.openConnection();

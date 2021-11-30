@@ -62,7 +62,7 @@ public class PieService {
     }
 
     @Value("${pie.size}") //Spring doesn't support injection in static fields
-    public void setSize(int size) {
+    private void setSize(int size) {
         PieService.SIZE = size;
     }
 }

@@ -1,35 +1,33 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import org.assertj.core.util.Lists;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.bobcody.controller.handlers.chatHandlers.AbstractHandlerTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils;
 import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
+import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_1;
 
-class MyChatIdHandlerTest extends AbstractHandlerTest {
-    MyChatIdHandler myChatIdHandler = new MyChatIdHandler();
-    List<String> commands = getCommandsByKey("id.command");
+class MyChatIdHandlerTest extends AbstractSpringBootStarterTest {
+    @Autowired
+    MainHandlerTextMessage mainHandlerTextMessage;
 
-    @BeforeEach
-    void init() {
-        myChatIdHandler.setCommands(commands);
-        mainHandlerTextMessage = new MainHandlerTextMessage(Lists.list(myChatIdHandler));
-    }
+    private static final List<String> COMMANDS = PropertiesUtils.getCommandsByKey("id.command");
 
     @DisplayName("get chat Id")
     @ParameterizedTest
-    @ValueSource(strings = {"!id", "!айди"})
-    void handle(String id) {
-        message.setText(id);
-        SendMessage sendMessage = mainHandlerTextMessage.handle(message);
-        assertThat(sendMessage.getText(), is("айдишник этого чата:  " + message.getChatId()));
+    @MethodSource("getCommands")
+    void handle(String command) {
+        TELEGRAM_MESSAGE_1.setText(command);
+        assertThat(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText())
+                .isEqualTo("айдишник этого чата:  " + TELEGRAM_MESSAGE_1.getChatId());
+    }
+
+    private static List<String> getCommands() {
+        return COMMANDS;
     }
 }

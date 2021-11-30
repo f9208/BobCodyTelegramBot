@@ -21,7 +21,7 @@ public class PiesHandler implements SimpleHandlerInterface {
     @Autowired
     PieService pieService;
     //оставил через статическое для примера
-    private static List<String> COMMANDS;
+    private static List<String> commands;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -38,11 +38,11 @@ public class PiesHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        return COMMANDS;
+        return commands;
     }
 
     @Autowired
     public void setOrders(@Value("${pies.command}") List<String> commands) {
-        PiesHandler.COMMANDS = commands;
+        PiesHandler.commands = commands;
     }
 }
