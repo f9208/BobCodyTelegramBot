@@ -10,7 +10,7 @@ import ru.bobcody.repository.QuoteRepository;
 import java.time.LocalDateTime;
 
 @Service
-@Profile(value = {"local", "prod", "dev"})
+@Profile(value = {"test"})
 public class QuoteService {
     @Autowired
     private QuoteRepository quoteRepository;
@@ -26,12 +26,12 @@ public class QuoteService {
 
     @Transactional
     public boolean approveCaps(long quoteId) {
-        return quoteRepository.approveCapsPostgresSQL(quoteId, LocalDateTime.now()) == 1;
+        return quoteRepository.approveCapsHSQL(quoteId, LocalDateTime.now()) == 1;
     }
 
     @Transactional
     public boolean approveRegular(long quoteId) {
-        return quoteRepository.approveRegularPostgreSql(quoteId, LocalDateTime.now()) == 1;
+        return quoteRepository.approveRegularHSQL(quoteId, LocalDateTime.now()) == 1;
     }
 
     public Quote getByCapsId(long id) {
@@ -57,4 +57,5 @@ public class QuoteService {
     public long getLastCapsId() {
         return quoteRepository.lastCapsId();
     }
+
 }
