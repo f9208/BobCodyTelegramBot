@@ -35,7 +35,7 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
 
     @Override
     public SendMessage handle(Message inputMessage) {
-        SendMessage result = new SendMessage(); //todo где то надо чекать что апрувает админ
+        SendMessage result = new SendMessage();
         if (inputMessage.getFrom().getId().equals(moderatorChatId)
                 && inputMessage.getText().trim().startsWith("!approvecaps")) {
             result.setText(approveCaps(inputMessage));
@@ -48,7 +48,12 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
         }
         if (inputMessage.getText().trim().startsWith("!aq") ||
                 inputMessage.getText().trim().startsWith("!дц")) {
-            String replay = addQuoteForApprove(inputMessage);
+            String replay;
+            try {
+                replay = addQuoteForApprove(inputMessage);
+            } catch (Exception e) {
+                replay = e.getMessage();
+            }
             result.setChatId(inputMessage.getChatId().toString());
             result.setText(replay);
             return result;
@@ -76,9 +81,8 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
             } catch (ArrayIndexOutOfBoundsException e) {
                 return "ой не влажу в массив";
             }
-            String error = checkError(quoteIdFromMessage);
+            String error = checkDuplication(quoteIdFromMessage);
             if (error != null) {
-                log.info(error); //todo переделать на нормальное
                 return error;
             }
             quoteService.approveCaps(quoteIdFromMessage);
@@ -103,8 +107,10 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
             } catch (ArrayIndexOutOfBoundsException e) {
                 return "ой не влажу в массив";
             }
-            String error = checkError(quoteIdFromMessage);
-            if (error != null) return error;
+            String error = checkDuplication(quoteIdFromMessage);
+            if (error != null) {
+                return error;
+            }
             quoteService.approveRegular(quoteIdFromMessage);
             long quoteId = quoteService.getRegularId(quoteIdFromMessage);
             result = "Цитата добавлена за номером " + quoteId;
@@ -113,7 +119,7 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
         return result;
     }
 
-    private String addQuoteForApprove(Message message) {
+    private String addQuoteForApprove(Message message) throws Exception {
         String replay;
         String textQuote;
         textQuote = message.getText().substring(3);
@@ -124,7 +130,8 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
                     textQuote,
                     ofEpochSecond(message.getDate(), 0, ZoneOffset.of("+3")),
                     Type.ABYSS, new Guest(message.getFrom()));
-            Quote saved = quoteService.save(quote); //todo здесь бы проверять сохранилась или нет
+            Quote saved = quoteService.save(quote);
+            if (saved == null) throw new Exception("не удалось сохранить цитату");
             log.info("user {} add quote {}", message.getFrom().getFirstName(), quote.getText());
             replay = "Записал в бездну. Цитата будет добавлена в хранилище после проверки модератором.";
             sendToModerator(message, saved);
@@ -152,14 +159,17 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
         }
     }
 
-    private String checkError(long id) { //todo как то подругому назвать метод, это не ошибки, скорее наложения
+    private String checkDuplication(long id) {
         if (notFound(id)) {
+            log.error("попытка вызова несуществующего id={}", id);
             return "нет такого айди";
         }
         if (hasApprovedAsCaps(id)) {
+            log.error("попытка утвердить уже утвержденный капс с id={} ", id);
             return "цитату за этим номером уже апрували как капс";
         }
         if (hasApprovedAsQuote(id)) {
+            log.error("попытка утвердить уже утвержденную цитату с id={}", id);
             return "цитату за этим номером уже апрували как обычную цитату";
         }
         return null;

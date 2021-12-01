@@ -1,17 +1,21 @@
 package ru.bobcody.controller.handlers.chatHandlers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class MainHandlerTextMessage {
+    @Value("${slap.command}")
+    private List<String> slapList;
+    @Value("${amd.command}")
+    private List<String> amdList;
     private Map<String, SimpleHandlerInterface> multiHandler = new HashMap<>();
 
     public MainHandlerTextMessage(List<SimpleHandlerInterface> handlers) {
@@ -51,23 +55,13 @@ public class MainHandlerTextMessage {
      * но чтобы включить слапы бота и реакции на "амд" - надо пробежаться по всем словам сообщения,
      * и отреагировать в случае нахождения слов-команд
      */
-    private String findCommandInside(Message message) { //todo слабое место эти иквалы
+    private String findCommandInside(Message message) {
         String[] singleWordArray = message.getText().split("[{^?!*+ .,$:;#%/|()]");
-        for (String oneWOrd : singleWordArray) {
-            if ("бот".equals(oneWOrd) ||
-                    "bob".equals(oneWOrd) ||
-                    "bot".equals(oneWOrd) ||
-                    "@bobcodybot".equals(oneWOrd) ||
-                    "bobcodybot".equals(oneWOrd) ||
-                    "боб".equals(oneWOrd) ||
-                    "бобу".equals(oneWOrd) ||
-                    "боту".equals(oneWOrd) ||
-                    "бобби".equals(oneWOrd)
-            ) return multiHandler.get("бот").handle(message).getText();
-            if ("amd".equals(oneWOrd) || "амд".equals(oneWOrd)) {
-                return multiHandler.get("amd").handle(message).getText();
-            }
-        }
+        Set<String> setUniqWords = Arrays.stream(singleWordArray).collect(Collectors.toSet());
+        int slapCall = setUniqWords.stream().filter(slapList::contains).collect(Collectors.toSet()).size();
+        int amdCall = setUniqWords.stream().filter(amdList::contains).collect(Collectors.toSet()).size();
+        if (slapCall != 0) return multiHandler.get("бот").handle(message).getText();
+        if (amdCall != 0) return multiHandler.get("amd").handle(message).getText();
         return "";
     }
 }
