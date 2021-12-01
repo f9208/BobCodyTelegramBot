@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Link;
 import ru.bobcody.repository.LinkRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -26,6 +27,7 @@ public class LinkService {
 
     public Path getPathByFilName(String fileName) {
         Link link = linkRepository.findLinkByName(fileName);
+        if (link == null) throw new EntityNotFoundException("в базе нет файла с этим айди");
         return Paths.get(link.getPath());
     }
 

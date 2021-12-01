@@ -35,13 +35,14 @@ public class Link {
     @Column
     boolean enabled;
 
-    public Link(@NotNull String path, @NotNull String name, Long size, Guest guest, Chat chat) {
+    public Link(@NotNull String path, @NotNull String name, Long size, Guest guest, Chat chat, LocalDateTime dateCreated) {
         this.path = path;
         this.name = name;
         this.size = size;
         this.guest = guest;
         this.chat = chat;
         this.enabled = true;
+        this.dateCreated = dateCreated;
     }
 
     public Link(@NotNull String path, @NotNull String name) {

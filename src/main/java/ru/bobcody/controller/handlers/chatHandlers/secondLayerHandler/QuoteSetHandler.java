@@ -27,7 +27,7 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
     @Value("${quote.set.command}")
     List<String> commands;
     @Value("${chatid.admin}")
-    String moderatorChatId;
+    Long moderatorChatId;
     @Autowired
     QuoteService quoteService;
     @Autowired
@@ -36,11 +36,13 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage(); //todo где то надо чекать что апрувает админ
-        if (inputMessage.getText().trim().startsWith("!approvecaps")) {
+        if (inputMessage.getFrom().getId().equals(moderatorChatId)
+                && inputMessage.getText().trim().startsWith("!approvecaps")) {
             result.setText(approveCaps(inputMessage));
             return result;
         }
-        if (inputMessage.getText().trim().startsWith("!approvequote")) {
+        if (inputMessage.getFrom().getId().equals(moderatorChatId)
+                && inputMessage.getText().trim().startsWith("!approvequote")) {
             result.setText(approveQuote(inputMessage));
             return result;
         }
@@ -81,7 +83,7 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
             }
             quoteService.approveCaps(quoteIdFromMessage);
             long caps_id = quoteService.getCapsId(quoteIdFromMessage);
-            result = "Капс добавленна за номером " + quoteService.getCapsId(quoteIdFromMessage);
+            result = "Капс добавлен за номером " + quoteService.getCapsId(quoteIdFromMessage);
             log.info("quote with id {} has been approved as caps-type. caps_id= {}", quoteIdFromMessage, caps_id);
         }
         return result;
@@ -142,7 +144,7 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
                 message.getText().substring(3);
         try {
             SendMessage messageExecute = new SendMessage();
-            messageExecute.setChatId(moderatorChatId);
+            messageExecute.setChatId(moderatorChatId.toString());
             messageExecute.setText(textInputMessage);
             bobCodyBot.execute(messageExecute);
         } catch (TelegramApiException e) {

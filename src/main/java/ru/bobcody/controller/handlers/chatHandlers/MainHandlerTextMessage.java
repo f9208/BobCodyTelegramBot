@@ -1,7 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Setter
-@Getter
 @Component
 public class MainHandlerTextMessage {
     private Map<String, SimpleHandlerInterface> multiHandler = new HashMap<>();

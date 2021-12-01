@@ -69,7 +69,7 @@ public class QuoteGetHandler implements SimpleHandlerInterface {
         }
         if (quote != null) {
             return facade(quote);
-        }
+        } //todo никак не реагируем на отстутвующий номер цитаты. переделать
         return "для поиска цитат используйте синтаксис: !q + номер_цитаты_цифрами";
     }
 
