@@ -2,8 +2,10 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 import ru.bobcody.services.QuoteService;
@@ -15,6 +17,7 @@ import java.util.regex.Pattern;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.services.data.QuoteDate.QUOTE_1_ABYSS;
 import static ru.bobcody.services.data.QuoteDate.QUOTE_2_ABYSS;
+import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_1;
 import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_2;
 
 class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
@@ -46,6 +49,38 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
         TELEGRAM_MESSAGE_2.setText(inputText);
         String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText();
         assertThat(answer).matches(Pattern.compile(regexpCaps));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"!q 29034"})
+    void getQuoteNotFound(String inputMessage) {
+        TELEGRAM_MESSAGE_1.setText(inputMessage);
+        String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText();
+        assertThat(answer).isEqualTo("цитаты с таким id не найдено");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"!q -1", "!q 0", "!ц ашо"})
+    void getQuoteInvalidId(String inputMessage) {
+        TELEGRAM_MESSAGE_1.setText(inputMessage);
+        String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText();
+        assertThat(answer).isEqualTo("в качестве номера цитаты используйте только положительные числа");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"!капс 29034", "!caps 234"})
+    void getCapsNotFound(String inputMessage) {
+        TELEGRAM_MESSAGE_1.setText(inputMessage);
+        String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText();
+        assertThat(answer).isEqualTo("цитаты с таким id не найдено");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"!caps -1", "!капс 0", "!caps ашо"})
+    void getCapsInvalidId(String inputMessage) {
+        TELEGRAM_MESSAGE_1.setText(inputMessage);
+        String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText();
+        assertThat(answer).isEqualTo("в качестве номера цитаты используйте только положительные числа");
     }
 
     private static List<String> getQuoteWithoutId() {

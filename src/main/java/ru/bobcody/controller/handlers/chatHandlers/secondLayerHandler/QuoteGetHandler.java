@@ -63,13 +63,14 @@ public class QuoteGetHandler implements SimpleHandlerInterface {
                 if (quoteId <= 0) throw new NumberFormatException();
                 log.info("get quote with id {}", quoteId);
                 quote = getById(quoteId, type);
+                if (quote == null) return "цитаты с таким id не найдено";
             } catch (NumberFormatException e) {
                 return "в качестве номера цитаты используйте только положительные числа";
             }
         }
         if (quote != null) {
             return facade(quote);
-        } //todo никак не реагируем на отстутвующий номер цитаты. переделать
+        }
         return "для поиска цитат используйте синтаксис: !q + номер_цитаты_цифрами";
     }
 
