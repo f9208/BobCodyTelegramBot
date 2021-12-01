@@ -1,7 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -12,8 +10,6 @@ import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import java.util.List;
 import java.util.Random;
 
-@Getter
-@Setter
 @Component
 @PropertySource(value = "classpath:answers/onetwothree.properties", encoding = "UTF-8")
 public class OneTwoThreeHandler implements SimpleHandlerInterface {

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Quote;
-import ru.bobcody.entities.Type;
 import ru.bobcody.repository.QuoteRepository;
 
 import java.time.LocalDateTime;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Service
 public class QuoteService {
     @Autowired
-    QuoteRepository quoteRepository;
+    private QuoteRepository quoteRepository;
 
     @Transactional
     public Quote save(Quote quote) {
@@ -25,14 +24,14 @@ public class QuoteService {
 
     @Transactional
     public boolean approveCaps(long quoteId) {
-        return quoteRepository.approveCapsHSQL(quoteId, LocalDateTime.now()) == 1;
-//        return quoteRepository.approveCapsPostgresSQL(quoteId, LocalDateTime.now()) == 1;
+//        return quoteRepository.approveCapsHSQL(quoteId, LocalDateTime.now()) == 1;
+        return quoteRepository.approveCapsPostgresSQL(quoteId, LocalDateTime.now()) == 1;
     }
 
     @Transactional
     public boolean approveRegular(long quoteId) {
-        return quoteRepository.approveRegularHSQL(quoteId, LocalDateTime.now()) == 1;
-//        return quoteRepository.approveRegularPostgreSql(quoteId, LocalDateTime.now()) == 1;
+//        return quoteRepository.approveRegularHSQL(quoteId, LocalDateTime.now()) == 1;
+        return quoteRepository.approveRegularPostgreSql(quoteId, LocalDateTime.now()) == 1;
     }
 
     public Quote getByCapsId(long id) {

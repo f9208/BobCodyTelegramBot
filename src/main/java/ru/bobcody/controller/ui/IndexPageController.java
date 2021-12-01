@@ -26,13 +26,11 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@Getter
-@Setter
 public class IndexPageController {
     @Autowired
-    TextMessageService textMessageService;
+    private TextMessageService textMessageService;
     @Autowired
-    LinkService linkService;
+    private LinkService linkService;
     // Id чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники
     private final long defaultChatId;
 

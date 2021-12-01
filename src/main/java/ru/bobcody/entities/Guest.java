@@ -1,5 +1,6 @@
 package ru.bobcody.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,34 +12,23 @@ import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
+@Data
 @Entity
 @Table(schema = "public", name = "guests")
 public class Guest {
-    @Getter
-    @Setter
     @Id
     private Long id;
-    @Setter
-    @Getter
     @Column(name = "first_name")
     @NotNull
     private String firstName;
-    @Setter
-    @Getter
     @Column(name = "last_name")
     private String lastName;
-    @Setter
-    @Getter
     @Column(name = "user_name")
     private String userName;
-    @Getter
-    @Setter
     @Column(name = "language_code")
     private String languageCode;
-    @Getter
-    @Setter
     @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<TextMessage> textMessages;
+    private List<TextMessage> textMessages;
 
     public Guest(User user) {
         this.id = user.getId();

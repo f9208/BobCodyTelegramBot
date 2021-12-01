@@ -5,34 +5,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
 class MainComponentForecast {
-    @Getter
     private int temp;
-    @Getter
     @JsonProperty("feels_like")
     private int feelsLike;
-    @Getter
     @JsonProperty("temp_min")
     private int tempMin;
-    @Getter
     @JsonProperty("temp_max")
     private int tempMax;
-    @Setter
-    @Getter
     private int pressure;
-    @Setter
-    @Getter
     @JsonProperty("sea_level")
     private int seaLevel;
-    @Setter
-    @Getter
     @JsonProperty("grnd_level")
     private int groundLevel;
-    @Setter
-    @Getter
     private int humidity;
-    @Setter
-    @Getter
     @JsonProperty("temp_kf")
     private double tempKf;
 

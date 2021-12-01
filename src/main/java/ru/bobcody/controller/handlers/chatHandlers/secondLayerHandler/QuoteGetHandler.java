@@ -17,13 +17,12 @@ import java.util.List;
 import java.util.Random;
 
 @Slf4j
-@Data
 @Component
 public class QuoteGetHandler implements SimpleHandlerInterface {
     @Value("${quote.get.command}")
     private List<String> commands;
     @Autowired
-    QuoteService quoteService;
+    private QuoteService quoteService;
 
     @Override
     public SendMessage handle(Message inputMessage) {

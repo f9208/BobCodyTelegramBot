@@ -27,7 +27,6 @@ class PiesHandlerTest extends AbstractSpringBootStarterTest {
     SinglePie pie = new SinglePie();
 
     void init() {
-        System.out.println("бефор хандл");
         pie.setShareURL("url://somwere.com");
         pie.setShareText("пирожок пирожок ура");
         try {

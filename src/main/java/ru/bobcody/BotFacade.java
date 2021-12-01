@@ -1,7 +1,5 @@
 package ru.bobcody;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,7 +7,6 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.bobcody.controller.FloodControll;
 import ru.bobcody.controller.Resolver;
 import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 
@@ -27,16 +24,12 @@ import static ru.bobcody.utilits.MessageWriteLog.writeLog;
  * фотки и текстовые сообщения логируются, остальные тупо постятся в консоль
  */
 @Slf4j
-@Setter
-@Getter
 @Component
 public class BotFacade {
     @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
+    private MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
-    FloodControll floodControll;
-    @Autowired
-    Resolver resolver;
+    private Resolver resolver;
 
     // BotApiMethods - A methods of Telegram Bots Api that is fully supported in json format
     public BotApiMethod<?> handleUserUpdate(Update update) {

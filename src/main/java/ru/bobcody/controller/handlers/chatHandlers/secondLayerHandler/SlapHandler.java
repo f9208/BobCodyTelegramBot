@@ -1,7 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -15,12 +13,10 @@ import java.util.Random;
 
 @Slf4j
 @Component
-@Getter
-@Setter
 @PropertySource(value = "classpath:answers/touchBot.properties", encoding = "UTF-8")
 public class SlapHandler implements SimpleHandlerInterface {
     @Value("#{${slap.phrases}}")
-    List<String> phrases;
+    private List<String> phrases;
     @Value("${slap.command}")
     private List<String> commands;
 

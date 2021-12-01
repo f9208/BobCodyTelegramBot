@@ -34,8 +34,8 @@ class GuestServiceTest extends AbstractSpringBootStarterTest {
     @Test
     void getAll() {
         List<Guest> dbList = guestService.getAll();
-        assertThat(dbList).contains(SERGY, DMITRY);
-        assertThat(dbList).hasSize(2);
+        assertThat(dbList).contains(SERGY, DMITRY, ADMIN);
+        assertThat(dbList).hasSize(3);
     }
 
     @Test

@@ -1,7 +1,5 @@
 package ru.bobcody.controller;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -11,18 +9,16 @@ import ru.bobcody.controller.resolvers.PhotoDocumentMessageResolver;
 import ru.bobcody.controller.resolvers.PhotoMessageResolver;
 import ru.bobcody.controller.resolvers.TextMessageResolver;
 
-@Getter
-@Setter
 @Component
 public class Resolver {
     @Autowired
-    TextMessageResolver textMessageResolver;
+    private TextMessageResolver textMessageResolver;
     @Autowired
-    PhotoMessageResolver photoMessageResolver;
+    private PhotoMessageResolver photoMessageResolver;
     @Autowired
-    PhotoDocumentMessageResolver photoDocumentMessageResolver;
+    private PhotoDocumentMessageResolver photoDocumentMessageResolver;
     @Autowired
-    AnimationMessageResolver animationMessageResolver;
+    private AnimationMessageResolver animationMessageResolver;
 
     public SendMessage textMessageResolver(Message message, boolean edited) {
         return textMessageResolver.process(message, edited);

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class TextMessageService {
     @Autowired
-    TextMessageRepository textMessageRepository;
+    private TextMessageRepository textMessageRepository;
 
     @Transactional
     public int saveInputMessage(TextMessage textMessage) {

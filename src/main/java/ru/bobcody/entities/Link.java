@@ -17,23 +17,23 @@ import java.time.LocalDateTime;
 public class Link {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
-    Long id;
+    private Long id;
     @NotNull
     @Column(name = "path", columnDefinition = "varchar(1000)")
-    String path;
+    private String path;
     @NotNull
-    String name;
-    Long size;
+    private String name;
+    private Long size;
     @Column(name = "date")
     @NotNull
-    LocalDateTime dateCreated;
+    private LocalDateTime dateCreated;
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    Guest guest;
+    private Guest guest;
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    Chat chat;
+    private Chat chat;
     @Column
-    boolean enabled;
+    private boolean enabled;
 
     public Link(@NotNull String path, @NotNull String name, Long size, Guest guest, Chat chat, LocalDateTime dateCreated) {
         this.path = path;

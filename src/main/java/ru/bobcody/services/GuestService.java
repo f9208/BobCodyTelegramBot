@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class GuestService {
     @Autowired
-    GuestRepository guestRepository;
+    private   GuestRepository guestRepository;
 
     @Transactional
     @CacheEvict(value = {"guestById"}, allEntries = true)

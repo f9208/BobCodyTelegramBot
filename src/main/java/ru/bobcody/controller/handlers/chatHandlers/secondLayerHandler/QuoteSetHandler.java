@@ -1,6 +1,6 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Data;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,17 +21,17 @@ import java.util.List;
 import static java.time.LocalDateTime.ofEpochSecond;
 
 @Slf4j
-@Data
 @Component
 public class QuoteSetHandler implements SimpleHandlerInterface {
     @Value("${quote.set.command}")
-    List<String> commands;
+    private List<String> commands;
     @Value("${chatid.admin}")
-    Long moderatorChatId;
+    private Long moderatorChatId;
     @Autowired
-    QuoteService quoteService;
+    private QuoteService quoteService;
     @Autowired
-    BobCodyBot bobCodyBot;
+    @Setter
+    private BobCodyBot bobCodyBot;
 
     @Override
     public SendMessage handle(Message inputMessage) {

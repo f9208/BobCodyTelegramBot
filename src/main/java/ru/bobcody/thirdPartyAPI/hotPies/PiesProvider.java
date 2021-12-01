@@ -2,10 +2,7 @@ package ru.bobcody.thirdPartyAPI.hotPies;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,9 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
 
-@Setter
-@Getter
-@Component
 @Slf4j
 public class PiesProvider {
     private final static ObjectMapper objectMapper = new ObjectMapper();

@@ -17,14 +17,12 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Getter
-@Setter
 @PropertySource(value = "classpath:weatherProp.properties", encoding = "UTF-8")
 public class WeatherForecastHandler implements SimpleHandlerInterface {
     @Autowired
-    OpenWeatherForecast openWeatherForecast;
+    private OpenWeatherForecast openWeatherForecast;
     @Value("${weather.defaultCityName}")
-    String defaultCityName;
+    private String defaultCityName;
     @Value("${weather.command}")
     private List<String> commands;
 

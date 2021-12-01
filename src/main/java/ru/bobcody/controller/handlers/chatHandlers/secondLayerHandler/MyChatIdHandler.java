@@ -9,7 +9,6 @@ import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
 import java.util.List;
 
-@Data
 @Component
 public class MyChatIdHandler implements SimpleHandlerInterface {
     @Value("${id.command}")

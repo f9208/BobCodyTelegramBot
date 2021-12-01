@@ -1,6 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,10 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Getter
-@Setter
 public class FuckingGreatAdviceHandler implements SimpleHandlerInterface {
     @Autowired
-    FuckingGreatAdvice fuckingGreatAdvice;
+    @Setter
+    private FuckingGreatAdvice fuckingGreatAdvice;
     @Value("${fga.command}")
     private List<String> commands;
 

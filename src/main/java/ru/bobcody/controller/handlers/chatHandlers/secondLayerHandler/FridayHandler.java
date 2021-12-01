@@ -1,7 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,13 +23,11 @@ import java.util.Locale;
 
 @Slf4j
 @Component
-@Getter
-@Setter
 @PropertySource(value = "classpath:additional.properties", encoding = "UTF-8")
 public class FridayHandler implements SimpleHandlerInterface {
     @Autowired
     @Lazy
-    BobCodyBot bobCodyBot;
+    private BobCodyBot bobCodyBot;
     @Value("${friday.command}")
     private List<String> commands;
     @Value("${elk.path}")

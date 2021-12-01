@@ -1,7 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,11 +11,9 @@ import ru.bobcody.thirdPartyAPI.courses.CourseValutParser;
 import java.util.List;
 
 @Component
-@Getter
-@Setter
 public class CourseHandler implements SimpleHandlerInterface {
     @Autowired
-    CourseValutParser courseValutParser;
+    private CourseValutParser courseValutParser;
     @Value("${course.command}")
     private List<String> commands;
 

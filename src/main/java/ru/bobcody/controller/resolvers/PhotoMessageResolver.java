@@ -1,7 +1,5 @@
 package ru.bobcody.controller.resolvers;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +29,17 @@ import java.util.List;
 import java.util.Objects;
 
 @Slf4j
-@Getter
-@Setter
 @Component
 public class PhotoMessageResolver extends AbstractMessageResolver {
     @Autowired
-    BobCodyBot bobCodyBot;
+    private BobCodyBot bobCodyBot;
     @Value("${imageSave.path}")
     private String rootPath;
     @Autowired
-    LinkService linkService;
+    private LinkService linkService;
     @Value("${botloading.web-hook-path}")
-    String rootUrl;
-    String prefixFolder = "/savedImages/";
+    private String rootUrl;
+    private String prefixFolder = "/savedImages/";
 
     @Override
     public SendMessage process(Message message) {

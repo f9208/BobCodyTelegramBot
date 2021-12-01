@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Random;
 
 @Component
-@Getter
-@Setter
 @PropertySource(value = "classpath:answers/touchBot.properties", encoding = "UTF-8")
 public class QuAnswerHandler implements SimpleHandlerInterface {
     @Value("#{${qu.answer}}")

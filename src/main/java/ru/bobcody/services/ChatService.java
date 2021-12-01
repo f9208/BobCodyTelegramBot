@@ -12,7 +12,7 @@ import ru.bobcody.repository.ChatRepository;
 @Transactional(readOnly = true)
 public class ChatService {
     @Autowired
-    ChatRepository chatRepository;
+    private ChatRepository chatRepository;
 
     @Transactional
     @CacheEvict(value = "chatById", allEntries = true)

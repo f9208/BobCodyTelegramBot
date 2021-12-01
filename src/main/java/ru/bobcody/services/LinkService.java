@@ -16,7 +16,7 @@ import java.util.Objects;
 @Service
 public class LinkService {
     @Autowired
-    LinkRepository linkRepository;
+    private  LinkRepository linkRepository;
 
     @Transactional
     public int saveLink(Link link) {
