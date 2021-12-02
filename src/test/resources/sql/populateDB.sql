@@ -1,7 +1,7 @@
-INSERT INTO public.guests (id, first_name, language_code, last_name, user_name)
-VALUES (2, 'Dmitry', 'ru', 'Batikov', 'bad'),
-       (3, 'Sergy', 'ru', 'Morozov', 'moroz'),
-       (445682905, 'Jonny', 'ru', 'Oker', 'Admin');
+INSERT INTO public.guests (id, first_name, language_code, last_name, user_name, city_name)
+VALUES (2, 'Dmitry', 'ru', 'Batikov', 'bad', default),
+       (3, 'Sergy', 'ru', 'Morozov', 'moroz', 'Vorkuta'),
+       (445682905, 'Jonny', 'ru', 'Oker', 'Admin', default);
 
 INSERT INTO public.chats (id, first_name, last_name, type, user_name)
 VALUES (1, 'cars', null, 'private', 'privat_with_someone'),

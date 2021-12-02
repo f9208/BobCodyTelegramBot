@@ -1,6 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

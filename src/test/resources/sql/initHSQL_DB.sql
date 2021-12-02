@@ -24,7 +24,8 @@ CREATE TABLE public.guests
     first_name    VARCHAR(255),
     language_code VARCHAR(255),
     last_name     VARCHAR(255),
-    user_name     VARCHAR(255)
+    user_name     VARCHAR(255),
+    city_name     varchar(40) default 'Izhevsk'
 );
 
 CREATE SEQUENCE text_message_id_seq AS BIGINT START WITH 1;

@@ -29,6 +29,8 @@ public class Guest {
     private String languageCode;
     @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TextMessage> textMessages;
+    @Column(name = "city_name", columnDefinition = "varchar(40) default 'Izhevsk'")
+    private String cityName;
 
     public Guest(User user) {
         this.id = user.getId();
@@ -36,6 +38,7 @@ public class Guest {
         this.lastName = user.getLastName();
         this.userName = user.getUserName();
         this.languageCode = user.getLanguageCode();
+        this.cityName = "Izhevsk";
     }
 
     public Guest(Long id, String firstName, String lastName, String userName, String languageCode) {
@@ -44,6 +47,7 @@ public class Guest {
         this.lastName = lastName;
         this.userName = userName;
         this.languageCode = languageCode;
+        this.cityName = "Izhevsk";
     }
 
     @Override
