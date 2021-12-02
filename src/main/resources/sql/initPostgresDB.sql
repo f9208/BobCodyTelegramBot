@@ -5,8 +5,8 @@ CREATE TABLE quotes
 (
     id        BIGINT  default nextval('quote_id_seq') PRIMARY KEY,
     text      VARCHAR(5000) NOT NULL,
-    added     timestamp(2)  NOT NULL,
-    approved  timestamp(2),
+    added     timestamp(3)  NOT NULL,
+    approved  timestamp(3),
     type      varchar(10)   NOT NULL,
     author_id BIGINT        NOT NULL,
     endorsed  boolean default false,
@@ -16,12 +16,12 @@ CREATE TABLE quotes
 );
 
 -- поменять тип epoch на таймштапм. не факт что понадобится
-ALTER TABLE quotation_abyss
-    ALTER COLUMN date_added SET DATA TYPE timestamp(2)
-        USING
-        timestamp without time zone 'epoch' + date_added * interval '1 second';
-
-
-insert into quotes(text, added, approved, type, author_id, endorsed, caps_id, regul_id)
-values (public.quotation_storage.quote_text, public.quotation_storage.added, public.quotation_storage.approved
-    'REGULAT', public.quotation_storage.author_id, true, 0, nextval('regul_id_seq'));
+-- ALTER TABLE quotation_abyss
+--     ALTER COLUMN date_added SET DATA TYPE timestamp(2)
+--         USING
+--         timestamp without time zone 'epoch' + date_added * interval '1 second';
+--
+--
+-- insert into quotes(text, added, approved, type, author_id, endorsed, caps_id, regul_id)
+-- values (public.quotation_storage.quote_text, public.quotation_storage.added, public.quotation_storage.approved
+--     'REGULAT', public.quotation_storage.author_id, true, 0, nextval('regul_id_seq'));

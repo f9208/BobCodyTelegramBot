@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -14,15 +15,13 @@ import java.io.InputStreamReader;
 import java.net.*;
 
 @Component
-@Getter
-@Setter
-@ConfigurationProperties(prefix = "fga")
 public class FuckingGreatAdvice {
-    String randomAdviceLink;
+    @Value("${fga.randomAdviceLink}")
+    private String randomAdviceLink;
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
-    private String parser() throws IOException, SocketTimeoutException, MalformedURLException {
+    private String parser() throws IOException {
         StringBuilder result = new StringBuilder();
         URL randomAdviceUrl = new URL(randomAdviceLink);
         HttpURLConnection connection = (HttpURLConnection) randomAdviceUrl.openConnection();
@@ -44,6 +43,5 @@ public class FuckingGreatAdvice {
         JsonNode text = jsonNode.get("text");
         return text.asText();
     }
-
 }
 

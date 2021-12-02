@@ -12,8 +12,8 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ValCurs")
 public class ValCurs {
-    String date;
-    String name;
+    private String date;
+    private String name;
 
     @XmlElement(name = "Valute")
     List<Valuta> valutas = new ArrayList<>();

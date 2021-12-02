@@ -4,12 +4,12 @@ import javax.xml.bind.annotation.*;
 
 @XmlType(propOrder = {"numCode", "charCode", "nominal", "name", "value"})
 public class Valuta {
-    String ID;
-    Integer numCode;
-    String charCode;
-    Integer nominal;
-    String name;
-    String value;
+    private     String ID;
+    private  Integer numCode;
+    private  String charCode;
+    private  Integer nominal;
+    private  String name;
+    private  String value;
 
     public String getId() {
         return ID;

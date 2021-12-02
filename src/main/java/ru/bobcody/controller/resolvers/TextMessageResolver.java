@@ -1,8 +1,5 @@
 package ru.bobcody.controller.resolvers;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,27 +10,24 @@ import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 import ru.bobcody.entities.Chat;
 import ru.bobcody.entities.Guest;
 import ru.bobcody.entities.TextMessage;
-import ru.bobcody.repository.ChatRepository;
 import ru.bobcody.services.ChatService;
 import ru.bobcody.services.GuestService;
 import ru.bobcody.services.TextMessageService;
 
 import java.util.Objects;
 
-@Getter
-@Setter
 @Component
 public class TextMessageResolver extends AbstractMessageResolver {
     @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
+    private MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
-    GuestService guestService;
+    private GuestService guestService;
     @Autowired
-    TextMessageService textMessageService;
+    private TextMessageService textMessageService;
     @Autowired
-    ChatService chatService;
+    private ChatService chatService;
     @Value("${chatid.admin}")
-    String chatAdminId;
+    private String chatAdminId;
 
     public SendMessage process(Message message, boolean edited) {
         SendMessage replay = new SendMessage();

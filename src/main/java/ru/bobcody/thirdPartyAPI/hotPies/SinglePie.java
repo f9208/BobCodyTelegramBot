@@ -8,11 +8,11 @@ import lombok.Setter;
  * метод getPiesList() возвращает список из 60ти пирожков,
  * со страницы рендомного и рендом+1 номера
  */
-@Getter
 @Setter
+@Getter
 public class SinglePie {
-    String shareURL;
-    String shareText;
+    private String shareURL;
+    private String shareText;
 
     public SinglePie() {
     }

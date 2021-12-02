@@ -1,6 +1,5 @@
 package ru.bobcody.services;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,48 +9,52 @@ import ru.bobcody.entities.Guest;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static ru.bobcody.services.data.GuestsData.*;
 
 class GuestServiceTest extends AbstractSpringBootStarterTest {
     @Autowired
     GuestService guestService;
 
+    {
+        ignoreFields = new String[]{"textMessages"};
+    }
+
     @Transactional
     @Test
     void add() {
         long unsavedId = VIKTOR.getId();
-        assertThrows(EntityNotFoundException.class, () -> guestService.findById(unsavedId));
+        assertThatThrownBy(() -> guestService.findById(unsavedId)).isInstanceOf(EntityNotFoundException.class);
         Guest guestSaved = guestService.add(VIKTOR);
-        assertEquals(VIKTOR, guestSaved); //todo ну такое себе. посмотреть как сравнивать обьекты
-        assertEquals(VIKTOR, guestService.findById(unsavedId));
+        assertMatch(VIKTOR, guestSaved);
+        assertMatch(VIKTOR, guestService.findById(unsavedId));
     }
 
     @Test
     void getAll() {
         List<Guest> dbList = guestService.getAll();
-        Assertions.assertThat(dbList).contains(SERGY,DMITRY);
-        Assertions.assertThat(dbList).hasSize(2);
+        assertThat(dbList).contains(SERGY, DMITRY, ADMIN);
+        assertThat(dbList).hasSize(3);
     }
 
     @Test
     void findById() {
-
-        assertEquals(guestService.findById(SERGY.getId()), SERGY); //todo тоже ну такое
+        assertMatchIgnoreFields(guestService.findById(SERGY.getId()), SERGY);
     }
 
     @Test
     void notFoundById() {
-        assertThrows(EntityNotFoundException.class, () -> guestService.findById(8550L));
+        assertThatThrownBy(() -> guestService.findById(8550L)).isInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
     void containGuestTrue() {
-        assertTrue(guestService.containGuest(SERGY.getId()));
+        assertThat(guestService.containGuest(SERGY.getId())).isTrue();
     }
 
     @Test
     void containGuestFalse() {
-        assertFalse(guestService.containGuest(3245L));
+        assertThat(guestService.containGuest(3245L)).isFalse();
     }
 }

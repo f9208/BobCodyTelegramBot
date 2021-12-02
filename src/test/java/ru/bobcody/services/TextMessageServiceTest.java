@@ -1,18 +1,19 @@
 package ru.bobcody.services;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
 import ru.bobcody.entities.TextMessage;
+import ru.bobcody.services.data.TelegramMessageData;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.services.data.ChatData.GROUP_CHAT;
-import static org.assertj.core.api.Assertions.*;
-import static ru.bobcody.services.data.TelegramMessageData.*;
 import static ru.bobcody.services.data.TextMessageData.*;
 
 class TextMessageServiceTest extends AbstractSpringBootStarterTest {
@@ -23,17 +24,22 @@ class TextMessageServiceTest extends AbstractSpringBootStarterTest {
         ignoreFields = new String[]{"guest", "chat"};
     }
 
+    @BeforeEach
+    void init() {
+        TelegramMessageData.init();
+    }
+
     @Test
     void saveInputMessage() {
-        int saved = textMessageService.saveInputMessage(TEXT_MESSAGE_1);
+        System.out.println(TEXT_MESSAGE_UNSAVED);
+        int saved = textMessageService.saveInputMessage(TEXT_MESSAGE_UNSAVED);
         Assertions.assertThat(saved).isEqualTo(1);
     }
 
-
     @Test
     void getById() {
-        TextMessage tmFromDb = textMessageService.getById(444443);
-        assertMatchIgnoreFilds(tmFromDb, TEXT_MESSAGE_3);
+        TextMessage tmFromDb = textMessageService.getById(3);
+        assertMatchIgnoreFields(tmFromDb, TEXT_MESSAGE_3);
     }
 
     @Test
@@ -62,7 +68,7 @@ class TextMessageServiceTest extends AbstractSpringBootStarterTest {
     @Transactional
     @Test
     void prepareAndSave() {
-        int result = textMessageService.prepareAndSave(TEXT_MESSAGE_4);
+        int result = textMessageService.prepareAndSave(TEXT_MESSAGE_UNSAVED);
         assertThat(result).isEqualTo(1);
     }
 }

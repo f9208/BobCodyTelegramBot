@@ -22,20 +22,20 @@ import java.util.Date;
 public class TextMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
-    Long id;
+    private Long id;
     @Column(name = "telegramId")
-    Long telegram;
+    private Long telegram;
     @Column(name = "dateTime")
     @NotNull
     private LocalDateTime dateTime;
     @Column(name = "textMessage", columnDefinition = "varchar(50000)")
-    String textMessage;
+    private String textMessage;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "guest_id", nullable = false, referencedColumnName = "id")
-    Guest guest;
+    private Guest guest;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "chat", nullable = false, referencedColumnName = "id")
-    Chat chat;
+    private Chat chat;
 
     public TextMessage(Message message) {
         this.telegram = Long.valueOf(message.getMessageId());

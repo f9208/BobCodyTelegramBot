@@ -17,29 +17,29 @@ import java.time.LocalDateTime;
 public class Quote {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quote_id")
-    Long id;
+    private Long id;
     @NotNull
     @Column(name = "text", columnDefinition = "varchar(5000)", nullable = false)
-    String text;
+    private String text;
     @NotNull
     @Column(name = "added", nullable = false)
-    LocalDateTime added;
+    private LocalDateTime added;
     @Column(name = "approved")
-    LocalDateTime approved;
+    private LocalDateTime approved;
     @NotNull
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
-    Type type;
+    private Type type;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
-    Guest author;
+    private Guest author;
     @Column(name = "endorsed")
-    boolean endorsed;
+    private boolean endorsed;
     @Column(name = "caps_id")
-    long capsId;
+    private long capsId;
     @Column(name = "regul_id")
-    long regularId;
+    private long regularId;
 
     public Quote(Long id, @NotNull String text, @NotNull LocalDateTime added, LocalDateTime approved, @NotNull Type type, @NotNull Guest author, boolean endorsed, long capsId, long regularId) {
         this(id, text, added, type, author);

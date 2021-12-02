@@ -33,9 +33,9 @@ import javax.sql.DataSource;
 @EnableCaching
 @PropertySource(value = "classpath:commands.properties", encoding = "UTF-8")
 public class BotConfig {
-    String botToken;
-    String botName;
-    String webHookPath;
+    private String botToken;
+    private String botName;
+    private String webHookPath;
 
     @Bean
     public BobCodyBot bobCodyBot() {

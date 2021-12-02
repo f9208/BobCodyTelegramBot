@@ -18,8 +18,6 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 @Slf4j
-@Getter
-@Setter
 @Component
 public class PhotoDocumentMessageResolver extends PhotoMessageResolver {
     @Override

@@ -1,18 +1,19 @@
 package ru.bobcody.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Quote;
-import ru.bobcody.entities.Type;
 import ru.bobcody.repository.QuoteRepository;
 
 import java.time.LocalDateTime;
 
 @Service
+@Profile(value = {"local", "prod", "dev"})
 public class QuoteService {
     @Autowired
-    QuoteRepository quoteRepository;
+    private QuoteRepository quoteRepository;
 
     @Transactional
     public Quote save(Quote quote) {
@@ -32,13 +33,6 @@ public class QuoteService {
     public boolean approveRegular(long quoteId) {
         return quoteRepository.approveRegularPostgreSql(quoteId, LocalDateTime.now()) == 1;
     }
-
-    @Transactional
-        //хз зачем этот метод?
-    boolean switchType(long quoteId, Type type) {
-        return quoteRepository.switchType(quoteId, type) == 1;
-    }
-
 
     public Quote getByCapsId(long id) {
         return quoteRepository.findByCapsId(id);
@@ -63,5 +57,4 @@ public class QuoteService {
     public long getLastCapsId() {
         return quoteRepository.lastCapsId();
     }
-
 }

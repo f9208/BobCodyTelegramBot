@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 public class TelegramChat {
     public static final Chat PRIVATE_TELEGRAM_CHAT = new Chat();
     static {
-        PRIVATE_TELEGRAM_CHAT.setId(11111L);
+        PRIVATE_TELEGRAM_CHAT.setId(1L);
         PRIVATE_TELEGRAM_CHAT.setLastName(null);
         PRIVATE_TELEGRAM_CHAT.setType("private");
         PRIVATE_TELEGRAM_CHAT.setFirstName("cars");
@@ -14,7 +14,7 @@ public class TelegramChat {
 
     public static final Chat GROUP_TELEGRAM_CHAT = new Chat();
     static {
-        GROUP_TELEGRAM_CHAT.setId(11112L);
+        GROUP_TELEGRAM_CHAT.setId(2L);
         GROUP_TELEGRAM_CHAT.setFirstName("flowers and kitty");
         GROUP_TELEGRAM_CHAT.setType("group");
         GROUP_TELEGRAM_CHAT.setLastName("F and K");
@@ -23,7 +23,7 @@ public class TelegramChat {
 
     public static final Chat CHANNEL_TELEGRAM_CHAT = new Chat();
     static {
-        CHANNEL_TELEGRAM_CHAT.setId(11113L);
+        CHANNEL_TELEGRAM_CHAT.setId(3L);
         CHANNEL_TELEGRAM_CHAT.setFirstName("mustache Peskova");
         CHANNEL_TELEGRAM_CHAT.setType("channel");
         CHANNEL_TELEGRAM_CHAT.setLastName(null);

@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -28,23 +31,20 @@ import java.util.List;
 @Service
 @Component
 @Configuration
-@ConfigurationProperties(prefix = "weather")
 @PropertySource("classpath:weatherProp.properties")
 public class OpenWeatherForecast {
     @Setter
-    @Getter
+    @Value("${weather.city-name}")
     private String cityName;
-    @Setter
-    @Getter
+    @Value("${weather.link}")
     private String link;
-    @Setter
-    @Getter
+    @Value("${weather.units}")
     private String units;
-    @Setter
-    @Getter
+    @Value("${weather.keyweatherapi}")
     private String keyweatherapi;
     @Getter
     @Setter
+    @Value("${weather.language}")
     private String language;
     @Getter
     private URL callFullForecastURL;
@@ -52,8 +52,8 @@ public class OpenWeatherForecast {
     private String fullForecastJson;
     @Getter
     public JsonNode jsonNodeFullLine;
-    @Getter
-    private ObjectMapper openMapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper openMapper;
 
     private City currentCity; // возможно сделать суперкласс "локация" и унаследовать в конечном итоге класс City от него. но это не точно
 
@@ -254,18 +254,10 @@ class FullHouse {
 
 }
 
+@Data
 class WeatherShort {
-    @Setter
-    @Getter
     private int id;
-    @Setter
-    @Getter
     private String main;
-    @Setter
-    @Getter
     private String description;
-    @Setter
-    @Getter
     private String icon;
-
 }

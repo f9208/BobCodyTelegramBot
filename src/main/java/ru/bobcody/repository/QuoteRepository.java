@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Quote;
-import ru.bobcody.entities.Type;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -31,11 +30,6 @@ public interface QuoteRepository extends CrudRepository<Quote, Long> {
             " set approved=:date, endorsed=true, type='REGULAR', regul_id=next value for PUBLIC.regul_id_seq " +
             " where id=:id", nativeQuery = true)
     int approveRegularHSQL(@Param("id") long id, @Param("date") LocalDateTime approveTime);
-
-    @Transactional
-    @Modifying
-    @Query(value = "update Quote q set q.type=:type where q.id=:id")
-    int switchType(@Param("id") long id, @Param("type") Type type);
 
     @Transactional
     @Modifying(clearAutomatically = true)

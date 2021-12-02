@@ -1,7 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -12,19 +10,17 @@ import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 import java.util.List;
 
 @Component
-@Getter
-@Setter
 @PropertySource(value = "classpath:answers/help.properties", encoding = "UTF-8")
 public class HelpReplayHandler implements SimpleHandlerInterface {
     @Value("${print.help}")
-    String helpAnswer;
+   private String helpAnswer;
     @Value("${help.command}")
     private List<String> commands;
 
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setText(getHelpAnswer());
+        sendMessage.setText(helpAnswer);
         return sendMessage;
     }
 

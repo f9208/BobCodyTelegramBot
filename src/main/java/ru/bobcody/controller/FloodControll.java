@@ -10,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Getter
 @Setter
 public class FloodControll {
-
     private static final Long STARTTIME = System.currentTimeMillis() / 1000;
     private Message[] filterBuffer = new Message[4];
 

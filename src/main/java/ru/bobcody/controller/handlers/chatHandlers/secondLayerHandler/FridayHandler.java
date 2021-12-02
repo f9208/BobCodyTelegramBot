@@ -1,7 +1,5 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +15,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.bobcody.BobCodyBot;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
@@ -25,13 +26,11 @@ import java.util.Locale;
 
 @Slf4j
 @Component
-@Getter
-@Setter
 @PropertySource(value = "classpath:additional.properties", encoding = "UTF-8")
 public class FridayHandler implements SimpleHandlerInterface {
     @Autowired
     @Lazy
-    BobCodyBot bobCodyBot;
+    private BobCodyBot bobCodyBot;
     @Value("${friday.command}")
     private List<String> commands;
     @Value("${elk.path}")
@@ -44,7 +43,7 @@ public class FridayHandler implements SimpleHandlerInterface {
         SendMessage result = new SendMessage();
         if (inputMessage.getText().split(" ").length == 1) {
             if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.FRIDAY) {
-                fridayAnswerGif(inputMessage);
+                executeFriday(inputMessage.getChatId().toString());
             } else {
                 result.setText(notFridayAnswer());
             }
@@ -77,32 +76,51 @@ public class FridayHandler implements SimpleHandlerInterface {
         return result;
     }
 
-    private void fridayAnswerGif(Message message) {
+    private void executeFriday(String chatId) {
         try {
             log.info("try to send elk-gif");
-            InputFile inputFile = new InputFile(elkPath);
-            SendAnimation elkFriday = new SendAnimation();
-            elkFriday.setAnimation(inputFile);
-            elkFriday.setChatId(message.getChatId().toString());
+            SendAnimation elkFriday = getElkFromTelegramFile();
+            elkFriday.setChatId(chatId);
+            bobCodyBot.execute(elkFriday);
+        } catch (TelegramApiException e) {
+            log.error("send elk as telegram file is failure, try to re-send as conventional file");
+            executeFridayFromFile(chatId);
+            log.error("send from file have been successful");
+        }
+    }
+
+    private void executeFridayFromFile(String chatId) {
+        try {
+            SendAnimation elkFriday = getAnimationFromFile("elk.mp4");
+            elkFriday.setChatId(chatId);
             bobCodyBot.execute(elkFriday);
         } catch (TelegramApiException e) {
             e.printStackTrace();
-            log.error("send elk-gif failure");
+            log.error("send elkFromFile is failure");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            log.error("there was some url exception");
         }
     }
 
     @Scheduled(cron = "0 00 8 * * FRI ")
     private void sendFridayGif() {
-        try {
-            log.info("try to send elk-gif");
-            InputFile inputFile = new InputFile(elkPath);
-            SendAnimation elkFriday = new SendAnimation();
-            elkFriday.setAnimation(inputFile);
-            elkFriday.setChatId(mainChatId);
-            bobCodyBot.execute(elkFriday);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-            log.error("send elk-gif failure");
-        }
+        executeFriday(mainChatId);
+    }
+
+    private SendAnimation getElkFromTelegramFile() {
+        InputFile inputFile = new InputFile(elkPath);
+        SendAnimation elkFriday = new SendAnimation();
+        elkFriday.setAnimation(inputFile);
+        return elkFriday;
+    }
+
+    private SendAnimation getAnimationFromFile(String fileInResourcesName) throws URISyntaxException {
+        URL urlElk = ClassLoader.getSystemResource(fileInResourcesName);
+        File file = new File(urlElk.toURI());
+        InputFile inputFile = new InputFile(file);
+        SendAnimation elkFriday = new SendAnimation();
+        elkFriday.setAnimation(inputFile);
+        return elkFriday;
     }
 }

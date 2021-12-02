@@ -26,13 +26,11 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@Getter
-@Setter
 public class IndexPageController {
     @Autowired
-    TextMessageService textMessageService;
+    private TextMessageService textMessageService;
     @Autowired
-    LinkService linkService;
+    private LinkService linkService;
     // Id чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники
     private final long defaultChatId;
 
@@ -59,7 +57,7 @@ public class IndexPageController {
     @GetMapping(value = "/{chatId}/{dateAsString}")
     public String getForDate(@PathVariable String dateAsString, @PathVariable long chatId, Model model) {
         log.info("get page with logs, link:  /{}/{}", chatId, dateAsString);
-        LocalDate date = LocalDate.parse(dateAsString); //todo переделать этот костыль
+        LocalDate date = LocalDate.parse(dateAsString);
         model.addAttribute("messages", textMessageService.getOnDateBetweenForChat(date, date, chatId));
         model.addAttribute("currentChatId", chatId);
         boolean label = chatId == defaultChatId;

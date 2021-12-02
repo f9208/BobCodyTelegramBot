@@ -17,13 +17,12 @@ import java.util.List;
 import java.util.Random;
 
 @Slf4j
-@Data
 @Component
 public class QuoteGetHandler implements SimpleHandlerInterface {
     @Value("${quote.get.command}")
     private List<String> commands;
     @Autowired
-    QuoteService quoteService;
+    private QuoteService quoteService;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -63,6 +62,7 @@ public class QuoteGetHandler implements SimpleHandlerInterface {
                 if (quoteId <= 0) throw new NumberFormatException();
                 log.info("get quote with id {}", quoteId);
                 quote = getById(quoteId, type);
+                if (quote == null) return "цитаты с таким id не найдено";
             } catch (NumberFormatException e) {
                 return "в качестве номера цитаты используйте только положительные числа";
             }
