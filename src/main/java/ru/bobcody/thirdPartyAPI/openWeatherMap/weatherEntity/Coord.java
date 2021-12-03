@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.weather.weatherCondition;
+package ru.bobcody.thirdPartyAPI.openWeatherMap.weatherEntity;
 
 import lombok.Getter;
 import lombok.Setter;
