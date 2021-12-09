@@ -1,6 +1,8 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
@@ -32,5 +34,13 @@ class SetCityHandlerTest extends AbstractSpringBootStarterTest {
         String replay = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText();
         assertThat(replay).isEqualTo("@" + SERGY.getUserName() + ", теперь твой погодный город - эхо");
         assertThat(guestService.findById(SERGY.getId()).getCityName()).isEqualTo("эхо");
+        TELEGRAM_MESSAGE_2.setText("!город      Vorkuta");
+        mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText();
     }
+
+    @AfterEach
+    void sfwe(TestInfo i) {
+        System.out.println(guestService.findById(SERGY.getId()).getCityName());
+    }
+
 }

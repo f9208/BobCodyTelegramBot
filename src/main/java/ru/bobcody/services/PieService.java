@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class PieService {
     private static List<SinglePie> listPies = new ArrayList<>();
-    @Value("${pie.size}")
     private static int SIZE;
     private static int accumulate;
 

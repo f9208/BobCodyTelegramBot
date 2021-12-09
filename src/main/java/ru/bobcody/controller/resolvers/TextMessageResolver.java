@@ -62,9 +62,12 @@ public class TextMessageResolver extends AbstractMessageResolver {
 
     private Guest saveGuest(User user) {
         Guest guest = new Guest(user);
-        return guestService.containGuest(guest.getId())
-                ? guest
-                : guestService.add(guest);
+        if (guestService.containGuest(guest.getId())) {
+            if (!guestService.findById(guest.getId()).equals(guest))
+                guestService.update(guest);
+            return guest;
+        } else
+            return guestService.add(guest);
     }
 
     private Chat saveChat(Message message) {

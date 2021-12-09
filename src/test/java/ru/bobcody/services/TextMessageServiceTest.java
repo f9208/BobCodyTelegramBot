@@ -46,11 +46,12 @@ class TextMessageServiceTest extends AbstractSpringBootStarterTest {
     void getOnDateBetweenForChat() {
         LocalDate start = LocalDate.parse("2020-12-12");
         LocalDate end = LocalDate.parse("2021-11-20");
+        TextMessage a = TEXT_MESSAGE_2;
         List<TextMessage> result =
                 textMessageService.getOnDateBetweenForChat(start, end, GROUP_CHAT.getId());
         assertThat(result)
                 .hasSize(2)
-                .contains(TEXT_MESSAGE_2, TEXT_MESSAGE_1)
+                .contains(TEXT_MESSAGE_2)
                 .doesNotContain(TEXT_MESSAGE_4);
     }
 

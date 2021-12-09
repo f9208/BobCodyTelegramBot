@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class GuestService {
     @Autowired
-    private   GuestRepository guestRepository;
+    private GuestRepository guestRepository;
 
     @Transactional
     @CacheEvict(value = {"guestById"}, allEntries = true)
@@ -30,14 +30,22 @@ public class GuestService {
         return guestRepository.findAllBy();
     }
 
+    @Cacheable(value = "guestById", key = "#id")
     public Guest findById(Long id) {
         log.info("try to find guest by id {}", id);
         return guestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Guest not found by id " + id));
     }
 
-    @Cacheable(value = "guestById", key = "#id")
     public boolean containGuest(Long id) {
         return guestRepository.findById(id).isPresent();
+    }
+
+    @CacheEvict(value = {"guestById"}, allEntries = true)
+    public int update(Guest guest) {
+        return guestRepository.update(guest.getId(),
+                guest.getFirstName(),
+                guest.getUserName(),
+                guest.getLastName(), guest.getLanguageCode());
     }
 }

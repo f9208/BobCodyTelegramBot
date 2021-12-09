@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,7 +20,9 @@ import java.util.Date;
 @SequenceGenerator(name = "id_seq",
         sequenceName = "text_message_id_seq",
         allocationSize = 1)
-public class TextMessage {
+public class TextMessage implements Serializable {
+    private final static long serialVersionUID = 86956734497234925L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
     private Long id;

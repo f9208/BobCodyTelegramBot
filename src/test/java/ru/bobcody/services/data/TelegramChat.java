@@ -14,7 +14,7 @@ public class TelegramChat {
 
     public static final Chat GROUP_TELEGRAM_CHAT = new Chat();
     static {
-        GROUP_TELEGRAM_CHAT.setId(2L);
+        GROUP_TELEGRAM_CHAT.setId(242345L);
         GROUP_TELEGRAM_CHAT.setFirstName("flowers and kitty");
         GROUP_TELEGRAM_CHAT.setType("group");
         GROUP_TELEGRAM_CHAT.setLastName("F and K");

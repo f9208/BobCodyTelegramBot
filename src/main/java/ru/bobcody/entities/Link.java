@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -14,7 +15,8 @@ import java.time.LocalDateTime;
         indexes = {@Index(name = "date_guest_idx", columnList = "date, guest_id")})
 @SequenceGenerator(name = "id_seq",
         sequenceName = "link_id_seq", initialValue = 100, allocationSize = 1)
-public class Link {
+public class Link implements Serializable {
+    private final static long serialVersionUID = 445134875123798234L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
     private Long id;

@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,7 +16,8 @@ import java.util.Objects;
 @Data
 @Entity
 @Table(schema = "public", name = "guests")
-public class Guest {
+public class Guest implements Serializable {
+    private static final long serialVersionUID = 284892174904515L;
     @Id
     private Long id;
     @Column(name = "first_name")
@@ -62,9 +64,9 @@ public class Guest {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Guest)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Guest guest = (Guest) o;
-        return Objects.equals(getId(), guest.getId());
+        return id.equals(guest.id) && firstName.equals(guest.firstName) && Objects.equals(lastName, guest.lastName) && Objects.equals(userName, guest.userName) && Objects.equals(languageCode, guest.languageCode) && Objects.equals(cityName, guest.cityName);
     }
 
     @Override

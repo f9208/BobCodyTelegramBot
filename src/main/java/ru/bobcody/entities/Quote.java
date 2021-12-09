@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,7 +15,8 @@ import java.time.LocalDateTime;
 @SequenceGenerator(name = "quote_id",
         sequenceName = "quote_id_seq",
         allocationSize = 1)
-public class Quote {
+public class Quote implements Serializable {
+    private final static long serialVersionUID = 690854609845783434L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quote_id")
     private Long id;

@@ -1,11 +1,10 @@
 package ru.bobcody.entities;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +12,8 @@ import java.util.Objects;
 @Entity
 @Data
 @Table(schema = "public", name = "chats")
-public class Chat {
+public class Chat implements Serializable {
+    private static final long serialVersionUID = 5465777336968949952L;
     @Id
     private Long id;
     @Column(name = "type", nullable = false)

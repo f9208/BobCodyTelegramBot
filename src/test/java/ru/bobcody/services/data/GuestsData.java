@@ -11,6 +11,10 @@ public class GuestsData {
     public static final Guest ADMIN = new Guest(ADMIN_TELEGRAM);
 
     static {
+        init();
+    }
+
+    public static void init() {
         SERGY.setCityName("Vorkuta");
     }
 }

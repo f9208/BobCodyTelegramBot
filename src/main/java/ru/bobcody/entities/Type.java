@@ -1,5 +1,7 @@
 package ru.bobcody.entities;
 
-public enum Type {
+import java.io.Serializable;
+
+public enum Type implements Serializable {
     ABYSS, CAPS, REGULAR;
 }

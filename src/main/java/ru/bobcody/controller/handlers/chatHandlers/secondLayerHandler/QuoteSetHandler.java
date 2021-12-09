@@ -49,11 +49,7 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
         if (inputMessage.getText().trim().startsWith("!aq") ||
                 inputMessage.getText().trim().startsWith("!дц")) {
             String replay;
-            try {
-                replay = addQuoteForApprove(inputMessage);
-            } catch (Exception e) {
-                replay = e.getMessage();
-            }
+            replay = addQuoteForApprove(inputMessage);
             result.setChatId(inputMessage.getChatId().toString());
             result.setText(replay);
             return result;
@@ -119,7 +115,7 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
         return result;
     }
 
-    private String addQuoteForApprove(Message message) throws Exception {
+    private String addQuoteForApprove(Message message) {
         String replay;
         String textQuote;
         textQuote = message.getText().substring(3);
@@ -131,7 +127,7 @@ public class QuoteSetHandler implements SimpleHandlerInterface {
                     ofEpochSecond(message.getDate(), 0, ZoneOffset.of("+3")),
                     Type.ABYSS, new Guest(message.getFrom()));
             Quote saved = quoteService.save(quote);
-            if (saved == null) throw new Exception("не удалось сохранить цитату");
+            if (saved == null) return "не удалось сохранить цитату";
             log.info("user {} add quote {}", message.getFrom().getFirstName(), quote.getText());
             replay = "Записал в бездну. Цитата будет добавлена в хранилище после проверки модератором.";
             sendToModerator(message, saved);

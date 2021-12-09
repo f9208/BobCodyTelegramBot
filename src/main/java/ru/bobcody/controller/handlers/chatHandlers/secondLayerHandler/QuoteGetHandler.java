@@ -13,8 +13,10 @@ import ru.bobcody.entities.Type;
 import ru.bobcody.services.QuoteService;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -28,16 +30,11 @@ public class QuoteGetHandler implements SimpleHandlerInterface {
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
         Type type;
-        if (inputMessage.getText().trim().startsWith("!ц") ||
-                inputMessage.getText().trim().startsWith("!quote") ||
-                inputMessage.getText().trim().startsWith("!цитата") ||
-                inputMessage.getText().trim().startsWith("!q")) {
+        if (askQuote(inputMessage.getText())) {
             type = Type.REGULAR;
             result.setText(getPreparedText(inputMessage, type));
         }
-        if (inputMessage.getText().trim().startsWith("!caps") ||
-                inputMessage.getText().trim().startsWith("!капс") ||
-                inputMessage.getText().trim().startsWith("!к")) {
+        if (askCaps(inputMessage.getText())) {
             type = Type.CAPS;
             result.setText(getPreparedText(inputMessage, type));
         }
@@ -115,5 +112,21 @@ public class QuoteGetHandler implements SimpleHandlerInterface {
                 .append(quote.getText());
         result = master.toString();
         return result;
+    }
+
+    private boolean askQuote(String text) {
+        List<String> quoteCommand = commands.stream()
+                .filter((p) -> p.contains("q") || p.contains("ц"))
+                .collect(Collectors.toList());
+        String[] textMessage = text.split(" ");
+        return Arrays.stream(textMessage).filter(quoteCommand::contains).collect(Collectors.toList()).size() > 0;
+    }
+
+    private boolean askCaps(String text) {
+        List<String> capsCommand = commands.stream()
+                .filter((p) -> p.contains("к") || p.contains("caps"))
+                .collect(Collectors.toList());
+        String[] textMessage = text.split(" ");
+        return Arrays.stream(textMessage).filter(capsCommand::contains).collect(Collectors.toList()).size() > 0;
     }
 }

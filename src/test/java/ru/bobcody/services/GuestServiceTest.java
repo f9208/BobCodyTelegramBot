@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
 import ru.bobcody.entities.Guest;
+import ru.bobcody.services.data.GuestsData;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -20,6 +21,7 @@ class GuestServiceTest extends AbstractSpringBootStarterTest {
     {
         ignoreFields = new String[]{"textMessages"};
     }
+
 
     @Transactional
     @Test
@@ -40,6 +42,7 @@ class GuestServiceTest extends AbstractSpringBootStarterTest {
 
     @Test
     void findById() {
+        GuestsData.init();
         assertMatchIgnoreFields(guestService.findById(SERGY.getId()), SERGY);
     }
 
@@ -56,5 +59,13 @@ class GuestServiceTest extends AbstractSpringBootStarterTest {
     @Test
     void containGuestFalse() {
         assertThat(guestService.containGuest(3245L)).isFalse();
+    }
+
+    @Test
+    void updateGuest() {
+        assertThat(guestService.findById(ADMIN.getId())).isEqualTo(ADMIN);
+        Guest changedAdmin = new Guest(ADMIN.getId(), "Заяц", "туц", null, "tu");
+        guestService.update(changedAdmin);
+        assertThat(guestService.findById(ADMIN.getId())).isEqualTo(changedAdmin);
     }
 }
