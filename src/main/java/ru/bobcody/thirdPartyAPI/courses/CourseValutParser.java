@@ -2,6 +2,8 @@ package ru.bobcody.thirdPartyAPI.courses;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXBContext;
@@ -13,12 +15,13 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 @Getter
 @Setter
 public class CourseValutParser {
     private static String link = "http://www.cbr.ru/scripts/XML_daily.asp";
-    private static URL cbrCource;
+    private static URL cbrCourse;
     public String date;
 
     private ValCurs getValCursByXml() {
@@ -27,12 +30,11 @@ public class CourseValutParser {
         ValCurs result = null;
 
         try {
-            cbrCource = new URL(link);
+            cbrCourse = new URL(link);
             context = JAXBContext.newInstance(ValCurs.class);
             um = context.createUnmarshaller();
-            //не нравится, переделать как то на кэширование.
-            result = (ValCurs) um.unmarshal(new InputStreamReader(cbrCource.openStream()));
-            cbrCource = null;
+            result = (ValCurs) um.unmarshal(new InputStreamReader(cbrCourse.openStream()));
+            cbrCourse = null;
             date = result.getDate();
         } catch (JAXBException e) {
             e.printStackTrace();
@@ -42,16 +44,17 @@ public class CourseValutParser {
         return result;
     }
 
-
-    private Map<String, Valute> getMapByKeyAsValuteCode() {
-        Map<String, Valute> result = new HashMap<>();
-        for (Valute n : getValCursByXml().getValutes()) {
+    private Map<String, Valuta> getMapByKeyAsValutaCode() {
+        Map<String, Valuta> result = new HashMap<>();
+        for (Valuta n : getValCursByXml().getValutas()) {
             result.put(n.getCharCode(), n);
         }
         return result;
     }
 
-    public Valute getValuteByCharCode(String charCode) {
-        return getMapByKeyAsValuteCode().get(charCode);
+    @Cacheable(value = "valuta", key = "#charCode")
+    public Valuta getValutaByCharCode(String charCode) {
+        log.info("get value valuta with key {}", charCode);
+        return getMapByKeyAsValutaCode().get(charCode);
     }
 }

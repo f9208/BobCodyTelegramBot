@@ -3,33 +3,18 @@ package ru.bobcody.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.bobcody.controller.BobCodyBot;
-import ru.bobcody.thirdPartyAPI.HotPies.SinglePie;
-import ru.bobcody.entities.Guest;
+import ru.bobcody.BobCodyBot;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * конфиг Spring boot'a
@@ -46,21 +31,11 @@ import java.util.List;
 @EnableConfigurationProperties
 @EnableScheduling
 @EnableCaching
+@PropertySource(value = "classpath:commands.properties", encoding = "UTF-8")
 public class BotConfig {
-    String botToken;
-    String botName;
-    String webHookPath;
-
-    /**
-     * guestsList - список, в который записываются гости конфы
-     * под гостями подразумеваются те, от кого бот фиксировал какие либо входящие сообщения
-     * почему List - незнаю, по идее, можно переделать на какой-нибудь HashSet
-     * но тогда надо реализовывать equals() and hash() но пока нет необходимости
-     */
-    @Bean
-    public List<Guest> guestsList() {
-        return new ArrayList<>();
-    }
+    private String botToken;
+    private String botName;
+    private String webHookPath;
 
     @Bean
     public BobCodyBot bobCodyBot() {
@@ -69,7 +44,6 @@ public class BotConfig {
 
     @Bean
     public MessageSource messageSource() {
-
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("someNameMessageSource");
         return messageSource;
@@ -88,51 +62,9 @@ public class BotConfig {
                 .build();
     }
 
-    /**
-     * объект для обработки JSONчиков. Создал синглтон, т.к. врядли будет паралельность в запросах
-     */
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
-    }
-
-    /**
-     * список пирожков. пирожок - это литературный жанр, кто не знает - google.com
-     * сама функция была добавлена по приколу.
-     * список из 60ти пирожков (с двух рендомных веб-страниц) при каждом запуске бота
-     * загружается новый. Да да, там тупой парсинг веб-страницы.
-     * В список закидываю для ускорения ответа на команду !пирожок
-     * Но есть нюанс - когда бот переедет на какую то стабильную
-     * площадку, он не будет постоянно "включаться-выключаться", т.е. обновляться этот
-     * список не будет. Позже это надо как то обходить, как - я пока не придумал.
-     */
-    @Bean
-    public List<SinglePie> piesList() {
-        return new SinglePie().getPiesList();
-    }
-
-    @SneakyThrows
-    @PostConstruct
-    //todo переделать на профиль только dev
-    public void setWebHook() {
-        URL link;
-        HttpURLConnection connection = null;
-        try {
-            link = new URL("https://api.telegram.org/bot" + botToken + "/setWebhook?url=" + webHookPath);
-            connection = (HttpURLConnection) link.openConnection();
-            connection.setRequestMethod("GET");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        }
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuffer resp = new StringBuffer();
-        while ((inputLine = br.readLine()) != null) {
-            resp.append(inputLine);
-        }
-        System.out.println("webHook" + webHookPath + "->> " + resp);
     }
 }
 

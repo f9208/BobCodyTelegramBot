@@ -1,30 +1,60 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.bobcody.controller.BobCodyBot;
+import ru.bobcody.BobCodyBot;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+@Slf4j
 @Component
-@Getter
-@Setter
+@PropertySource(value = "classpath:additional.properties", encoding = "UTF-8")
 public class FridayHandler implements SimpleHandlerInterface {
     @Autowired
-    BobCodyBot bobCodyBot;
+    @Lazy
+    private BobCodyBot bobCodyBot;
+    @Value("${friday.command}")
+    private List<String> commands;
+    @Value("${elk.path}")
+    private String elkPath;
+    @Value("${izhmain.chat.id}")
+    private String mainChatId;
+
+    @Override
+    public SendMessage handle(Message inputMessage) {
+        SendMessage result = new SendMessage();
+        if (inputMessage.getText().split(" ").length == 1) {
+            if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.FRIDAY) {
+                executeFriday(inputMessage.getChatId().toString());
+            } else {
+                result.setText(notFridayAnswer());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        return commands;
+    }
 
     private String notFridayAnswer() {
         String result = "";
@@ -44,51 +74,53 @@ public class FridayHandler implements SimpleHandlerInterface {
                     LocalDateTime.now().getDayOfWeek().getDisplayName(TextStyle.FULL,
                             new Locale("ru", "RU")) + "! гуляй, рванина!";
         return result;
-
     }
 
-    private void fridayAnswerGif(Message message) {
+    private void executeFriday(String chatId) {
         try {
-            bobCodyBot.execute(new SendAnimation().setAnimation("CgACAgIAAxkBAAIdB2BeHOW0d9ytCOJnS40dvT1ONb9YAAMMAAKg8PFKx9OxH8Izvy4eBA")
-                    .setChatId(message.getChatId()));
+            log.info("try to send elk-gif");
+            SendAnimation elkFriday = getElkFromTelegramFile();
+            elkFriday.setChatId(chatId);
+            bobCodyBot.execute(elkFriday);
+        } catch (TelegramApiException e) {
+            log.error("send elk as telegram file is failure, try to re-send as conventional file");
+            executeFridayFromFile(chatId);
+            log.error("send from file have been successful");
+        }
+    }
+
+    private void executeFridayFromFile(String chatId) {
+        try {
+            SendAnimation elkFriday = getAnimationFromFile("elk.mp4");
+            elkFriday.setChatId(chatId);
+            bobCodyBot.execute(elkFriday);
         } catch (TelegramApiException e) {
             e.printStackTrace();
+            log.error("send elkFromFile is failure");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            log.error("there was some url exception");
         }
     }
 
     @Scheduled(cron = "0 00 8 * * FRI ")
     private void sendFridayGif() {
-        try {
-            bobCodyBot.execute(new SendAnimation()
-                    .setAnimation("CgACAgIAAxkBAAPyX6rFVF8sQ4KQQHJ_h0Ue-91x5L0AAmMJAAITnMFK0pd6SVksFeweBA")
-                    .setChatId("-1001207502467"));
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        executeFriday(mainChatId);
     }
 
-    @Override
-    public SendMessage handle(Message inputMessage) {
-        SendMessage result = new SendMessage();
-        if (inputMessage.getText().split(" ").length == 1) {
-            if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.FRIDAY) {
-                fridayAnswerGif(inputMessage);
-            } else {
-                result.setText(notFridayAnswer());
-            }
-        }
-        return result;
+    private SendAnimation getElkFromTelegramFile() {
+        InputFile inputFile = new InputFile(elkPath);
+        SendAnimation elkFriday = new SendAnimation();
+        elkFriday.setAnimation(inputFile);
+        return elkFriday;
     }
 
-    @Override
-    public List<String> getOrderList() {
-        List<String> commands = new ArrayList<>();
-        commands.add("пятница");
-        commands.add("!пятница");
-        commands.add("!friday");
-        commands.add("friday");
-        commands.add("!дн");
-        commands.add("!dow");
-        return commands;
+    private SendAnimation getAnimationFromFile(String fileInResourcesName) throws URISyntaxException {
+        URL urlElk = ClassLoader.getSystemResource(fileInResourcesName);
+        File file = new File(urlElk.toURI());
+        InputFile inputFile = new InputFile(file);
+        SendAnimation elkFriday = new SendAnimation();
+        elkFriday.setAnimation(inputFile);
+        return elkFriday;
     }
 }

@@ -12,11 +12,11 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ValCurs")
 public class ValCurs {
-    String date;
-    String name;
+    private String date;
+    private String name;
 
     @XmlElement(name = "Valute")
-    List<Valute> valutes = new ArrayList<>();
+    List<Valuta> valutas = new ArrayList<>();
 
     @XmlAttribute(name = "Date")
     public void setDate(String date) {

@@ -1,67 +1,38 @@
 package ru.bobcody.controller;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.User;
-import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
-import ru.bobcody.entities.Guest;
-import ru.bobcody.entities.TextMessage;
-import ru.bobcody.services.GuestService;
-import ru.bobcody.services.TextMessageService;
+import ru.bobcody.controller.resolvers.AnimationMessageResolver;
+import ru.bobcody.controller.resolvers.PhotoDocumentMessageResolver;
+import ru.bobcody.controller.resolvers.PhotoMessageResolver;
+import ru.bobcody.controller.resolvers.TextMessageResolver;
 
-@Getter
-@Setter
 @Component
 public class Resolver {
     @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
+    private TextMessageResolver textMessageResolver;
     @Autowired
-    GuestService guestService;
+    private PhotoMessageResolver photoMessageResolver;
     @Autowired
-    TextMessageService textMessageService;
+    private PhotoDocumentMessageResolver photoDocumentMessageResolver;
+    @Autowired
+    private AnimationMessageResolver animationMessageResolver;
 
     public SendMessage textMessageResolver(Message message, boolean edited) {
-        SendMessage replay = new SendMessage();
-        try {
-            saveMessage(message);
-            if (!edited) {
-                replay = mainHandlerTextMessage.handle(message);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            replay.setText("что-то пошло не так: " + e.toString()).setChatId("445682905");
-        } finally {
-            if (replay.getText() != null) {
-                saveSendMessage(replay, message.getMessageId());
-            }
-        }
-        return replay;
+        return textMessageResolver.process(message, edited);
     }
 
-    private void saveMessage(Message message) {
-        if (message.getFrom() != null) {
-            saveGuest(message.getFrom());
-        }
-        saveInputMessage(message);
+    public SendMessage photoMessageResolver(Message message) {
+        return photoMessageResolver.process(message);
     }
 
-    private void saveGuest(User user) {
-        Guest guest = new Guest(user);
-        if (!guestService.getAll().contains(guest)) {
-            guestService.add(guest);
-        }
+    public SendMessage photoDocumentMessageResolver(Message message) {
+        return photoDocumentMessageResolver.process(message);
     }
 
-    private void saveInputMessage(Message message) {
-        textMessageService.saveInputMessage(new TextMessage(message));
-    }
-
-    private void saveSendMessage(SendMessage sendMessage, int messageId) {
-        Guest bot = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
-        textMessageService.saveOutputMessage(new TextMessage(sendMessage, bot, messageId));
+    public SendMessage animationMessageResolver(Message message) {
+        return animationMessageResolver.process(message);
     }
 }

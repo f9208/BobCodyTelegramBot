@@ -1,26 +1,24 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Slf4j
 @Component
-@Getter
-@Setter
 @PropertySource(value = "classpath:answers/touchBot.properties", encoding = "UTF-8")
-@ConfigurationProperties(prefix = "slap")
 public class SlapHandler implements SimpleHandlerInterface {
-
-    List<String> phrases;
+    @Value("#{${slap.phrases}}")
+    private List<String> phrases;
+    @Value("${slap.command}")
+    private List<String> commands;
 
     private String getRandomAnswer() {
         Random r = new Random();
@@ -31,11 +29,11 @@ public class SlapHandler implements SimpleHandlerInterface {
         if (inputMessage.getFrom().getUserName() == null && inputMessage.getFrom().getUserName().equals("null")) {
             return "@" + inputMessage.getFrom().getFirstName() + ", " + getRandomAnswer();
         } else return "@" + inputMessage.getFrom().getUserName() + ", " + getRandomAnswer();
-
     }
 
     @Override
     public SendMessage handle(Message inputMessage) {
+        log.info("slap bot by {}", inputMessage.getText());
         SendMessage result = new SendMessage();
         result.setText(answerForSlap(inputMessage));
         return result;
@@ -43,14 +41,6 @@ public class SlapHandler implements SimpleHandlerInterface {
 
     @Override
     public List<String> getOrderList() {
-        List<String> commands = new ArrayList<>();
-        commands.add("bot");
-        commands.add("бот");
-        commands.add("бобби");
-        commands.add("bobcodybot");
-        commands.add("@bobcodybot");
-        commands.add("b0t");
-
         return commands;
     }
 }

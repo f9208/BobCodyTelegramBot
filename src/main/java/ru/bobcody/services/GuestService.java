@@ -9,34 +9,43 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Guest;
 import ru.bobcody.repository.GuestRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Slf4j
 @Service
 public class GuestService {
     @Autowired
-    GuestRepository guestRepository;
+    private GuestRepository guestRepository;
 
     @Transactional
-    @CacheEvict(value = "guests", allEntries = true)
-    public void add(Guest guest) {
+    @CacheEvict(value = {"guestById"}, allEntries = true)
+    public Guest add(Guest guest) {
         log.info("save new guest {}", guest);
-        guestRepository.save(guest);
+        return guestRepository.save(guest);
     }
 
-    @Cacheable("guests")
     public List<Guest> getAll() {
         log.info("get all guests");
         return guestRepository.findAllBy();
     }
 
-    //todo попробовать переделать на дергание из кэша
+    @Cacheable(value = "guestById", key = "#id")
     public Guest findById(Long id) {
         log.info("try to find guest by id {}", id);
-        return guestRepository.findGuestById(id);
+        return guestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Guest not found by id " + id));
     }
 
-    public boolean comprise(long id) {
-        return guestRepository.existsById(id);
+    public boolean containGuest(Long id) {
+        return guestRepository.findById(id).isPresent();
+    }
+
+    @CacheEvict(value = {"guestById"}, allEntries = true)
+    public int update(Guest guest) {
+        return guestRepository.update(guest.getId(),
+                guest.getFirstName(),
+                guest.getUserName(),
+                guest.getLastName(), guest.getLanguageCode());
     }
 }

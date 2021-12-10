@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <springProfile name="dev, prod">
+    <springProfile name="dev, prod, local">
     <!--консольный аппендер берется отсюда: он сам и его "внешний вид"-->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
@@ -33,7 +33,7 @@
         </encoder>
     </appender>
 
-    <logger name="ru.bobcody.controller.BotFacade" level="INFO">
+    <logger name="ru.bobcody.BotFacade" level="INFO">
         <appender-ref ref="INPUT_AND_OUTPUT_MESSAGE_FILE"/>
     </logger>
     <logger name="org.hibernate.SQL">
