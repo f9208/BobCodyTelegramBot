@@ -13,13 +13,12 @@ import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static ru.bobcody.services.data.TelegramMessageData.*;
-import static ru.bobcody.services.data.TelegramUser.DMITRY_TELEGRAM;
 
 class QuoteSetHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired
     MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
-    QuoteSetHandler quoteSetHandler;
+    QuoteSetHandlerI quoteSetHandler;
     BobCodyBot bobCodyBot = Mockito.mock(BobCodyBot.class);
     @Value("${chatid.admin}")
     Long moderatorId;

@@ -76,11 +76,11 @@ public class BotFacade {
         return replay;
     }
 
-    private static boolean hasMessage(Update update) {
+    private boolean hasMessage(Update update) {
         return update.hasMessage();
     }
 
-    private static boolean hasEditedMessage(Update update) {
+    private boolean hasEditedMessage(Update update) {
         return update.hasEditedMessage();
     }
 }

@@ -16,10 +16,10 @@ public class MainHandlerTextMessage {
     private List<String> slapList;
     @Value("${amd.command}")
     private List<String> amdList;
-    private Map<String, SimpleHandlerInterface> multiHandler = new HashMap<>();
+    private Map<String, IHandler> multiHandler = new HashMap<>();
 
-    public MainHandlerTextMessage(List<SimpleHandlerInterface> handlers) {
-        for (SimpleHandlerInterface iterHandler : handlers) {
+    public MainHandlerTextMessage(List<IHandler> handlers) {
+        for (IHandler iterHandler : handlers) {
             for (String insideListOrder : iterHandler.getOrderList()) {
                 multiHandler.put(insideListOrder, iterHandler);
             }
@@ -58,10 +58,10 @@ public class MainHandlerTextMessage {
     private String findCommandInside(Message message) {
         String[] singleWordArray = message.getText().split("[{^?!*+ .,$:;#%/|()]");
         Set<String> setUniqWords = Arrays.stream(singleWordArray).collect(Collectors.toSet());
-        int slapCall = setUniqWords.stream().filter(slapList::contains).collect(Collectors.toSet()).size();
-        int amdCall = setUniqWords.stream().filter(amdList::contains).collect(Collectors.toSet()).size();
-        if (slapCall != 0) return multiHandler.get("бот").handle(message).getText();
-        if (amdCall != 0) return multiHandler.get("amd").handle(message).getText();
+        boolean slapCall = setUniqWords.stream().anyMatch(slapList::contains);
+        boolean amdCall = setUniqWords.stream().anyMatch(amdList::contains);
+        if (slapCall) return multiHandler.get("бот").handle(message).getText();
+        if (amdCall) return multiHandler.get("amd").handle(message).getText();
         return "";
     }
 }

@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 import ru.bobcody.thirdPartyAPI.courses.CourseValutParser;
 
 import java.util.List;
 
 @Component
-public class CourseHandler implements SimpleHandlerInterface {
+public class CourseHandlerI implements IHandler {
     @Autowired
     private CourseValutParser courseValutParser;
     @Value("${course.command}")
@@ -42,8 +42,7 @@ public class CourseHandler implements SimpleHandlerInterface {
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
-        if ("!курс".equals(inputMessage.getText()))
-            result.setText(getCourse());
+        result.setText(getCourse());
         return result;
     }
 

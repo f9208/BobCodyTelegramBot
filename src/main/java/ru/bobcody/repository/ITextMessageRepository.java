@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface TextMessageRepository extends CrudRepository<TextMessage, Long> {
+public interface ITextMessageRepository extends CrudRepository<TextMessage, Long> {
     List<TextMessage> findAllByDateTimeBetweenAndChatIdOrderByDateTime(LocalDateTime start, LocalDateTime end, long chatId);
 
     @Query(value = "SELECT DISTINCT DATE(date_time) from text_message where chat=:chatId order by date(date_time) DESC", nativeQuery = true)

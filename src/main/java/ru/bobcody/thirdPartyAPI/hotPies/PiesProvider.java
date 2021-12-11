@@ -3,6 +3,9 @@ package ru.bobcody.thirdPartyAPI.hotPies;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,28 +15,38 @@ import java.net.URL;
 import java.util.Random;
 
 @Slf4j
+@Component
 public class PiesProvider {
-    private final static ObjectMapper objectMapper = new ObjectMapper();
-    private final static String rootUrl = "https://poetory.ru/";
+    /*у пирожков в айдишниках иногда попадаются мертвые души. Часто они идут блоками друг за другом по несколько штук
+     *  чтоб не перебирать друг за другом, в случае попадания на мертвый - пропускаем сразу десять (константа SKIP)*/
+    private static final int SKIP = 10;
+    private static final int COUNTER_TRY = 50;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Value("${pie.url}")
+    private String rootUrl;
+    private final static int SEED = 111306;
+    private final static String STOP_WORD = "Другие лучшие";
+    private final static int TIMEOUT = 5000;
 
     private PiesProvider() {
     }
 
-    public static SinglePie getOneRandom() throws IOException {
-        int quoteId = new Random().nextInt(111306);
+    public SinglePie getOneRandomly() throws IOException {
+        int quoteId = new Random().nextInt(SEED);
         return getOne(quoteId);
     }
 
-    public static SinglePie getOne(int pieId) throws IOException {
+    private SinglePie getOne(int pieId) throws IOException {
         HttpURLConnection conn = getConnect(pieId);
         conn.connect();
-        if (conn.getResponseCode() == 200) {
+        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
             StringBuilder pageHtml = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String temp;
             while ((temp = br.readLine()) != null) {
                 pageHtml.append(temp);
-                if (temp.contains("Другие лучшие")) { //другие лучшие - брек поинт, все что ниже нам не нужно загружать
+                if (temp.contains(STOP_WORD)) {
                     break;
                 }
             }
@@ -50,21 +63,26 @@ public class PiesProvider {
         } else return new SinglePie("ya.ru", "олол ололо, без Алеши все легло!");
     }
 
-    private static HttpURLConnection getConnect(int pieId) throws IOException {
-        URL url = new URL(rootUrl + pieId);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setConnectTimeout(5000);
-        int counter = 1;
-        while (conn.getResponseCode() != 200) {
-            log.info("ResponseCode: {}, pieID = {}", conn.getResponseCode(), pieId);
-            conn = getConnect(pieId + counter);
-            conn.connect();
-            counter = counter + 100;
-            if (counter >= 100) {
+    private HttpURLConnection getConnect(int pieId) throws IOException {
+        HttpURLConnection conn = createConnect(pieId);
+        int counter = 0;
+        while (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            counter = counter + SKIP;
+            conn = createConnect(pieId + counter);
+            log.info("Re-connect, try # {}", counter / SKIP);
+            if (counter / SKIP >= COUNTER_TRY) {
                 break;
             }
         }
+        return conn;
+    }
+
+    private HttpURLConnection createConnect(int pieId) throws IOException {
+        URL url = new URL(rootUrl + pieId);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setConnectTimeout(TIMEOUT);
+        log.info("Create Connect to {}: ResponseCode: {}, pieID = {}", rootUrl, conn.getResponseCode(), pieId);
         return conn;
     }
 }

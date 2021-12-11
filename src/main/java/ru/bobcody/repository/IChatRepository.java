@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.bobcody.entities.Chat;
 
 @Repository
-public interface ChatRepository extends CrudRepository<Chat, Long> {
+public interface IChatRepository extends CrudRepository<Chat, Long> {
 }

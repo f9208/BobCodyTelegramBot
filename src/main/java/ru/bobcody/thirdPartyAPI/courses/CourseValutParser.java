@@ -1,8 +1,8 @@
 package ru.bobcody.thirdPartyAPI.courses;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +17,12 @@ import java.util.Map;
 
 @Slf4j
 @Component
-@Getter
-@Setter
 public class CourseValutParser {
-    private static String link = "http://www.cbr.ru/scripts/XML_daily.asp";
-    private static URL cbrCourse;
-    public String date;
+    @Value("${course.sber.link}")
+    private String link;
+    private URL cbrCourse;
+    @Getter
+    private String date;
 
     private ValCurs getValCursByXml() {
         Unmarshaller um;
@@ -36,9 +36,7 @@ public class CourseValutParser {
             result = (ValCurs) um.unmarshal(new InputStreamReader(cbrCourse.openStream()));
             cbrCourse = null;
             date = result.getDate();
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JAXBException | IOException e) {
             e.printStackTrace();
         }
         return result;

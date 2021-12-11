@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.bobcody.BobCodyBot;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 import ru.bobcody.entities.Guest;
 import ru.bobcody.entities.Quote;
 import ru.bobcody.entities.Type;
@@ -22,7 +22,7 @@ import static java.time.LocalDateTime.ofEpochSecond;
 
 @Slf4j
 @Component
-public class QuoteSetHandler implements SimpleHandlerInterface {
+public class QuoteSetHandlerI implements IHandler {
     @Value("${quote.set.command}")
     private List<String> commands;
     @Value("${chatid.admin}")

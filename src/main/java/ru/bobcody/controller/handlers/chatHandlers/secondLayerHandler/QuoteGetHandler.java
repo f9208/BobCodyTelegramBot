@@ -1,13 +1,12 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 import ru.bobcody.entities.Quote;
 import ru.bobcody.entities.Type;
 import ru.bobcody.services.QuoteService;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class QuoteGetHandler implements SimpleHandlerInterface {
+public class QuoteGetHandler implements IHandler {
     @Value("${quote.get.command}")
     private List<String> commands;
     @Autowired
@@ -119,7 +118,7 @@ public class QuoteGetHandler implements SimpleHandlerInterface {
                 .filter((p) -> p.contains("q") || p.contains("ц"))
                 .collect(Collectors.toList());
         String[] textMessage = text.split(" ");
-        return Arrays.stream(textMessage).filter(quoteCommand::contains).collect(Collectors.toList()).size() > 0;
+        return Arrays.stream(textMessage).filter(quoteCommand::contains).count() > 0;
     }
 
     private boolean askCaps(String text) {
@@ -127,6 +126,6 @@ public class QuoteGetHandler implements SimpleHandlerInterface {
                 .filter((p) -> p.contains("к") || p.contains("caps"))
                 .collect(Collectors.toList());
         String[] textMessage = text.split(" ");
-        return Arrays.stream(textMessage).filter(capsCommand::contains).collect(Collectors.toList()).size() > 0;
+        return Arrays.stream(textMessage).filter(capsCommand::contains).count() > 0;
     }
 }

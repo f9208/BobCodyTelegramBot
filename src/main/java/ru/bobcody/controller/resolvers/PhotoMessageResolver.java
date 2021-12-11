@@ -30,7 +30,7 @@ import java.util.Objects;
 
 @Slf4j
 @Component
-public class PhotoMessageResolver extends AbstractMessageResolver {
+public class PhotoMessageResolver implements IMessageResolver {
     @Autowired
     private BobCodyBot bobCodyBot;
     @Value("${imageSave.path}")

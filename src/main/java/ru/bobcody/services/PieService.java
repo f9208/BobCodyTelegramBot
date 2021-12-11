@@ -1,6 +1,7 @@
 package ru.bobcody.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,14 @@ import java.util.List;
 @Slf4j
 @Service
 public class PieService {
-    private static List<SinglePie> listPies = new ArrayList<>();
-    private static int SIZE;
-    private static int accumulate;
+    @Autowired
+    private PiesProvider piesProvider;
+    private List<SinglePie> listPies = new ArrayList<>();
+    @Value("${pie.size}")
+    private int SIZE;
+    private int accumulate;
 
-    static {
+    {
         refreshAccumulate();
     }
 
@@ -34,7 +38,7 @@ public class PieService {
         List<SinglePie> result = new ArrayList<>();
         while (count != 0) {
             log.info("loading pies... {}", count);
-            result.add(PiesProvider.getOneRandom());
+            result.add(piesProvider.getOneRandomly());
             count--;
         }
         return result;
@@ -52,12 +56,7 @@ public class PieService {
         return listPies.get(accumulate);
     }
 
-    private static void refreshAccumulate() {
+    private void refreshAccumulate() {
         accumulate = SIZE - 1;
-    }
-
-    @Value("${pie.size}") //Spring doesn't support injection in static fields
-    private void setSize(int size) {
-        PieService.SIZE = size;
     }
 }

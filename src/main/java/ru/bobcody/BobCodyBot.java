@@ -34,8 +34,7 @@ public class BobCodyBot extends TelegramWebhookBot {
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         try {
-            BotApiMethod result = botFacade.handleUserUpdate(update);
-            return result;
+            return botFacade.handleUserUpdate(update);
         } catch (Exception e) {
             e.printStackTrace();
             return new SendMessage(update.getMessage().getChatId().toString(), "что то пошло не так. я сломался");

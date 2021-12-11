@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 
 import java.util.List;
 
 @Component
-public class MyChatIdHandler implements SimpleHandlerInterface {
+public class MyChatIdHandler implements IHandler {
     @Value("${id.command}")
     private List<String> commands;
 

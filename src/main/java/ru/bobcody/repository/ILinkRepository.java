@@ -10,7 +10,7 @@ import ru.bobcody.entities.Link;
 import java.time.LocalDateTime;
 
 @Repository
-public interface LinkRepository extends CrudRepository<Link, Integer> {
+public interface ILinkRepository extends CrudRepository<Link, Integer> {
     Link findLinkByName(String name);
 
     @Modifying

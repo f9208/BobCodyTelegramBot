@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 @Getter
 @Setter
+@Deprecated
 public class FloodControll {
     private static final Long STARTTIME = System.currentTimeMillis() / 1000;
     private Message[] filterBuffer = new Message[4];
@@ -22,8 +23,8 @@ public class FloodControll {
             @SneakyThrows
             @Override
             public void run() {
-                Thread.sleep(10*1000);
-                allowed=true;
+                Thread.sleep(10 * 1000);
+                allowed = true;
             }
         }).start();
     }

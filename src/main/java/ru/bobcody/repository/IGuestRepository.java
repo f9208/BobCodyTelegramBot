@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface GuestRepository extends CrudRepository<Guest, Long> {
+public interface IGuestRepository extends CrudRepository<Guest, Long> {
 
     List<Guest> findAllBy();
 

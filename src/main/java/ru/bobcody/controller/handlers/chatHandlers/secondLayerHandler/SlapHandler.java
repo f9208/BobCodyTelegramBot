@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 
 import java.util.List;
 import java.util.Random;
@@ -14,7 +14,7 @@ import java.util.Random;
 @Slf4j
 @Component
 @PropertySource(value = "classpath:answers/touchBot.properties", encoding = "UTF-8")
-public class SlapHandler implements SimpleHandlerInterface {
+public class SlapHandler implements IHandler {
     @Value("#{${slap.phrases}}")
     private List<String> phrases;
     @Value("${slap.command}")

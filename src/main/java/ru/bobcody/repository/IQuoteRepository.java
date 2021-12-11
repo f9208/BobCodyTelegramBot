@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Repository
-public interface QuoteRepository extends CrudRepository<Quote, Long> {
+public interface IQuoteRepository extends CrudRepository<Quote, Long> {
     @Override
     Optional<Quote> findById(Long id);
 

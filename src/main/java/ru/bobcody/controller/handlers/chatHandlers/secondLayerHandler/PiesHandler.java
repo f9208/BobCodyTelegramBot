@@ -7,19 +7,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 import ru.bobcody.services.PieService;
 
 import java.util.List;
 
 @Slf4j
 @Component
-public class PiesHandler implements SimpleHandlerInterface {
+public class PiesHandler implements IHandler {
     @Autowired
     @Setter
     private PieService pieService;
-    //оставил через статическое для примера
-    private static List<String> commands;
+    @Value("${pies.command}")
+    private List<String> commands;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -37,10 +37,5 @@ public class PiesHandler implements SimpleHandlerInterface {
     @Override
     public List<String> getOrderList() {
         return commands;
-    }
-
-    @Autowired
-    public void setOrders(@Value("${pies.command}") List<String> commands) {
-        PiesHandler.commands = commands;
     }
 }

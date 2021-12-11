@@ -17,7 +17,7 @@ import ru.bobcody.services.TextMessageService;
 import java.util.Objects;
 
 @Component
-public class TextMessageResolver extends AbstractMessageResolver {
+public class TextMessageResolver implements IMessageResolver {
     @Autowired
     private MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
@@ -27,7 +27,9 @@ public class TextMessageResolver extends AbstractMessageResolver {
     @Autowired
     private ChatService chatService;
     @Value("${chatid.admin}")
-    private String chatAdminId;
+    private String adminChatId;
+    private Guest botAsGuest = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
+
 
     public SendMessage process(Message message, boolean edited) {
         SendMessage replay = new SendMessage();
@@ -39,7 +41,7 @@ public class TextMessageResolver extends AbstractMessageResolver {
         } catch (Exception e) {
             e.printStackTrace();
             replay.setText("что-то пошло не так: " + e.toString());
-            replay.setChatId(chatAdminId);
+            replay.setChatId(adminChatId);
         } finally {
             if (replay.getText() != null) {
                 saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));
@@ -81,7 +83,6 @@ public class TextMessageResolver extends AbstractMessageResolver {
     }
 
     private void saveSendMessage(SendMessage sendMessage, int messageId, Chat chat) {
-        Guest bot = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
-        textMessageService.saveOutputMessage(new TextMessage(sendMessage, bot, messageId, chat));
+        textMessageService.saveOutputMessage(new TextMessage(sendMessage, botAsGuest, messageId, chat));
     }
 }

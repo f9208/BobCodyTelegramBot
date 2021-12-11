@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CourseHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired
-    CourseHandler courseHandler;
+    CourseHandlerI courseHandler;
     @Autowired
     MainHandlerTextMessage mainHandlerTextMessage;
     private static final List<String> commands = PropertiesUtils.getCommandsByKey("course.command");

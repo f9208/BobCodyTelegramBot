@@ -85,9 +85,9 @@ public class WeatherForecastProvider {
         ZoneId UTCZone = null;
 
         if (city.getTimezone() >= 0)
-            UTCZone = ZoneId.of("UTC+" + String.valueOf(city.getTimezone() / 3600));
+            UTCZone = ZoneId.of("UTC+" + city.getTimezone() / 3600);
         else
-            UTCZone = ZoneId.of("UTC" + String.valueOf(city.getTimezone() / 3600));
+            UTCZone = ZoneId.of("UTC" + city.getTimezone() / 3600);
 
         Instant sunriseTime = Instant.ofEpochSecond(city.getSunrise());
         Instant sunsetTime = Instant.ofEpochSecond(city.getSunset());
@@ -135,7 +135,6 @@ public class WeatherForecastProvider {
     private String bodyFull(List<SingleRowForecast> rows) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < 8; i++) {
-            rows.get(i);
             result.append(rows.get(i)).append("\n");
         }
         return result.toString();
@@ -144,7 +143,6 @@ public class WeatherForecastProvider {
     private String bodyShort(List<SingleRowForecast> rows) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < 8; i = i + 2) {
-            rows.get(i);
             result.append(rows.get(i)).append("\n");
         }
         return result.toString();

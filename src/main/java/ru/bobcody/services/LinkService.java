@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Link;
-import ru.bobcody.repository.LinkRepository;
+import ru.bobcody.repository.ILinkRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.Path;
@@ -16,7 +16,7 @@ import java.util.Objects;
 @Service
 public class LinkService {
     @Autowired
-    private  LinkRepository linkRepository;
+    private ILinkRepository linkRepository;
 
     @Transactional
     public int saveLink(Link link) {

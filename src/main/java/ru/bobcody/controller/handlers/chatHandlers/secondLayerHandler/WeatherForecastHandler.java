@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 import ru.bobcody.services.GuestService;
 import ru.bobcody.thirdPartyAPI.openWeatherMap.WeatherForecastProvider;
 
@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @PropertySource(value = "classpath:weatherProp.properties", encoding = "UTF-8")
-public class WeatherForecastHandler implements SimpleHandlerInterface {
+public class WeatherForecastHandler implements IHandler {
     @Autowired
     private WeatherForecastProvider openWeatherWeatherForecastProvider;
     @Value("${weather.command}")
     private List<String> commands;
     @Autowired
-    GuestService guestService;
+    private GuestService guestService;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -97,11 +97,11 @@ public class WeatherForecastHandler implements SimpleHandlerInterface {
 
     private boolean hasAskedShotForecast(String message) {
         List<String> shortCommands = commands.stream().filter((c) -> c.length() == 2).collect(Collectors.toList());
-        return shortCommands.stream().filter((c) -> c.equals(message)).collect(Collectors.toSet()).size() > 0;
+        return shortCommands.stream().anyMatch((c) -> c.equals(message));
     }
 
     private boolean hasAskedFullForecast(String message) {
         List<String> fullCommands = commands.stream().filter((c) -> c.length() > 2).collect(Collectors.toList());
-        return fullCommands.stream().filter((c) -> c.equals(message)).collect(Collectors.toSet()).size() > 0;
+        return fullCommands.stream().anyMatch((c) -> c.equals(message));
     }
 }

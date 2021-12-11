@@ -1,7 +1,5 @@
 package ru.bobcody.controller.ui;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,7 @@ public class IndexPageController {
     private LinkService linkService;
     // Id чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники
     private final long defaultChatId;
+    private static final String FILE_EXTENSION = ".jpg";
 
     public IndexPageController(@Value("${chat.defaultChatId}") long defaultChatId) {
         this.defaultChatId = defaultChatId;
@@ -68,8 +67,8 @@ public class IndexPageController {
     @GetMapping(value = "/savedImages/{filename:\\w+}.jpg", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public byte[] getImageAsByteArray(@PathVariable("filename") String fileName) throws IOException {
-        log.info("get image for fileName {}.jpg", fileName);
-        Path pathByFileName = getPathInOSFromDB(fileName + ".jpg");
+        log.info("get image for fileName {}" + FILE_EXTENSION, fileName);
+        Path pathByFileName = getPathInOSFromDB(fileName + FILE_EXTENSION);
         File file = new File(pathByFileName.toUri());
         InputStream in = new FileInputStream(file);
         return IOUtils.toByteArray(in);

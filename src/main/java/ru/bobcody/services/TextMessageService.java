@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.TextMessage;
-import ru.bobcody.repository.TextMessageRepository;
+import ru.bobcody.repository.ITextMessageRepository;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class TextMessageService {
     @Autowired
-    private TextMessageRepository textMessageRepository;
+    private ITextMessageRepository textMessageRepository;
 
     @Transactional
     public int saveInputMessage(TextMessage textMessage) {

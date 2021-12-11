@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 import ru.bobcody.thirdPartyAPI.fuckingGreatAdvice.FuckingGreatAdvice;
 
 import java.util.List;
 
 @Slf4j
 @Component
-public class FuckingGreatAdviceHandler implements SimpleHandlerInterface {
+public class FuckingGreatAdviceHandler implements IHandler {
     @Autowired
     @Setter
     private FuckingGreatAdvice fuckingGreatAdvice;
@@ -37,11 +37,9 @@ public class FuckingGreatAdviceHandler implements SimpleHandlerInterface {
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
-        if (inputMessage.getText().equals("!обс") || inputMessage.getText().equals("!fga")) {
-            if (inputMessage.getFrom().getUserName() == null)
-                result.setText(inputMessage.getFrom().getFirstName() + ", " + getAdvice());
-            else result.setText("@" + inputMessage.getFrom().getUserName() + ", " + getAdvice());
-        }
+        if (inputMessage.getFrom().getUserName() == null)
+            result.setText(inputMessage.getFrom().getFirstName() + ", " + getAdvice());
+        else result.setText("@" + inputMessage.getFrom().getUserName() + ", " + getAdvice());
         return result;
     }
 

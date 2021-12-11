@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.bobcody.BobCodyBot;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -27,7 +27,7 @@ import java.util.Locale;
 @Slf4j
 @Component
 @PropertySource(value = "classpath:additional.properties", encoding = "UTF-8")
-public class FridayHandler implements SimpleHandlerInterface {
+public class FridayHandler implements IHandler {
     @Autowired
     @Lazy
     private BobCodyBot bobCodyBot;

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import java.net.HttpURLConnection;
 
 @Slf4j
 @Controller
@@ -18,9 +19,9 @@ public class CustomErrorsController implements ErrorController {
         int codeError = (int) httpServletRequest.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         log.info("came to error page, error-code: {}", codeError);
         switch (codeError) {
-            case 500:
+            case HttpURLConnection.HTTP_INTERNAL_ERROR:
                 return "errors/error-500";
-            case 404:
+            case HttpURLConnection.HTTP_NOT_FOUND:
                 return "errors/error-404";
             default:
                 return "errors/error";

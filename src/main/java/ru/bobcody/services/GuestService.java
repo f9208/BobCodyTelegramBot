@@ -7,7 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Guest;
-import ru.bobcody.repository.GuestRepository;
+import ru.bobcody.repository.IGuestRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class GuestService {
     @Autowired
-    private GuestRepository guestRepository;
+    private IGuestRepository guestRepository;
 
     @Transactional
     @CacheEvict(value = {"guestById"}, allEntries = true)

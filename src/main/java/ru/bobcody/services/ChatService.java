@@ -6,13 +6,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Chat;
-import ru.bobcody.repository.ChatRepository;
+import ru.bobcody.repository.IChatRepository;
 
 @Service
 @Transactional(readOnly = true)
 public class ChatService {
     @Autowired
-    private ChatRepository chatRepository;
+    private IChatRepository chatRepository;
 
     @Transactional
     @CacheEvict(value = "chatById", allEntries = true)

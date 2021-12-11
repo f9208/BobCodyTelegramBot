@@ -12,7 +12,6 @@ public class Rain {
 
     @Override
     public String toString() {
-
         String result = "" + mm + " мм воды за 3 часа";
         return result;
     }

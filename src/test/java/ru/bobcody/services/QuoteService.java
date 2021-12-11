@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.entities.Quote;
-import ru.bobcody.repository.QuoteRepository;
+import ru.bobcody.repository.IQuoteRepository;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Profile(value = {"test"})
 public class QuoteService {
     @Autowired
-    private QuoteRepository quoteRepository;
+    private IQuoteRepository quoteRepository;
 
     @Transactional
     public Quote save(Quote quote) {

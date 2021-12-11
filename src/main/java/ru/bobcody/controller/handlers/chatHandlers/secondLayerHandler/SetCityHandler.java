@@ -5,17 +5,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.handlers.chatHandlers.SimpleHandlerInterface;
+import ru.bobcody.controller.handlers.chatHandlers.IHandler;
 import ru.bobcody.entities.Guest;
 import ru.bobcody.services.GuestService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
-public class SetCityHandler implements SimpleHandlerInterface {
+public class SetCityHandler implements IHandler {
     @Autowired
-    GuestService guestService;
+    private GuestService guestService;
     @Value("${city.command}")
     private List<String> commands;
 
@@ -30,7 +29,7 @@ public class SetCityHandler implements SimpleHandlerInterface {
         } else {
             prefix.append(currentGuest.getUserName());
         }
-        if (isGetCity(inputMessage)) {
+        if (getCity(inputMessage)) {
             replay.setText(prefix.toString() + ", ваш дефолтный город - " + currentGuest.getCityName());
         } else {
             String newCityName = inputMessage.getText().replaceAll("\\s+", " ").substring(7);
@@ -47,9 +46,8 @@ public class SetCityHandler implements SimpleHandlerInterface {
         return commands;
     }
 
-    private boolean isGetCity(Message message) {
+    private boolean getCity(Message message) {
         String req = message.getText().trim();
-        int count = commands.stream().filter((a) -> a.equals(req)).collect(Collectors.toSet()).size();
-        return count > 0;
+        return commands.stream().anyMatch((a) -> a.equals(req));
     }
 }

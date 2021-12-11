@@ -2,17 +2,15 @@ package ru.bobcody.thirdPartyAPI.fuckingGreatAdvice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @Component
 public class FuckingGreatAdvice {
@@ -20,13 +18,15 @@ public class FuckingGreatAdvice {
     private String randomAdviceLink;
     @Autowired
     private ObjectMapper objectMapper;
+    private static final int TIMEOUT = 2000;
+    private String adviceField = "text";
 
     private String parser() throws IOException {
         StringBuilder result = new StringBuilder();
         URL randomAdviceUrl = new URL(randomAdviceLink);
         HttpURLConnection connection = (HttpURLConnection) randomAdviceUrl.openConnection();
         connection.setRequestMethod("GET");
-        connection.setConnectTimeout(2000);
+        connection.setConnectTimeout(TIMEOUT);
         connection.connect();
         String temp;
         BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -40,7 +40,7 @@ public class FuckingGreatAdvice {
     public String getAdvice() throws IOException {
         String init = parser();
         JsonNode jsonNode = objectMapper.readTree(init);
-        JsonNode text = jsonNode.get("text");
+        JsonNode text = jsonNode.get(adviceField);
         return text.asText();
     }
 }
