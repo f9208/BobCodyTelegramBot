@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
-import ru.bobcody.entities.TextMessage;
+import ru.bobcody.data.entities.TextMessage;
+import ru.bobcody.data.services.TextMessageService;
 import ru.bobcody.services.data.TelegramMessageData;
 
 import java.time.LocalDate;

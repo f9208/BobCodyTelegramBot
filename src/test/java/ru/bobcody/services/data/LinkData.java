@@ -1,6 +1,6 @@
 package ru.bobcody.services.data;
 
-import ru.bobcody.entities.Link;
+import ru.bobcody.data.entities.Link;
 
 import java.time.LocalDateTime;
 

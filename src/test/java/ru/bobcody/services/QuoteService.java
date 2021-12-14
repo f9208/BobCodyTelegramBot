@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bobcody.entities.Quote;
-import ru.bobcody.repository.IQuoteRepository;
+import ru.bobcody.data.entities.Quote;
+import ru.bobcody.data.repository.IQuoteRepository;
 
 import java.time.LocalDateTime;
 

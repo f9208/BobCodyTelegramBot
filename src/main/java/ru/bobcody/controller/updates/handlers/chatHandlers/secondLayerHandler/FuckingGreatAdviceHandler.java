@@ -1,0 +1,35 @@
+package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.bobcody.controller.updates.handlers.chatHandlers.IHandler;
+import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils.Adviser;
+
+import java.util.List;
+
+@Slf4j
+@Component
+public class FuckingGreatAdviceHandler implements IHandler {
+    @Value("${fga.command}")
+    private List<String> commands;
+    @Autowired
+    Adviser adviser;
+
+    @Override
+    public SendMessage handle(Message inputMessage) {
+        SendMessage result = new SendMessage();
+        if (inputMessage.getFrom().getUserName() == null)
+            result.setText("@" + inputMessage.getFrom().getFirstName() + ", " + adviser.getAdvice());
+        else result.setText("@" + inputMessage.getFrom().getUserName() + ", " + adviser.getAdvice());
+        return result;
+    }
+
+    @Override
+    public List<String> getOrderList() {
+        return commands;
+    }
+}

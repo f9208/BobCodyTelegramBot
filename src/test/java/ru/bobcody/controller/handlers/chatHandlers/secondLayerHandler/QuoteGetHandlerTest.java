@@ -2,13 +2,12 @@ package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
-import ru.bobcody.services.QuoteService;
+import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.data.services.QuoteService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,9 +9,9 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.bobcody.controller.FloodControll;
-import ru.bobcody.controller.Resolver;
-import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.FloodControll;
+import ru.bobcody.controller.updates.Resolver;
+import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
 
 import static ru.bobcody.utilits.MessageWriteLog.outputTextMessageLog;
 import static ru.bobcody.utilits.MessageWriteLog.writeLog;

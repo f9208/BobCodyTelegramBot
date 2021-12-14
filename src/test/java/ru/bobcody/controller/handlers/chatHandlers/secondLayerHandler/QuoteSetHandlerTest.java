@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.bobcody.BobCodyBot;
-import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.QuoteSetHandlerI;
+import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils.QuoteConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -19,6 +21,8 @@ class QuoteSetHandlerTest extends AbstractSpringBootStarterTest {
     MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
     QuoteSetHandlerI quoteSetHandler;
+    @Autowired
+    QuoteConsumer quoteConsumer;
     BobCodyBot bobCodyBot = Mockito.mock(BobCodyBot.class);
     @Value("${chatid.admin}")
     Long moderatorId;
@@ -27,7 +31,7 @@ class QuoteSetHandlerTest extends AbstractSpringBootStarterTest {
     @ValueSource(strings = {"!дц текст цитаты", "!aq text quote"})
     void addQuote(String commands) throws TelegramApiException {
         when(bobCodyBot.execute(new SendMessage())).thenReturn(TELEGRAM_MESSAGE_1);
-        quoteSetHandler.setBobCodyBot(bobCodyBot);
+        quoteConsumer.setBobCodyBot(bobCodyBot);
 
         TELEGRAM_MESSAGE_1.setText(commands);
         assertThat(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText())

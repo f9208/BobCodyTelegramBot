@@ -1,6 +1,6 @@
 package ru.bobcody.services.data;
 
-import ru.bobcody.entities.Chat;
+import ru.bobcody.data.entities.Chat;
 
 import static ru.bobcody.services.data.TelegramChat.*;
 

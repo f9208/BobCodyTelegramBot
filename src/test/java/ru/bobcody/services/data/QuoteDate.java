@@ -1,7 +1,7 @@
 package ru.bobcody.services.data;
 
-import ru.bobcody.entities.Quote;
-import ru.bobcody.entities.Type;
+import ru.bobcody.data.entities.Quote;
+import ru.bobcody.data.entities.Type;
 
 import java.time.LocalDateTime;
 

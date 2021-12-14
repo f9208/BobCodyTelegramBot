@@ -5,8 +5,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.bobcody.controller.handlers.chatHandlers.MainHandlerTextMessage;
-import ru.bobcody.services.PieService;
+import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.PiesHandler;
+import ru.bobcody.data.services.PieService;
 import ru.bobcody.thirdPartyAPI.hotPies.SinglePie;
 
 import java.io.IOException;
