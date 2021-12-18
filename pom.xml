@@ -25,6 +25,8 @@
         <telegram.version>5.2.0</telegram.version>
         <maven.test.skip>true</maven.test.skip>
         <lomnook.version>1.18.22</lomnook.version>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
     </properties>
 
     <dependencies>
