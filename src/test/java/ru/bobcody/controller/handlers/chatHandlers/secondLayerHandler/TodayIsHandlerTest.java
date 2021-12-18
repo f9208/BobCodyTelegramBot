@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_3;
+import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_3;
 
 class TodayIsHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired

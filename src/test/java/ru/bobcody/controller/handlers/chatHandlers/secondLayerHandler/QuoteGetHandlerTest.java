@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.services.data.QuoteDate.QUOTE_1_ABYSS;
-import static ru.bobcody.services.data.QuoteDate.QUOTE_2_ABYSS;
-import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_1;
-import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_2;
+import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_1_ABYSS;
+import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_2_ABYSS;
+import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;
+import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_2;
 
 class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired

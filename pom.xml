@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.1.RELEASE</version>
+        <version>2.3.12.RELEASE</version>
     </parent>
 
     <groupId>ru.multibot</groupId>
@@ -17,13 +17,14 @@
     <description>Demo Project for Spring Boot</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>15</java.version>
         <hsqldb.version>2.5.2</hsqldb.version>
         <!--Cache-->
         <ehcache.version>3.9.2</ehcache.version>
         <tomcat.version>9.0.43</tomcat.version>
         <telegram.version>5.2.0</telegram.version>
         <maven.test.skip>true</maven.test.skip>
+        <lomnook.version>1.18.22</lomnook.version>
     </properties>
 
     <dependencies>
@@ -51,6 +52,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <optional>true</optional>
             <scope>provided</scope>
         </dependency>

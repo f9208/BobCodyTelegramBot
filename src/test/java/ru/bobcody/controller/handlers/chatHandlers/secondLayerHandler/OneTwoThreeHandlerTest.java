@@ -13,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils.getCommandsByKey;
 import static ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils.getPropertiesByPath;
-import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_2;
+import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_2;
 
 class OneTwoThreeHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired

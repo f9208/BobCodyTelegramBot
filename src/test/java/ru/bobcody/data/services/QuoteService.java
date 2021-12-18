@@ -1,4 +1,4 @@
-package ru.bobcody.services;
+package ru.bobcody.data.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

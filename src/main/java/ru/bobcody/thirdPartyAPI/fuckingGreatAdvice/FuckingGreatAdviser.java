@@ -19,7 +19,7 @@ public class FuckingGreatAdviser {
     @Autowired
     private ObjectMapper objectMapper;
     private static final int TIMEOUT = 2000;
-    private String adviceField = "text";
+    private final String ADVICE_FIELD = "text";
 
     private String parser() throws IOException {
         StringBuilder result = new StringBuilder();
@@ -40,7 +40,7 @@ public class FuckingGreatAdviser {
     public String getAdvice() throws IOException {
         String init = parser();
         JsonNode jsonNode = objectMapper.readTree(init);
-        JsonNode text = jsonNode.get(adviceField);
+        JsonNode text = jsonNode.get(ADVICE_FIELD);
         return text.asText();
     }
 }

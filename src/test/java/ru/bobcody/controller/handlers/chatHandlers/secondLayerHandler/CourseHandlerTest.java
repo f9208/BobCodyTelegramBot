@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils;
 import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
 import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.CourseHandlerI;
-import ru.bobcody.services.data.TelegramMessageData;
+import ru.bobcody.data.services.manual.TelegramMessageData;
 
 import java.util.List;
 

@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.bobcody.controller.updates.FloodControll;
 import ru.bobcody.controller.updates.Resolver;
 import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
 
@@ -33,8 +32,6 @@ import static ru.bobcody.utilits.MessageWriteLog.writeLog;
 public class BotFacade {
     @Autowired
     MainHandlerTextMessage mainHandlerTextMessage;
-    @Autowired
-    FloodControll floodControll;
     @Autowired
     Resolver resolver;
 

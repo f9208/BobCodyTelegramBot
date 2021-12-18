@@ -16,7 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils.getCommandsByKey;
-import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_1;
+import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;
 
 class PiesHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired

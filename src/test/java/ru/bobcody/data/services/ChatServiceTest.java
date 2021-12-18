@@ -1,15 +1,14 @@
-package ru.bobcody.services;
+package ru.bobcody.data.services;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
 import ru.bobcody.data.entities.Chat;
-import ru.bobcody.data.services.ChatService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import static ru.bobcody.services.data.ChatData.*;
+import static ru.bobcody.data.services.manual.ChatData.*;
 
 class ChatServiceTest extends AbstractSpringBootStarterTest {
     @Autowired

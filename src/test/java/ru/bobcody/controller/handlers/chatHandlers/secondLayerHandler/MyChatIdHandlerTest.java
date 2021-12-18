@@ -10,7 +10,7 @@ import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessag
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_1;
+import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;
 
 class MyChatIdHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired

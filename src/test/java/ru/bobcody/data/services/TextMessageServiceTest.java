@@ -1,4 +1,4 @@
-package ru.bobcody.services;
+package ru.bobcody.data.services;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,15 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
 import ru.bobcody.data.entities.TextMessage;
-import ru.bobcody.data.services.TextMessageService;
-import ru.bobcody.services.data.TelegramMessageData;
+import ru.bobcody.data.services.manual.TelegramMessageData;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.services.data.ChatData.GROUP_CHAT;
-import static ru.bobcody.services.data.TextMessageData.*;
+import static ru.bobcody.data.services.manual.ChatData.GROUP_CHAT;
+import static ru.bobcody.data.services.manual.TextMessageData.*;
 
 class TextMessageServiceTest extends AbstractSpringBootStarterTest {
     @Autowired

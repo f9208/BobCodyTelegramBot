@@ -1,10 +1,10 @@
-package ru.bobcody.services.data;
+package ru.bobcody.data.services.manual;
 
 import ru.bobcody.data.entities.Link;
 
 import java.time.LocalDateTime;
 
-import static ru.bobcody.services.data.GuestsData.DMITRY;
+import static ru.bobcody.data.services.manual.GuestsData.DMITRY;
 
 public class LinkData {
     public static Link LINK_1;

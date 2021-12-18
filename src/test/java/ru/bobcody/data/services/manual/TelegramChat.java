@@ -1,4 +1,4 @@
-package ru.bobcody.services.data;
+package ru.bobcody.data.services.manual;
 
 import org.telegram.telegrambots.meta.api.objects.Chat;
 

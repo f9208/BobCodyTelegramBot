@@ -1,11 +1,11 @@
-package ru.bobcody.services.data;
+package ru.bobcody.data.services.manual;
 
 import ru.bobcody.data.entities.Quote;
 import ru.bobcody.data.entities.Type;
 
 import java.time.LocalDateTime;
 
-import static ru.bobcody.services.data.GuestsData.DMITRY;
+import static ru.bobcody.data.services.manual.GuestsData.DMITRY;
 
 public class QuoteDate {
     public static final long QUOTE_ID_1 = 1;

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_3;
+import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_3;
 
 class SlapHandlerTest extends AbstractSpringBootStarterTest {
     List<String> answers = PropertiesUtils.getPropertiesByPath("answers/touchBot.properties", "slap.phrases");

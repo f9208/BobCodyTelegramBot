@@ -1,8 +1,8 @@
-package ru.bobcody.services.data;
+package ru.bobcody.data.services.manual;
 
 import ru.bobcody.data.entities.Guest;
 
-import static ru.bobcody.services.data.TelegramUser.*;
+import static ru.bobcody.data.services.manual.TelegramUser.*;
 
 public class GuestsData {
     public static final Guest VIKTOR = new Guest(VIKTOR_TELEGRAM);

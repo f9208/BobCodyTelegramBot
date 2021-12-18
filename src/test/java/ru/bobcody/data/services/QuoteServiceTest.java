@@ -1,15 +1,14 @@
-package ru.bobcody.services;
+package ru.bobcody.data.services;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
 import ru.bobcody.data.entities.Quote;
-import ru.bobcody.data.services.QuoteService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.bobcody.services.data.QuoteDate.*;
+import static ru.bobcody.data.services.manual.QuoteDate.*;
 
 class QuoteServiceTest extends AbstractSpringBootStarterTest {
     @Autowired

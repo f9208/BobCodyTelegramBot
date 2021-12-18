@@ -12,7 +12,7 @@ import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.He
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.services.data.TelegramMessageData.*;
+import static ru.bobcody.data.services.manual.TelegramMessageData.*;
 
 class HelpReplayHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired
@@ -30,6 +30,7 @@ class HelpReplayHandlerTest extends AbstractSpringBootStarterTest {
         TELEGRAM_MESSAGE_2.setText(invokeText);
         TELEGRAM_MESSAGE_3.setText(invokeText);
         //дада, я сравниваю тест, взятый из одного и того же файла между собой.
+//        System.out.println(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText());
         assertThat(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText()).isEqualTo(help);
         assertThat(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText()).isEqualTo(help);
         assertThat(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_3).getText()).isEqualTo(help);

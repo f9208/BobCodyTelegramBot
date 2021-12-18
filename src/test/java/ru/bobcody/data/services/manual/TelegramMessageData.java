@@ -1,10 +1,10 @@
-package ru.bobcody.services.data;
+package ru.bobcody.data.services.manual;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import static ru.bobcody.services.data.TelegramChat.GROUP_TELEGRAM_CHAT;
-import static ru.bobcody.services.data.TelegramChat.PRIVATE_TELEGRAM_CHAT;
-import static ru.bobcody.services.data.TelegramUser.*;
+import static ru.bobcody.data.services.manual.TelegramChat.GROUP_TELEGRAM_CHAT;
+import static ru.bobcody.data.services.manual.TelegramChat.PRIVATE_TELEGRAM_CHAT;
+import static ru.bobcody.data.services.manual.TelegramUser.*;
 
 public class TelegramMessageData {
     public static final Integer TELEGRAM_MESSAGE_1_ID = 1;

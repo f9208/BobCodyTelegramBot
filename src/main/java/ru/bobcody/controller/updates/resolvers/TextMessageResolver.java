@@ -10,9 +10,9 @@ import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessag
 import ru.bobcody.data.entities.Chat;
 import ru.bobcody.data.entities.Guest;
 import ru.bobcody.data.entities.TextMessage;
+import ru.bobcody.data.services.TextMessageService;
 import ru.bobcody.data.services.ChatService;
 import ru.bobcody.data.services.GuestService;
-import ru.bobcody.data.services.TextMessageService;
 
 import java.util.Objects;
 

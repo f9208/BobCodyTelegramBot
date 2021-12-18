@@ -18,7 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static ru.bobcody.services.data.TelegramMessageData.*;
+import static ru.bobcody.data.services.manual.TelegramMessageData.*;
 
 class FuckingGreatAdvicerHandlerTest extends AbstractSpringBootStarterTest {
     @Mock //эдвайсер работает с внешним апи которое может в любой момент отвалиться поэтому мок

@@ -1,8 +1,8 @@
-package ru.bobcody.services.data;
+package ru.bobcody.data.services.manual;
 
 import ru.bobcody.data.entities.Chat;
 
-import static ru.bobcody.services.data.TelegramChat.*;
+import static ru.bobcody.data.services.manual.TelegramChat.*;
 
 public class ChatData {
     public static final Chat PRIVAT_CHAT = new Chat(PRIVATE_TELEGRAM_CHAT);

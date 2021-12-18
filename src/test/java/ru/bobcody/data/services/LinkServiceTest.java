@@ -1,10 +1,9 @@
-package ru.bobcody.services;
+package ru.bobcody.data.services;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
-import ru.bobcody.data.services.LinkService;
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.Path;
@@ -12,7 +11,7 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static ru.bobcody.services.data.LinkData.LINK_1;
+import static ru.bobcody.data.services.manual.LinkData.LINK_1;
 
 class LinkServiceTest extends AbstractSpringBootStarterTest {
     @Autowired

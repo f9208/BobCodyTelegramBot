@@ -1,11 +1,11 @@
-package ru.bobcody.services;
+package ru.bobcody.data.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bobcody.entities.TextMessage;
-import ru.bobcody.repository.ITextMessageRepository;
+import ru.bobcody.data.entities.TextMessage;
+import ru.bobcody.data.repository.ITextMessageRepository;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -50,11 +50,15 @@ public class TextMessageService {
     }
 
     @Transactional
-    int prepareAndSave(TextMessage message) {
+    public int prepareAndSave(TextMessage message) {
         return textMessageRepository.saveOne(message.getDateTime(),
                 message.getTelegram(),
                 message.getTextMessage(),
                 message.getChat().getId(),
                 message.getGuest().getId());
+    }
+//todo написать на это дело тесты
+    public List<String> getTop(long chatId, LocalDateTime since, LocalDateTime to) {
+        return textMessageRepository.getTop(chatId, since, to);
     }
 }

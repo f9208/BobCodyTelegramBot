@@ -9,8 +9,8 @@ import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessag
 import ru.bobcody.data.services.GuestService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.services.data.GuestsData.SERGY;
-import static ru.bobcody.services.data.TelegramMessageData.TELEGRAM_MESSAGE_2;
+import static ru.bobcody.data.services.manual.GuestsData.SERGY;
+import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_2;
 
 class SetCityHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired
