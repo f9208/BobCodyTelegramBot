@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <springProfile name="dev, prod, local">
+    <springProfile name="dev, prod, local, ether, test">
     <!--консольный аппендер берется отсюда: он сам и его "внешний вид"-->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>

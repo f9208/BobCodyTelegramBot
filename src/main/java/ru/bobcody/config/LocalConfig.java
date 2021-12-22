@@ -19,7 +19,7 @@ import java.net.URL;
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "botloading")
-@Profile("local")
+@Profile(value = {"local"})
 public class LocalConfig {
     String botToken;
     String webHookPath;

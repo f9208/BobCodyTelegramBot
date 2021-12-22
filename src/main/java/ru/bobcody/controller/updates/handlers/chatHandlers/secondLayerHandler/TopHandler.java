@@ -45,12 +45,17 @@ public class TopHandler implements IHandler {
     }
 
     private String findCommand(String inputStr) {
-        return switch (inputStr.trim()) {
-            case ("!top month"), ("!топ месяц") -> "MONTH";
-            case ("!топ сегодня"), ("!top today") -> "TODAY";
-            case ("!top"), ("!топ") -> "FULL";
-            default -> "";
-        };
+        switch (inputStr.trim()) {
+            case ("!top month"):
+            case ("!топ месяц"):
+                return "MONTH";
+            case ("!топ сегодня"):
+            case ("!top today"):
+                return "TODAY";
+            case ("!top"):
+            case ("!топ"):
+            default:    return "FULL";
+        }
     }
 
     @Override
@@ -80,7 +85,7 @@ public class TopHandler implements IHandler {
         }
 
         String wrapTop(List<String> lines) {
-            var result = new StringBuilder();
+            StringBuilder result = new StringBuilder();
             int index = 1;
             for (String note : lines) {
                 result.append(index++)

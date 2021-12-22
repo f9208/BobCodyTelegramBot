@@ -10,7 +10,6 @@ import ru.bobcody.data.repository.IQuoteRepository;
 import java.time.LocalDateTime;
 
 @Service
-@Profile(value = {"local", "prod", "dev"})
 public class QuoteService {
     @Autowired
     private IQuoteRepository quoteRepository;

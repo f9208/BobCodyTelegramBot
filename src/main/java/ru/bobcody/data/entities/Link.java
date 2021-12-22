@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(schema = "public", name = "links",
         indexes = {@Index(name = "date_guest_idx", columnList = "date, guest_id")})
-@SequenceGenerator(name = "id_seq",
+@SequenceGenerator(name = "link_id_seq",
         sequenceName = "link_id_seq", initialValue = 100, allocationSize = 1)
 public class Link implements Serializable {
     private final static long serialVersionUID = 445134875123798234L;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "link_id_seq")
     private Long id;
     @NotNull
     @Column(name = "path", columnDefinition = "varchar(1000)")

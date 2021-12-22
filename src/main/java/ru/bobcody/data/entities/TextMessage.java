@@ -17,14 +17,14 @@ import java.util.Date;
 @Data
 @Table(schema = "public", name = "textMessage",
         indexes = {@Index(name = "date_chat_id", columnList = "dateTime, chat")})
-@SequenceGenerator(name = "id_seq",
+@SequenceGenerator(name = "tm_id_seq",
         sequenceName = "text_message_id_seq",
         allocationSize = 1)
 public class TextMessage implements Serializable {
     private final static long serialVersionUID = 86956734497234925L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tm_id_seq")
     private Long id;
     @Column(name = "telegramId")
     private Long telegram;
@@ -34,7 +34,7 @@ public class TextMessage implements Serializable {
     @Column(name = "textMessage", columnDefinition = "varchar(50000)")
     private String textMessage;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "guest_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "guest", nullable = false, referencedColumnName = "id")
     private Guest guest;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "chat", nullable = false, referencedColumnName = "id")

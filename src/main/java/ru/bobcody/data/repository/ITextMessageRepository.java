@@ -23,7 +23,7 @@ public interface ITextMessageRepository extends CrudRepository<TextMessage, Long
 
     @Modifying
     @Query(value = "INSERT INTO " +
-            "public.text_message(date_time, telegram_id, text_message, chat, guest_id) " +
+            "public.text_message(date_time, telegram_id, text_message, chat, guest) " +
             "VALUES (:dateTime, :telegramId, :textMessage, :chat, :guestId)",
             nativeQuery = true)
     Integer saveOne(@Param("dateTime") LocalDateTime localDateTime,
@@ -34,7 +34,7 @@ public interface ITextMessageRepository extends CrudRepository<TextMessage, Long
 
     @Query(value = "SELECT guests.first_name, COUNT(text_message.text_message) AS total " +
             "FROM text_message " +
-            "INNER JOIN  guests ON text_message.guest_id = guests.id " +
+            "INNER JOIN  guests ON text_message.guest = guests.id " +
             "WHERE text_message.chat=:chatId " +
             "AND text_message.date_time>=:start " +
             "AND text_message.date_time<:end " +
