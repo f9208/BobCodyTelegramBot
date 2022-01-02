@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
 <body>

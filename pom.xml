@@ -15,7 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>bobcody</name>
     <description>Demo Project for Spring Boot</description>
-
+    <packaging>war</packaging>
     <properties>
         <java.version>1.8</java.version>
         <hsqldb.version>2.5.2</hsqldb.version>
@@ -27,6 +27,7 @@
         <lomnook.version>1.18.22</lomnook.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <start-class>ru.bobcody.BobcodyApplication</start-class>
     </properties>
 
     <dependencies>
@@ -153,6 +154,7 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
             <version>9.0.44</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -172,8 +174,23 @@
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
         </plugins>
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/webapp</directory>-->
+<!--                <targetPath>META-INF/resources</targetPath>-->
+<!--                <includes>-->
+<!--                    <include>**/**</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/**</include>-->
+<!--                </includes>-->
+<!--                <filtering>false</filtering>-->
+<!--            </resource>-->
+<!--        </resources>-->
     </build>
 </project>

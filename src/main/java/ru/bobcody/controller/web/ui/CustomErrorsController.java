@@ -16,6 +16,7 @@ public class CustomErrorsController implements ErrorController {
     @GetMapping(value = "/error")
     public String handleError(Model model, HttpServletRequest httpServletRequest) {
         model.addAttribute("code", httpServletRequest.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+     //todo генерируется NPE
         int codeError = (int) httpServletRequest.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         log.info("came to error page, error-code: {}", codeError);
         switch (codeError) {

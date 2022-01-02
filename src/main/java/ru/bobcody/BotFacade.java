@@ -48,27 +48,31 @@ public class BotFacade {
             message = update.getMessage();
             writeLog(message);
         }
-        if (message != null && message.hasText()) {
+        if (message == null) return new SendMessage();
+        if (message.hasText()) {
             replay = resolver.textMessageResolver(message, hasEditedMessage(update));
             if (replay.getText() != null) {
                 outputTextMessageLog(replay, message);
             }
         }
-        if (message != null && message.hasAnimation()) {
+        if (message.hasAnimation()) {
             writeLog(message);
         }
-        if (message != null && message.hasPhoto()) {
-            writeLog(message);
-       //     replay = resolver.photoMessageResolver(message);
-        }
-        if (message != null && message.hasDocument()) {
-            writeLog(message);
-         //   if ("image/jpeg".equals(message.getDocument().getMimeType())) {
-           //     replay = resolver.photoDocumentMessageResolver(message);
-         //   }
-//            if ("video/mp4".equals(message.getDocument().getMimeType())) {
-//                replay = resolver.animationMessageResolver(message);
-//            }
+
+        if (message.getChat().isUserChat()) {
+            if (message.hasPhoto()) {
+                writeLog(message);
+                replay = resolver.photoMessageResolver(message);
+            }
+            if (message.hasDocument()) {
+                writeLog(message);
+                if ("image/jpeg".equals(message.getDocument().getMimeType())) {
+                    replay = resolver.photoDocumentMessageResolver(message);
+                }
+                if ("video/mp4".equals(message.getDocument().getMimeType())) {
+                    replay = resolver.animationMessageResolver(message);
+                }
+            }
         }
         return replay;
     }
