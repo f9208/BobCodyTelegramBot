@@ -25,21 +25,17 @@ public class MainHandlerTextMessage {
         }
     }
 
-    public SendMessage handle(Message message) { //todo разобраться с айдишниками чатов
+    public SendMessage handle(Message message) {
         SendMessage result = new SendMessage();
-        result.setChatId(message.getChatId().toString());
+        String flayer = flyHandler.findCommandInside(message);
 
         String textMessage = message.getText().toLowerCase();
         if (multiHandler.containsKey(textMessage.split(" ")[0])) {
             result = multiHandler.get(textMessage.split(" ")[0]).handle(message);
-            if (result.getChatId() == null) result.setChatId(message.getChatId().toString());
-            return result;
+        } else if (!flayer.isEmpty()) {
+            result.setText(flayer);
         }
-        String noHandled = flyHandler.findCommandInside(message);
-        if (!noHandled.isEmpty()) {
-            result.setText(noHandled);
-            return result;
-        }
+        result.setChatId(message.getChatId().toString());
         return result;
     }
 }

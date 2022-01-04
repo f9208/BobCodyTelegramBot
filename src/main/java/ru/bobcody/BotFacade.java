@@ -56,7 +56,8 @@ public class BotFacade {
             writeLog(message);
         }
 
-        if (message.getChat().isUserChat()) {
+        Boolean isUserChat = message.getChat().isUserChat();
+        if (Boolean.TRUE.equals(isUserChat)) {
             if (message.hasPhoto()) {
                 writeLog(message);
                 replay = resolver.photoMessageResolver(message);

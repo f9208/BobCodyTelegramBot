@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 
 @Slf4j
 @Controller
-public class CustomErrorsController implements ErrorController {
+public class CustomErrorsController {
     @GetMapping(value = "/error")
     public String handleError(Model model, HttpServletRequest httpServletRequest) {
         model.addAttribute("code", httpServletRequest.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
@@ -30,10 +30,5 @@ public class CustomErrorsController implements ErrorController {
             default:
                 return "errors/error";
         }
-    }
-
-    @Override
-    public String getErrorPath() {
-        return "/error";
     }
 }

@@ -53,12 +53,12 @@ public class PiesProvider {
                     break;
                 }
             }
-            String cleanedHtml = pageHtml.toString().replaceAll("&quot;", "\"");
+            String cleanedHtml = pageHtml.toString().replace("&quot;", "\"");
             int start = cleanedHtml.indexOf("{\"content\":"); //начало цитаты в строке
             int end = cleanedHtml.indexOf("data-hydrate"); // конец цитаты в строке
             String cutHtml = cleanedHtml.substring(start, end);
             cutHtml = cutHtml.replaceFirst("\\\\n" + "\\\\n " + "#poetory", "");
-            cutHtml = cutHtml.replaceAll("https://poetory.ru/", "#poetory/");
+            cutHtml = cutHtml.replace("https://poetory.ru/", "#poetory/");
 
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper.readValue(cutHtml, SinglePie.class);

@@ -7,8 +7,6 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.bobcody.BobCodyBot;
 
-import java.io.Serializable;
-
 @RestController
 public class WebHookController {
     private final BobCodyBot bobCodyBot;

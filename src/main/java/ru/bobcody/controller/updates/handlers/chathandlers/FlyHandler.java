@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class FlyHandler {
+    private static final String BABAY_LINKS = "ссылки бабая: https://t.me/izhmain/107384";
+
     @Value("${slap.command}")
     private List<String> slapList;
     @Value("${amd.command}")
@@ -33,7 +35,7 @@ public class FlyHandler {
         boolean oldManCall = setUniqWords.stream().anyMatch(oldMan::contains);
         if (slapCall) return slapHandler.handle(message).getText();
         if (amdCall) return amdSucksHandler.handle(message).getText();
-        if (oldManCall) return "ссылки бабая: https://t.me/izhmain/107384";
+        if (oldManCall) return BABAY_LINKS;
         return "";
     }
 }
