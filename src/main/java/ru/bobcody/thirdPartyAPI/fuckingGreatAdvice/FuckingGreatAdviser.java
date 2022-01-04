@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.fuckingGreatAdvice;
+package ru.bobcody.thirdpartyapi.fuckinggreatadvice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +19,7 @@ public class FuckingGreatAdviser {
     @Autowired
     private ObjectMapper objectMapper;
     private static final int TIMEOUT = 2000;
-    private final String ADVICE_FIELD = "text";
+    private static final String ADVICE_FIELD = "text";
 
     private String parser() throws IOException {
         StringBuilder result = new StringBuilder();

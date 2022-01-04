@@ -21,7 +21,7 @@ import java.util.Date;
         sequenceName = "text_message_id_seq",
         allocationSize = 1)
 public class TextMessage implements Serializable {
-    private final static long serialVersionUID = 86956734497234925L;
+    private static final long serialVersionUID = 86956734497234925L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tm_id_seq")
@@ -32,7 +32,7 @@ public class TextMessage implements Serializable {
     @NotNull
     private LocalDateTime dateTime;
     @Column(name = "textMessage", columnDefinition = "varchar(50000)")
-    private String textMessage;
+    private String text;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "guest", nullable = false, referencedColumnName = "id")
     private Guest guest;
@@ -43,7 +43,7 @@ public class TextMessage implements Serializable {
     public TextMessage(Message message) {
         this.telegram = Long.valueOf(message.getMessageId());
         this.dateTime = LocalDateTime.parse(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(message.getDate().longValue() * 1000)));
-        this.textMessage = message.getText();
+        this.text = message.getText();
         this.guest = new Guest(message.getFrom());
         this.chat = new Chat(message.getChat());
     }
@@ -51,7 +51,7 @@ public class TextMessage implements Serializable {
     public TextMessage(SendMessage sendMessage, Guest guest, int messageId, Chat chat) {
         this.telegram = (long) (messageId + 1);
         this.dateTime = LocalDateTime.now();
-        this.textMessage = sendMessage.getText();
+        this.text = sendMessage.getText();
         this.guest = guest;
         this.chat = chat;
     }
@@ -62,7 +62,7 @@ public class TextMessage implements Serializable {
                 "id=" + id +
                 ", telegram=" + telegram +
                 ", dateTime=" + dateTime +
-                ", textMessage='" + textMessage +
+                ", textMessage='" + text +
                 '}';
     }
 }

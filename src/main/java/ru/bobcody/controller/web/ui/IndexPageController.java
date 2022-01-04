@@ -75,7 +75,6 @@ public class IndexPageController {
     }
 
     private Path getPathInOSFromDB(String filName) {
-        Path result = linkService.getPathByFilName(filName);
-        return result;
+        return linkService.getPathByFilName(filName);
     }
 }

@@ -5,8 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.AmdSucksHandler;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.AmdSucksHandler;
 
 import java.util.ArrayList;
 import java.util.List;

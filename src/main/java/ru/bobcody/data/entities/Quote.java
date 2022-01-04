@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
         sequenceName = "quote_id_seq",
         allocationSize = 1)
 public class Quote implements Serializable {
-    private final static long serialVersionUID = 690854609845783434L;
+    private static final long serialVersionUID = 690854609845783434L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quote_id")
     private Long id;

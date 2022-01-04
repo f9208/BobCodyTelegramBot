@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.openWeatherMap;
+package ru.bobcody.thirdpartyapi.openweathermap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -7,11 +7,12 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.bobcody.thirdPartyAPI.openWeatherMap.weatherEntity.City;
-import ru.bobcody.thirdPartyAPI.openWeatherMap.weatherEntity.SingleRowForecast;
+import ru.bobcody.thirdpartyapi.openweathermap.entities.City;
+import ru.bobcody.thirdpartyapi.openweathermap.entities.SingleRowForecast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -66,13 +67,14 @@ public class WeatherForecastProvider {
     }
 
     private String readUrl(URL link) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(link.openStream()));
         StringBuilder result = new StringBuilder();
-        String temp;
-        while ((temp = br.readLine()) != null) {
-            result.append(temp);
+        try (InputStream streamLink = link.openStream()) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(streamLink));
+            String temp;
+            while ((temp = br.readLine()) != null) {
+                result.append(temp);
+            }
         }
-        br.close();
         return result.toString();
     }
 
@@ -82,17 +84,17 @@ public class WeatherForecastProvider {
 
     private String prepareSunRiseAndSet(City city) {
         StringBuilder result = new StringBuilder();
-        ZoneId UTCZone = null;
+        ZoneId utcZone = null;
 
         if (city.getTimezone() >= 0)
-            UTCZone = ZoneId.of("UTC+" + city.getTimezone() / 3600);
+            utcZone = ZoneId.of("UTC+" + city.getTimezone() / 3600);
         else
-            UTCZone = ZoneId.of("UTC" + city.getTimezone() / 3600);
+            utcZone = ZoneId.of("UTC" + city.getTimezone() / 3600);
 
         Instant sunriseTime = Instant.ofEpochSecond(city.getSunrise());
         Instant sunsetTime = Instant.ofEpochSecond(city.getSunset());
-        LocalDateTime sunrisePretty = LocalDateTime.ofInstant(sunriseTime, UTCZone);
-        LocalDateTime sunsetPretty = LocalDateTime.ofInstant(sunsetTime, UTCZone);
+        LocalDateTime sunrisePretty = LocalDateTime.ofInstant(sunriseTime, utcZone);
+        LocalDateTime sunsetPretty = LocalDateTime.ofInstant(sunsetTime, utcZone);
         if (sunrisePretty.getHour() <= 9) {
             result.append("Рассвет: 0");
         } else {

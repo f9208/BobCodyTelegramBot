@@ -1,12 +1,13 @@
 package ru.bobcody.data.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.bobcody.thirdPartyAPI.hotPies.PiesProvider;
-import ru.bobcody.thirdPartyAPI.hotPies.SinglePie;
+import ru.bobcody.thirdpartyapi.hotpies.PiesProvider;
+import ru.bobcody.thirdpartyapi.hotpies.SinglePie;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,22 +15,23 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class PieService {
+public class PieService implements InitializingBean {
     @Autowired
     private PiesProvider piesProvider;
     private List<SinglePie> listPies = new ArrayList<>();
     @Value("${pie.size}")
-    private int SIZE;
+    private int size;
     private int accumulate;
 
-    {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         refreshAccumulate();
     }
 
     @Scheduled(fixedDelayString = "PT10M")
     private void initList() throws IOException {
         if (!listPies.isEmpty()) listPies.clear();
-        listPies.addAll(populate(SIZE));
+        listPies.addAll(populate(size));
         refreshAccumulate();
         log.info("Pies storage has been refreshed, current size={} ", listPies.size());
     }
@@ -57,6 +59,6 @@ public class PieService {
     }
 
     private void refreshAccumulate() {
-        accumulate = SIZE - 1;
+        accumulate = size - 1;
     }
 }

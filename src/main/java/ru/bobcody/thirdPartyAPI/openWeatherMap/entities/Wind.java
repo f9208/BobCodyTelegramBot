@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.openWeatherMap.weatherEntity;
+package ru.bobcody.thirdpartyapi.openweathermap.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -25,8 +25,7 @@ public class Wind {
     }
 
     public void setDegDirection(int deg) {
-        double subDeg = (double) deg;
-        this.degDirection = directionString[(int) Math.round(subDeg / 45)];
+        this.degDirection = directionString[deg / 45];
     }
 
     public void setDeg(int deg) {

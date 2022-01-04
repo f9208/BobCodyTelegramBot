@@ -1,8 +1,8 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils;
+package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.bobcody.thirdPartyAPI.courses.CourseValutParser;
+import ru.bobcody.thirdpartyapi.courses.CourseValutParser;
 
 @Component
 public class CourseWrapper {

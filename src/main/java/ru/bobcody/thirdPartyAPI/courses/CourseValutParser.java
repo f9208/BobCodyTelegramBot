@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.courses;
+package ru.bobcody.thirdpartyapi.courses;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -20,21 +20,16 @@ import java.util.Map;
 public class CourseValutParser {
     @Value("${course.sber.link}")
     private String link;
-    private URL cbrCourse;
     @Getter
     private String date;
 
     private ValCurs getValCursByXml() {
-        Unmarshaller um;
-        JAXBContext context;
-        ValCurs result = null;
-
+        ValCurs result = new ValCurs();
         try {
-            cbrCourse = new URL(link);
-            context = JAXBContext.newInstance(ValCurs.class);
-            um = context.createUnmarshaller();
-            result = (ValCurs) um.unmarshal(new InputStreamReader(cbrCourse.openStream()));
-            cbrCourse = null;
+            URL cbrCourseUrl = new URL(link);
+            JAXBContext context = JAXBContext.newInstance(ValCurs.class);
+            Unmarshaller um = context.createUnmarshaller();
+            result = (ValCurs) um.unmarshal(new InputStreamReader(cbrCourseUrl.openStream()));
             date = result.getDate();
         } catch (JAXBException | IOException e) {
             e.printStackTrace();

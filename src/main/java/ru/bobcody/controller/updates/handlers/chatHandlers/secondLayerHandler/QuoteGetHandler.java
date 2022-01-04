@@ -1,4 +1,4 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.updates.handlers.chatHandlers.IHandler;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils.QuoteProducer;
+import ru.bobcody.controller.updates.handlers.chathandlers.IHandler;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.QuoteProducer;
 import ru.bobcody.data.entities.Type;
 
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public class QuoteGetHandler implements IHandler {
 
     private boolean askQuote(String text) {
         List<String> quoteCommand = commands.stream()
-                .filter((p) -> p.contains("q") || p.contains("ц"))
+                .filter(p -> p.contains("q") || p.contains("ц"))
                 .collect(Collectors.toList());
         String[] textMessage = text.split(" ");
         return Arrays.stream(textMessage).filter(quoteCommand::contains).count() > 0;
@@ -53,7 +53,7 @@ public class QuoteGetHandler implements IHandler {
 
     private boolean askCaps(String text) {
         List<String> capsCommand = commands.stream()
-                .filter((p) -> p.contains("к") || p.contains("caps"))
+                .filter(p -> p.contains("к") || p.contains("caps"))
                 .collect(Collectors.toList());
         String[] textMessage = text.split(" ");
         return Arrays.stream(textMessage).filter(capsCommand::contains).count() > 0;

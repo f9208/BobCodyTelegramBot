@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
 import ru.bobcody.data.services.GuestService;
 
 import static org.assertj.core.api.Assertions.assertThat;

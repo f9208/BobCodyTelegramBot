@@ -1,4 +1,4 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils;
+package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.data.services.GuestService;
-import ru.bobcody.thirdPartyAPI.openWeatherMap.WeatherForecastProvider;
+import ru.bobcody.thirdpartyapi.openweathermap.WeatherForecastProvider;
 
 import java.io.IOException;
 import java.util.List;
@@ -57,13 +57,13 @@ public class ForecastProducer {
     }
 
     private boolean hasAskedShotForecast(String message) {
-        List<String> shortCommands = commands.stream().filter((c) -> c.length() == 2).collect(Collectors.toList());
-        return shortCommands.stream().anyMatch((c) -> c.equals(message));
+        List<String> shortCommands = commands.stream().filter(c -> c.length() == 2).collect(Collectors.toList());
+        return shortCommands.stream().anyMatch(c -> c.equals(message));
     }
 
     private boolean hasAskedFullForecast(String message) {
-        List<String> fullCommands = commands.stream().filter((c) -> c.length() > 2).collect(Collectors.toList());
-        return fullCommands.stream().anyMatch((c) -> c.equals(message));
+        List<String> fullCommands = commands.stream().filter(c -> c.length() > 2).collect(Collectors.toList());
+        return fullCommands.stream().anyMatch(c -> c.equals(message));
     }
 
     private String getForecast(String cityName) {

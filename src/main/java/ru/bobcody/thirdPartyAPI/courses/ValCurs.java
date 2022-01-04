@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.courses;
+package ru.bobcody.thirdpartyapi.courses;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -18,6 +18,9 @@ public class MessageWriteLog {
     private static final String LOG_COMMON_MESSAGE = "chatID: {}, time: {}, userName: {}, userId: {}, ";
     private static final String UNIQUE_ID_FILE_NAME = "fileId: {}, fileName: {}";
 
+    private MessageWriteLog() {
+    }
+
     public static void writeLog(Message message) {
         if (message.hasPhoto()) {
             inputMessagePhotoLog(message);
@@ -97,7 +100,7 @@ public class MessageWriteLog {
     }
 
     private static Object[] compileArgs(Object[] inputArrays, Object... additionFields) {
-        List results = new ArrayList(Arrays.asList(inputArrays));
+        List<Object> results = new ArrayList<>(Arrays.asList(inputArrays));
         results.addAll(Arrays.asList(additionFields));
         return results.toArray();
     }

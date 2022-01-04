@@ -5,10 +5,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.PiesHandler;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.PiesHandler;
 import ru.bobcody.data.services.PieService;
-import ru.bobcody.thirdPartyAPI.hotPies.SinglePie;
+import ru.bobcody.thirdpartyapi.hotpies.SinglePie;
 
 import java.io.IOException;
 import java.util.List;

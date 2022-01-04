@@ -36,9 +36,9 @@ CREATE TABLE public.text_message
     telegram_id  BIGINT,
     text_message VARCHAR(50000),
     chat         INTEGER,
-    guest_id     INTEGER,
+    guest     INTEGER,
     FOREIGN KEY (chat) REFERENCES CHATS (id) ON DELETE CASCADE,
-    FOREIGN KEY (guest_id) REFERENCES GUESTS (id) ON DELETE CASCADE
+    FOREIGN KEY (guest) REFERENCES GUESTS (id) ON DELETE CASCADE
 );
 CREATE INDEX data_chat_id
     ON public.text_message (date_time, chat);

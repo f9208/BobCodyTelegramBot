@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
 import ru.bobcody.data.entities.Chat;
 import ru.bobcody.data.entities.Guest;
 import ru.bobcody.data.entities.TextMessage;
@@ -30,7 +30,6 @@ public class TextMessageResolver implements IMessageResolver {
     private String adminChatId;
     private Guest botAsGuest = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
 
-
     public SendMessage process(Message message, boolean edited) {
         SendMessage replay = new SendMessage();
         try {
@@ -43,9 +42,7 @@ public class TextMessageResolver implements IMessageResolver {
             replay.setText("что-то пошло не так: " + e.toString());
             replay.setChatId(adminChatId);
         } finally {
-            if (replay.getText() != null) {
-                saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));
-            }
+            saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));
         }
         return replay;
     }

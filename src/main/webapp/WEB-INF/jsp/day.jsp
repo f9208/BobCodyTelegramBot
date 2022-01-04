@@ -21,22 +21,25 @@
 <c:if test="${label}">
     логи мейна за ${messages.get(0).dateTime.toLocalDate()}
 </c:if>
-<c:if test="${!label}">
-    логи для чата ${currentChatId} за ${messages.get(0).dateTime.toLocalDate()}
-</c:if>
-<table border="1" cellspacing="0" cellpadding="2">
+
+<table border="1">
+    <caption>
+        <c:if test="${!label}">
+        логи для чата ${currentChatId} за ${messages.get(0).dateTime.toLocalDate()}
+    </c:if>
+    </caption>
     <tr>
-        <td>Время</td>
-        <td>чат</td>
-        <td>автор</td>
-        <td>текст</td>
+        <th id="time">Время</th>
+        <th id="chat">чат</th>
+        <th id="author">автор</th>
+        <th id="text">текст</th>
     </tr>
     <c:forEach var="m" items="${messages}">
         <tr>
             <td><c:out value="${m.dateTime.toLocalTime()}"/></td>
             <td> ${m.chat.id} </td>
             <td><c:out value="${m.guest.firstName}"/></td>
-            <td><c:out value="${m.textMessage}"/></td>
+            <td><c:out value="${m.text}"/></td>
         </tr>
     </c:forEach>
 </table>

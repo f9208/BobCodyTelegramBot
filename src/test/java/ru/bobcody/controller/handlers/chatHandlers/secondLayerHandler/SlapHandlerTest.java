@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
 
 import java.util.ArrayList;
 import java.util.List;

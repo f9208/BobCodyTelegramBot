@@ -7,7 +7,7 @@ INSERT INTO public.chats (id, first_name, last_name, type, user_name)
 VALUES (1, 'cars', null, 'private', 'privat_with_someone'),
        (2, 'flowers and kitty', 'F and K', 'group', 'chat for housekeeper');
 
-INSERT INTO public.text_message (id, date_time, telegram_id, text_message, chat, guest_id)
+INSERT INTO public.text_message (id, date_time, telegram_id, text_message, chat, guest)
 VALUES (1, '2021-11-19 23:32:44', 1, 'some text', 2, 2),
        (2, '2021-11-20 22:12:10', 2, 'another text message', 2, 3),
        (3, '2021-11-21 23:22:32', 3, 'private message', 1, 3),

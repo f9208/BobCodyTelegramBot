@@ -1,10 +1,10 @@
-package ru.bobcody.thirdPartyAPI.courses;
+package ru.bobcody.thirdpartyapi.courses;
 
 import javax.xml.bind.annotation.*;
 
 @XmlType(propOrder = {"numCode", "charCode", "nominal", "name", "value"})
 public class Valuta {
-    private String ID;
+    private String id;
     private Integer numCode;
     private String charCode;
     private Integer nominal;
@@ -12,12 +12,12 @@ public class Valuta {
     private String value;
 
     public String getId() {
-        return ID;
+        return id;
     }
 
     @XmlAttribute(name = "ID")
     public void setId(String id) {
-        this.ID = id;
+        this.id = id;
     }
 
     @XmlElement(name = "NumCode")
@@ -68,7 +68,7 @@ public class Valuta {
     @Override
     public String toString() {
         return "Valuta{" +
-                "ID='" + ID + '\'' +
+                "ID='" + id + '\'' +
                 ", numCode=" + numCode +
                 ", charCode='" + charCode + '\'' +
                 ", nominal=" + nominal +

@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.openWeatherMap.weatherEntity;
+package ru.bobcody.thirdpartyapi.openweathermap.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,7 +38,7 @@ public class SingleRowForecast {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("[").append(dateTime.format(DateTimeFormatter.ofPattern("EE, H:mm"))).append("]:  ");
-        result.append("t ").append(Math.round(mainComponent.getTemp())).append("\u2103, ");
+        result.append("t ").append(mainComponent.getTemp()).append("\u2103, ");
 
         result.append(weather[0].getDescription()).append(", ");
 

@@ -7,10 +7,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.FuckingGreatAdviceHandler;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils.Adviser;
-import ru.bobcody.thirdPartyAPI.fuckingGreatAdvice.FuckingGreatAdviser;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.FuckingGreatAdviceHandler;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.Adviser;
+import ru.bobcody.thirdpartyapi.fuckinggreatadvice.FuckingGreatAdviser;
 
 import java.io.IOException;
 import java.util.List;

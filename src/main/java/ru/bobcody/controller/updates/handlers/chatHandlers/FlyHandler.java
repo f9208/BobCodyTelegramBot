@@ -1,11 +1,11 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers;
+package ru.bobcody.controller.updates.handlers.chathandlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.AmdSucksHandler;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.SlapHandler;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.AmdSucksHandler;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.SlapHandler;
 
 import java.util.Arrays;
 import java.util.List;

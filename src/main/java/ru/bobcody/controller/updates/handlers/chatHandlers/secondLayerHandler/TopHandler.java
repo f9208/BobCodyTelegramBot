@@ -1,11 +1,11 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.updates.handlers.chatHandlers.IHandler;
+import ru.bobcody.controller.updates.handlers.chathandlers.IHandler;
 import ru.bobcody.data.services.TextMessageService;
 
 import java.time.LocalDate;
@@ -73,7 +73,6 @@ public class TopHandler implements IHandler {
 
         String getForToday(long chatId) {
             LocalDateTime start = LocalDate.now().atStartOfDay();
-            System.out.println("тудей: " + start);
             return messagePrefixToday + wrapTop(textMessageService.getTop(chatId, start, now));
         }
 

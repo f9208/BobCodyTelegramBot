@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.hotPies;
+package ru.bobcody.thirdpartyapi.hotpies;
 
 import lombok.Getter;
 import lombok.Setter;

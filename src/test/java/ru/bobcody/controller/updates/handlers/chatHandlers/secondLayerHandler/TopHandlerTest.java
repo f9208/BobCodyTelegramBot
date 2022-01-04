@@ -1,9 +1,9 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;

@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.hotPies;
+package ru.bobcody.thirdpartyapi.hotpies;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.util.Random;
 
 @Slf4j
@@ -21,19 +22,21 @@ public class PiesProvider {
      *  чтоб не перебирать друг за другом, в случае попадания на мертвый - пропускаем сразу десять (константа SKIP)*/
     private static final int SKIP = 10;
     private static final int COUNTER_TRY = 50;
+    private static final int SEED = 111306;
+    private static final String STOP_WORD = "Другие лучшие";
+    private static final int TIMEOUT = 5000;
+
     @Autowired
     private ObjectMapper objectMapper;
     @Value("${pie.url}")
     private String rootUrl;
-    private final static int SEED = 111306;
-    private final static String STOP_WORD = "Другие лучшие";
-    private final static int TIMEOUT = 5000;
+    private Random rand = new SecureRandom();
 
     private PiesProvider() {
     }
 
     public SinglePie getOneRandomly() throws IOException {
-        int quoteId = new Random().nextInt(SEED);
+        int quoteId = rand.nextInt(SEED);
         return getOne(quoteId);
     }
 
@@ -58,8 +61,8 @@ public class PiesProvider {
             cutHtml = cutHtml.replaceAll("https://poetory.ru/", "#poetory/");
 
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            SinglePie pie = objectMapper.readValue(cutHtml, SinglePie.class);
-            return pie;
+            return objectMapper.readValue(cutHtml, SinglePie.class);
+
         } else return new SinglePie("ya.ru", "олол ололо, без Алеши все легло!");
     }
 

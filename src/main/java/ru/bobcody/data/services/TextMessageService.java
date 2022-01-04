@@ -22,13 +22,13 @@ public class TextMessageService {
 
     @Transactional
     public int saveInputMessage(TextMessage textMessage) {
-        log.info("save input messages: {}", textMessage.getTextMessage());
+        log.info("save input messages: {}", textMessage.getText());
         return prepareAndSave(textMessage);
     }
 
     @Transactional
     public int saveOutputMessage(TextMessage outputMessage) {
-        log.info("save output messages: {}", outputMessage.getTextMessage());
+        log.info("save output messages: {}", outputMessage.getText());
         return prepareAndSave(outputMessage);
     }
 
@@ -53,7 +53,7 @@ public class TextMessageService {
     public int prepareAndSave(TextMessage message) {
         return textMessageRepository.saveOne(message.getDateTime(),
                 message.getTelegram(),
-                message.getTextMessage(),
+                message.getText(),
                 message.getChat().getId(),
                 message.getGuest().getId());
     }

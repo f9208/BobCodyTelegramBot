@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @SequenceGenerator(name = "link_id_seq",
         sequenceName = "link_id_seq", initialValue = 100, allocationSize = 1)
 public class Link implements Serializable {
-    private final static long serialVersionUID = 445134875123798234L;
+    private static final long serialVersionUID = 445134875123798234L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "link_id_seq")
     private Long id;

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.bobcody.BobCodyBot;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.QuoteSetHandlerI;
-import ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils.QuoteConsumer;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.QuoteSetHandlerI;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.QuoteConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;

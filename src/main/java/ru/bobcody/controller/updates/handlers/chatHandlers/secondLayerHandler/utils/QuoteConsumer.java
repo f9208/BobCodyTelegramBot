@@ -1,4 +1,4 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils;
+package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,9 @@ import static java.time.LocalDateTime.ofEpochSecond;
 
 @Slf4j
 @Component
-public class QuoteConsumer {
+public class QuoteConsumer { //todo вынести текст сообщений в константы
+    private static final String CAPS_ADDED_MSG = "Капс добавлен за номером ";
+    private static final String SMTH_GET_WRONG_MSG = "что-то пошло не так";
     @Value("${chatid.admin}")
     private Long moderatorChatId;
     @Autowired
@@ -50,15 +52,15 @@ public class QuoteConsumer {
                 return error;
             }
             quoteService.approveCaps(quoteIdFromMessage);
-            long caps_id = quoteService.getCapsId(quoteIdFromMessage);
-            result = "Капс добавлен за номером " + quoteService.getCapsId(quoteIdFromMessage);
-            log.info("quote with id {} has been approved as caps-type. caps_id= {}", quoteIdFromMessage, caps_id);
+            long capsId = quoteService.getCapsId(quoteIdFromMessage);
+            result = CAPS_ADDED_MSG + quoteService.getCapsId(quoteIdFromMessage);
+            log.info("quote with id {} has been approved as caps-type. caps_id= {}", quoteIdFromMessage, capsId);
         }
         return result;
     }
 
     public String approveQuote(Message message) {
-        String result = "что то пошло не так";
+        String result = SMTH_GET_WRONG_MSG;
         String textMessage = message.getText().toLowerCase();
         long quoteIdFromMessage = 0;
 

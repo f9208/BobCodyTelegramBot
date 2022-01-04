@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.bobcody.controller.updates.Resolver;
-import ru.bobcody.controller.updates.handlers.chatHandlers.MainHandlerTextMessage;
+import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
 
 import static ru.bobcody.utilits.MessageWriteLog.outputTextMessageLog;
 import static ru.bobcody.utilits.MessageWriteLog.writeLog;
@@ -38,8 +38,8 @@ public class BotFacade {
     // BotApiMethods - A methods of Telegram Bots Api that is fully supported in json format
     public BotApiMethod<?> handleUserUpdate(Update update) {
 
-        SendMessage replay = null;
-        Message message = null;
+        SendMessage replay = new SendMessage();
+        Message message = new Message();
         if (hasEditedMessage(update)) {
             message = update.getEditedMessage();
             writeLog(message);
@@ -48,12 +48,9 @@ public class BotFacade {
             message = update.getMessage();
             writeLog(message);
         }
-        if (message == null) return new SendMessage();
         if (message.hasText()) {
             replay = resolver.textMessageResolver(message, hasEditedMessage(update));
-            if (replay.getText() != null) {
-                outputTextMessageLog(replay, message);
-            }
+            outputTextMessageLog(replay, message);
         }
         if (message.hasAnimation()) {
             writeLog(message);

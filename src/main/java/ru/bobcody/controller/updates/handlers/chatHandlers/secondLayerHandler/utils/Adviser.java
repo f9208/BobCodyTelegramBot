@@ -1,10 +1,10 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils;
+package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.bobcody.thirdPartyAPI.fuckingGreatAdvice.FuckingGreatAdviser;
+import ru.bobcody.thirdpartyapi.fuckinggreatadvice.FuckingGreatAdviser;
 
 @Slf4j
 @Component

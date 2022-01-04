@@ -1,4 +1,4 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers;
+package ru.bobcody.controller.updates.handlers.chathandlers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,9 @@ public class MainHandlerTextMessage {
         }
     }
 
-    public SendMessage handle(Message message) {
+    public SendMessage handle(Message message) { //todo разобраться с айдишниками чатов
         SendMessage result = new SendMessage();
-        if (result.getChatId() == null) result.setChatId(message.getChatId().toString());
+        result.setChatId(message.getChatId().toString());
 
         String textMessage = message.getText().toLowerCase();
         if (multiHandler.containsKey(textMessage.split(" ")[0])) {
@@ -35,8 +35,8 @@ public class MainHandlerTextMessage {
             if (result.getChatId() == null) result.setChatId(message.getChatId().toString());
             return result;
         }
-        String noHandled;
-        if (!(noHandled = flyHandler.findCommandInside(message)).isEmpty()) {
+        String noHandled = flyHandler.findCommandInside(message);
+        if (!noHandled.isEmpty()) {
             result.setText(noHandled);
             return result;
         }

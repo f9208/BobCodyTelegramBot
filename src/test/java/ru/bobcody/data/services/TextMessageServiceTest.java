@@ -53,7 +53,7 @@ class TextMessageServiceTest extends AbstractSpringBootStarterTest {
                 .contains(TEXT_MESSAGE_2)
                 .doesNotContain(TEXT_MESSAGE_4);
     }
-
+ //todo
 //    @Test
 //        //валится потому что native query не умеет в hsqldb. переделать
 //    void getListDatesForChat() {

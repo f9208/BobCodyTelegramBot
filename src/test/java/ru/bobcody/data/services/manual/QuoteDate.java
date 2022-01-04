@@ -4,6 +4,7 @@ import ru.bobcody.data.entities.Quote;
 import ru.bobcody.data.entities.Type;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static ru.bobcody.data.services.manual.GuestsData.DMITRY;
 
@@ -12,10 +13,10 @@ public class QuoteDate {
     public static final long QUOTE_ID_2 = 2;
     public static final long QUOTE_ID_3 = 3;
     public static final long QUOTE_ID_4 = 4;
-
+    private static final DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSS");
     public static final Quote QUOTE_0_NEW =
             new Quote("добавленная только из тестов",
-                    LocalDateTime.now(),
+                    LocalDateTime.parse(LocalDateTime.now().format(dtFormat)),
                     Type.ABYSS, DMITRY);
 
     public static final Quote QUOTE_1_ABYSS =

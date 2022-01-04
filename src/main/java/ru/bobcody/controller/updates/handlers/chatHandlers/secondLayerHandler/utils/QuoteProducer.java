@@ -1,4 +1,4 @@
-package ru.bobcody.controller.updates.handlers.chatHandlers.secondLayerHandler.utils;
+package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,7 @@ import ru.bobcody.data.entities.Quote;
 import ru.bobcody.data.entities.Type;
 import ru.bobcody.data.services.QuoteService;
 
+import java.security.SecureRandom;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
@@ -16,6 +17,7 @@ import java.util.Random;
 public class QuoteProducer {
     @Autowired
     private QuoteService quoteService;
+    private Random rand = new SecureRandom();
 
     public String getText(Message message, Type type) {
         String[] command = message.getText().toLowerCase().split(" ");
@@ -42,14 +44,13 @@ public class QuoteProducer {
     }
 
     private Quote getRandom(Type type) {
-        Random r = new Random();
         int id;
         if (type.equals(Type.CAPS)) {
-            id = r.nextInt((int) quoteService.getLastCapsId()) + 1;
+            id = rand.nextInt((int) quoteService.getLastCapsId()) + 1;
             return getById(id, type);
         }
         if (type.equals(Type.REGULAR)) {
-            id = r.nextInt((int) quoteService.getLastRegularId()) + 1;
+            id = rand.nextInt((int) quoteService.getLastRegularId()) + 1;
             return getById(id, type);
         }
         throw new RuntimeException("только caps или regular types");
@@ -84,6 +85,4 @@ public class QuoteProducer {
         result = master.toString();
         return result;
     }
-
-
 }

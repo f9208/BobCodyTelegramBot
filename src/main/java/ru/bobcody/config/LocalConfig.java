@@ -3,18 +3,21 @@ package ru.bobcody.config;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+@Slf4j
 @Getter
 @Setter
 @Configuration
@@ -27,23 +30,22 @@ public class LocalConfig {
     @SneakyThrows
     @PostConstruct
     public void setWebHook() {
-        URL link;
-        HttpURLConnection connection = null;
+        URL link = new URL("https://api.telegram.org/bot" + botToken + "/setWebhook?url=" + webHookPath);
+        HttpURLConnection connection;
+        StringBuilder resp = new StringBuilder();
         try {
-            link = new URL("https://api.telegram.org/bot" + botToken + "/setWebhook?url=" + webHookPath);
             connection = (HttpURLConnection) link.openConnection();
             connection.setRequestMethod("GET");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
+            try (InputStream connectionInputStream = connection.getInputStream()) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(connectionInputStream));
+                String inputLine;
+                while ((inputLine = br.readLine()) != null) {
+                    resp.append(inputLine);
+                }
+                log.info("webHook {} ->> {}", webHookPath, resp);
+            }
+        } catch (MalformedURLException | ProtocolException e) {
             e.printStackTrace();
         }
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuffer resp = new StringBuffer();
-        while ((inputLine = br.readLine()) != null) {
-            resp.append(inputLine);
-        }
-        System.out.println("webHook" + webHookPath + "->> " + resp);
     }
 }

@@ -1,4 +1,4 @@
-package ru.bobcody.thirdPartyAPI.openWeatherMap.weatherEntity;
+package ru.bobcody.thirdpartyapi.openweathermap.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -12,7 +12,6 @@ public class Rain {
 
     @Override
     public String toString() {
-        String result = "" + mm + " мм воды за 3 часа";
-        return result;
+        return "" + mm + " мм воды за 3 часа";
     }
 }
