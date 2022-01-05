@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import static ru.bobcody.utilits.CommonTextConstant.NO_SUCH_FILE;
+
 @Slf4j
 @Service
 public class LinkService {
@@ -27,7 +29,7 @@ public class LinkService {
 
     public Path getPathByFilName(String fileName) {
         Link link = linkRepository.findLinkByName(fileName);
-        if (link == null) throw new EntityNotFoundException("в базе нет файла с этим айди");
+        if (link == null) throw new EntityNotFoundException(NO_SUCH_FILE);
         return Paths.get(link.getPath());
     }
 

@@ -16,6 +16,8 @@ import ru.bobcody.data.services.GuestService;
 
 import java.util.Objects;
 
+import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG;
+
 @Component
 public class TextMessageResolver implements IMessageResolver {
     @Autowired
@@ -28,7 +30,7 @@ public class TextMessageResolver implements IMessageResolver {
     private ChatService chatService;
     @Value("${chatid.admin}")
     private String adminChatId;
-    private Guest botAsGuest = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
+    private final Guest botAsGuest = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
 
     public SendMessage process(Message message, boolean edited) {
         SendMessage replay = new SendMessage();
@@ -39,7 +41,7 @@ public class TextMessageResolver implements IMessageResolver {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            replay.setText("что-то пошло не так: " + e.toString());
+            replay.setText(SMTH_GET_WRONG+": " + e.toString());
             replay.setChatId(adminChatId);
         } finally {
             saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));

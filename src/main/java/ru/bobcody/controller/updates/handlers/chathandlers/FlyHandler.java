@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static ru.bobcody.utilits.CommonTextConstant.BABAY_LINKS;
+
 @Component
 public class FlyHandler {
-    private static final String BABAY_LINKS = "ссылки бабая: https://t.me/izhmain/107384";
-
     @Value("${slap.command}")
     private List<String> slapList;
     @Value("${amd.command}")

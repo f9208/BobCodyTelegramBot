@@ -8,6 +8,8 @@ import ru.bobcody.controller.updates.handlers.chathandlers.IHandler;
 
 import java.util.List;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.CURRENT_CHAT_ID;
+
 @Component
 public class MyChatIdHandler implements IHandler {
     @Value("${id.command}")
@@ -16,7 +18,7 @@ public class MyChatIdHandler implements IHandler {
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
-        result.setText("айдишник этого чата:  " + inputMessage.getChat().getId());
+        result.setText(String.format(CURRENT_CHAT_ID, inputMessage.getChat().getId()));
         return result;
     }
 

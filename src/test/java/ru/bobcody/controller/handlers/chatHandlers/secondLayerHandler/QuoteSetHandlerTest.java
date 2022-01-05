@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.bobcody.BobCodyBot;
 import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
-import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.QuoteSetHandlerI;
+import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.QuoteSetHandler;
 import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.QuoteConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +20,7 @@ class QuoteSetHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired
     MainHandlerTextMessage mainHandlerTextMessage;
     @Autowired
-    QuoteSetHandlerI quoteSetHandler;
+    QuoteSetHandler quoteSetHandler;
     @Autowired
     QuoteConsumer quoteConsumer;
     BobCodyBot bobCodyBot = Mockito.mock(BobCodyBot.class);

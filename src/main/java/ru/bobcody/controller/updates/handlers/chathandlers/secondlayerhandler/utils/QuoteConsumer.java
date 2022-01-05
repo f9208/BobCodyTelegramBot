@@ -18,12 +18,12 @@ import ru.bobcody.data.services.QuoteService;
 import java.time.ZoneOffset;
 
 import static java.time.LocalDateTime.ofEpochSecond;
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.*;
+import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG;
 
 @Slf4j
 @Component
-public class QuoteConsumer { //todo вынести текст сообщений в константы
-    private static final String CAPS_ADDED_MSG = "Капс добавлен за номером ";
-    private static final String SMTH_GET_WRONG_MSG = "что-то пошло не так";
+public class QuoteConsumer {
     @Value("${chatid.admin}")
     private Long moderatorChatId;
     @Autowired
@@ -34,18 +34,18 @@ public class QuoteConsumer { //todo вынести текст сообщений
     private QuoteService quoteService;
 
     public String approveCaps(Message message) {
-        String result = "что то пошло не так";
+        String result = SMTH_GET_WRONG;
         String textMessage = message.getText().toLowerCase();
         long quoteIdFromMessage = 0;
 
-        if (textMessage.split(" ").length == 1) return "чо добавить то?";
+        if (textMessage.split(" ").length == 1) return WHAT_ADD;
         if (textMessage.split(" ").length == 2) {
             try {
                 quoteIdFromMessage = Long.parseLong(textMessage.split(" ")[1]);
             } catch (NumberFormatException e) {
-                return "цифры вводи.";
+                return USE_NUMBERS;
             } catch (ArrayIndexOutOfBoundsException e) {
-                return "ой не влажу в массив";
+                e.printStackTrace();
             }
             String error = checkDuplication(quoteIdFromMessage);
             if (error != null) {
@@ -53,25 +53,25 @@ public class QuoteConsumer { //todo вынести текст сообщений
             }
             quoteService.approveCaps(quoteIdFromMessage);
             long capsId = quoteService.getCapsId(quoteIdFromMessage);
-            result = CAPS_ADDED_MSG + quoteService.getCapsId(quoteIdFromMessage);
+            result = CAPS_HAS_ADDED + quoteService.getCapsId(quoteIdFromMessage);
             log.info("quote with id {} has been approved as caps-type. caps_id= {}", quoteIdFromMessage, capsId);
         }
         return result;
     }
 
     public String approveQuote(Message message) {
-        String result = SMTH_GET_WRONG_MSG;
+        String result = SMTH_GET_WRONG;
         String textMessage = message.getText().toLowerCase();
         long quoteIdFromMessage = 0;
 
-        if (textMessage.split(" ").length == 1) return "чо добавить то?";
+        if (textMessage.split(" ").length == 1) return WHAT_ADD;
         if (textMessage.split(" ").length == 2) {
             try {
                 quoteIdFromMessage = Long.parseLong(textMessage.split(" ")[1]);
             } catch (NumberFormatException e) {
-                return "цифры вводи.";
+                return USE_NUMBERS;
             } catch (ArrayIndexOutOfBoundsException e) {
-                return "ой не влажу в массив";
+                e.printStackTrace();
             }
             String error = checkDuplication(quoteIdFromMessage);
             if (error != null) {
@@ -79,7 +79,7 @@ public class QuoteConsumer { //todo вынести текст сообщений
             }
             quoteService.approveRegular(quoteIdFromMessage);
             long quoteId = quoteService.getRegularId(quoteIdFromMessage);
-            result = "Цитата добавлена за номером " + quoteId;
+            result = QUOTE_HAS_ADDED + quoteId;
             log.info("quote with id {} has been approved as regular-type. quote_id = {}", quoteIdFromMessage, quoteId);
         }
         return result;
@@ -90,20 +90,19 @@ public class QuoteConsumer { //todo вынести текст сообщений
         String textQuote;
         textQuote = message.getText().substring(3);
         if (textQuote.length() == 0) {
-            replay = message.getFrom().getUserName() + ", ты цитату то введи";
+            replay = message.getFrom().getUserName() + ", " + WRITE_QUOTE;
         } else if (textQuote.length() < 5000) {
             Quote quote = new Quote(
                     textQuote,
                     ofEpochSecond(message.getDate(), 0, ZoneOffset.of("+3")),
                     Type.ABYSS, new Guest(message.getFrom()));
             Quote saved = quoteService.save(quote);
-            if (saved == null) return "не удалось сохранить цитату";
+            if (saved == null) return SAVE_FAILURE;
             log.info("user {} add quote {}", message.getFrom().getFirstName(), quote.getText());
-            replay = "Записал в бездну. Цитата будет добавлена в хранилище после проверки модератором.";
+            replay = ADD_TO_ABYSS;
             sendToModerator(message, saved);
         } else {
-            replay = "Видимо, телеграмм отключил ограничение в 4096 символов на сообщение и ты как то смог в так длинно." +
-                    " Но я не буду это сохранять, запиши себе в блокнот, потом поржешь";
+            replay = TOO_LONG_TEXT;
         }
         return replay;
     }
@@ -127,16 +126,16 @@ public class QuoteConsumer { //todo вынести текст сообщений
 
     private String checkDuplication(long id) {
         if (notFound(id)) {
-            log.error("попытка вызова несуществующего id={}", id);
-            return "нет такого айди";
+            log.error("try call invalid id={}", id);
+            return NO_SUCH_ID;
         }
         if (hasApprovedAsCaps(id)) {
-            log.error("попытка утвердить уже утвержденный капс с id={} ", id);
-            return "цитату за этим номером уже апрували как капс";
+            log.error("try to approve afore approved caps with id={} ", id);
+            return HAS_APPROVED_AS_CAPS;
         }
         if (hasApprovedAsQuote(id)) {
-            log.error("попытка утвердить уже утвержденную цитату с id={}", id);
-            return "цитату за этим номером уже апрували как обычную цитату";
+            log.error("try to approve afore approved quite with id={}", id);
+            return HAS_APPROVED_AS_QUOTE;
         }
         return null;
     }

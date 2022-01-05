@@ -12,12 +12,14 @@ import java.security.SecureRandom;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.*;
+
 @Slf4j
 @Component
 public class QuoteProducer {
     @Autowired
     private QuoteService quoteService;
-    private Random rand = new SecureRandom();
+    private final Random rand = new SecureRandom();
 
     public String getText(Message message, Type type) {
         String[] command = message.getText().toLowerCase().split(" ");
@@ -32,15 +34,14 @@ public class QuoteProducer {
                 if (quoteId <= 0) throw new NumberFormatException();
                 log.info("get quote with id {}", quoteId);
                 quote = getById(quoteId, type);
-                if (quote == null) return "цитаты с таким id не найдено";
+                if (quote == null) return QUOTE_NOT_FOUND;
             } catch (NumberFormatException e) {
-                return "в качестве номера цитаты используйте только положительные числа";
+                return ONLY_POSITIVE_NUMBERS;
             }
         }
-        if (quote != null) {
-            return facade(quote);
-        }
-        return "для поиска цитат используйте синтаксис: !q + номер_цитаты_цифрами";
+        return (quote != null)
+                ? facade(quote)
+                : FOR_SEARCHING_TIP;
     }
 
     private Quote getRandom(Type type) {
@@ -53,7 +54,7 @@ public class QuoteProducer {
             id = rand.nextInt((int) quoteService.getLastRegularId()) + 1;
             return getById(id, type);
         }
-        throw new RuntimeException("только caps или regular types");
+        return null;
     }
 
     private Quote getById(long id, Type type) {

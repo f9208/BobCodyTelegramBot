@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.CITY_NOT_FOUND;
+
 @Slf4j
 @Component
 public class ForecastProducer {
@@ -31,11 +33,13 @@ public class ForecastProducer {
         String[] cityTwoWord = message.getText().toLowerCase().split(" ");
         boolean askedShortForecast = hasAskedShotForecast(cityTwoWord[0]);
         boolean askedFullForecast = hasAskedFullForecast(cityTwoWord[0]);
+
         // если !п, !w, !g - то выводим "короткую" погоду.
         if (cityTwoWord.length == 1 && askedShortForecast) {
             String city = guestService.findById(message.getFrom().getId()).getCityName();
             return getShortForecast(city);
         }
+
         //если !погода, !weather - то длинную версию
         if (cityTwoWord.length == 1 && askedFullForecast) {
             String city = guestService.findById(message.getFrom().getId()).getCityName();
@@ -45,7 +49,6 @@ public class ForecastProducer {
         StringBuilder cityName = new StringBuilder();
         for (int i = 1; i < cityTwoWord.length; i++) {
             cityName.append(cityTwoWord[i]);
-            // в конце пробел не нужен
             if (i < cityTwoWord.length - 1) cityName.append("%20");
         }
         log.info("city with multi word name: {}", cityName);
@@ -72,7 +75,7 @@ public class ForecastProducer {
         try {
             result = openWeatherWeatherForecastProvider.getFullForecast(cityName);
         } catch (IOException e) {
-            result = cityName.replace("%20", " ") + "? Где это? в Бельгии что-ли?";
+            result = cityName.replace("%20", " ") + CITY_NOT_FOUND;
         }
         return result;
     }
@@ -83,7 +86,7 @@ public class ForecastProducer {
         try {
             result = openWeatherWeatherForecastProvider.getShortForecast(cityName);
         } catch (IOException e) {
-            result = cityName.replace("%20", " ") + "? Где это? в Бельгии что-ли?";
+            result = cityName.replace("%20", " ") + CITY_NOT_FOUND;
         }
         return result;
     }

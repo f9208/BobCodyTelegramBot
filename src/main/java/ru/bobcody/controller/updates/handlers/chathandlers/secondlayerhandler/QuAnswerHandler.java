@@ -14,7 +14,7 @@ import java.util.Random;
 @Component
 @PropertySource(value = "classpath:answers/touchBot.properties", encoding = "UTF-8")
 public class QuAnswerHandler implements IHandler {
-    private static final Random rand = new SecureRandom();
+    private final Random rand = new SecureRandom();
     @Value("#{${qu.answer}}")
     private List<String> answer;
     @Value("${qu.command}")

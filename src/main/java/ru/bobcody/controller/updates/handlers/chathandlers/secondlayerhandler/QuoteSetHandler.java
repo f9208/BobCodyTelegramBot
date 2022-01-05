@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class QuoteSetHandlerI implements IHandler {
+public class QuoteSetHandler implements IHandler {
     @Value("${quote.set.command}")
     private List<String> commands;
     @Value("${chatid.admin}")

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.bobcody.thirdpartyapi.fuckinggreatadvice.FuckingGreatAdviser;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.SERVICE_FGA_NOT_AVAILABLE;
+
 @Slf4j
 @Component
 public class Adviser {
@@ -21,7 +23,7 @@ public class Adviser {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("service is not available");
-            result = "че то сервис не алё. совет от бота - не еби, блять, другим (и себе) мозги!";
+            result = SERVICE_FGA_NOT_AVAILABLE;
         }
         return result;
     }

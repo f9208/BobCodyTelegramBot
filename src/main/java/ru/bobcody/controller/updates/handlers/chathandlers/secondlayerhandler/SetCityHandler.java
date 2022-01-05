@@ -11,6 +11,9 @@ import ru.bobcody.data.services.GuestService;
 
 import java.util.List;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.YOUR_WEATHER_CITY;
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.YOUR_WEATHER_CITY_UPDATED;
+
 @Component
 public class SetCityHandler implements IHandler {
     @Autowired
@@ -23,20 +26,19 @@ public class SetCityHandler implements IHandler {
         long guestId = inputMessage.getFrom().getId();
         Guest currentGuest = guestService.findById(guestId);
         SendMessage replay = new SendMessage();
-        StringBuilder prefix = new StringBuilder("@");
+        StringBuilder prefixGuestName = new StringBuilder("@");
         if (currentGuest.getUserName() == null) {
-            prefix.append(currentGuest.getFirstName());
+            prefixGuestName.append(currentGuest.getFirstName());
         } else {
-            prefix.append(currentGuest.getUserName());
+            prefixGuestName.append(currentGuest.getUserName());
         }
         if (getCity(inputMessage)) {
-            replay.setText(prefix.toString() + ", ваш дефолтный город - " + currentGuest.getCityName());
+            replay.setText(String.format(YOUR_WEATHER_CITY, prefixGuestName.toString(), currentGuest.getCityName()));
         } else {
             String newCityName = inputMessage.getText().replaceAll("\\s+", " ").substring(7);
             currentGuest.setCityName(newCityName);
             guestService.add(currentGuest);
-
-            replay.setText(prefix.toString() + ", теперь твой погодный город - " + newCityName);
+            replay.setText(String.format(YOUR_WEATHER_CITY_UPDATED, prefixGuestName.toString(), newCityName));
         }
         return replay;
     }

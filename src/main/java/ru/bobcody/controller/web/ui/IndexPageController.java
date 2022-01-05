@@ -29,7 +29,7 @@ public class IndexPageController {
     private TextMessageService textMessageService;
     @Autowired
     private LinkService linkService;
-    // Id чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники
+    /* Id чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники */
     private final long defaultChatId;
     private static final String FILE_EXTENSION = ".jpg";
 

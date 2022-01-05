@@ -28,6 +28,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import static ru.bobcody.utilits.CommonTextConstant.*;
+
 @Slf4j
 @Component
 public class PhotoMessageResolver implements IMessageResolver {
@@ -44,7 +46,7 @@ public class PhotoMessageResolver implements IMessageResolver {
     @Override
     public SendMessage process(Message message) {
         log.info("start extraction image for message {}", message.getMessageId());
-        SendMessage result = new SendMessage(message.getChatId().toString(), "я попробовал сохранить твою картинку");
+        SendMessage result = new SendMessage(message.getChatId().toString(), SAVE_IMAGE_TRY);
         PhotoSize photo = getBiggestPhoto(message);
         Objects.requireNonNull(photo);
         String telegramFilePath;
@@ -57,7 +59,7 @@ public class PhotoMessageResolver implements IMessageResolver {
             File file = translatePhotoAsFile(telegramFilePath);
             if (!checkFileIsImageType(file)) {
                 log.error("file doesn't look like image-file. break");
-                result.setText("твой файл не похож на картинку. не буду сохранять");
+                result.setText(NO_IMAGE);
                 return result;
             }
             Path savedFilePath = saveFileOnDisk(file, ".jpg");
@@ -68,7 +70,7 @@ public class PhotoMessageResolver implements IMessageResolver {
             return result;
         } catch (TelegramApiException | IOException e) {
             e.printStackTrace();
-            result.setText("не удалось сохранить изображение");
+            result.setText(SAVE_IMAGE_FAILURE);
         }
         return result;
     }

@@ -18,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.DEFAULT_ADVICE;
 import static ru.bobcody.data.services.manual.TelegramMessageData.*;
 
 class FuckingGreatAdvicerHandlerTest extends AbstractSpringBootStarterTest {
@@ -33,7 +34,7 @@ class FuckingGreatAdvicerHandlerTest extends AbstractSpringBootStarterTest {
 
     @BeforeEach
     void init() throws IOException {
-        when(fuckingGreatAdviser.getAdvice()).thenReturn("советую не обкакаться!");
+        when(fuckingGreatAdviser.getAdvice()).thenReturn(DEFAULT_ADVICE);
         adviser.setFuckingGreatAdvicer(fuckingGreatAdviser);
     }
 
@@ -43,15 +44,15 @@ class FuckingGreatAdvicerHandlerTest extends AbstractSpringBootStarterTest {
     void handle(String inputCommand) {
 
         TELEGRAM_MESSAGE_1.setText(inputCommand);
-        assertThat("@" + TELEGRAM_MESSAGE_1.getFrom().getUserName() + ", советую не обкакаться!")
+        assertThat("@" + TELEGRAM_MESSAGE_1.getFrom().getUserName() + ", " + DEFAULT_ADVICE)
                 .isEqualTo(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText());
 
         TELEGRAM_MESSAGE_2.setText(inputCommand);
-        assertThat("@" + TELEGRAM_MESSAGE_2.getFrom().getUserName() + ", советую не обкакаться!")
+        assertThat("@" + TELEGRAM_MESSAGE_2.getFrom().getUserName() + ", " + DEFAULT_ADVICE)
                 .isEqualTo(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText());
 
         TELEGRAM_MESSAGE_3.setText(inputCommand);
-        assertThat("@" + TELEGRAM_MESSAGE_3.getFrom().getUserName() + ", советую не обкакаться!")
+        assertThat("@" + TELEGRAM_MESSAGE_3.getFrom().getUserName() + ", " + DEFAULT_ADVICE)
                 .isEqualTo(mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_3).getText());
     }
 

@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.TopHandler.CommandsType.*;
+
 @Component
 public class TopHandler implements IHandler {
     @Value("${top.command}")
@@ -31,30 +33,35 @@ public class TopHandler implements IHandler {
         SendMessage result = new SendMessage();
         Wrapper wrapper = new Wrapper();
         long chatId = inputMessage.getChatId();
-        String currentCommand = findCommand(inputMessage.getText());
-        if ("FULL".equals(currentCommand)) {
-            result.setText(wrapper.getFullTop(chatId));
-        }
-        if ("MONTH".equals(currentCommand)) {
-            result.setText(wrapper.getForMonth(chatId));
-        }
-        if ("TODAY".equals(currentCommand)) {
-            result.setText(wrapper.getForToday(chatId));
+        CommandsType current = findCommand(inputMessage.getText());
+        switch (current) {
+            case FULL:
+                result.setText(wrapper.getFullTop(chatId));
+                break;
+            case MONTH:
+                result.setText(wrapper.getForMonth(chatId));
+                break;
+            case TODAY:
+                result.setText(wrapper.getForToday(chatId));
+                break;
+            default:
+                break;
         }
         return result;
     }
 
-    private String findCommand(String inputStr) {
+    private CommandsType findCommand(String inputStr) {
         switch (inputStr.trim()) {
             case ("!top month"):
             case ("!топ месяц"):
-                return "MONTH";
+                return MONTH;
             case ("!топ сегодня"):
             case ("!top today"):
-                return "TODAY";
+                return TODAY;
             case ("!top"):
             case ("!топ"):
-            default:    return "FULL";
+            default:
+                return FULL;
         }
     }
 
@@ -97,6 +104,8 @@ public class TopHandler implements IHandler {
             return result.toString();
         }
     }
+
+    enum CommandsType {
+        TODAY, MONTH, FULL;
+    }
 }
-
-

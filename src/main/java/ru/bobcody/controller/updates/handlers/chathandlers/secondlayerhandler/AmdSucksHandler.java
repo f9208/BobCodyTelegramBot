@@ -8,6 +8,9 @@ import ru.bobcody.controller.updates.handlers.chathandlers.IHandler;
 
 import java.util.List;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.AMD_FOREVER;
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.AMD_SUCKS;
+
 @Component
 public class AmdSucksHandler implements IHandler {
     @Value("${amd.command}")
@@ -18,8 +21,8 @@ public class AmdSucksHandler implements IHandler {
         SendMessage result = new SendMessage();
         double temp = Math.random() * 4;
         if ((int) temp >> 1 == 1)
-            result.setText("@" + inputMessage.getFrom().getUserName() + ", AMD сосет");
-        else result.setText("@" + inputMessage.getFrom().getUserName() + ", AMD форева!");
+            result.setText("@" + inputMessage.getFrom().getUserName() + ", " + AMD_SUCKS);
+        else result.setText("@" + inputMessage.getFrom().getUserName() + ", " + AMD_FOREVER);
         return result;
     }
 

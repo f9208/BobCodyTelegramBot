@@ -12,11 +12,13 @@ import ru.bobcody.data.services.PieService;
 
 import java.util.List;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.PIE_SERVICE_FAILURE;
+
 @Slf4j
 @Component
 public class PiesHandler implements IHandler {
-    @Autowired
     @Setter
+    @Autowired
     private PieService pieService;
     @Value("${pies.command}")
     private List<String> commands;
@@ -29,7 +31,7 @@ public class PiesHandler implements IHandler {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("pie service failure");
-            result.setText("че то с сервисом пирожков не то");
+            result.setText(PIE_SERVICE_FAILURE);
         }
         return result;
     }

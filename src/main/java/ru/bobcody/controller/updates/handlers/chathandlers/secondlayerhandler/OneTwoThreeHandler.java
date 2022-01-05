@@ -18,7 +18,7 @@ public class OneTwoThreeHandler implements IHandler {
     private List<String> phrases;
     @Value("${onetwothree.command}")
     private List<String> commands;
-    private Random rand = new SecureRandom();
+    private final Random rand = new SecureRandom();
 
     private String getRandomPhrase() {
         return phrases.get(rand.nextInt(phrases.size()));

@@ -12,20 +12,22 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
 
+import static ru.bobcody.utilits.CommonTextConstant.*;
+
 @Slf4j
 @Component
 public class PhotoDocumentMessageResolver extends PhotoMessageResolver {
     @Override
     public SendMessage process(Message message) {
         log.info("start processing a document with image {}", message.getDocument().getFileName());
-        SendMessage result = new SendMessage(message.getChatId().toString(), "я попытался обработать твой файл");
+        SendMessage result = new SendMessage(message.getChatId().toString(), SAVE_FILE_TRY);
         Document document = message.getDocument();
         Objects.requireNonNull(document);
         String telegramFilePath = getFilePath(document.getFileId());
         try {
             File file = translatePhotoAsFile(telegramFilePath);
             if (!checkFileIsImageType(file)) {
-                result.setText("твой файл не похож на картинку. не буду сохранять");
+                result.setText(NO_IMAGE);
                 return result;
             }
             Path savedFilePath = saveFileOnDisk(file, ".jpg");
@@ -35,9 +37,9 @@ public class PhotoDocumentMessageResolver extends PhotoMessageResolver {
             result.setText(httpUrl);
             return result;
         } catch (TelegramApiException | IOException e) {
-            log.error("save file failure. cause: ", e.getCause());
+            log.error("save file failure. Cause: ", e.getCause());
             e.printStackTrace();
-            result.setText("не удалось сохранить файл");
+            result.setText(SAVE_FILE_FAILURE);
         }
         return result;
     }

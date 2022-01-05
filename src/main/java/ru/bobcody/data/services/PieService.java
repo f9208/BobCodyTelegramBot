@@ -18,7 +18,7 @@ import java.util.List;
 public class PieService implements InitializingBean {
     @Autowired
     private PiesProvider piesProvider;
-    private List<SinglePie> listPies = new ArrayList<>();
+    private final List<SinglePie> listPies = new ArrayList<>();
     @Value("${pie.size}")
     private int size;
     private int accumulate;

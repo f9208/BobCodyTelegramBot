@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.io.Serializable;
+import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG_BROKEN;
 
 @Setter
 @Getter
@@ -39,7 +39,7 @@ public class BobCodyBot extends TelegramWebhookBot {
             return botFacade.handleUserUpdate(update);
         } catch (Exception e) {
             e.printStackTrace();
-            return new SendMessage(update.getMessage().getChatId().toString(), "что то пошло не так. я сломался");
+            return new SendMessage(update.getMessage().getChatId().toString(), SMTH_GET_WRONG_BROKEN);
         }
     }
 

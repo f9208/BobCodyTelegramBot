@@ -18,7 +18,7 @@ import java.util.Random;
 @Slf4j
 @Component
 public class PiesProvider {
-    /*у пирожков в айдишниках иногда попадаются мертвые души. Часто они идут блоками друг за другом по несколько штук
+    /* у пирожков в айдишниках иногда попадаются мертвые души. Часто они идут блоками друг за другом по несколько штук
      *  чтоб не перебирать друг за другом, в случае попадания на мертвый - пропускаем сразу десять (константа SKIP)*/
     private static final int SKIP = 10;
     private static final int COUNTER_TRY = 50;
@@ -30,7 +30,7 @@ public class PiesProvider {
     private ObjectMapper objectMapper;
     @Value("${pie.url}")
     private String rootUrl;
-    private Random rand = new SecureRandom();
+    private final Random rand = new SecureRandom();
 
     private PiesProvider() {
     }

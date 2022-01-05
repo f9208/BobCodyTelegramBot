@@ -16,6 +16,8 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.*;
+
 @Slf4j
 @Component
 @PropertySource(value = "classpath:additional.properties", encoding = "UTF-8")
@@ -45,21 +47,18 @@ public class FridayHandler implements IHandler {
 
     private String notFridayAnswer() {
         String result = "";
-        if (todayIs() == DayOfWeek.MONDAY ||
-                todayIs() == DayOfWeek.TUESDAY ||
-                todayIs() == DayOfWeek.WEDNESDAY)
-            result = "сегодня "
-                    + todayIs().getDisplayName(TextStyle.FULL,
-                    new Locale("ru", "RU")) + ". работай давай!";
-
-        if (todayIs() == DayOfWeek.THURSDAY)
-            result = "Сегодня - четверг. А четверг - маленькая пятница! а большая - завтра.";
-
-        if (todayIs() == DayOfWeek.SUNDAY ||
+        DayOfWeek dow = todayIs();
+        if (dow == DayOfWeek.MONDAY ||
+                dow == DayOfWeek.TUESDAY ||
+                dow == DayOfWeek.WEDNESDAY)
+            result = String.format(MO_TU_WE_TODAY, dow.getDisplayName(TextStyle.FULL,
+                    new Locale("ru", "RU")));
+        if (dow == DayOfWeek.THURSDAY)
+            result = THURSDAY_TODAY;
+        if (dow == DayOfWeek.SUNDAY ||
                 LocalDateTime.now().getDayOfWeek() == DayOfWeek.SATURDAY)
-            result = "че за вопросы? сегодня же " +
-                    todayIs().getDisplayName(TextStyle.FULL,
-                            new Locale("ru", "RU")) + "! гуляй, рванина!";
+            result = String.format(SUNDAY_TODAY, dow.getDisplayName(TextStyle.FULL,
+                    new Locale("ru", "RU")));
         return result;
     }
 
