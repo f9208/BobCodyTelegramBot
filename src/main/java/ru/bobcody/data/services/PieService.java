@@ -1,8 +1,8 @@
 package ru.bobcody.data.services;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Service
+@Service("original")
+@RequiredArgsConstructor
 public class PieService implements InitializingBean {
-    @Autowired
-    private PiesProvider piesProvider;
+    private final PiesProvider piesProvider;
     private final List<SinglePie> listPies = new ArrayList<>();
     @Value("${pie.size}")
     private int size;

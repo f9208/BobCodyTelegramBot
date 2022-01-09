@@ -1,6 +1,6 @@
 package ru.bobcody.data.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,9 @@ import ru.bobcody.data.repository.IChatRepository;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class ChatService {
-    @Autowired
-    private IChatRepository chatRepository;
+    private final IChatRepository chatRepository;
 
     @Transactional
     @CacheEvict(value = "chatById", allEntries = true)

@@ -1,6 +1,5 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,10 +11,13 @@ import java.util.List;
 
 @Component
 public class CourseHandlerI implements IHandler {
-    @Autowired
-    CourseWrapper courseWrapper;
+    private final CourseWrapper courseWrapper;
     @Value("${course.command}")
     private List<String> commands;
+
+    public CourseHandlerI(CourseWrapper courseWrapper) {
+        this.courseWrapper = courseWrapper;
+    }
 
     @Override
     public SendMessage handle(Message inputMessage) {

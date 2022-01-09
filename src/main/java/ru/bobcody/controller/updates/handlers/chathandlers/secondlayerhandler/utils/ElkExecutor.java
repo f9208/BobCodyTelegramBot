@@ -42,7 +42,7 @@ public class ElkExecutor {
         } catch (TelegramApiException e) {
             log.error("send elk as telegram file is failure, try to re-send as conventional file");
             executeFridayFromFile(chatId);
-            log.error("send from file have been successful");
+            log.info("send from file have been successful");
         }
     }
 

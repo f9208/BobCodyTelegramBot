@@ -2,7 +2,6 @@ package ru.bobcody.thirdpartyapi.fuckinggreatadvice;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +15,13 @@ import java.net.URL;
 public class FuckingGreatAdviser {
     @Value("${fga.randomAdviceLink}")
     private String randomAdviceLink;
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
     private static final int TIMEOUT = 2000;
     private static final String ADVICE_FIELD = "text";
+
+    public FuckingGreatAdviser(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     private String parser() throws IOException {
         StringBuilder result = new StringBuilder();

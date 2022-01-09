@@ -1,29 +1,21 @@
 package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils;
 import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
 import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.FuckingGreatAdviceHandler;
 import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.Adviser;
-import ru.bobcody.thirdpartyapi.fuckinggreatadvice.FuckingGreatAdviser;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.DEFAULT_ADVICE;
 import static ru.bobcody.data.services.manual.TelegramMessageData.*;
 
 class FuckingGreatAdvicerHandlerTest extends AbstractSpringBootStarterTest {
-    @Mock //эдвайсер работает с внешним апи которое может в любой момент отвалиться поэтому мок
-    FuckingGreatAdviser fuckingGreatAdviser = mock(FuckingGreatAdviser.class);
     @Autowired
     FuckingGreatAdviceHandler fuckingGreatAdviceHandler;
     @Autowired
@@ -31,12 +23,6 @@ class FuckingGreatAdvicerHandlerTest extends AbstractSpringBootStarterTest {
     @Autowired
     MainHandlerTextMessage mainHandlerTextMessage;
     private static final List<String> COMMANDS = PropertiesUtils.getCommandsByKey("fga.command");
-
-    @BeforeEach
-    void init() throws IOException {
-        when(fuckingGreatAdviser.getAdvice()).thenReturn(DEFAULT_ADVICE);
-        adviser.setFuckingGreatAdvicer(fuckingGreatAdviser);
-    }
 
     @DisplayName("get great advice!")
     @ParameterizedTest

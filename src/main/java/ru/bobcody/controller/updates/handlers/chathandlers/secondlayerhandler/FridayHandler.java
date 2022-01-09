@@ -1,7 +1,7 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -21,11 +21,11 @@ import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhan
 @Slf4j
 @Component
 @PropertySource(value = "classpath:additional.properties", encoding = "UTF-8")
+@RequiredArgsConstructor
 public class FridayHandler implements IHandler {
     @Value("${friday.command}")
     private List<String> commands;
-    @Autowired
-    ElkExecutor elkExecutor;
+    private final ElkExecutor elkExecutor;
 
     @Override
     public SendMessage handle(Message inputMessage) {
@@ -33,6 +33,7 @@ public class FridayHandler implements IHandler {
         if (inputMessage.getText().split(" ").length == 1) {
             if (todayIs() == DayOfWeek.FRIDAY) {
                 elkExecutor.executeFriday(inputMessage.getChatId().toString());
+                result.setText("");     // телеграмм не пересылает пустые SendMessage. вписываю "" чтобы в тестах не было NPE
             } else {
                 result.setText(notFridayAnswer());
             }

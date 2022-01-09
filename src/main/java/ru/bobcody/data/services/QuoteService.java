@@ -1,6 +1,6 @@
 package ru.bobcody.data.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.data.entities.Quote;
@@ -9,9 +9,9 @@ import ru.bobcody.data.repository.IQuoteRepository;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class QuoteService {
-    @Autowired
-    private IQuoteRepository quoteRepository;
+    private final IQuoteRepository quoteRepository;
 
     @Transactional
     public Quote save(Quote quote) {

@@ -1,11 +1,9 @@
 package ru.bobcody.controller.updates.handlers.chathandlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.AmdSucksHandler;
-import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.SlapHandler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,10 +20,14 @@ public class FlyHandler {
     private List<String> amdList;
     @Value("${oldMan.command}")
     private List<String> oldMan;
-    @Autowired
-    SlapHandler slapHandler;
-    @Autowired
-    AmdSucksHandler amdSucksHandler;
+    IHandler slapHandler;
+    IHandler amdSucksHandler;
+
+    public FlyHandler(@Qualifier("slapHandler") IHandler slapHandler,
+                      @Qualifier("amdSucksHandler") IHandler amdSucksHandler) {
+        this.slapHandler = slapHandler;
+        this.amdSucksHandler = amdSucksHandler;
+    }
 
     public String findCommandInside(Message message) {
         String[] singleWordArray = message.getText().split("[{^?!*+ .,$:;#%/|()]");

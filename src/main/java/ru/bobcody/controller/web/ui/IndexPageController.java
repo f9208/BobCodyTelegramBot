@@ -1,5 +1,6 @@
 package ru.bobcody.controller.web.ui;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +25,14 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class IndexPageController {
-    @Autowired
-    private TextMessageService textMessageService;
-    @Autowired
-    private LinkService linkService;
+    private final TextMessageService textMessageService;
+    private final LinkService linkService;
     /* Id чата, который будет показываться на главной по умолчанию. для dev и prod это разные айдишники */
-    private final long defaultChatId;
+    @Value("${chat.defaultChatId}")
+    private long defaultChatId;
     private static final String FILE_EXTENSION = ".jpg";
-
-    public IndexPageController(@Value("${chat.defaultChatId}") long defaultChatId) {
-        this.defaultChatId = defaultChatId;
-    }
 
     @GetMapping(value = "/")
     public String get(Model model, HttpServletRequest httpServletRequest) {

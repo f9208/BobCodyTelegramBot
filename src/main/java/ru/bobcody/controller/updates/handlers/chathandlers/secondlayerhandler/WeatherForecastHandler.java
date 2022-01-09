@@ -1,7 +1,7 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -15,9 +15,9 @@ import java.util.List;
 @Slf4j
 @Component
 @PropertySource(value = "classpath:weatherProp.properties", encoding = "UTF-8")
+@RequiredArgsConstructor
 public class WeatherForecastHandler implements IHandler {
-    @Autowired
-    ForecastProducer forecastProducer;
+    private final ForecastProducer forecastProducer;
     @Value("${weather.command}")
     private List<String> commands;
 

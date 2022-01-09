@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.bobcody.thirdpartyapi.openweathermap.entities.City;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class WeatherForecastProvider {
     @Value("${weather.link}")
     private String link;
@@ -33,8 +34,8 @@ public class WeatherForecastProvider {
     @Getter
     @Value("${weather.language}")
     private String language;
-    @Autowired
-    private ObjectMapper objectMapper;
+
+    private final ObjectMapper objectMapper;
 
     public String getFullForecast(String cityName) throws IOException {
         return fullOrShortResolver(cityName, true);

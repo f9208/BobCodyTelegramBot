@@ -1,7 +1,7 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,13 +13,13 @@ import java.util.List;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class QuoteSetHandler implements IHandler {
     @Value("${quote.set.command}")
     private List<String> commands;
     @Value("${chatid.admin}")
     private Long moderatorChatId;
-    @Autowired
-    QuoteConsumer quoteConsumer;
+    private final QuoteConsumer quoteConsumer;
 
     @Override
     public SendMessage handle(Message inputMessage) {

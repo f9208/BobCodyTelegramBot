@@ -1,7 +1,6 @@
 package ru.bobcody.controller.updates.handlers.chathandlers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -14,10 +13,10 @@ import java.util.Map;
 @Component
 public class MainHandlerTextMessage {
     private final Map<String, IHandler> multiHandler = new HashMap<>();
-    @Autowired
-    FlyHandler flyHandler;
+    private final FlyHandler flyHandler;
 
-    public MainHandlerTextMessage(List<IHandler> handlers) {
+    public MainHandlerTextMessage(List<IHandler> handlers, FlyHandler flyHandler) {
+        this.flyHandler = flyHandler;
         for (IHandler iterHandler : handlers) {
             for (String insideListOrder : iterHandler.getOrderList()) {
                 multiHandler.put(insideListOrder, iterHandler);

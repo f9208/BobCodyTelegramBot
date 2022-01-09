@@ -16,13 +16,13 @@ import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG_BROKEN;
 @Getter
 @ConfigurationProperties(prefix = "botloading")
 public class BobCodyBot extends TelegramWebhookBot {
-    String botName;
-    String botToken;
-    String webHookPath;
+    private String botName;
+    private String botToken;
+    private String webHookPath;
 
     @Autowired
     @Lazy
-    BotFacade botFacade;
+    private BotFacade botFacade;
 
     public BobCodyBot() {
     }

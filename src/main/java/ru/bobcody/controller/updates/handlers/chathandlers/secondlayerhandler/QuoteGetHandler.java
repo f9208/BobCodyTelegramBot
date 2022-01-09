@@ -1,7 +1,7 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -16,12 +16,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class QuoteGetHandler implements IHandler {
     @Value("${quote.get.command}")
     private List<String> commands;
-
-    @Autowired
-    QuoteProducer quoteProducer;
+    private final QuoteProducer quoteProducer;
 
     @Override
     public SendMessage handle(Message inputMessage) {

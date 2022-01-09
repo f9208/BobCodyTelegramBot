@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.ONLY_POSITIVE_NUMBERS;
 import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_1_ABYSS;
 import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_2_ABYSS;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;
@@ -63,7 +64,7 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
     void getQuoteInvalidId(String inputMessage) {
         TELEGRAM_MESSAGE_1.setText(inputMessage);
         String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText();
-        assertThat(answer).isEqualTo("в качестве номера цитаты используйте только положительные числа");
+        assertThat(answer).isEqualTo(ONLY_POSITIVE_NUMBERS);
     }
 
     @ParameterizedTest
@@ -79,7 +80,7 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
     void getCapsInvalidId(String inputMessage) {
         TELEGRAM_MESSAGE_1.setText(inputMessage);
         String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_1).getText();
-        assertThat(answer).isEqualTo("в качестве номера цитаты используйте только положительные числа");
+        assertThat(answer).isEqualTo(ONLY_POSITIVE_NUMBERS);
     }
 
     private static List<String> getQuoteWithoutId() {
@@ -88,8 +89,8 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
 
     private static List<String> getQuoteWithId() {
         List<String> results = new ArrayList();
-        getQuoteWithoutId().stream().map((q) -> q + " 1").forEach(results::add);
-        getQuoteWithoutId().stream().map((q) -> q + " 2").forEach(results::add);
+        getQuoteWithoutId().stream().map(q -> q + " 1").forEach(results::add);
+        getQuoteWithoutId().stream().map(q -> q + " 2").forEach(results::add);
         return results;
     }
 
@@ -99,8 +100,8 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
 
     private static List<String> getCapsWithId() {
         List<String> results = new ArrayList();
-        getCapsWithoutId().stream().map((q) -> q + " 1").forEach(results::add);
-        getCapsWithoutId().stream().map((q) -> q + " 2").forEach(results::add);
+        getCapsWithoutId().stream().map(q -> q + " 1").forEach(results::add);
+        getCapsWithoutId().stream().map(q -> q + " 2").forEach(results::add);
         return results;
     }
 }
