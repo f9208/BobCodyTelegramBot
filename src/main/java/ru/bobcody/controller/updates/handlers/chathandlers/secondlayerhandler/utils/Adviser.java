@@ -1,8 +1,7 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils;
 
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.bobcody.thirdpartyapi.fuckinggreatadvice.FuckingGreatAdviser;
 
@@ -10,16 +9,15 @@ import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhan
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class Adviser {
-    @Autowired
-    @Setter
-    private FuckingGreatAdviser fuckingGreatAdvicer;
+    private final FuckingGreatAdviser fuckingGreatAdviser;
 
     public String getAdvice() {
         log.info("make advice");
         String result;
         try {
-            result = fuckingGreatAdvicer.getAdvice();
+            result = fuckingGreatAdviser.getAdvice();
         } catch (Exception e) {
             e.printStackTrace();
             log.error("service is not available");

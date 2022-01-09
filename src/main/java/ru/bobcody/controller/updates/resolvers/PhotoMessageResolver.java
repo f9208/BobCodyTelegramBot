@@ -1,5 +1,8 @@
 package ru.bobcody.controller.updates.resolvers;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +35,12 @@ import static ru.bobcody.utilits.CommonTextConstant.*;
 
 @Slf4j
 @Component
+@AllArgsConstructor
+@NoArgsConstructor
 public class PhotoMessageResolver implements IMessageResolver {
-    @Autowired
     private BobCodyBot bobCodyBot;
     @Value("${imageSave.path}")
     private String rootPath;
-    @Autowired
     private LinkService linkService;
     @Value("${botloading.web-hook-path}")
     private String rootUrl;

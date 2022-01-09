@@ -1,9 +1,9 @@
 package ru.bobcody;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -29,11 +29,10 @@ import static ru.bobcody.utilits.MessageWriteLog.writeLog;
 @Setter
 @Getter
 @Component
+@RequiredArgsConstructor
 public class BotFacade {
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
-    @Autowired
-    Resolver resolver;
+    private final MainHandlerTextMessage mainHandlerTextMessage;
+    private final Resolver resolver;
 
     // BotApiMethods - A methods of Telegram Bots Api that is fully supported in json format
     public BotApiMethod<?> handleUserUpdate(Update update) {

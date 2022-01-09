@@ -1,6 +1,6 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -16,11 +16,11 @@ import java.util.List;
 import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.TopHandler.CommandsType.*;
 
 @Component
+@RequiredArgsConstructor
 public class TopHandler implements IHandler {
     @Value("${top.command}")
     private List<String> commands;
-    @Autowired
-    TextMessageService textMessageService;
+    private final TextMessageService textMessageService;
     @Value("${top.all}")
     private String messagePrefixAll;
     @Value("${top.month}")

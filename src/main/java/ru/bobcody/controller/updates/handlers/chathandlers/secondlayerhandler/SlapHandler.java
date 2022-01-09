@@ -20,7 +20,7 @@ public class SlapHandler implements IHandler {
     private List<String> phrases;
     @Value("${slap.command}")
     private List<String> commands;
-    private Random rand = new SecureRandom();
+    private final Random rand = new SecureRandom();
 
     private String getRandomAnswer() {
         return phrases.get(rand.nextInt(phrases.size()));

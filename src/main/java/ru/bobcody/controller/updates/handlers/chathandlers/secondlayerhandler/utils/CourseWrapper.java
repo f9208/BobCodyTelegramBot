@@ -1,13 +1,13 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.bobcody.thirdpartyapi.courses.CourseValutParser;
 
 @Component
+@RequiredArgsConstructor
 public class CourseWrapper {
-    @Autowired
-    private CourseValutParser courseValutParser;
+    private final CourseValutParser courseValutParser;
 
     public String getCourse() {
         StringBuilder result = new StringBuilder("текущий курс валют по курсу ЦБ РФ на ");

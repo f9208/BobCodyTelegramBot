@@ -1,6 +1,6 @@
 package ru.bobcody.controller.updates.resolvers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,24 +10,22 @@ import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessag
 import ru.bobcody.data.entities.Chat;
 import ru.bobcody.data.entities.Guest;
 import ru.bobcody.data.entities.TextMessage;
-import ru.bobcody.data.services.TextMessageService;
 import ru.bobcody.data.services.ChatService;
 import ru.bobcody.data.services.GuestService;
+import ru.bobcody.data.services.TextMessageService;
 
 import java.util.Objects;
 
 import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG;
 
 @Component
+@RequiredArgsConstructor
 public class TextMessageResolver implements IMessageResolver {
-    @Autowired
-    private MainHandlerTextMessage mainHandlerTextMessage;
-    @Autowired
-    private GuestService guestService;
-    @Autowired
-    private TextMessageService textMessageService;
-    @Autowired
-    private ChatService chatService;
+    private final MainHandlerTextMessage mainHandlerTextMessage;
+    private final GuestService guestService;
+    private final TextMessageService textMessageService;
+    private final ChatService chatService;
+
     @Value("${chatid.admin}")
     private String adminChatId;
     private final Guest botAsGuest = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
@@ -41,7 +39,7 @@ public class TextMessageResolver implements IMessageResolver {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            replay.setText(SMTH_GET_WRONG+": " + e.toString());
+            replay.setText(SMTH_GET_WRONG + ": " + e.toString());
             replay.setChatId(adminChatId);
         } finally {
             saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));

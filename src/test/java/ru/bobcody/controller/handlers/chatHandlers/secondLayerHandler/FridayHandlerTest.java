@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,13 @@ class FridayHandlerTest extends AbstractSpringBootStarterTest {
     @MethodSource("getCommands")
     void handle(String inputMessage) {
         TELEGRAM_MESSAGE_2.setText(inputMessage);
-        String[] exp = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText().split("[\\s+\\.!]");
-       assertThat(answers()).containsAnyOf(exp);
-
+        if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
+            String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText();
+            assertThat(answer).isEmpty();
+        } else {
+            String[] exp = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText().split("[\\s+\\.!]");
+            assertThat(answers()).containsAnyOf(exp);
+        }
     }
 
     private List<String> answers() {

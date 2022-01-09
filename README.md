@@ -1,10 +1,10 @@
 ## Telegram-бот на java
 
-Бот изначально разрабатывался для одного конкретного чата под конкретных людей, а именно бывших обитателей одного
-мертвого ныне IRC канала Ижевской сети. И в какой то мере повторят возможности и функции работавших на том канале ботов.
+Бот изначально разрабатывался для одного конкретного чата под конкретных людей - бывших обитателей одного
+мертвого ныне IRC канала.
 
 @BobCodyBot - имя бота в Telegram.
-https://glacial-hollows-98092.herokuapp.com/ - веб морда с логами
+https://bobcody.etherlord.org - веб морда с логами
 
 #### Доступные команды:
 
@@ -42,23 +42,26 @@ https://glacial-hollows-98092.herokuapp.com/ - веб морда с логами
 ##### Стек технологий:
 
 - Telegram-bot API
-- Spring Boot, Spring Data
+- Spring Boot, Spring Data, Test
 - Hibernate
 - PostgreSQL/(HSQLDB для тестов)
 - JSP/JSTL + Bootstrap
 - Maven
+- Apache TomCat (embedded), .war
 - Ehcache
 - JSON (jackson)
 - AssertJ, Mockito
-- сторонние API (через json)
+- сторонние API (fu**ing-great-advice.ru, OpenWeatherMap.org: json; cbr.ru: xml)
+- парсинг (jackson)
 - lombok
-- Heroku
+
+само приложение собирается в war и запускается мною на внешнем сервере по ssh.
 
 ##### Внутренние описание работы в двух словах
 
 Обновления из Telegram можно получить двумя путями - либо постоянный опрос, либо через вебхуки. Я решил сделать через
 вебхуки: для этого необходимо указать url ресурса, куда будут отправляться обновления.
-> из описания к API:  
+> из описания к TelegramAPI:  
 > Каждый раз при получении обновления на этот адрес будет отправлен HTTPS POST с сериализованным в JSON объектом Update
 
 В ответ он будет отправлять json с объектом PartialBotApiMethod (SendMessage, например) и кодом ответа 200 в случае

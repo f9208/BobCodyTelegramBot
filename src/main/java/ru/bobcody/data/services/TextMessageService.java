@@ -1,7 +1,7 @@
 package ru.bobcody.data.services;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.data.entities.TextMessage;
@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class TextMessageService {
-    @Autowired
-    private ITextMessageRepository textMessageRepository;
+    private final ITextMessageRepository textMessageRepository;
 
     @Transactional
     public int saveInputMessage(TextMessage textMessage) {
@@ -57,7 +57,8 @@ public class TextMessageService {
                 message.getChat().getId(),
                 message.getGuest().getId());
     }
-//todo написать на это дело тесты
+
+    //todo написать на это дело тесты
     public List<String> getTop(long chatId, LocalDateTime since, LocalDateTime to) {
         return textMessageRepository.getTop(chatId, since, to);
     }

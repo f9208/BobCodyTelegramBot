@@ -3,7 +3,6 @@ package ru.bobcody.thirdpartyapi.hotpies;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -26,13 +25,13 @@ public class PiesProvider {
     private static final String STOP_WORD = "Другие лучшие";
     private static final int TIMEOUT = 5000;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
     @Value("${pie.url}")
     private String rootUrl;
     private final Random rand = new SecureRandom();
 
-    private PiesProvider() {
+    public PiesProvider(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
     public SinglePie getOneRandomly() throws IOException {

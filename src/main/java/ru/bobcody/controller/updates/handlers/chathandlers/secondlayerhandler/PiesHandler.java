@@ -1,8 +1,7 @@
 package ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler;
 
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -16,10 +15,9 @@ import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhan
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class PiesHandler implements IHandler {
-    @Setter
-    @Autowired
-    private PieService pieService;
+    private final PieService pieService;
     @Value("${pies.command}")
     private List<String> commands;
 
