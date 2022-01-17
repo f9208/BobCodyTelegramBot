@@ -1,5 +1,6 @@
-package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +10,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils.getCommandsByKey;
-import static ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils.getPropertiesByPath;
+import static ru.bobcody.controller.handlers.chathandlers.PropertiesUtils.getCommandsByKey;
+import static ru.bobcody.controller.handlers.chathandlers.PropertiesUtils.getPropertiesByPath;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_2;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class QuAnswerHandlerTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
     private final static List<String> COMMANDS = getCommandsByKey("qu.command");
-    private List<String> phrases =
+
+    private final MainHandlerTextMessage mainHandlerTextMessage;
+    private final List<String> phrases =
             getPropertiesByPath("answers/touchBot.properties",
                     "qu.answer");
 

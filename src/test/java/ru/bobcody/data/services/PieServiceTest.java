@@ -3,16 +3,20 @@ package ru.bobcody.data.services;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
+import ru.bobcody.controller.handlers.chathandlers.secondlayerhandler.AbstractSpringBootStarterTest;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PieServiceTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    @Qualifier("original")
-    PieService pieService;
+
+    private final PieService pieService;
+
+    public PieServiceTest(@Autowired
+                          @Qualifier("original") PieService pieService) {
+        this.pieService = pieService;
+    }
 
     @Test
     void getOne() throws IOException {

@@ -1,6 +1,8 @@
 package ru.bobcody.thirdpartyapi.courses;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlType(propOrder = {"numCode", "charCode", "nominal", "name", "value"})
 public class Valuta {

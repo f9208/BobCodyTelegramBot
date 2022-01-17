@@ -1,8 +1,9 @@
 package ru.bobcody.data.services;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
+import ru.bobcody.controller.handlers.chathandlers.secondlayerhandler.AbstractSpringBootStarterTest;
 import ru.bobcody.data.entities.Quote;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.bobcody.data.services.manual.QuoteDate.*;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class QuoteServiceTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    QuoteService quoteService;
+    private final QuoteService quoteService;
 
     {
         ignoreFields = new String[]{"author"};

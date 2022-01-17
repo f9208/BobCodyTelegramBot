@@ -1,31 +1,27 @@
-package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils;
+import ru.bobcody.controller.handlers.chathandlers.PropertiesUtils;
 import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
-import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.AmdSucksHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_3;
-
-public class AmdSucksHandlerTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    AmdSucksHandler amdSucksHandler;
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+class AmdSucksHandlerTest extends AbstractSpringBootStarterTest {
     private static final List<String> COMMANDS = PropertiesUtils.getCommandsByKey("amd.command");
+    private final MainHandlerTextMessage mainHandlerTextMessage;
 
     @DisplayName("AmdSucksOrNot?")
     @ParameterizedTest
     @MethodSource("getPhrases")
-    public void amdHasAnswer(String inputText) {
+    void amdHasAnswer(String inputText) {
         TELEGRAM_MESSAGE_3.setText(inputText);
         System.out.println(inputText);
         String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_3).getText();
@@ -38,7 +34,7 @@ public class AmdSucksHandlerTest extends AbstractSpringBootStarterTest {
     @DisplayName("amd_string_not_continued?")
     @ParameterizedTest
     @MethodSource("getWrongPhrases")
-    public void noAmd(String inputText) {
+    void noAmd(String inputText) {
         TELEGRAM_MESSAGE_3.setText(inputText);
         System.out.println(inputText);
         String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_3).getText();

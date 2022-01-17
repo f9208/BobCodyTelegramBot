@@ -1,11 +1,12 @@
 package ru.bobcody.data.services;
 
+import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler.AbstractSpringBootStarterTest;
+import ru.bobcody.controller.handlers.chathandlers.secondlayerhandler.AbstractSpringBootStarterTest;
 import ru.bobcody.data.entities.TextMessage;
 import ru.bobcody.data.services.manual.TelegramMessageData;
 
@@ -16,9 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.data.services.manual.ChatData.GROUP_CHAT;
 import static ru.bobcody.data.services.manual.TextMessageData.*;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class TextMessageServiceTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    TextMessageService textMessageService;
+    private final TextMessageService textMessageService;
 
     {
         ignoreFields = new String[]{"guest", "chat"};
@@ -53,7 +54,7 @@ class TextMessageServiceTest extends AbstractSpringBootStarterTest {
                 .contains(TEXT_MESSAGE_2)
                 .doesNotContain(TEXT_MESSAGE_4);
     }
- //todo
+    //todo
 //    @Test
 //        //валится потому что native query не умеет в hsqldb. переделать
 //    void getListDatesForChat() {

@@ -1,31 +1,25 @@
-package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.bobcody.BobCodyBot;
 import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
-import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.QuoteSetHandler;
 import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.QuoteConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static ru.bobcody.data.services.manual.TelegramMessageData.*;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class QuoteSetHandlerTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
-    @Autowired
-    QuoteSetHandler quoteSetHandler;
-    @Autowired
-    QuoteConsumer quoteConsumer;
-    BobCodyBot bobCodyBot = Mockito.mock(BobCodyBot.class);
-    @Value("${chatid.admin}")
-    Long moderatorId;
+    private final MainHandlerTextMessage mainHandlerTextMessage;
+    private final QuoteConsumer quoteConsumer;
+    private final BobCodyBot bobCodyBot = Mockito.mock(BobCodyBot.class);
 
     @ParameterizedTest
     @ValueSource(strings = {"!дц текст цитаты", "!aq text quote"})

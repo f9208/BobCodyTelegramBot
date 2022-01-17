@@ -1,5 +1,6 @@
-package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,13 +21,12 @@ import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_2_ABYSS;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_2;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
-    @Autowired
-    QuoteService quoteService;
-    String regexpQuote = "Цитата (([0-9№\\(\\)])+\\s)+added: 20[0-9][0-9]\\.[01][0-2]\\.[0-3][0-9]\n.*";
-    String regexpCaps = "Капс (([0-9№\\(\\)])+\\s)+added: 20[0-9][0-9]\\.[01][0-2]\\.[0-3][0-9]\n.*";
+    private final MainHandlerTextMessage mainHandlerTextMessage;
+    private final QuoteService quoteService;
+    private final String REGEXP_QUOTE = "Цитата (([0-9№\\(\\)])+\\s)+added: 20[0-9][0-9]\\.[01][0-2]\\.[0-3][0-9]\n.*";
+    private final String REGEXP_CAPS = "Капс (([0-9№\\(\\)])+\\s)+added: 20[0-9][0-9]\\.[01][0-2]\\.[0-3][0-9]\n.*";
 
     //добавим в базу еще по одной цитате и капсу
     @BeforeEach
@@ -40,7 +40,7 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
     void handleQuote(String inputText) {
         TELEGRAM_MESSAGE_2.setText(inputText);
         String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText();
-        assertThat(answer).matches(Pattern.compile(regexpQuote));
+        assertThat(answer).matches(Pattern.compile(REGEXP_QUOTE));
     }
 
     @ParameterizedTest
@@ -48,7 +48,7 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
     void handleCaps(String inputText) {
         TELEGRAM_MESSAGE_2.setText(inputText);
         String answer = mainHandlerTextMessage.handle(TELEGRAM_MESSAGE_2).getText();
-        assertThat(answer).matches(Pattern.compile(regexpCaps));
+        assertThat(answer).matches(Pattern.compile(REGEXP_CAPS));
     }
 
     @ParameterizedTest
@@ -88,7 +88,7 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
     }
 
     private static List<String> getQuoteWithId() {
-        List<String> results = new ArrayList();
+        List<String> results = new ArrayList<>();
         getQuoteWithoutId().stream().map(q -> q + " 1").forEach(results::add);
         getQuoteWithoutId().stream().map(q -> q + " 2").forEach(results::add);
         return results;
@@ -99,7 +99,7 @@ class QuoteGetHandlerTest extends AbstractSpringBootStarterTest {
     }
 
     private static List<String> getCapsWithId() {
-        List<String> results = new ArrayList();
+        List<String> results = new ArrayList<>();
         getCapsWithoutId().stream().map(q -> q + " 1").forEach(results::add);
         getCapsWithoutId().stream().map(q -> q + " 2").forEach(results::add);
         return results;

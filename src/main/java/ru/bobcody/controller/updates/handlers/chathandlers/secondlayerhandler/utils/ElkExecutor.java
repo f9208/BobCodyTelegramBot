@@ -47,7 +47,7 @@ public class ElkExecutor {
     }
 
 
-    @Scheduled(cron = "0 00 8 * * FRI ")
+    @Scheduled(cron = "0 59 17 * * FRI ")
     private void sendFridayGif() {
         executeFriday(mainChatId);
     }
