@@ -1,13 +1,12 @@
 package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
-import ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.PiesHandler;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,14 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.controller.handlers.chathandlers.PropertiesUtils.getCommandsByKey;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class PiesHandlerTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
-    @Autowired
-    PiesHandler piesHandler;
-    @Autowired
-    DataSource dataSource;
     private final static List<String> COMMANDS = getCommandsByKey("pies.command");
+
+    @Autowired
+    private final MainHandlerTextMessage mainHandlerTextMessage;
 
     @ParameterizedTest
     @MethodSource("getCommands")
