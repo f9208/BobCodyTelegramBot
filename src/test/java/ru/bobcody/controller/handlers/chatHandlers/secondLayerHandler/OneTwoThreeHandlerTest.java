@@ -1,5 +1,6 @@
 package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,11 +16,12 @@ import static ru.bobcody.controller.handlers.chathandlers.PropertiesUtils.getCom
 import static ru.bobcody.controller.handlers.chathandlers.PropertiesUtils.getPropertiesByPath;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_2;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class OneTwoThreeHandlerTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
     private static List<String> COMMANDS = getCommandsByKey("onetwothree.command");
-    private final  List<String> phrases =
+
+    private final MainHandlerTextMessage mainHandlerTextMessage;
+    private final List<String> phrases =
             getPropertiesByPath("answers/onetwothree.properties",
                     "\uFEFFonetwothree.phrases");
 

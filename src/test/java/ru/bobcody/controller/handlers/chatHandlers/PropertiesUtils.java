@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Properties;
 
 public class PropertiesUtils {
-    static public List<String> getCommandsByKey(String propertyKey) {
+    private PropertiesUtils() {
+    }
+
+    public static List<String> getCommandsByKey(String propertyKey) {
         String props = getAnyProperties("commands.properties", propertyKey);
         String[] cut = props.replaceAll("\\s+", "").split("[,]");
         return Lists.list(cut);
@@ -25,7 +28,7 @@ public class PropertiesUtils {
         return Lists.list(cut);
     }
 
-    static public String getAnyProperties(String propertiesPath, String key) {
+    public static String getAnyProperties(String propertiesPath, String key) {
         Properties props = new Properties();
         InputStream is = ClassLoader.getSystemResourceAsStream(propertiesPath);
         Reader r = new InputStreamReader(is);

@@ -1,5 +1,6 @@
 package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,11 +13,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class MyChatIdHandlerTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
-
     private static final List<String> COMMANDS = PropertiesUtils.getCommandsByKey("id.command");
+
+    private final MainHandlerTextMessage mainHandlerTextMessage;
 
     @DisplayName("get chat Id")
     @ParameterizedTest

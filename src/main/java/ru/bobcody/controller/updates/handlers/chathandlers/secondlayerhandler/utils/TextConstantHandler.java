@@ -24,7 +24,6 @@ public class TextConstantHandler {
     public static final String FOR_SEARCHING_TIP = "для поиска цитат используйте синтаксис: !q + номер_цитаты_цифрами";
 
 
-
     /* weather constants */
     public static final String CITY_NOT_FOUND = "? Где это? в Бельгии что-ли?";
     /* set city */

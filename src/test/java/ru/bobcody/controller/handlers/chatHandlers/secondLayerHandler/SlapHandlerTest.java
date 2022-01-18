@@ -1,5 +1,6 @@
 package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,11 +15,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_3;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class SlapHandlerTest extends AbstractSpringBootStarterTest {
-    List<String> answers = PropertiesUtils.getPropertiesByPath("answers/touchBot.properties", "slap.phrases");
-    @Autowired
-    MainHandlerTextMessage mainHandlerTextMessage;
     private static final List<String> COMMANDS = PropertiesUtils.getCommandsByKey("slap.command");
+
+    private final List<String> answers = PropertiesUtils.getPropertiesByPath("answers/touchBot.properties", "slap.phrases");
+    private final MainHandlerTextMessage mainHandlerTextMessage;
 
     @DisplayName("slap")
     @ParameterizedTest

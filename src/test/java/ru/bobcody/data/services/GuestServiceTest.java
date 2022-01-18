@@ -1,5 +1,6 @@
 package ru.bobcody.data.services;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,14 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static ru.bobcody.data.services.manual.GuestsData.*;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class GuestServiceTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    GuestService guestService;
+    private final GuestService guestService;
 
     {
         ignoreFields = new String[]{"textMessages"};
     }
-
 
     @Transactional
     @Test
@@ -36,8 +36,9 @@ class GuestServiceTest extends AbstractSpringBootStarterTest {
     @Test
     void getAll() {
         List<Guest> dbList = guestService.getAll();
-        assertThat(dbList).contains(SERGY, DMITRY, ADMIN);
-        assertThat(dbList).hasSize(3);
+        assertThat(dbList)
+                .contains(SERGY, DMITRY, ADMIN)
+                .hasSize(3);
     }
 
     @Test

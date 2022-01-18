@@ -10,9 +10,13 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PieServiceTest extends AbstractSpringBootStarterTest {
-    @Autowired
-    @Qualifier("original")
-    PieService pieService;
+
+    private final PieService pieService;
+
+    public PieServiceTest(@Autowired
+                          @Qualifier("original") PieService pieService) {
+        this.pieService = pieService;
+    }
 
     @Test
     void getOne() throws IOException {
