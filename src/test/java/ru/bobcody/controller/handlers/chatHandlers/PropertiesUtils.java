@@ -1,9 +1,6 @@
-package ru.bobcody.controller.handlers.chatHandlers;
+package ru.bobcody.controller.handlers.chathandlers;
 
 import org.assertj.core.util.Lists;
-import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

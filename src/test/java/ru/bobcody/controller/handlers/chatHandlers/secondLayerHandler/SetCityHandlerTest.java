@@ -1,4 +1,4 @@
-package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

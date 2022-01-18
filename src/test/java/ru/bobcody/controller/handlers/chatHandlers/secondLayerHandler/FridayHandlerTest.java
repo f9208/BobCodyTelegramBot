@@ -1,4 +1,4 @@
-package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils.getCommandsByKey;
+import static ru.bobcody.controller.handlers.chathandlers.PropertiesUtils.getCommandsByKey;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_2;
 
 class FridayHandlerTest extends AbstractSpringBootStarterTest {

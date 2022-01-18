@@ -1,4 +1,4 @@
-package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,11 +1,11 @@
-package ru.bobcody.controller.handlers.chatHandlers.secondLayerHandler;
+package ru.bobcody.controller.handlers.chathandlers.secondlayerhandler;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.bobcody.controller.handlers.chatHandlers.PropertiesUtils;
+import ru.bobcody.controller.handlers.chathandlers.PropertiesUtils;
 import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
 
 import java.util.ArrayList;
