@@ -1,49 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <springProfile name="dev, prod, local, ether, test">
-    <!--консольный аппендер берется отсюда: он сам и его "внешний вид"-->
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
-    <property name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss.SSS}  %-4relative [%thread] %-5level %logger{56} - %msg%n"/>
+        <!--консольный аппендер берется отсюда: он сам и его "внешний вид"-->
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <!--адрес логов-->
-    <property name="LOG_PATH" value="logs/"/>
-    <property name="LOG_DIR" value="${LOG_PATH}/"/>
-    <timestamp key="timestamp-by-year" datePattern="yyyy"/>
-    <timestamp key="timestamp-by-month" datePattern="MM"/>
-    <timestamp key="timestamp-by-day" datePattern="dd"/>
+        <property name="CONSOLE_LOG_PATTERN"
+                  value="%d{HH:mm:ss.SSS}  %-4relative [%thread] %-5level %logger{56} - %msg%n"/>
+        <property name="INPUT_MESSAGE_PATTERN"
+                  value="%d{HH:mm:ss.S}: %msg%n"/>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/${timestamp-by-day}_loading_and_events.log</file>
-        <encoder>
-            <!--файловый аппендер берется отсюда: (внешний вид делаем такоей же как и в консоле)-->
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <!--<outputPatternAsHeader>true</outputPatternAsHeader>-->
+        <!--адрес логов-->
+        <property name="LOG_PATH" value="logs/"/>
+        <property name="LOG_DIR" value="${LOG_PATH}/"/>
+        <timestamp key="timestamp-by-year" datePattern="yyyy"/>
+        <timestamp key="timestamp-by-month" datePattern="MM"/>
+        <timestamp key="timestamp-by-day" datePattern="dd"/>
 
-<!--            <totalSizeCap>10MB</totalSizeCap>-->
+        <!--аппендер для того, что летит в консоль-->
+        <appender name="load_and_events" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file value="${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/${timestamp-by-day}_loading_and_events.log"/>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>
+                    ${LOG_DIR}/%d{yyyy\MM\dd}_loading_and_events.log
+                </FileNamePattern>
+            </rollingPolicy>
+            <encoder>
+                <!--файловый аппендер берется отсюда: (внешний вид делаем такоей же как и в консоле)-->
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
 
-        </encoder>
-    </appender>
+        <!--аппендер для входящих\исходящих сообщений -->
+        <appender name="IO_Messages" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file value="${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/${timestamp-by-day}_IO_Text_Messages.log"/>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>
+                    ${LOG_DIR}/%d{yyyy\MM\dd}_IO__Text_Messages.log
+                </FileNamePattern>
+            </rollingPolicy>
+            <encoder>
+                <pattern>${INPUT_MESSAGE_PATTERN}</pattern>
+            </encoder>
+        </appender>
 
-    <!--логи в файл входящих\исходящих сообщений-->
-    <appender name="INPUT_AND_OUTPUT_MESSAGE_FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/${timestamp-by-year}/${timestamp-by-month}/${timestamp-by-day}_IO_Messages.log</file>
-        <encoder>
-            <pattern>%msg%n</pattern>
-        </encoder>
-    </appender>
+        <!--    классы, за которыми следят эти аппендеры -->
+        <logger name="ru.bobcody.utilits.MessageWriteLog" level="INFO">
+            <appender-ref ref="IO_Messages"/>
+        </logger>
+        <logger name="ru.bobcody.data.services.TextMessageService" level="INFO">
+            <appender-ref ref="IO_Messages"/>
+        </logger>
 
-    <logger name="ru.bobcody.BotFacade" level="INFO">
-        <appender-ref ref="INPUT_AND_OUTPUT_MESSAGE_FILE"/>
-    </logger>
-    <logger name="org.hibernate.SQL">
-        <level value="debug"/>
-    </logger>
-
-    <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-
-    </root>
+        <!-- LOG everything at INFO level -->
+        <root level="TRACE">
+            <appender-ref ref="CONSOLE"/>
+<!--            <appender-ref ref="load_and_events"/>-->
+        </root>
     </springProfile>
 </configuration>

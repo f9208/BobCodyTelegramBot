@@ -3,7 +3,6 @@ package ru.bobcody;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -25,7 +24,7 @@ import static ru.bobcody.utilits.MessageWriteLog.writeLog;
  * <p>
  * фотки и текстовые сообщения логируются, остальные тупо постятся в консоль
  */
-@Slf4j
+
 @Setter
 @Getter
 @Component

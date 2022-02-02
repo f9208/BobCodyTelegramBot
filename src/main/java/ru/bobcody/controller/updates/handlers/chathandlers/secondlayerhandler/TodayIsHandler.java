@@ -18,7 +18,6 @@ import java.util.TimeZone;
 public class TodayIsHandler implements IHandler {
     private static final DateTimeFormatter HOUR_MINUTE = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter DAY_MONTH_YEAR = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-    private static final DateTimeFormatter DAY_MONTH = DateTimeFormatter.ofPattern("dd MMMM");
 
     @Value("${today.is.command}")
     private List<String> commands;
@@ -27,7 +26,6 @@ public class TodayIsHandler implements IHandler {
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
 
-        TimeZone calliforniaTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
         TimeZone bratislava = TimeZone.getTimeZone("Europe/Bratislava");
 
         StringBuilder currentDate = new StringBuilder();
@@ -46,13 +44,7 @@ public class TodayIsHandler implements IHandler {
                 .append("\n")
                 .append("у кориафчика в Словакии: ")
                 .append(LocalDateTime.now(bratislava.toZoneId()).format(HOUR_MINUTE))
-                .append("\n")
-                .append("в солнечной Калифорнии: ")
-                .append(LocalDateTime.now(calliforniaTimeZone.toZoneId()).format(HOUR_MINUTE))
-                .append(" (")
-                .append(LocalDateTime.now(calliforniaTimeZone.toZoneId()).format(DAY_MONTH
-                        .withLocale(new Locale("ru", "RU"))))
-                .append(")\n");
+                .append("\n");
         result.setText(currentDate.toString());
         return result;
     }

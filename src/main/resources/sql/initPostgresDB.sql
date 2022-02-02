@@ -25,6 +25,7 @@
 -- );
 
 
+-- сначала запустить с spring.jpa.hibernate.ddl-auto=create, потом выполнить следующие скрипты:
 alter table text_message
     alter id set default nextval('text_message_id_seq');
 alter table quotes

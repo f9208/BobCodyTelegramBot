@@ -42,7 +42,9 @@ public class TextMessageResolver implements IMessageResolver {
             replay.setText(SMTH_GET_WRONG + ": " + e.toString());
             replay.setChatId(adminChatId);
         } finally {
-            saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));
+            if (replay.getText()!=null) {
+                saveSendMessage(replay, message.getMessageId(), new Chat(message.getChat()));
+            }
         }
         return replay;
     }
