@@ -19,8 +19,8 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <springboot.version>2.3.12.RELEASE</springboot.version>
-        <hsqldb.version>2.5.2</hsqldb.version>
+        <springboot.version>2.6.6</springboot.version>
+        <hsqldb.version>2.7.1</hsqldb.version>
         <!--        Cache       -->
         <ehcache.version>3.9.2</ehcache.version>
         <!--        Web     -->
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.5</version>
+            <version>42.2.25</version>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
