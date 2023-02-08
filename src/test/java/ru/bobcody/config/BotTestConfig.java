@@ -6,7 +6,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import ru.bobcody.data.services.PieService;
+import ru.bobcody.services.PieService;
 import ru.bobcody.thirdpartyapi.fuckinggreatadvice.FuckingGreatAdviser;
 import ru.bobcody.thirdpartyapi.hotpies.SinglePie;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.DEFAULT_ADVICE;
+import static ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.DEFAULT_ADVICE;
 
 @TestConfiguration
 public class BotTestConfig {
@@ -47,7 +47,7 @@ public class BotTestConfig {
         return pieService;
     }
 
-    @Bean
+//    @Bean
     public FuckingGreatAdviser fuckingGreatAdviser() {
         //эдвайсер работает с внешним апи которое может в любой момент отвалиться поэтому мок
         FuckingGreatAdviser fuckingGreatAdviser = mock(FuckingGreatAdviser.class);

@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.updates.handlers.chathandlers.MainHandlerTextMessage;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ class OneTwoThreeHandlerTest extends AbstractSpringBootStarterTest {
 
     private final MainHandlerTextMessage mainHandlerTextMessage;
     private final List<String> phrases =
-            getPropertiesByPath("answers/onetwothree.properties",
+            getPropertiesByPath("src/test/oldRes/answers/onetwothree.properties",
                     "\uFEFFonetwothree.phrases");
 
     @DisplayName("!123")

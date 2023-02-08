@@ -4,7 +4,7 @@
 мертвого ныне IRC канала.
 
 @BobCodyBot - имя бота в Telegram.
-https://bobcody.etherlord.org - веб морда с логами
+~~https://bobcody.etherlord.org - веб морда с логами~~
 
 #### Доступные команды:
 

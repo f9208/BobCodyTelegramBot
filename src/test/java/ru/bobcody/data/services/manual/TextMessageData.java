@@ -1,6 +1,6 @@
 package ru.bobcody.data.services.manual;
 
-import ru.bobcody.data.entities.TextMessage;
+import ru.bobcody.domain.TextMessage;
 
 import static ru.bobcody.data.services.manual.GuestsData.DMITRY;
 import static ru.bobcody.data.services.manual.GuestsData.SERGY;

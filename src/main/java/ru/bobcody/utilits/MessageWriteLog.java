@@ -1,5 +1,7 @@
 package ru.bobcody.utilits;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -13,13 +15,12 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MessageWriteLog {
 
     private static final String LOG_COMMON_MESSAGE = "chatID: {}, time: {}, userName: {}, userId: {}, ";
     private static final String UNIQUE_ID_FILE_NAME = "fileId: {}, fileName: {}";
 
-    private MessageWriteLog() {
-    }
 
     public static void writeLog(Message message) {
         if (message.hasPhoto()) {

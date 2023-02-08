@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.bobcody.controller.handlers.chathandlers.PropertiesUtils;
-import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.updates.handlers.chathandlers.MainHandlerTextMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSA
 class SlapHandlerTest extends AbstractSpringBootStarterTest {
     private static final List<String> COMMANDS = PropertiesUtils.getCommandsByKey("slap.command");
 
-    private final List<String> answers = PropertiesUtils.getPropertiesByPath("answers/touchBot.properties", "slap.phrases");
+    private final List<String> answers = PropertiesUtils.getPropertiesByPath("src/test/oldRes/answers/touchBot.properties", "slap.phrases");
     private final MainHandlerTextMessage mainHandlerTextMessage;
 
     @DisplayName("slap")

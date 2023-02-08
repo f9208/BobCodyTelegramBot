@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bobcody.controller.handlers.chathandlers.secondlayerhandler.AbstractSpringBootStarterTest;
-import ru.bobcody.data.entities.Guest;
+import ru.bobcody.domain.Guest;
 import ru.bobcody.data.services.manual.GuestsData;
+import ru.bobcody.services.GuestService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

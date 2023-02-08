@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Component
+//@Component
 public class CourseValutParser {
     @Value("${course.sber.link}")
     private String link;

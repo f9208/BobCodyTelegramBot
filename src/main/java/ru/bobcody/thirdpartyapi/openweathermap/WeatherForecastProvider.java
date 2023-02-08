@@ -22,7 +22,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class WeatherForecastProvider {
     @Value("${weather.link}")

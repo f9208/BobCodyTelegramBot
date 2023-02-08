@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bobcody.data.entities.Quote;
-import ru.bobcody.data.repository.IQuoteRepository;
+import ru.bobcody.domain.Quote;
+import ru.bobcody.repository.QuoteRepository;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Profile(value = {"test"})
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class QuoteService {
-    private final IQuoteRepository quoteRepository;
+    private final QuoteRepository quoteRepository;
 
     @Transactional
     public Quote save(Quote quote) {

@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.bobcody.controller.handlers.chathandlers.PropertiesUtils;
-import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.updates.handlers.chathandlers.MainHandlerTextMessage;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import static ru.bobcody.data.services.manual.TelegramMessageData.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class HelpReplayHandlerTest extends AbstractSpringBootStarterTest {
     private final MainHandlerTextMessage mainHandlerTextMessage;
-    private final String help = PropertiesUtils.getAnyProperties("answers/help.properties", "\uFEFFprint.help");
+    private final String help = PropertiesUtils.getAnyProperties("src/test/oldRes/answers/help.properties", "\uFEFFprint.help");
     private static final List<String> COMMANDS = PropertiesUtils.getCommandsByKey("help.command");
 
     @DisplayName("get help")

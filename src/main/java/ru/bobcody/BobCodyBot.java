@@ -1,42 +1,38 @@
 package ru.bobcody;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.bobcody.services.SettingService;
 
 import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG_BROKEN;
 
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "botloading")
+@NoArgsConstructor
+@Component
 public class BobCodyBot extends TelegramWebhookBot {
-    private String botName;
-    private String botToken;
-    private String webHookPath;
+    @Autowired
+    private SettingService settingService;
 
     @Autowired
-    @Lazy
     private BotFacade botFacade;
-
-    public BobCodyBot() {
-    }
-
-    public BobCodyBot(String botName, String botToken, String webHookPath) {
-        this.botName = botName;
-        this.botToken = botToken;
-        this.webHookPath = webHookPath;
-    }
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         try {
-            return botFacade.handleUserUpdate(update);
+            System.out.println(update);
+            if (update.getMessage() != null) {
+                System.out.println(update.getMessage().getText());
+            }
+            botFacade.handleUserUpdate(update);
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return new SendMessage(update.getMessage().getChatId().toString(), SMTH_GET_WRONG_BROKEN);
@@ -45,11 +41,16 @@ public class BobCodyBot extends TelegramWebhookBot {
 
     @Override
     public String getBotUsername() {
-        return botName;
+        return settingService.getBotName();
     }
 
     @Override
     public String getBotPath() {
-        return webHookPath;
+        return settingService.getWebHookPath();
+    }
+
+    @Override
+    public String getBotToken() {
+        return settingService.getBotToken();
     }
 }

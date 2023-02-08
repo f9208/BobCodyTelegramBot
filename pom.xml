@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.12.RELEASE</version>
+        <version>2.6.7</version>
     </parent>
 
     <groupId>ru.multibot</groupId>
@@ -15,7 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>bobcody</name>
     <description>Demo Project for Spring Boot</description>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>
@@ -23,14 +23,15 @@
         <hsqldb.version>2.7.1</hsqldb.version>
         <!--        Cache       -->
         <ehcache.version>3.9.2</ehcache.version>
-        <!--        Web     -->
-        <tomcat.version>9.0.43</tomcat.version>
-        <telegram.version>5.2.0</telegram.version>
+        <telegram.version>6.5.0</telegram.version>
         <lomnook.version>1.18.22</lomnook.version>
+        <maven.test.skip>true</maven.test.skip>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <start-class>ru.bobcody.BobcodyApplication</start-class>
+        <!--        <start-class>ru.bobcody.Application</start-class>-->
     </properties>
     <dependencies>
 
@@ -60,12 +61,7 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.25</version>
         </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>${hsqldb.version}</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -108,29 +104,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
             <version>5.4.28.Final</version>
-        </dependency>
-
-        <!--            Web-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-servlet-api</artifactId>
-            <version>${tomcat.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <version>9.0.44</version>
-            <scope>provided</scope>
         </dependency>
 
         <!--        Other       -->
@@ -178,7 +151,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>ru.bobcody.BobcodyApplication</mainClass>
+                    <mainClass>ru.bobcody.Application</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -187,13 +160,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>-Dfile.encoding=UTF-8</argLine>
-                </configuration>
             </plugin>
         </plugins>
     </build>

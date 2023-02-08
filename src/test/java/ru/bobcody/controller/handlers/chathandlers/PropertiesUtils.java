@@ -13,7 +13,7 @@ public class PropertiesUtils {
     }
 
     public static List<String> getCommandsByKey(String propertyKey) {
-        String props = getAnyProperties("commands.properties", propertyKey);
+        String props = getAnyProperties("src/test/oldRes/commands.properties", propertyKey);
         String[] cut = props.replaceAll("\\s+", "").split("[,]");
         return Lists.list(cut);
     }

@@ -1,7 +1,7 @@
 package ru.bobcody.data.services.manual;
 
-import ru.bobcody.data.entities.Quote;
-import ru.bobcody.data.entities.Type;
+import ru.bobcody.domain.Quote;
+import ru.bobcody.domain.Type;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

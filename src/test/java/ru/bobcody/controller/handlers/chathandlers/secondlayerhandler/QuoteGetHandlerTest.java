@@ -7,15 +7,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.bobcody.controller.updates.handlers.chathandlers.MainHandlerTextMessage;
-import ru.bobcody.data.services.QuoteService;
+import ru.bobcody.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.services.QuoteService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.bobcody.controller.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.ONLY_POSITIVE_NUMBERS;
+import static ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.ONLY_POSITIVE_NUMBERS;
 import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_1_ABYSS;
 import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_2_ABYSS;
 import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;

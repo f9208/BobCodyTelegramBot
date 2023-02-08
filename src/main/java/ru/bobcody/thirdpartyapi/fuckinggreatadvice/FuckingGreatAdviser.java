@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-@Component
+//@Component
 public class FuckingGreatAdviser {
     @Value("${fga.randomAdviceLink}")
     private String randomAdviceLink;

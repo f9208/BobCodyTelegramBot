@@ -1,6 +1,6 @@
 package ru.bobcody.data.services.manual;
 
-import ru.bobcody.data.entities.Guest;
+import ru.bobcody.domain.Guest;
 
 import static ru.bobcody.data.services.manual.TelegramUser.*;
 

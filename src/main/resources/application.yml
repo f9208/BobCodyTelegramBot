@@ -1,0 +1,80 @@
+server:
+  port: 5000
+
+spring:
+  jpa:
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default_schema: bob_cody
+
+#  boot:
+#    admin:
+#      client:
+#        instance:
+#          name: Bob Cody Application
+#          metadata:
+#            user:
+#              name: monitor
+#              password: passwordTest
+#        url: http://localhost:8010
+#        username: admin
+#        password: Nr4Kd7
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          HttpLogging: info
+#        client: info
+    root: info
+
+
+#  cache:
+#    jcache:
+#      config: ehcache.xml
+
+## spring boot admin
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: .*
+#      base-path: /actuator
+#    health:
+#      show-details: always
+
+
+
+db:
+  jdbc-url: jdbc:postgresql://localhost:5432/postgres?currentSchema=bob_cody
+  username: postgres
+  password: postgres
+  driver-class-name: org.postgresql.Driver
+  maximum-pool-size: 30
+  initialization-mode: always
+  minimum-idle: 5
+  connection-timeout: 30000
+
+# todo сохранять и возвращать n последних ссылок
+
+chatid:
+  admin: 445682905
+
+botloading:
+  web-hook-path: https://9970-178-204-16-178.eu.ngrok.io
+  bot-name: JennyMcGonnovenBot
+  bot-token: 1479610711:AAEum3tr1zcdJ-lyBu5vRqeaPNtF9WBYTVY  #jenny
+#  bot-name: BobCodyBot
+#  bot-token: 1172306859:AAEKAeABtE0sUjNm5rumQhFEEwLcT5wQ-us  #бобби
+  web-hook:
+    startup: true   # обновлять или нет веб-хук при старте приложения
+
+  #     API
+fga:
+  randomAdviceLink: https://fucking-great-advice.ru/api/random

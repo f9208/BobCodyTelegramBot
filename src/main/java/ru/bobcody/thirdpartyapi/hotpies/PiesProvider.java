@@ -15,7 +15,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 @Slf4j
-@Component
+//@Component
 public class PiesProvider {
     /* у пирожков в айдишниках иногда попадаются мертвые души. Часто они идут блоками друг за другом по несколько штук
      *  чтоб не перебирать друг за другом, в случае попадания на мертвый - пропускаем сразу десять (константа SKIP)*/
