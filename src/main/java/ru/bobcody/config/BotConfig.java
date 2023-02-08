@@ -19,14 +19,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.bobcody.BobCodyBot;
+//import ru.bobcody.BobCodyBot;
 
 import javax.sql.DataSource;
 
 
 @Configuration
 @EnableConfigurationProperties
-//@PropertySource(value = "classpath:commands.properties", encoding = "UTF-8")
 public class BotConfig {
     @Bean
     public MessageSource messageSource() {

@@ -13,10 +13,7 @@ public class UpdateReceiverService {
     private BotFacade botFacade;
 
     public BotApiMethod<?> resolveUpdateType(Update update) {
-        botFacade.handleUserUpdate(update);
-        SendMessage sendMessage = new SendMessage();
-//        sendMessage.setText("321");
-//        sendMessage.setChatId(update.getMessage().getChatId().toString());
+        BotApiMethod sendMessage = botFacade.handleUpdate(update);
         return sendMessage;
     }
 }

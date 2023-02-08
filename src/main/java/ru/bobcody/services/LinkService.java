@@ -35,7 +35,7 @@ public class LinkService {
     public int prepareAndSave(Link link) {
         log.info("prepare and save URL");
         return linkRepository.saveOne(
-                link.getDateCreated(),
+                link.getCreateDate(),
                 link.isEnabled(),
                 link.getPath(),
                 link.getSize(),

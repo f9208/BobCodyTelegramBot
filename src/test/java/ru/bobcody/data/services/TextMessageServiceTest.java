@@ -16,7 +16,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.bobcody.data.services.manual.ChatData.GROUP_CHAT;
-import static ru.bobcody.data.services.manual.TextMessageData.*;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class TextMessageServiceTest extends AbstractSpringBootStarterTest {
@@ -31,12 +30,6 @@ class TextMessageServiceTest extends AbstractSpringBootStarterTest {
         TelegramMessageData.init();
     }
 
-    @Test
-    void saveInputMessage() {
-        System.out.println(TEXT_MESSAGE_UNSAVED);
-        int saved = textMessageService.saveInputMessage(TEXT_MESSAGE_UNSAVED);
-        Assertions.assertThat(saved).isEqualTo(1);
-    }
 
 //    @Test
 //    void getById() {
@@ -67,10 +60,10 @@ class TextMessageServiceTest extends AbstractSpringBootStarterTest {
 //                        LocalDate.ofEpochDay(TELEGRAM_MESSAGE_4_DATE));
 //    }
 
-    @Transactional
-    @Test
-    void prepareAndSave() {
-        int result = textMessageService.prepareAndSave(TEXT_MESSAGE_UNSAVED);
-        assertThat(result).isEqualTo(1);
-    }
+//    @Transactional
+//    @Test
+//    void prepareAndSave() {
+//        int result = textMessageService.prepareAndSave(TEXT_MESSAGE_UNSAVED);
+//        assertThat(result).isEqualTo(1);
+//    }
 }

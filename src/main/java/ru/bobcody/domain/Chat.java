@@ -6,8 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @NoArgsConstructor
 @Entity
@@ -19,20 +20,20 @@ public class Chat implements Serializable {
     @Id
     private Long id;
 
-    @Column(name = "type", nullable = false)
+    @Column(  nullable = false)
     private String type;
 
-    @Column(name = "first_name")
+    @Column
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column
     private String lastName;
 
-    @Column(name = "user_name")
+    @Column
     private String userName;
 
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TextMessage> textMessages;
+    @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
+    private Set<TextMessage> textMessages = new HashSet<>();
 
 
     public Chat(org.telegram.telegrambots.meta.api.objects.Chat inputChat) {

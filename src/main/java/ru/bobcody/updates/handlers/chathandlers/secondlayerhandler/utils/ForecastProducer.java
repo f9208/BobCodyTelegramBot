@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.utils.TextConstantHandler.CITY_NOT_FOUND;
+import static ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler.CITY_NOT_FOUND;
 
 @Slf4j
 //@Component

@@ -1,6 +1,6 @@
 package ru.bobcody.utilits;
 
-public class CommonTextConstant {
+public interface CommonTextConstant {
     public static final String SMTH_GET_WRONG = "что-то пошло не так ";
     public static final String SMTH_GET_WRONG_BROKEN = "что то пошло не так. я сломался";
     public static final String NO_SUCH_FILE = "в базе нет файла с этим айди";
@@ -14,6 +14,4 @@ public class CommonTextConstant {
     /* flyHandler*/
     public static final String BABAY_LINKS = "ссылки бабая: https://t.me/izhmain/107384";
 
-    private CommonTextConstant() {
-    }
 }

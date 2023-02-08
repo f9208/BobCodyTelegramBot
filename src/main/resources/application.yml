@@ -7,7 +7,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         default_schema: bob_cody
@@ -67,7 +67,7 @@ chatid:
   admin: 445682905
 
 botloading:
-  web-hook-path: https://9970-178-204-16-178.eu.ngrok.io
+  web-hook-path: https://4561-178-205-149-145.eu.ngrok.io
   bot-name: JennyMcGonnovenBot
   bot-token: 1479610711:AAEum3tr1zcdJ-lyBu5vRqeaPNtF9WBYTVY  #jenny
 #  bot-name: BobCodyBot
@@ -78,3 +78,9 @@ botloading:
   #     API
 fga:
   randomAdviceLink: https://fucking-great-advice.ru/api/random
+
+sber:
+  rate:
+    url: http://www.cbr.ru/scripts/XML_daily.asp
+
+pie-url: https://poetory.ru/

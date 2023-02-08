@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(
-        indexes = {@Index(name = "date_guest_idx", columnList = "date, guest_id")})
+@Table
 @SequenceGenerator(name = "link_id_seq",
         sequenceName = "link_id_seq", initialValue = 100, allocationSize = 1)
 public class Link implements Serializable {
@@ -23,20 +22,18 @@ public class Link implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "link_id_seq")
     private Long id;
 
-    @NotNull
-    @Column(name = "path", columnDefinition = "varchar(1000)")
+    @Column(nullable = false, columnDefinition = "varchar(1000)")
     private String path;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private Long size;
 
-    @Column(name = "date")
-    @NotNull
-    private LocalDateTime dateCreated;
+    @Column(nullable = false)
+    private LocalDateTime createDate;
 
-    @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Guest guest;
 
@@ -46,14 +43,14 @@ public class Link implements Serializable {
     @Column
     private boolean enabled;
 
-    public Link(@NotNull String path, @NotNull String name, Long size, Guest guest, Chat chat, LocalDateTime dateCreated) {
+    public Link(@NotNull String path, @NotNull String name, Long size, Guest guest, Chat chat, LocalDateTime createDate) {
         this.path = path;
         this.name = name;
         this.size = size;
         this.guest = guest;
         this.chat = chat;
         this.enabled = true;
-        this.dateCreated = dateCreated;
+        this.createDate = createDate;
     }
 
     public Link(@NotNull String path, @NotNull String name) {

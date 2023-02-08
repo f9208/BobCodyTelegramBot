@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.domain.Quote;
 import ru.bobcody.domain.Type;
 import ru.bobcody.services.QuoteService;
+import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler;
 
 import java.security.SecureRandom;
 import java.time.format.DateTimeFormatter;
@@ -77,7 +78,7 @@ public class QuoteProducer {
                     .append(quoteService.getLastCapsId());
         }
         master.append(") added: ")
-                .append(quote.getAdded().format(formatDateToPrint))
+                .append(quote.getCreateDate().format(formatDateToPrint))
                 .append("\n")
                 .append(quote.getText());
         result = master.toString();

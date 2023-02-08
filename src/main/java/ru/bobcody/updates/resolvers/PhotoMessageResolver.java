@@ -34,7 +34,7 @@ import static ru.bobcody.utilits.CommonTextConstant.*;
 //@Component
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhotoMessageResolver implements IMessageResolver {
+public class PhotoMessageResolver {
     private BobCodyBot bobCodyBot;
     @Value("${imageSave.path}")
     private String rootPath;
@@ -43,7 +43,6 @@ public class PhotoMessageResolver implements IMessageResolver {
     private String rootUrl;
     private String prefixFolder = "/savedImages/";
 
-    @Override
     public SendMessage process(Message message) {
         log.info("start extraction image for message {}", message.getMessageId());
         SendMessage result = new SendMessage(message.getChatId().toString(), SAVE_IMAGE_TRY);
@@ -143,7 +142,7 @@ public class PhotoMessageResolver implements IMessageResolver {
 
     protected void saveLinkToDb(Path path, File file, Message message) {
         Link forSave = new Link(path.toString(), path.getFileName().toString());
-        forSave.setDateCreated(LocalDateTime.now());
+        forSave.setCreateDate(LocalDateTime.now());
         forSave.setSize(file.length());
         forSave.setGuest(new Guest(message.getFrom()));
         forSave.setChat(new Chat(message.getChat()));

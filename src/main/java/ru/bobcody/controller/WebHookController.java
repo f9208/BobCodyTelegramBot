@@ -11,8 +11,8 @@ import ru.bobcody.services.UpdateReceiverService;
 
 @RestController
 public class WebHookController {
-    @Autowired
-    private BobCodyBot bobCodyBot;
+//    @Autowired
+//    private BobCodyBot bobCodyBot;
 
     @Autowired
     private UpdateReceiverService updateReceiverService;

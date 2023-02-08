@@ -3,20 +3,16 @@ package ru.bobcody.domain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @NoArgsConstructor
 @Entity
 @Data
-@Table(
-        indexes = {@Index(name = "date_chat_id", columnList = "dateTime, chat")})
+@Table
 @SequenceGenerator(name = "tm_id_seq",
         sequenceName = "text_message_id_seq",
         allocationSize = 1)
@@ -37,12 +33,12 @@ public class TextMessage implements Serializable {
     @Column(name = "textMessage", columnDefinition = "varchar(50000)")
     private String text;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "guest", nullable = false, referencedColumnName = "id")
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "guest_id", nullable = false)
     private Guest guest;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "chat", nullable = false, referencedColumnName = "id")
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "chat_id", nullable = false)
     private Chat chat;
 
 

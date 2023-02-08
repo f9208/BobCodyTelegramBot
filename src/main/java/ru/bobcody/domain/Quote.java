@@ -23,51 +23,47 @@ public class Quote implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quote_id")
     private Long id;
 
-    @NotNull
-    @Column(name = "text", columnDefinition = "varchar(5000)", nullable = false)
+    @Column(columnDefinition = "varchar(5000)", nullable = false)
     private String text;
 
-    @NotNull
-    @Column(name = "added", nullable = false)
-    private LocalDateTime added;
+    @Column( nullable = false)
+    private LocalDateTime createDate;
 
-    @Column(name = "approved")
-    private LocalDateTime approved;
+    @Column
+    private LocalDateTime approvedDate;
 
-    @NotNull
-    @Column(name = "type", nullable = false)
+    @Column( nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private Guest author;
 
-    @Column(name = "endorsed")
+    @Column
     private boolean endorsed;
 
-    @Column(name = "caps_id")
+    @Column
     private long capsId;
 
-    @Column(name = "regul_id")
+    @Column
     private long regularId;
 
-    public Quote(Long id, @NotNull String text, @NotNull LocalDateTime added, LocalDateTime approved, @NotNull Type type, @NotNull Guest author, boolean endorsed, long capsId, long regularId) {
-        this(id, text, added, type, author);
-        this.approved = approved;
+    public Quote(Long id, @NotNull String text, @NotNull LocalDateTime createDate, LocalDateTime approvedDate, @NotNull Type type, @NotNull Guest author, boolean endorsed, long capsId, long regularId) {
+        this(id, text, createDate, type, author);
+        this.approvedDate = approvedDate;
         this.endorsed = endorsed;
         this.capsId = capsId;
         this.regularId = regularId;
     }
 
-    public Quote(@NotNull String text, @NotNull LocalDateTime added, @NotNull Type type, @NotNull Guest author) {
+    public Quote(@NotNull String text, @NotNull LocalDateTime createDate, @NotNull Type type, @NotNull Guest author) {
         this(text, type, author);
-        this.added = added;
+        this.createDate = createDate;
     }
 
-    public Quote(Long id, @NotNull String text, @NotNull LocalDateTime added, @NotNull Type type, @NotNull Guest author) {
-        this(text, added, type, author);
+    public Quote(Long id, @NotNull String text, @NotNull LocalDateTime createDate, @NotNull Type type, @NotNull Guest author) {
+        this(text, createDate, type, author);
         this.id = id;
     }
 
@@ -75,14 +71,14 @@ public class Quote implements Serializable {
         this.text = text;
         this.type = type;
         this.author = author;
-        this.added = LocalDateTime.now();
+        this.createDate = LocalDateTime.now();
     }
 
     public Quote(Quote createCopy) {
         this(createCopy.getId(),
                 createCopy.getText(),
-                createCopy.getAdded(),
-                createCopy.getApproved(),
+                createCopy.getCreateDate(),
+                createCopy.getApprovedDate(),
                 createCopy.getType(),
                 createCopy.getAuthor(),
                 createCopy.isEndorsed(),

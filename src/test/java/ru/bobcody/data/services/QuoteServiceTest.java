@@ -25,7 +25,7 @@ class QuoteServiceTest extends AbstractSpringBootStarterTest {
         Quote createCopy = new Quote(QUOTE_0_NEW);
         Quote saved = quoteService.save(QUOTE_0_NEW);
         createCopy.setId(saved.getId());
-        createCopy.setAdded(saved.getAdded());
+        createCopy.setCreateDate(saved.getCreateDate());
         assertMatchIgnoreFields(createCopy, quoteService.getById(saved.getId()));
     }
 
@@ -34,7 +34,7 @@ class QuoteServiceTest extends AbstractSpringBootStarterTest {
         assertMatchIgnoreFields(quoteService.getById(QUOTE_ID_1), QUOTE_1_ABYSS);
         assertThat(quoteService.approveCaps(QUOTE_ID_1)).isTrue();
         Quote approved = quoteService.getById(QUOTE_ID_1);
-        QUOTE_1_APPROVED.setApproved(approved.getApproved()); //невозможно указать подставное время сохранения
+        QUOTE_1_APPROVED.setApprovedDate(approved.getApprovedDate()); //невозможно указать подставное время сохранения
         assertMatchIgnoreFields(approved, QUOTE_1_APPROVED);
     }
 
@@ -43,7 +43,7 @@ class QuoteServiceTest extends AbstractSpringBootStarterTest {
         assertMatchIgnoreFields(quoteService.getById(QUOTE_ID_2), QUOTE_2_ABYSS);
         assertThat(quoteService.approveRegular(QUOTE_ID_2)).isTrue();
         Quote approved = quoteService.getById(QUOTE_ID_2);
-        QUOTE_2_APPROVED.setApproved(approved.getApproved());
+        QUOTE_2_APPROVED.setApprovedDate(approved.getApprovedDate());
         assertMatchIgnoreFields(quoteService.getById(QUOTE_ID_2), QUOTE_2_APPROVED);
     }
 

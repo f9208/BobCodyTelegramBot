@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 @Slf4j
-//@Component
+@Component
 public class ElkExecutor {
     @Autowired
     @Lazy
@@ -74,5 +74,4 @@ public class ElkExecutor {
         elkFriday.setAnimation(inputFile);
         return elkFriday;
     }
-
 }

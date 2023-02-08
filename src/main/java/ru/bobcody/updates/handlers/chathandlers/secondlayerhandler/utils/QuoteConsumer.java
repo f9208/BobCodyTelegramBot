@@ -13,6 +13,7 @@ import ru.bobcody.domain.Guest;
 import ru.bobcody.domain.Quote;
 import ru.bobcody.domain.Type;
 import ru.bobcody.services.QuoteService;
+import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler;
 
 import java.time.ZoneOffset;
 
@@ -21,7 +22,7 @@ import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG;
 
 @Slf4j
 //@Component
-public class QuoteConsumer {
+public class QuoteConsumer  {
     @Value("${chatid.admin}")
     private Long moderatorChatId;
     @Autowired

@@ -1,53 +1,53 @@
 package ru.bobcody.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.bobcody.domain.Chat;
-import ru.bobcody.domain.Guest;
-import ru.bobcody.domain.TextMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.bobcody.command.AbstractCommand;
+import ru.bobcody.command.GetInternalDirectiveCommand;
+import ru.bobcody.command.ModifySendMessageCommand;
+import ru.bobcody.command.ModifyTextMessageCommand;
 import ru.bobcody.repository.TextMessageRepository;
-import ru.bobcody.updates.handlers.chathandlers.MainHandlerTextMessage;
+import ru.bobcody.updates.handlers.IHandler;
+import ru.bobcody.utilits.CommonTextConstant;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
-import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG;
+import java.util.Map;
 
 @Slf4j
 @Service
-public class TextMessageService {
+public class TextMessageService implements CommonTextConstant {
+    @Autowired
+    private AutowireCapableBeanFactory beanFactory;
+
+    private Map<String, IHandler> textMessageHandlers = new HashMap<>();
+
     @Autowired
     private TextMessageRepository textMessageRepository;
-//    @Autowired
-    private MainHandlerTextMessage mainHandlerTextMessage;
 
-    @Value("${chatid.admin}")
-    private String adminChatId;
+    @Autowired
+    private SettingService settingService;
 
-    private final Guest botAsGuest = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
-
-
-    @Transactional
-    @Deprecated // сохранять через  saveTelegramMessage()
-    public int saveInputMessage(TextMessage textMessage) {
-        log.info("save input messages: {}", textMessage.getText());
-//        return prepareAndSave(textMessage);
-        return 43;
+    public TextMessageService(List<IHandler> handlers) {
+        for (IHandler iterHandler : handlers) {
+            for (String insideListOrder : iterHandler.getOrderList()) {
+                textMessageHandlers.put(insideListOrder, iterHandler);
+            }
+        }
     }
 
-    @Transactional
-    @Deprecated // сохранять через  saveTelegramMessage()
-    public int saveOutputMessage(TextMessage outputMessage) {
-        log.info("save output messages: {}", outputMessage.getText());
-//        return prepareAndSave(outputMessage);
-        return 34;
+    private void executeCommand(AbstractCommand command) {
+        beanFactory.autowireBean(command);
+        command.execute();
     }
+
 
 //    public TextMessage getById(long id) {
 //        log.info("try to get messages by number {}", id);
@@ -71,58 +71,54 @@ public class TextMessageService {
         return textMessageRepository.getTop(chatId, since, to);
     }
 
-    public SendMessage replayInputMessage(org.telegram.telegrambots.meta.api.objects.Message message, boolean edited) {
+    @Transactional
+    public SendMessage replyInputMessage(org.telegram.telegrambots.meta.api.objects.Message message, boolean edited) {
 
-        saveTelegramMessage(message);
-
-        SendMessage sendMessageReplay = new SendMessage();
+        executeCommand(new ModifyTextMessageCommand(message));
 
         if (edited) {
-            return sendMessageReplay;
+            return new SendMessage();
         }
 
+        SendMessage sendMessageReply = new SendMessage();
+
         try {
-//            sendMessageReplay = mainHandlerTextMessage.handle(message);
-            sendMessageReplay.setText("пидора ответ");
-            sendMessageReplay.setChatId(message.getChatId());
+
+            sendMessageReply = handle(message);
+            sendMessageReply.setChatId(message.getChatId());
 
         } catch (Exception e) {
             e.printStackTrace();
-            sendMessageReplay.setText(SMTH_GET_WRONG + ": " + e.toString());
-            sendMessageReplay.setChatId(adminChatId);
+            sendMessageReply.setText(SMTH_GET_WRONG + ": " + e.toString());
+            sendMessageReply.setChatId(settingService.getAdminChatId());
         }
 
         // Сохраняем ответ, т.к. бот не видит сообщения других ботов, в том числе и свои
-        saveTelegramSendMessage(sendMessageReplay);
+        executeCommand(new ModifySendMessageCommand(sendMessageReply));
 
-        return sendMessageReplay;
+        return sendMessageReply;
     }
 
-    private TextMessage saveTelegramMessage(org.telegram.telegrambots.meta.api.objects.Message message) {
-        TextMessage textMessage = new TextMessage();
+    private SendMessage handle(Message message) {
 
-        textMessage.setTelegramId((long) message.getMessageId());
-        textMessage.setDateTime(LocalDateTime.parse(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                .format(new Date(message.getDate().longValue() * 1000))));
-        textMessage.setText(message.getText());
+        GetInternalDirectiveCommand command = new GetInternalDirectiveCommand(message);
+        beanFactory.autowireBean(command);
+        String internalDirective = command.execute();
 
-        textMessage.setGuest(new Guest(message.getFrom()));
-        textMessage.setChat(new Chat(message.getChat()));
+        String currentDirective;
 
-        return textMessageRepository.save(textMessage);
-    }
+        if (StringUtils.isEmpty(internalDirective)) {
+            currentDirective = message.getText().toLowerCase().split(" ")[0];
 
-    private void saveTelegramSendMessage(final org.telegram.telegrambots.meta.api.methods.send.SendMessage sendMessage) {
+        } else {
+            currentDirective = internalDirective;
+        }
 
-        TextMessage textMessage = new TextMessage();
+        if (textMessageHandlers.containsKey(currentDirective)) {
 
-        textMessage.setDateTime(LocalDateTime.now());
-        textMessage.setText(sendMessage.getText());
+            return textMessageHandlers.get(currentDirective).handle(message);
+        }
 
-        Chat chat = new Chat();
-        chat.setId(Long.valueOf(sendMessage.getChatId()));
-
-        textMessage.setChat(chat);
-        textMessage.setGuest(botAsGuest);
+        return new SendMessage();
     }
 }

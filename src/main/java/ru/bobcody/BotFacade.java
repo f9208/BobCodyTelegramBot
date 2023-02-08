@@ -9,47 +9,26 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.bobcody.services.TextMessageService;
-import ru.bobcody.updates.TelegramInputTextMessageResolver;
-
-
-/**
- * фасад.
- * слой, который обрабатывает входящие update'ы.
- * <p>
- * фактически реализована обрабатка только Message (как поле update'a),
- * в которых содержится текст: Объект Message закидывается в handleInputTextMessage(Message message)
- * <p>
- * фотки и текстовые сообщения логируются, остальные тупо постятся в консоль
- */
 
 @Setter
 @Getter
 @Component
 public class BotFacade {
-    //    @Autowired
-//    private MainHandlerTextMessage mainHandlerTextMessage;
-//
-//    @Autowired
-    private TelegramInputTextMessageResolver telegramInputTextMessageResolver;
-
     @Autowired
     private TextMessageService textMessageService;
 
-    // BotApiMethods - A methods of Telegram Bots Api that is fully supported in json format
-    public BotApiMethod<?> handleUserUpdate(Update update) {
+    public BotApiMethod<?> handleUpdate(Update update) {
 
         SendMessage replay = new SendMessage();
 
         Message message = getTelegramMessage(update);
 
-
         if (message.hasText()) {
-            replay = textMessageService.replayInputMessage(message, update.hasEditedMessage());
-//            replay = telegramInputTextMessageResolver.textMessageResolver(message);
-//            outputTextMessageLog(replay, message);
+            replay = textMessageService.replyInputMessage(message, update.hasEditedMessage());
         }
 
         if (message.hasAnimation()) {
+            //image messsage service
 //            writeLog(message);
         }
 //

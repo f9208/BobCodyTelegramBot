@@ -6,8 +6,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @NoArgsConstructor
 @Data
@@ -18,23 +19,24 @@ public class Guest implements Serializable {
     @Id
     private Long id;
 
-    @Column(name = "first_name")
+    @Column
     @NotNull
     private String firstName;
 
-    @Column(name = "last_name", columnDefinition = "varchar(255)")
+    @Column(columnDefinition = "varchar(255)")
     private String lastName;
 
-    @Column(name = "user_name")
+    @Column
     private String userName;
 
-    @Column(name = "language_code")
+    @Column
     private String languageCode;
 
-    @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TextMessage> textMessages;
+    @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY)
+    private Set<TextMessage> textMessages = new HashSet<>();
 
-    @Column(name = "city_name", columnDefinition = "varchar(40) default 'Izhevsk'")
+    //todo денормализовать
+    @Column(columnDefinition = "varchar(40) default 'Izhevsk'")
     private String cityName;
 
     public Guest(org.telegram.telegrambots.meta.api.objects.User user) {
