@@ -21,7 +21,7 @@ public class SetCityHandler implements IHandler {
     @Override
     public SendMessage handle(Message inputMessage) {
         long guestId = inputMessage.getFrom().getId();
-        Guest currentGuest = guestService.findById(guestId);
+        Guest currentGuest = guestService.getGuest(guestId);
         SendMessage replay = new SendMessage();
         StringBuilder prefixGuestName = new StringBuilder("@");
         if (currentGuest.getUserName() == null) {
@@ -34,7 +34,7 @@ public class SetCityHandler implements IHandler {
         } else {
             String newCityName = inputMessage.getText().replaceAll("\\s+", " ").substring(7);
             currentGuest.setCityName(newCityName);
-            guestService.add(currentGuest);
+//            guestService.add(currentGuest);
             replay.setText(String.format(TextConstantHandler.YOUR_WEATHER_CITY_UPDATED, prefixGuestName.toString(), newCityName));
         }
         return replay;

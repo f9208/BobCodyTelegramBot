@@ -1,14 +1,13 @@
-package ru.bobcody.thirdpartyapi.openweathermap.entities;
+package ru.bobcody.thirdpartyapi.openweathermap.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
-@Getter
 public class Rain {
     @JsonProperty("3h")
-    double mm;
+    private double mm;
 
     @Override
     public String toString() {

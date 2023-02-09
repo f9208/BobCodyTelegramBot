@@ -15,7 +15,7 @@ public class GetGreatAdviceCommand extends AbstractCommand {
     public String execute() {
 
         RestTemplate restTemplate = new RestTemplate();
-        String fgaApiUrl = settingService.getFgaURL();
+        String fgaApiUrl = settingService.getFgaUrl();
 
         Advice advice = restTemplate.getForObject(fgaApiUrl, Advice.class);
 

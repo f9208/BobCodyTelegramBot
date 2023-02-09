@@ -77,10 +77,15 @@ botloading:
 
   #     API
 fga:
-  randomAdviceLink: https://fucking-great-advice.ru/api/random
+  random-advice-url: https://fucking-great-advice.ru/api/random
 
 sber:
   rate:
     url: http://www.cbr.ru/scripts/XML_daily.asp
 
 pie-url: https://poetory.ru/
+
+weather:
+  api:
+    url: https://api.openweathermap.org/data/2.5/forecast
+    key: 88da851375b3a80f6b0d65e55bfc2e37

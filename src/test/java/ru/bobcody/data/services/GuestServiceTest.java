@@ -10,7 +10,6 @@ import ru.bobcody.data.services.manual.GuestsData;
 import ru.bobcody.services.GuestService;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -28,29 +27,22 @@ class GuestServiceTest extends AbstractSpringBootStarterTest {
     @Test
     void add() {
         long unsavedId = VIKTOR.getId();
-        assertThatThrownBy(() -> guestService.findById(unsavedId)).isInstanceOf(EntityNotFoundException.class);
+        assertThatThrownBy(() -> guestService.getGuest(unsavedId)).isInstanceOf(EntityNotFoundException.class);
         Guest guestSaved = guestService.add(VIKTOR);
         assertMatch(VIKTOR, guestSaved);
-        assertMatch(VIKTOR, guestService.findById(unsavedId));
+        assertMatch(VIKTOR, guestService.getGuest(unsavedId));
     }
 
-    @Test
-    void getAll() {
-        List<Guest> dbList = guestService.getAll();
-        assertThat(dbList)
-                .contains(SERGY, DMITRY, ADMIN)
-                .hasSize(3);
-    }
 
     @Test
     void findById() {
         GuestsData.init();
-        assertMatchIgnoreFields(guestService.findById(SERGY.getId()), SERGY);
+        assertMatchIgnoreFields(guestService.getGuest(SERGY.getId()), SERGY);
     }
 
     @Test
     void notFoundById() {
-        assertThatThrownBy(() -> guestService.findById(8550L)).isInstanceOf(EntityNotFoundException.class);
+        assertThatThrownBy(() -> guestService.getGuest(8550L)).isInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
@@ -65,9 +57,9 @@ class GuestServiceTest extends AbstractSpringBootStarterTest {
 
     @Test
     void updateGuest() {
-        assertThat(guestService.findById(ADMIN.getId())).isEqualTo(ADMIN);
+        assertThat(guestService.getGuest(ADMIN.getId())).isEqualTo(ADMIN);
         Guest changedAdmin = new Guest(ADMIN.getId(), "Заяц", "туц", null, "tu");
         guestService.update(changedAdmin);
-        assertThat(guestService.findById(ADMIN.getId())).isEqualTo(changedAdmin);
+        assertThat(guestService.getGuest(ADMIN.getId())).isEqualTo(changedAdmin);
     }
 }

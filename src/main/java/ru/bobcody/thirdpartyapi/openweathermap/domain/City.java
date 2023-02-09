@@ -1,4 +1,4 @@
-package ru.bobcody.thirdpartyapi.openweathermap.entities;
+package ru.bobcody.thirdpartyapi.openweathermap.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

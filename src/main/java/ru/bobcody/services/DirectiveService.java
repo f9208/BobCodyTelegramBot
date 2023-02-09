@@ -48,7 +48,6 @@ public class DirectiveService {
     @Value("${pies.command}")
     private List<String> pies;
 
-
     @Value("${qu.command}")
     private List<String> qu;
 
@@ -57,4 +56,7 @@ public class DirectiveService {
 
     @Value("${today.is.command}")
     private List<String> today;
+
+    @Value("${weather.command}")
+    private List<String> forecast;
 }

@@ -1,4 +1,4 @@
-package ru.bobcody.thirdpartyapi.openweathermap.entities;
+package ru.bobcody.thirdpartyapi.openweathermap.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
