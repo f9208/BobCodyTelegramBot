@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,8 +18,7 @@ public class Guest implements Serializable {
     @Id
     private Long id;
 
-    @Column
-    @NotNull
+    @Column(nullable = false, columnDefinition = "varchar(255)")
     private String firstName;
 
     @Column(columnDefinition = "varchar(255)")
@@ -35,9 +33,9 @@ public class Guest implements Serializable {
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY)
     private Set<TextMessage> textMessages = new HashSet<>();
 
-    //todo денормализовать
-    @Column(columnDefinition = "varchar(40) default 'Izhevsk'")
-    private String cityName;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
     public Guest(org.telegram.telegrambots.meta.api.objects.User user) {
         this.id = user.getId();
@@ -45,7 +43,6 @@ public class Guest implements Serializable {
         this.lastName = user.getLastName();
         this.userName = user.getUserName();
         this.languageCode = user.getLanguageCode();
-        this.cityName = "Izhevsk";
     }
 
     public Guest(Long id, String firstName, String lastName, String userName, String languageCode) {
@@ -54,7 +51,6 @@ public class Guest implements Serializable {
         this.lastName = lastName;
         this.userName = userName;
         this.languageCode = languageCode;
-        this.cityName = "Izhevsk";
     }
 
     @Override
@@ -71,7 +67,7 @@ public class Guest implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Guest guest = (Guest) o;
-        return id.equals(guest.id) && firstName.equals(guest.firstName) && Objects.equals(lastName, guest.lastName) && Objects.equals(userName, guest.userName) && Objects.equals(languageCode, guest.languageCode) && Objects.equals(cityName, guest.cityName);
+        return id.equals(guest.id) && firstName.equals(guest.firstName) && Objects.equals(lastName, guest.lastName) && Objects.equals(userName, guest.userName) && Objects.equals(languageCode, guest.languageCode);
     }
 
     @Override

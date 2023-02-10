@@ -21,7 +21,7 @@ public class ModifySendMessageCommand extends AbstractCommand {
 
     @Autowired
     private ChatRepository chatRepository;
-
+    //todo подумать как сделать по другому. инициализировать запись с ботом при деплое и потом дергать оттуда по ID
     private final Guest botAsGuest = new Guest(0L, "Bob", "Cody", "BobCody", "binary");
 
     private SendMessage sendMessage;

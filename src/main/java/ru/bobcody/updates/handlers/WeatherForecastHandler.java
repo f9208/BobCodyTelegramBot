@@ -12,7 +12,6 @@ import ru.bobcody.services.GuestService;
 import ru.bobcody.thirdpartyapi.openweathermap.domain.City;
 import ru.bobcody.thirdpartyapi.openweathermap.domain.ForecastRow;
 import ru.bobcody.thirdpartyapi.openweathermap.domain.WeatherForecast;
-import ru.bobcody.updates.handlers.AbstractHandler;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
@@ -113,7 +112,7 @@ public class WeatherForecastHandler extends AbstractHandler {
 
     private String getGuestCityName(org.telegram.telegrambots.meta.api.objects.User user) {
         Long userId = user.getId();
-        String cityName = guestService.getGuest(userId).getCityName();
+        String cityName = guestService.getGuest(userId).getCity().getName();
 
         if (StringUtils.isNotEmpty(cityName)) {
             return cityName;

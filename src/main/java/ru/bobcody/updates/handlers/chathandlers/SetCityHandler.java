@@ -30,10 +30,11 @@ public class SetCityHandler implements Handler {
             prefixGuestName.append(currentGuest.getUserName());
         }
         if (getCity(inputMessage)) {
-            replay.setText(String.format(TextConstantHandler.YOUR_WEATHER_CITY, prefixGuestName.toString(), currentGuest.getCityName()));
+//            replay.setText(String.format(TextConstantHandler.YOUR_WEATHER_CITY, prefixGuestName.toString(), currentGuest.getCityName()));
         } else {
             String newCityName = inputMessage.getText().replaceAll("\\s+", " ").substring(7);
-            currentGuest.setCityName(newCityName);
+            //currentGuest.setCityName(newCityName);
+
 //            guestService.add(currentGuest);
             replay.setText(String.format(TextConstantHandler.YOUR_WEATHER_CITY_UPDATED, prefixGuestName.toString(), newCityName));
         }
