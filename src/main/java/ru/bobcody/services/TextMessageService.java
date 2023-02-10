@@ -13,7 +13,7 @@ import ru.bobcody.command.GetInternalDirectiveCommand;
 import ru.bobcody.command.ModifySendMessageCommand;
 import ru.bobcody.command.ModifyTextMessageCommand;
 import ru.bobcody.repository.TextMessageRepository;
-import ru.bobcody.updates.handlers.IHandler;
+import ru.bobcody.updates.handlers.Handler;
 import ru.bobcody.CommonTextConstant;
 
 import java.time.LocalDateTime;
@@ -27,7 +27,7 @@ public class TextMessageService implements CommonTextConstant {
     @Autowired
     private AutowireCapableBeanFactory beanFactory;
 
-    private Map<String, IHandler> textMessageHandlers = new HashMap<>();
+    private Map<String, Handler> textMessageHandlers = new HashMap<>();
 
     @Autowired
     private TextMessageRepository textMessageRepository;
@@ -35,8 +35,8 @@ public class TextMessageService implements CommonTextConstant {
     @Autowired
     private SettingService settingService;
 
-    public TextMessageService(List<IHandler> handlers) {
-        for (IHandler iterHandler : handlers) {
+    public TextMessageService(List<Handler> handlers) {
+        for (Handler iterHandler : handlers) {
             for (String insideListOrder : iterHandler.getOrderList()) {
                 textMessageHandlers.put(insideListOrder, iterHandler);
             }

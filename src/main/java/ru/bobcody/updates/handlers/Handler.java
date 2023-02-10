@@ -17,7 +17,7 @@ import java.util.List;
  * в  Map<String, SimpleHandlerInterface>, где ключ String - это какая то команда (!п, !погода
  * !обс, !время), SimpleHandlerInterface - соответствующая этой команде реализация.
  */
-public interface IHandler {
+public interface Handler {
     SendMessage handle(Message inputMessage);
 
     /**

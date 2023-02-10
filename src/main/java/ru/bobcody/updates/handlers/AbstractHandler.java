@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.command.AbstractCommand;
 import ru.bobcody.services.DirectiveService;
 
-public abstract class AbstractHandler implements IHandler {
+public abstract class AbstractHandler implements Handler {
     @Autowired
     protected DirectiveService directiveService;
 

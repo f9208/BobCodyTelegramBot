@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.updates.handlers.IHandler;
+import ru.bobcody.updates.handlers.Handler;
 import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.utils.QuoteProducer;
 import ru.bobcody.domain.Type;
 
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 //@Component
 @RequiredArgsConstructor
-public class QuoteGetHandler implements IHandler {
+public class QuoteGetHandler implements Handler {
     @Value("${quote.get.command}")
     private List<String> commands;
     private final QuoteProducer quoteProducer;

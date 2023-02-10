@@ -9,7 +9,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class FuckingGreatAdviceHandler extends AbstractHandler implements IHandler {
+public class FuckingGreatAdviceHandler extends AbstractHandler implements Handler {
 
     @Override
     protected String getResponseTextMessage(Message message) {

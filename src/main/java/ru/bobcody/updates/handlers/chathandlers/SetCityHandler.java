@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.updates.handlers.IHandler;
+import ru.bobcody.updates.handlers.Handler;
 import ru.bobcody.domain.Guest;
 import ru.bobcody.services.GuestService;
 import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler;
@@ -12,7 +12,7 @@ import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantH
 import java.util.List;
 
 //@Component
-public class SetCityHandler implements IHandler {
+public class SetCityHandler implements Handler {
     @Autowired
     private GuestService guestService;
     @Value("${city.command}")

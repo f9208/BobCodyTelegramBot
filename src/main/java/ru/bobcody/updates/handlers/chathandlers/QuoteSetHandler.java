@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.updates.handlers.IHandler;
+import ru.bobcody.updates.handlers.Handler;
 import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.utils.QuoteConsumer;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 //@Component
 @RequiredArgsConstructor
-public class QuoteSetHandler implements IHandler {
+public class QuoteSetHandler implements Handler {
     @Value("${quote.set.command}")
     private List<String> commands;
     @Value("${chatid.admin}")
