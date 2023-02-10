@@ -60,4 +60,7 @@ public class DirectiveService {
 
     @Value("${weather.command}")
     private List<String> forecast;
+
+    @Value("${city.command}")
+    private List<String> city;
 }

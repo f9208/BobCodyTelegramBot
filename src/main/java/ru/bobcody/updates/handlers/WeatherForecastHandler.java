@@ -17,7 +17,6 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,8 +24,6 @@ import java.util.stream.IntStream;
 
 @Component
 public class WeatherForecastHandler extends AbstractHandler {
-
-    private final static String defaultCitiName = "Бобруйск";
 
     private Set<String> shortDirective;
 
@@ -54,10 +51,10 @@ public class WeatherForecastHandler extends AbstractHandler {
     @Override
     protected String getResponseTextMessage(Message message) {
 
-        String requestCityName = extractCityName(message.getText());
+        String requestCityName = getParameterOverDirective(message.getText(), 3);
 
         if (StringUtils.isEmpty(requestCityName)) {
-            requestCityName = getGuestCityName(message.getFrom());
+            requestCityName = guestService.getGuestCityName(message.getFrom().getId());
         }
 
         try {
@@ -94,31 +91,6 @@ public class WeatherForecastHandler extends AbstractHandler {
     private boolean isShortDirective(String textMessage) {
         String directive = StringUtils.substringBefore(textMessage, " ");
         return shortDirective.contains(directive);
-    }
-
-    private String extractCityName(String message) {
-
-        String[] words = message
-                .toLowerCase()
-                .replaceAll("\\s+", " ")
-                .split(" ");
-
-        if (words.length > 1) {
-            return Arrays.stream(words).skip(1).limit(3).collect(Collectors.joining(" "));
-        } else {
-            return "";
-        }
-    }
-
-    private String getGuestCityName(org.telegram.telegrambots.meta.api.objects.User user) {
-        Long userId = user.getId();
-        String cityName = guestService.getGuest(userId).getCity().getName();
-
-        if (StringUtils.isNotEmpty(cityName)) {
-            return cityName;
-        }
-
-        return defaultCitiName;
     }
 
     private String getCityInfo(City city) {

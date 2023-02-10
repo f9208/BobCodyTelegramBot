@@ -33,7 +33,7 @@ public class Guest implements Serializable {
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY)
     private Set<TextMessage> textMessages = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "city_id")
     private City city;
 
