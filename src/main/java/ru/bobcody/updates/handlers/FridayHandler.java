@@ -15,7 +15,6 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
-@Slf4j
 @Component
 public class FridayHandler extends AbstractHandler {
 

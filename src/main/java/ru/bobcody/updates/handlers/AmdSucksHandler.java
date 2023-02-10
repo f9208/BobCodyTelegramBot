@@ -13,11 +13,24 @@ public class AmdSucksHandler extends AbstractHandler {
     protected String getResponseTextMessage(Message inputMessage) {
         double even = Math.random() * 4;
 
-        if ((int) even >> 1 == 1) {
-            return "@" + inputMessage.getFrom().getUserName() + ", " + TextConstantHandler.AMD_SUCKS;
+        String guestName;
+
+        if (inputMessage.getFrom().getUserName() == null
+                || "null" .equals(inputMessage.getFrom().getUserName())) {
+            guestName = inputMessage.getFrom().getFirstName();
         } else {
-            return "@" + inputMessage.getFrom().getUserName() + ", " + TextConstantHandler.AMD_FOREVER;
+            guestName = inputMessage.getFrom().getUserName();
         }
+
+        String botOpinion;
+
+        if ((int) even >> 1 == 1) {
+            botOpinion = TextConstantHandler.AMD_SUCKS;
+        } else {
+            botOpinion = TextConstantHandler.AMD_FOREVER;
+        }
+
+        return String.format("@%s, %s", guestName, botOpinion);
     }
 
     @Override

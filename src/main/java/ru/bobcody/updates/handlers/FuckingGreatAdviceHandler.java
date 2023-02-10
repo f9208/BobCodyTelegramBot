@@ -7,7 +7,6 @@ import ru.bobcody.command.GetGreatAdviceCommand;
 
 import java.util.List;
 
-@Slf4j
 @Component
 public class FuckingGreatAdviceHandler extends AbstractHandler implements Handler {
 
