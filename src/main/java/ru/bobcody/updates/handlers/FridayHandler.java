@@ -1,11 +1,12 @@
 package ru.bobcody.updates.handlers;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.utils.ElkExecutor;
+import ru.bobcody.command.SendElkCommand;
+import ru.bobcody.services.SettingService;
 import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler;
 
 import java.time.DayOfWeek;
@@ -16,17 +17,20 @@ import java.util.Locale;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class FridayHandler extends AbstractHandler {
-    private final ElkExecutor elkExecutor;
 
     @Override
     public SendMessage handle(Message inputMessage) {
         SendMessage result = new SendMessage();
         if (inputMessage.getText().split(" ").length == 1) {
             if (todayIs() == DayOfWeek.FRIDAY) {
-                elkExecutor.executeFriday(inputMessage.getChatId().toString());
+
+                String chatId = inputMessage.getChatId().toString();
+
+                executeCommand(new SendElkCommand(chatId));
+
                 result.setText(getResponseTextMessage(inputMessage));     // телеграм не пересылает пустые SendMessage
+
             } else {
                 result.setText(notFridayAnswer());
             }

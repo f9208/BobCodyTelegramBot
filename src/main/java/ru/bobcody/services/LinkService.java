@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-import static ru.bobcody.utilits.CommonTextConstant.NO_SUCH_FILE;
+import static ru.bobcody.CommonTextConstant.NO_SUCH_FILE;
 
 @Slf4j
 //@Service

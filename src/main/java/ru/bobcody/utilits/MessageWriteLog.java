@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
+@Deprecated
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MessageWriteLog {
 

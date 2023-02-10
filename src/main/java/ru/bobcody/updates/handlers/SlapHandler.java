@@ -34,7 +34,7 @@ public class SlapHandler extends AbstractHandler {
     @Override
     protected String getResponseTextMessage(Message inputMessage) {
         if (inputMessage.getFrom().getUserName() == null && inputMessage.getFrom().getUserName().equals("null")) {
-
+            //todo сделать рефакторинг через стринг.формат
             return "@" + inputMessage.getFrom().getFirstName() + ", " + getRandomAnswer();
 
         } else {

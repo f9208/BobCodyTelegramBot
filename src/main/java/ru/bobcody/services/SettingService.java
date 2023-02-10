@@ -5,26 +5,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-
 @Service
 @Getter
-@PropertySource(value = {"classpath:commands.properties"},
-        encoding = "UTF-8")
 public class SettingService {
-    @Value("${botloading.bot-name}")
+    @Value("${bot.bot-name}")
     private String botName;
 
-    @Value("${botloading.bot-token}")
+    @Value("${bot.bot-token}")
     private String botToken;
 
-    @Value("${botloading.web-hook-path}")
+    @Value("${bot.web-hook-path}")
     private String webHookPath;
 
-    @Value("${botloading.web-hook.startup:false}")
+    @Value("${bot.web-hook.reload-on-startup:false}")
     private boolean setStartUpWebHook;
 
-    @Value("${chatid.admin}")
+    @Value("${admin-chat-id}")
     private String adminChatId;
 
     @Value("${fga.random-advice-url}")
@@ -33,10 +29,12 @@ public class SettingService {
     @Value("${sber.rate.url}")
     private String sberRateUrl;
 
-    //// погода
     @Value("${weather.api.url}")
     private String urlWeatherApi;
 
     @Value("${weather.api.key}")
     private String keyWeatherApi;
+
+    @Value("${elk.path}")
+    private String elkPath;
 }

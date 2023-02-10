@@ -14,7 +14,7 @@ import ru.bobcody.command.ModifySendMessageCommand;
 import ru.bobcody.command.ModifyTextMessageCommand;
 import ru.bobcody.repository.TextMessageRepository;
 import ru.bobcody.updates.handlers.IHandler;
-import ru.bobcody.utilits.CommonTextConstant;
+import ru.bobcody.CommonTextConstant;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

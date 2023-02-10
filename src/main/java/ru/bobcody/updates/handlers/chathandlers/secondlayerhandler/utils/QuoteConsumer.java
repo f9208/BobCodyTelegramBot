@@ -1,10 +1,8 @@
 package ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.utils;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -18,7 +16,7 @@ import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantH
 import java.time.ZoneOffset;
 
 import static java.time.LocalDateTime.ofEpochSecond;
-import static ru.bobcody.utilits.CommonTextConstant.SMTH_GET_WRONG;
+import static ru.bobcody.CommonTextConstant.SMTH_GET_WRONG;
 
 @Slf4j
 //@Component
@@ -26,8 +24,6 @@ public class QuoteConsumer  {
     @Value("${chatid.admin}")
     private Long moderatorChatId;
     @Autowired
-    @Lazy
-    @Setter
     private BobCodyBot bobCodyBot;
     @Autowired
     private QuoteService quoteService;

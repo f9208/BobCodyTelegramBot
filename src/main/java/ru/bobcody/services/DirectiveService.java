@@ -11,7 +11,8 @@ import java.util.List;
 @Getter
 @PropertySource(value = {"classpath:touchBot.properties",
         "classpath:additional.properties",
-        "classpath:onetwothree.properties"},
+        "classpath:onetwothree.properties",
+        "classpath:commands.properties"},
         encoding = "UTF-8")
 public class DirectiveService {
 

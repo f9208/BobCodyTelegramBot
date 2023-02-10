@@ -28,7 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import static ru.bobcody.utilits.CommonTextConstant.*;
+import static ru.bobcody.CommonTextConstant.*;
 
 @Slf4j
 //@Component

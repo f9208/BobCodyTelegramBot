@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
 
-import static ru.bobcody.utilits.CommonTextConstant.*;
+import static ru.bobcody.CommonTextConstant.*;
 
 @Slf4j
 //@Component

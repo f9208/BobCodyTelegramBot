@@ -1,10 +1,7 @@
 package ru.bobcody;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -13,14 +10,16 @@ import ru.bobcody.services.SettingService;
 
 @Setter
 @Getter
-@NoArgsConstructor
 @Component
 public class BobCodyBot extends TelegramWebhookBot {
-    @Autowired
     private SettingService settingService;
 
-    @Autowired
-    private BotFacade botFacade;
+    public BobCodyBot(SettingService settingService) {
+        super(settingService.getBotToken());
+        this.settingService = settingService;
+    }
+//    @Autowired
+//    private BotFacade botFacade;
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
@@ -46,10 +45,5 @@ public class BobCodyBot extends TelegramWebhookBot {
     @Override
     public String getBotPath() {
         return settingService.getWebHookPath();
-    }
-
-
-    public String getBotToken() {
-        return settingService.getBotToken();
     }
 }

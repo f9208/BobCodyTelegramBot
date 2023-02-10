@@ -1,4 +1,4 @@
-package ru.bobcody.utilits;
+package ru.bobcody;
 
 public interface CommonTextConstant {
     public static final String SMTH_GET_WRONG = "что-то пошло не так ";
