@@ -2,7 +2,6 @@ package ru.bobcody.updates.handlers;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.updates.handlers.AbstractHandler;
 
 import javax.annotation.PostConstruct;
 import java.security.SecureRandom;
@@ -22,10 +21,9 @@ public class QuAnswerHandler extends AbstractHandler {
 
     @Override
     protected String getResponseTextMessage(Message inputMessage) {
-        if (inputMessage.getFrom().getUserName() == null && inputMessage.getFrom().getUserName().equals("null")) {
-            return "@" + inputMessage.getFrom().getFirstName() + ", " + getRandomAnswer();
-        } else
-            return "@" + inputMessage.getFrom().getUserName() + ", " + getRandomAnswer();
+        String guestName = getGuestName(inputMessage.getFrom());
+
+        return String.format("@%s, %s", guestName, getRandomAnswer());
     }
 
     private String getRandomAnswer() {

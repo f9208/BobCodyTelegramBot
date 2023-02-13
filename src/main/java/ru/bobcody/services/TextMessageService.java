@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.bobcody.CommonTextConstant;
 import ru.bobcody.command.AbstractCommand;
 import ru.bobcody.command.GetInternalDirectiveCommand;
 import ru.bobcody.command.ModifySendMessageCommand;
 import ru.bobcody.command.ModifyTextMessageCommand;
 import ru.bobcody.repository.TextMessageRepository;
 import ru.bobcody.updates.handlers.Handler;
-import ru.bobcody.CommonTextConstant;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -80,18 +80,8 @@ public class TextMessageService implements CommonTextConstant {
             return new SendMessage();
         }
 
-        SendMessage sendMessageReply = new SendMessage();
-
-        try {
-
-            sendMessageReply = handle(message);
-            sendMessageReply.setChatId(message.getChatId());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            sendMessageReply.setText(SMTH_GET_WRONG + ": " + e.toString());
-            sendMessageReply.setChatId(settingService.getAdminChatId());
-        }
+        SendMessage sendMessageReply = handle(message);
+        sendMessageReply.setChatId(message.getChatId());
 
         // Сохраняем ответ, т.к. бот не видит сообщения других ботов, в том числе и свои
         executeCommand(new ModifySendMessageCommand(sendMessageReply));

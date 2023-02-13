@@ -1,12 +1,9 @@
 package ru.bobcody.updates.handlers;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.command.SendElkCommand;
-import ru.bobcody.services.SettingService;
 import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler;
 
 import java.time.DayOfWeek;

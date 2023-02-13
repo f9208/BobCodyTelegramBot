@@ -31,14 +31,7 @@ public class SlapHandler extends AbstractHandler {
     @Override
     protected String getResponseTextMessage(Message inputMessage) {
 
-        String guestName;
-
-        if (inputMessage.getFrom().getUserName() == null
-                || "null" .equals(inputMessage.getFrom().getUserName())) {
-            guestName = inputMessage.getFrom().getFirstName();
-        } else {
-            guestName = inputMessage.getFrom().getUserName();
-        }
+        String guestName = getGuestName(inputMessage.getFrom());
 
         return String.format("@%s, %s", guestName, getRandomAnswer());
     }

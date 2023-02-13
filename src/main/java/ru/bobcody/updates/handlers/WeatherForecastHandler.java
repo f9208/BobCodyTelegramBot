@@ -2,13 +2,14 @@ package ru.bobcody.updates.handlers;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.bobcody.command.ForceSendMessageCommand;
 import ru.bobcody.command.GetWeatherForecastCommand;
 import ru.bobcody.services.GuestService;
+import ru.bobcody.services.SettingService;
 import ru.bobcody.thirdpartyapi.openweathermap.domain.City;
 import ru.bobcody.thirdpartyapi.openweathermap.domain.ForecastRow;
 import ru.bobcody.thirdpartyapi.openweathermap.domain.WeatherForecast;
@@ -17,10 +18,14 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Component
 public class WeatherForecastHandler extends AbstractHandler {
@@ -29,6 +34,9 @@ public class WeatherForecastHandler extends AbstractHandler {
 
     @Autowired
     private GuestService guestService;
+
+    @Autowired
+    private SettingService settingService;
 
     @PostConstruct
     private void init() {
@@ -71,14 +79,32 @@ public class WeatherForecastHandler extends AbstractHandler {
             return getCityInfo(respondCity) + getBody(weatherForecast.getList(), skipOver);
 
         } catch (HttpClientErrorException e) {
-            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+
+            e.printStackTrace();
+
+            if (e.getStatusCode().equals(NOT_FOUND)) {
                 return String.format("город %s не найден", requestCityName);
             }
-            if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+
+            if (e.getStatusCode().equals(UNAUTHORIZED)) {
+
+                notifyAdmin(Arrays.stream(e.getStackTrace())
+                        .limit(15)
+                        .map(s -> s.toString())
+                        .collect(Collectors.joining("")));
+
                 return "токен для WeatherApi все, вышел";
             }
+
             if (e.getStatusCode().is5xxServerError()) {
+
+                notifyAdmin(Arrays.stream(e.getStackTrace())
+                        .limit(15)
+                        .map(s -> s.toString())
+                        .collect(Collectors.joining("")));
+
                 return "Сервис погоды дезертировал";
+
             } else throw e;
         }
     }
@@ -153,5 +179,10 @@ public class WeatherForecastHandler extends AbstractHandler {
             result.append(sunsetPretty.getMinute());
         }
         return result.toString();
+    }
+
+    private void notifyAdmin(String message) {
+        executeCommand(new ForceSendMessageCommand(settingService.getAdminChatId(),
+                message));
     }
 }

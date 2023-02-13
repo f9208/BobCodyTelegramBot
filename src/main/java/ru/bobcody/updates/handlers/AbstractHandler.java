@@ -44,4 +44,10 @@ public abstract class AbstractHandler implements Handler, CommonConstants {
             return "";
         }
     }
+
+    protected String getGuestName(org.telegram.telegrambots.meta.api.objects.User user) {
+        return user.getUserName() == null || "null".equals(user.getUserName()) ?
+                user.getFirstName() :
+                user.getUserName();
+    }
 }

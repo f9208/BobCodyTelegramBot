@@ -1,6 +1,5 @@
 package ru.bobcody.updates.handlers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.command.GetGreatAdviceCommand;
@@ -12,13 +11,12 @@ public class FuckingGreatAdviceHandler extends AbstractHandler implements Handle
 
     @Override
     protected String getResponseTextMessage(Message message) {
+
         String fgAdvice = executeCommand(new GetGreatAdviceCommand());
 
-        if (message.getFrom().getUserName() == null) {
-            return "@" + message.getFrom().getFirstName() + ", " + fgAdvice;
-        } else {
-            return "@" + message.getFrom().getUserName() + ", " + fgAdvice;
-        }
+        return String.format("@%s , %s",
+                getGuestName(message.getFrom()),
+                fgAdvice);
     }
 
     @Override
