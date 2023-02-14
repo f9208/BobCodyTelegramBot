@@ -1,29 +1,47 @@
 package ru.bobcody.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-//import ru.bobcody.BobCodyBot;
+import ru.bobcody.services.SettingService;
 
+import javax.annotation.PostConstruct;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
+@Slf4j
+@Getter
+@Setter
 @Configuration
 @EnableConfigurationProperties
 public class BotConfig {
-    @Bean
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource =
-                new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("someNameMessageSource");
-        return messageSource;
-    }
+    @Autowired
+    private SettingService settingService;
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
+    @SneakyThrows
+    @PostConstruct
+    public void setWebHook() {
+        if (settingService.isSetStartUpWebHook()) {
+            String telegramSetWebHookUrl = String.format("https://api.telegram.org/bot%s/setWebhook?url=%s",
+                    settingService.getBotToken(),
+                    settingService.getWebHookPath());
+
+            HttpRequest request =
+                    HttpRequest.newBuilder(new URI(telegramSetWebHookUrl))
+                            .GET()
+                            .build();
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            log.info("webHook {} ->> {}", settingService.getWebHookPath(), response.body());
+        }
     }
 }
-
