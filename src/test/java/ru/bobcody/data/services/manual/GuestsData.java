@@ -10,11 +10,11 @@ public class GuestsData {
     public static final Guest SERGY = new Guest(SERGY_TELEGRAM);
     public static final Guest ADMIN = new Guest(ADMIN_TELEGRAM);
 
-    static {
-        init();
-    }
+//    static {
+//        init();
+//    }
 
-    public static void init() {
-        SERGY.setCityName("Vorkuta");
-    }
+//    public static void init() {
+//        SERGY.setCityName("Vorkuta");
+//    }
 }
