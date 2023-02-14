@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.command.SendElkCommand;
-import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

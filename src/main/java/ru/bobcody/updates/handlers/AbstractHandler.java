@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.CommonConstants;
 import ru.bobcody.command.AbstractCommand;
 import ru.bobcody.services.DirectiveService;
+import ru.bobcody.services.SettingService;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -14,6 +15,9 @@ import java.util.stream.Collectors;
 public abstract class AbstractHandler implements Handler, CommonConstants {
     @Autowired
     protected DirectiveService directiveService;
+
+    @Autowired
+    protected SettingService settingService;
 
     @Autowired
     protected AutowireCapableBeanFactory beanFactory;
@@ -49,5 +53,18 @@ public abstract class AbstractHandler implements Handler, CommonConstants {
         return user.getUserName() == null || "null".equals(user.getUserName()) ?
                 user.getFirstName() :
                 user.getUserName();
+    }
+
+    protected String getDirective(String text) {
+        String[] words = text
+                .toLowerCase()
+                .replaceAll("\\s+", " ")
+                .split(" ");
+
+        if (words.length != 0) {
+            return words[0];
+        } else {
+            return "";
+        }
     }
 }

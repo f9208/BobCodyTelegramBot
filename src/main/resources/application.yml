@@ -42,11 +42,11 @@ logging:
         web:
           HttpLogging: info
         client: info
-        hibernate:
-          SQL:
-            DEBUG
-          type:
-            TRACE
+      hibernate:
+        SQL:
+          DEBUG
+        type:
+          TRACE
     root: info
 
 #  cache:
@@ -67,7 +67,7 @@ logging:
 
 
 bot:
-  web-hook-path: https://ea28-178-204-158-96.eu.ngrok.io
+  web-hook-path: https://830b-89-232-69-87.eu.ngrok.io
   bot-name: JennyMcGonnovenBot
   bot-token: 1479610711:AAEum3tr1zcdJ-lyBu5vRqeaPNtF9WBYTVY  #jenny
   #  bot-name: BobCodyBot
@@ -76,7 +76,7 @@ bot:
     reload-on-startup: true   # обновлять или нет веб-хук при старте приложения
 
 admin-chat-id: 445682905
-
+moderator-chat-id: 445682905
 #     API
 fga:
   random-advice-url: https://fucking-great-advice.ru/api/random

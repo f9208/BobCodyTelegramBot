@@ -1,4 +1,4 @@
-package ru.bobcody.updates.handlers.chathandlers.secondlayerhandler;
+package ru.bobcody.updates.handlers;
 
 public class TextConstantHandler {
 

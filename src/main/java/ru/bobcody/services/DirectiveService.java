@@ -66,4 +66,16 @@ public class DirectiveService {
 
     @Value("${top.command}")
     private List<String> top;
+
+    @Value("${record.approve.command}")
+    private List<String> recordApprove;
+
+    @Value("${record.add.command}")
+    private List<String> recordAdd;
+
+    @Value("${quote.command}")
+    private List<String> quote;
+
+    @Value("${caps.command}")
+    private List<String> caps;
 }

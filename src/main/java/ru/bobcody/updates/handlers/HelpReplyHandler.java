@@ -2,7 +2,6 @@ package ru.bobcody.updates.handlers;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.updates.handlers.AbstractHandler;
 
 import java.util.List;
 

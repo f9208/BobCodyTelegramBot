@@ -10,7 +10,7 @@
 //import java.util.List;
 //
 //import static org.assertj.core.api.Assertions.assertThat;
-//import static ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler.DEFAULT_ADVICE;
+//import static ru.bobcody.updates.handlers.TextConstantHandler.DEFAULT_ADVICE;
 //import static ru.bobcody.data.services.manual.TelegramMessageData.*;
 //
 //@RequiredArgsConstructor(onConstructor = @__(@Autowired))

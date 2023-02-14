@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.services.PieService;
 import ru.bobcody.updates.handlers.AbstractHandler;
-import ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler;
+import ru.bobcody.updates.handlers.TextConstantHandler;
 
 import java.util.List;
 

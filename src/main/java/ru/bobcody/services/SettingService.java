@@ -2,8 +2,9 @@ package ru.bobcody.services;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Getter
@@ -22,6 +23,9 @@ public class SettingService {
 
     @Value("${admin-chat-id}")
     private String adminChatId;
+
+    @Value("${moderator-chat-id}")
+    private List<Long> moderatorChatIds;
 
     @Value("${fga.random-advice-url}")
     private String fgaUrl;

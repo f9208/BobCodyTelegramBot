@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class TopHandler extends AbstractHandler {
     private static final Map<String, ConsiderationPeriod> CONSIDERATION_PERIOD_MAP = new LinkedHashMap<>();
 
+    //todo может не надо статичным делать?
     static {
         CONSIDERATION_PERIOD_MAP.put("", new AllTimePeriod());
         CONSIDERATION_PERIOD_MAP.put("день", new TodayPeriod());

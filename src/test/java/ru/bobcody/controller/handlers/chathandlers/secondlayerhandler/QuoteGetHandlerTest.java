@@ -14,7 +14,7 @@
 //import java.util.regex.Pattern;
 //
 //import static org.assertj.core.api.Assertions.assertThat;
-//import static ru.bobcody.updates.handlers.chathandlers.secondlayerhandler.TextConstantHandler.ONLY_POSITIVE_NUMBERS;
+//import static ru.bobcody.updates.handlers.TextConstantHandler.ONLY_POSITIVE_NUMBERS;
 //import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_1_ABYSS;
 //import static ru.bobcody.data.services.manual.QuoteDate.QUOTE_2_ABYSS;
 //import static ru.bobcody.data.services.manual.TelegramMessageData.TELEGRAM_MESSAGE_1;
