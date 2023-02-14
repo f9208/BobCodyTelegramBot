@@ -41,9 +41,13 @@ logging:
       springframework:
         web:
           HttpLogging: info
-#        client: info
+        client: info
+        hibernate:
+          SQL:
+            DEBUG
+          type:
+            TRACE
     root: info
-
 
 #  cache:
 #    jcache:
@@ -63,7 +67,7 @@ logging:
 
 
 bot:
-  web-hook-path: https://4561-178-205-149-145.eu.ngrok.io
+  web-hook-path: https://ea28-178-204-158-96.eu.ngrok.io
   bot-name: JennyMcGonnovenBot
   bot-token: 1479610711:AAEum3tr1zcdJ-lyBu5vRqeaPNtF9WBYTVY  #jenny
   #  bot-name: BobCodyBot

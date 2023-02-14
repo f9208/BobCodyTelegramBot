@@ -6,30 +6,23 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.bobcody.domain.TextMessage;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface TextMessageRepository extends JpaRepository<TextMessage, Long> {
-    List<TextMessage> findAllByDateTimeBetweenAndChatIdOrderByDateTime(LocalDateTime start, LocalDateTime end, long chatId);
 
-    @Query(value = "SELECT DISTINCT DATE(date_time) FROM text_message " +
-            "WHERE chat=:chatId " +
-            "ORDER BY DATE(date_time) DESC",
-            nativeQuery = true)
-    List<Date> findAllDateTime(@Param("chatId") long chatId);
-
-    @Query(value = "SELECT guests.first_name, COUNT(text_message.text_message) AS total " +
+    @Query(value = "SELECT guest.first_name, COUNT(text_message.text_message) AS total " +
             "FROM text_message " +
-            "INNER JOIN  guests ON text_message.guest = guests.id " +
-            "WHERE text_message.chat=:chatId " +
-            "AND text_message.date_time>=:start " +
-            "AND text_message.date_time<:end " +
-            "GROUP BY guests.first_name " +
+            "INNER JOIN  guest ON text_message.guest_id = guest.id " +
+            "WHERE text_message.chat_id=:chatId " +
+            "AND text_message.date_time>= :after " +
+            "AND text_message.date_time< :before " +
+            "GROUP BY guest.first_name " +
             "ORDER BY total DESC " +
             "LIMIT 5", nativeQuery = true)
     List<String> getTop(@Param("chatId") long chatId,
-                        @Param("start") LocalDateTime start,
-                        @Param("end") LocalDateTime end);
+                        @Param("after") LocalDateTime after,
+                        @Param("before") LocalDateTime before);
+
 }

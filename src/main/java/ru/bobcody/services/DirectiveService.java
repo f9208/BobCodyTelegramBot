@@ -63,4 +63,7 @@ public class DirectiveService {
 
     @Value("${city.command}")
     private List<String> city;
+
+    @Value("${top.command}")
+    private List<String> top;
 }

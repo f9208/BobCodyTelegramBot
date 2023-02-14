@@ -29,11 +29,6 @@ public class TextMessageService implements CommonTextConstant {
 
     private Map<String, Handler> textMessageHandlers = new HashMap<>();
 
-    @Autowired
-    private TextMessageRepository textMessageRepository;
-
-    @Autowired
-    private SettingService settingService;
 
     public TextMessageService(List<Handler> handlers) {
         for (Handler iterHandler : handlers) {
@@ -46,29 +41,6 @@ public class TextMessageService implements CommonTextConstant {
     private void executeCommand(AbstractCommand command) {
         beanFactory.autowireBean(command);
         command.execute();
-    }
-
-
-//    public TextMessage getById(long id) {
-//        log.info("try to get messages by number {}", id);
-//        return textMessageRepository.findById(id).orElse(null);
-//    }
-
-//    public List<TextMessage> getOnDateBetweenForChat(LocalDate start, LocalDate end, long chatId) {
-//        log.info("try to get list of messages for dates between {} and {} and chatId {}", start, end, chatId);
-//        return textMessageRepository.findAllByDateTimeBetweenAndChatIdOrderByDateTime(LocalDateTime.of(start, LocalTime.MIN), LocalDateTime.of(end, LocalTime.MAX), chatId);
-//    }
-
-//    public List<LocalDate> getListDatesForChat(long chatId) {
-//        return textMessageRepository.findAllDateTime(chatId)
-//                .stream()
-//                .map(Date::toLocalDate)
-//                .collect(Collectors.toList());
-//    }
-
-    //todo написать на это дело тесты
-    public List<String> getTop(long chatId, LocalDateTime since, LocalDateTime to) {
-        return textMessageRepository.getTop(chatId, since, to);
     }
 
     @Transactional
