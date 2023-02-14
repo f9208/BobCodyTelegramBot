@@ -67,9 +67,9 @@ logging:
 
 
 bot:
-  web-hook-path: https://830b-89-232-69-87.eu.ngrok.io
-  bot-name: JennyMcGonnovenBot
-  bot-token: 1479610711:AAEum3tr1zcdJ-lyBu5vRqeaPNtF9WBYTVY  #jenny
+  web-hook-path: значение
+  bot-name: имя
+  bot-token: токен
   #  bot-name: BobCodyBot
   #  bot-token: 1172306859:AAEKAeABtE0sUjNm5rumQhFEEwLcT5wQ-us  #бобби
   web-hook:
@@ -90,7 +90,7 @@ pie-url: https://poetory.ru/
 weather:
   api:
     url: https://api.openweathermap.org/data/2.5/forecast
-    key: 88da851375b3a80f6b0d65e55bfc2e37
+    key: ключ
 
 elk:
   path: CgACAgIAAxkBAAIZjGPlVnwFpHfwkOeWJ8dIyHhLs9ixAAI2EwACR_tRSUjfCe0K0Dn8LgQ
