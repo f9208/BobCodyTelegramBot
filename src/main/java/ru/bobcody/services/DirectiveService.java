@@ -16,7 +16,7 @@ import static java.util.List.of;
         encoding = "UTF-8")
 public class DirectiveService {
     private List<String> slap = of("бот", "bot", "bobcodybot", "бобби", "@bobcodybot",
-            "bob", "боб", "бобу", "боту");
+            "bob", "боб", "бобу", "боту", "бота");
 
     private List<String> amd = of("amd", "амд");
 

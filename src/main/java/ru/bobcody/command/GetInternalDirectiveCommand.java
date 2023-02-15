@@ -28,8 +28,9 @@ public class GetInternalDirectiveCommand extends AbstractCommand {
         Set<String> setUniqueWords = Arrays.stream(singleWordArray).collect(Collectors.toSet());
 
         List<String> commonList = Stream.of(directiveService.getAmd(),
-                directiveService.getOldMan(),
-                directiveService.getAmd()).flatMap(Collection::stream).collect(Collectors.toList());
+                        directiveService.getSlap())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
 
         String foundInternalDirective = setUniqueWords
                 .stream()
