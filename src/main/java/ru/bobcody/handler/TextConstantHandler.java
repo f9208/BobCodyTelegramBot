@@ -1,4 +1,4 @@
-package ru.bobcody.updates.handlers;
+package ru.bobcody.handler;
 
 public class TextConstantHandler {
 

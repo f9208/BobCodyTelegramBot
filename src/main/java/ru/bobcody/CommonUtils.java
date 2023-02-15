@@ -1,4 +1,4 @@
-package ru.bobcody.utilits;
+package ru.bobcody;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -9,7 +9,7 @@ import ru.bobcody.repository.ChatRepository;
 import ru.bobcody.repository.GuestRepository;
 import ru.bobcody.repository.TextMessageRepository;
 
-import static ru.bobcody.utilits.CommonUtils.*;
+import static ru.bobcody.CommonUtils.*;
 
 public class ModifyTextMessageCommand extends AbstractCommand {
     private final org.telegram.telegrambots.meta.api.objects.Message message;

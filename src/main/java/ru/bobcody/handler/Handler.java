@@ -1,4 +1,4 @@
-package ru.bobcody.updates.handlers;
+package ru.bobcody.handler;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;

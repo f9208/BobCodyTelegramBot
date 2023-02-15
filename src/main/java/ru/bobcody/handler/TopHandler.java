@@ -1,11 +1,10 @@
-package ru.bobcody.updates.handlers;
+package ru.bobcody.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.bobcody.command.GetReportOverChatCommand;
-import ru.bobcody.updates.handlers.AbstractHandler;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

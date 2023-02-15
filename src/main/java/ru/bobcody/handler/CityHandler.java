@@ -1,4 +1,4 @@
-package ru.bobcody.updates.handlers;
+package ru.bobcody.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

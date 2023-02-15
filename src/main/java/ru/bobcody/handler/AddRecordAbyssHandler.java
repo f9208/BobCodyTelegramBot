@@ -1,4 +1,4 @@
-package ru.bobcody.updates.handlers;
+package ru.bobcody.handler;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

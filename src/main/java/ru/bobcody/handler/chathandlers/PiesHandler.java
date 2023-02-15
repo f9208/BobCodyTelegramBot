@@ -1,12 +1,12 @@
-package ru.bobcody.updates.handlers.chathandlers;
+package ru.bobcody.handler.chathandlers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.bobcody.handler.TextConstantHandler;
 import ru.bobcody.services.PieService;
-import ru.bobcody.updates.handlers.AbstractHandler;
-import ru.bobcody.updates.handlers.TextConstantHandler;
+import ru.bobcody.handler.AbstractHandler;
 
 import java.util.List;
 

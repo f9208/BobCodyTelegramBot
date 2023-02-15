@@ -13,10 +13,8 @@ import ru.bobcody.command.AbstractCommand;
 import ru.bobcody.command.GetInternalDirectiveCommand;
 import ru.bobcody.command.ModifySendMessageCommand;
 import ru.bobcody.command.ModifyTextMessageCommand;
-import ru.bobcody.repository.TextMessageRepository;
-import ru.bobcody.updates.handlers.Handler;
+import ru.bobcody.handler.Handler;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
