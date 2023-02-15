@@ -6,20 +6,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.bobcody.services.UpdateReceiverService;
+import ru.bobcody.BotFacade;
 
 @RestController
 public class WebHookController {
 
     @Autowired
-    private UpdateReceiverService updateReceiverService;
+    private BotFacade botFacade;
 
     @PostMapping(value = "/")
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
-        BotApiMethod resp =
-                updateReceiverService.resolveUpdateType(update);
-        return resp;
-//        return bobCodyBot.onWebhookUpdateReceived(update);
+        return botFacade.handleUpdate(update);
     }
 }
 
