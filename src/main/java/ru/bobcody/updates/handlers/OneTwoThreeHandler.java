@@ -2,7 +2,6 @@ package ru.bobcody.updates.handlers;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.updates.handlers.AbstractHandler;
 
 import javax.annotation.PostConstruct;
 import java.security.SecureRandom;
@@ -17,7 +16,7 @@ public class OneTwoThreeHandler extends AbstractHandler {
 
     @PostConstruct
     private void init() {
-        phrases = directiveService.getAnswerPhrases();
+        phrases = directiveService.getOneTwoThreePhrases();
     }
 
     @Override

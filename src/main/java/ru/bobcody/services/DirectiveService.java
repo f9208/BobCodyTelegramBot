@@ -59,7 +59,7 @@ public class DirectiveService {
     private List<String> quAnswer;
 
     @Value("#{${onetwothree.phrases}}")
-    private List<String> answerPhrases;
+    private List<String> oneTwoThreePhrases;
 
     @Value("#{${slap.phrases}}")
     private List<String> slapPhrases;
