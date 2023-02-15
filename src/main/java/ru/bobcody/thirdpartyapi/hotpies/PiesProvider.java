@@ -26,8 +26,7 @@ public class PiesProvider {
     private static final int TIMEOUT = 5000;
 
     private final ObjectMapper objectMapper;
-    @Value("${pie.url}")
-    private String rootUrl;
+    private String rootUrl= "https://poetory.ru/";
     private final Random rand = new SecureRandom();
 
     public PiesProvider(ObjectMapper objectMapper) {
