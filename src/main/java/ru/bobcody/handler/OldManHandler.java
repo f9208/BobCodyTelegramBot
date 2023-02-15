@@ -2,7 +2,7 @@ package ru.bobcody.handler;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.CommonTextConstant;
+import ru.bobcody.CommonConstants;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ public class OldManHandler extends AbstractHandler {
 
     @Override
     protected String getResponseTextMessage(Message message) {
-        if (message.getChatId() != izhMainCHatId){
+        if (message.getChatId() != izhMainCHatId) {
             return "";
         } else {
-            return CommonTextConstant.BABAY_LINKS;
+            return CommonConstants.BABAY_LINKS;
         }
     }
 

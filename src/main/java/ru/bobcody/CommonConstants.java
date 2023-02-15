@@ -7,5 +7,6 @@ public interface CommonConstants {
 
     public static String DEFAULT_WEATHER_CITY_NAME = "Бобруйск";
 
+    public static final String BABAY_LINKS = "ссылки бабая: https://t.me/izhmain/107384";
 
 }

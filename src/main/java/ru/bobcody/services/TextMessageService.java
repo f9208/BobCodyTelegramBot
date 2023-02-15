@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.bobcody.CommonTextConstant;
+import ru.bobcody.CommonConstants;
 import ru.bobcody.command.AbstractCommand;
 import ru.bobcody.command.GetInternalDirectiveCommand;
 import ru.bobcody.command.ModifySendMessageCommand;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class TextMessageService implements CommonTextConstant {
+public class TextMessageService implements CommonConstants {
     @Autowired
     private AutowireCapableBeanFactory beanFactory;
 
