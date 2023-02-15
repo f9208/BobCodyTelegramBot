@@ -6,8 +6,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import ru.bobcody.services.PieService;
-import ru.bobcody.thirdpartyapi.hotpies.SinglePie;
+import ru.bobcody.thirdpartyapi.hotpies.UnitPie;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class BotTestConfig {
     @Qualifier("mock")
     public PieService pieService() {
         PieService pieService = Mockito.mock(PieService.class);
-        SinglePie pie = new SinglePie();
+        UnitPie pie = new UnitPie();
         pie.setShareURL("url://somwere.com");
         pie.setShareText("пирожок пирожок ура");
         try {

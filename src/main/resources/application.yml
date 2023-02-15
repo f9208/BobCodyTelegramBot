@@ -100,3 +100,6 @@ timer:
     enabled: true
     cron: 0 59 17 * * FRI
     chat: 445682905  #todo в перспективе сделать через БД
+  pie:
+    enabled: true
+    cron: 0 0/5 * * * ?

@@ -27,7 +27,6 @@ public class TextMessageService implements CommonTextConstant {
 
     private Map<String, Handler> textMessageHandlers = new HashMap<>();
 
-
     public TextMessageService(List<Handler> handlers) {
         for (Handler iterHandler : handlers) {
             for (String insideListOrder : iterHandler.getOrderList()) {
