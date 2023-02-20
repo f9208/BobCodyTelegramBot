@@ -15,6 +15,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static ru.bobcody.CommonUtils.checkEmpty;
+
 @Slf4j
 @Getter
 @Setter
@@ -28,9 +30,14 @@ public class BotConfig {
     @PostConstruct
     public void setWebHook() {
         if (settingService.isSetStartUpWebHook()) {
+
+            String webHook = settingService.getWebHookPath();
+
+            checkEmpty(webHook, "Параметр WebHookPath пуст!");
+
             String telegramSetWebHookUrl = String.format("https://api.telegram.org/bot%s/setWebhook?url=%s",
                     settingService.getBotToken(),
-                    settingService.getWebHookPath());
+                    webHook);
 
             HttpRequest request =
                     HttpRequest.newBuilder(new URI(telegramSetWebHookUrl))

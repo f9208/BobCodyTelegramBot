@@ -2,6 +2,7 @@ package ru.bobcody;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import ru.bobcody.domain.Chat;
 import ru.bobcody.domain.Guest;
 
@@ -38,9 +39,14 @@ public class CommonUtils {
     }
 
     public static LocalDateTime epochToLocalDateTime(long milliSecond) {
-//        return LocalDateTime.ofEpochSecond(milliSecond, 0, ZoneOffset.of("GMS+3"));
         return LocalDateTime.parse(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 .format(new Date(milliSecond * 1000)));
+    }
+
+    public static void checkEmpty(String value, String message) {
+        if (StringUtils.isEmpty(value)) {
+            throw new RuntimeException(message);
+        }
     }
 }
 
