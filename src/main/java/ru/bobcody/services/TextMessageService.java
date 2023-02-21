@@ -25,6 +25,9 @@ public class TextMessageService implements CommonConstants {
     @Autowired
     private AutowireCapableBeanFactory beanFactory;
 
+    @Autowired
+    private SettingService settingService;
+
     private Map<String, Handler> textMessageHandlers = new HashMap<>();
 
     public TextMessageService(List<Handler> handlers) {
@@ -48,14 +51,17 @@ public class TextMessageService implements CommonConstants {
         if (edited) {
             return new SendMessage();
         }
+        if (settingService.isMaintenanceMode()) {
+            return new SendMessage();
+        } else {
+            SendMessage sendMessageReply = handle(message);
+            sendMessageReply.setChatId(message.getChatId());
 
-        SendMessage sendMessageReply = handle(message);
-        sendMessageReply.setChatId(message.getChatId());
+            // Сохраняем ответ, т.к. бот не видит сообщения других ботов, в том числе и свои
+            executeCommand(new ModifySendMessageCommand(sendMessageReply));
 
-        // Сохраняем ответ, т.к. бот не видит сообщения других ботов, в том числе и свои
-        executeCommand(new ModifySendMessageCommand(sendMessageReply));
-
-        return sendMessageReply;
+            return sendMessageReply;
+        }
     }
 
     private SendMessage handle(Message message) {

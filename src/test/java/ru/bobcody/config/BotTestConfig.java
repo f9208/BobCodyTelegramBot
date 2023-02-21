@@ -28,20 +28,20 @@ public class BotTestConfig {
                 .build();
     }
 
-    @Bean
-    @Qualifier("mock")
-    public PieService pieService() {
-        PieService pieService = Mockito.mock(PieService.class);
-        UnitPie pie = new UnitPie();
-        pie.setShareURL("url://somwere.com");
-        pie.setShareText("пирожок пирожок ура");
-        try {
-            when(pieService.getOne()).thenReturn(pie);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return pieService;
-    }
+//    @Bean
+//    @Qualifier("mock")
+//    public PieService pieService() {
+//        PieService pieService = Mockito.mock(PieService.class);
+//        UnitPie pie = new UnitPie();
+//        pie.setShareURL("url://somwere.com");
+//        pie.setShareText("пирожок пирожок ура");
+//        try {
+//            when(pieService.getOne()).thenReturn(pie);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return pieService;
+//    }
 
 //    @Bean
 //    public FuckingGreatAdviser fuckingGreatAdviser() {

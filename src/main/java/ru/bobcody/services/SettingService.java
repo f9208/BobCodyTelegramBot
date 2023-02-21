@@ -41,4 +41,7 @@ public class SettingService {
 
     @Value("${elk.path}")
     private String elkPath;
+
+    @Value("${maintenance}")
+    private boolean maintenanceMode;
 }
