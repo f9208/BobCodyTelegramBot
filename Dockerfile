@@ -1,5 +1,10 @@
-#FROM openjdk:8-jdk-alpine
-#RUN mkdir /home/bob
-#COPY target/bobcody-0.0.1-SNAPSHOT.war /home/bob
-#WORKDIR /home/bob
-#ENV BOT_ACTIVE_PROFILE=local
+FROM openjdk:11
+RUN mkdir /app && cd /app && mkdir bob
+COPY target/bobcody.jar /app/bob
+WORKDIR /app/bob
+
+ENTRYPOINT ["java", "-Dspring.config.location=/app/bob/application.yml", "-jar", "/app/bob/bobcody.jar"]
+
+#контенрейн только с Java11, БД будет использоваться та, что на хосте. Проперти тоже лежат на хосте
+#для старта контейнера:
+#docker run -it -v [/path/to/application.yml/on/host]:/app/bob/application.yml
