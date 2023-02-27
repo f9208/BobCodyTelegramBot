@@ -12,19 +12,6 @@ spring:
       hibernate:
         default_schema: bob_cody
 
-#  boot:
-#    admin:
-#      client:
-#        instance:
-#          name: Bob Cody Application
-#          metadata:
-#            user:
-#              name: monitor
-#              password: passwordTest
-#        url: http://localhost:8010
-#        username: admin
-#        password: Nr4Kd7
-
 db:
   jdbc-url: jdbc:postgresql://localhost:5432/postgres?currentSchema=bob_cody
   username: postgres
@@ -49,23 +36,6 @@ logging:
           TRACE
     root: info
 
-#  cache:
-#    jcache:
-#      config: ehcache.xml
-
-## spring boot admin
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: .*
-#      base-path: /actuator
-#    health:
-#      show-details: always
-
-
-
-
 bot:
   web-hook-path: значение
   bot-name: имя
@@ -74,26 +44,22 @@ bot:
   #  bot-token: 1172306859:AAEKAeABtE0sUjNm5rumQhFEEwLcT5wQ-us  #бобби
   web-hook:
     reload-on-startup: true   # обновлять или нет веб-хук при старте приложения
+  maintenance-mode: false
+  admin-chat-id: 445682905
+  moderator-chat-id: 445682905
+  ignore-list: 12345
 
-admin-chat-id: 445682905
-moderator-chat-id: 445682905
-#     API
-fga:
-  random-advice-url: https://fucking-great-advice.ru/api/random
-
-sber:
-  rate:
-    url: https://www.cbr.ru/scripts/XML_daily.asp
-
-pie-url: https://poetory.ru/
-
-weather:
-  api:
-    url: https://api.openweathermap.org/data/2.5/forecast
-    key: ключ
-
-elk:
-  path: CgACAgIAAxkBAAIZjGPlVnwFpHfwkOeWJ8dIyHhLs9ixAAI2EwACR_tRSUjfCe0K0Dn8LgQ
+thirdparty-api:
+  fga:
+    random-advice-url: https://fucking-great-advice.ru/api/random
+  sber:
+    rate:
+      url: https://www.cbr.ru/scripts/XML_daily.asp
+  weather:
+    api:
+      url: https://api.openweathermap.org/data/2.5/forecast
+      key: 88da851375b3a80f6b0d65e55bfc2e37
+  pie-url: https://poetory.ru/
 
 timer:
   elk:
@@ -104,6 +70,5 @@ timer:
     enabled: true
     cron: 0 0/5 * * * ?
 
-maintenance: false
-
-ignore_list:
+elk:
+  path: CgACAgIAAxkBAAIZjGPlVnwFpHfwkOeWJ8dIyHhLs9ixAAI2EwACR_tRSUjfCe0K0Dn8LgQ

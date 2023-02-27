@@ -21,30 +21,30 @@ public class SettingService {
     @Value("${bot.web-hook.reload-on-startup:false}")
     private boolean setStartUpWebHook;
 
-    @Value("${admin-chat-id}")
+    @Value("${bot.admin-chat-id}")
     private String adminChatId;
 
-    @Value("${moderator-chat-id}")
+    @Value("${bot.moderator-chat-id}")
     private List<Long> moderatorChatIds;
 
-    @Value("${fga.random-advice-url}")
+    @Value("${thirdparty-api.fga.random-advice-url}")
     private String fgaUrl;
 
-    @Value("${sber.rate.url}")
+    @Value("${thirdparty-api.sber.rate.url}")
     private String sberRateUrl;
 
-    @Value("${weather.api.url}")
+    @Value("${thirdparty-api.weather.api.url}")
     private String urlWeatherApi;
 
-    @Value("${weather.api.key}")
+    @Value("${thirdparty-api.weather.api.key}")
     private String keyWeatherApi;
 
     @Value("${elk.path}")
     private String elkPath;
 
-    @Value("${maintenance}")
+    @Value("${bot.maintenance-mode}")
     private boolean maintenanceMode;
 
-    @Value("${ignore_list}")
+    @Value("${bot.ignore-list}")
     private List<Long> ignoreList;
 }
