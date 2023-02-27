@@ -44,4 +44,7 @@ public class SettingService {
 
     @Value("${maintenance}")
     private boolean maintenanceMode;
+
+    @Value("${ignore_list}")
+    private List<Long> ignoreList;
 }

@@ -53,6 +53,10 @@ public class TextMessageService implements CommonConstants {
         }
         if (settingService.isMaintenanceMode()) {
             return new SendMessage();
+
+        } else if (isIgnoredChat(message.getChatId())) {
+            return new SendMessage();
+
         } else {
             SendMessage sendMessageReply = handle(message);
             sendMessageReply.setChatId(message.getChatId());
@@ -85,5 +89,9 @@ public class TextMessageService implements CommonConstants {
         }
 
         return new SendMessage();
+    }
+
+    private boolean isIgnoredChat(Long chatId) {
+        return settingService.getIgnoreList().contains(chatId);
     }
 }
